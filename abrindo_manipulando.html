@@ -41,7 +41,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Abrindo e Manipulando Dados"]},{"type":"character","attributes":{},"value":["Entendendo o mundo de Big Data\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_float","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[1]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Abrindo e Manipulando Dados"]},{"type":"character","attributes":{},"value":["Entendendo o mundo de Big Data\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_float","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[2]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1339,7 +1339,14 @@ Desafios
 <h3 class="d-toc-header">Table of Contents</h3>
 <nav class="d-toc" id="TOC">
 <ul>
-<li><a href="#manipulando-dados">Manipulando Dados</a></li>
+<li><a href="#manipulando-dados">Manipulando Dados</a><ul>
+<li><a href="#renomear-variáveis-rename">1. Renomear Variáveis (<code>Rename</code>)</a></li>
+<li><a href="#selecionar-variáveis-select">2. Selecionar Variáveis (<code>Select</code>)</a></li>
+<li><a href="#transformar-variáveis-mutate">3. Transformar Variáveis (<code>Mutate</code>)</a></li>
+<li><a href="#cortar-observações-slice">4. Cortar Observações (<code>Slice</code>)</a></li>
+<li><a href="#filtrar-observações-filter">5. Filtrar Observações (<code>Filter</code>)</a></li>
+</ul></li>
+<li><a href="#abrindo-dados">Abrindo Dados</a></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
@@ -1595,17 +1602,6 @@ flights %&gt;% filter(month == 6)</code></pre>
 <pre class="r"><code>
 flights_junho &lt;- flights %&gt;% filter(month == 6)</code></pre>
 </div>
-<p>Podemos combinar critérios diversos usando o símbolo de ‘e’, <code>&amp;</code>:</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights_junho_5 &lt;- flights %&gt;% filter(month == 6 &amp; day == 5)</code></pre>
-</div>
-<p>E existem vários tipos de comparações, incluindo maior (<code>&gt;</code>) e menor (<code>&lt;</code>):</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights_junho_5_manha &lt;- flights %&gt;% filter(month == 6 &amp; day == 5 &amp; dep_time &lt; 
-    1200)</code></pre>
-</div>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Operadores Relacionais (Comparativos)</strong></p>
 <p>O operadores relacionais são seis em R:</p>
@@ -1652,9 +1648,17 @@ flights_junho_5_manha &lt;- flights %&gt;% filter(month == 6 &amp; day == 5 &amp
 </table>
 <p>Simples.</p>
 </div>
-<br> </br><br />
-<br> </br><br />
-
+<p>Podemos combinar critérios diversos usando o símbolo de ‘e’, <code>&amp;</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+flights_junho_5 &lt;- flights %&gt;% filter(month == 6 &amp; day == 5)</code></pre>
+</div>
+<p>E existem vários tipos de comparações, incluindo maior (<code>&gt;</code>) e menor (<code>&lt;</code>):</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+flights_junho_5_manha &lt;- flights %&gt;% filter(month == 6 &amp; day == 5 &amp; dep_time &lt; 
+    1200)</code></pre>
+</div>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Operadores Logicais</strong></p>
 <p>Para combinar critérios múltiplos no mesmo filtro, temos que usar os operadores logicais.</p>
@@ -1701,6 +1705,7 @@ flights %&gt;% filter(dep_time &lt;= 500 | dest == &quot;ATL&quot; &amp; arr_del
 flights %&gt;% filter(!((dep_time &lt;= 500 | dest == &quot;ATL&quot;) &amp; arr_delay &gt;= 50))</code></pre>
 </div>
 </div>
+<h1 id="abrindo-dados">Abrindo Dados</h1>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

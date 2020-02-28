@@ -1349,13 +1349,10 @@ Desafios
 <ul>
 <li><a href="#os-princípios-de-ciência-de-dados">Os Princípios de Ciência de Dados</a></li>
 <li><a href="#minha-primeira-análise">Minha primeira análise</a></li>
-<li><a href="#primeira-programação">Primeira Programação</a></li>
 <li><a href="#formatação-de-texto-em-r-markdown">Formatação de Texto em R Markdown</a></li>
 <li><a href="#big-header">Big Header</a></li>
-<li><a href="#incluindo-resultados-do-código-dentro-do-texto">Incluindo resultados do código dentro do texto</a></li>
 <li><a href="#trabalho-interativo-vs.-com-script">Trabalho Interativo vs. Com Script</a></li>
 <li><a href="#data-frames-como-a-unidade-básica-de-ciência-de-dados">Data Frames como a Unidade Básica de Ciência de Dados</a></li>
-<li><a href="#explorando-os-dados-de-flights">Explorando os dados de <em>flights</em></a></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
@@ -1393,7 +1390,7 @@ output: html_document
 <p>Depois, pode escrever qualquer coisa em texto normal e vai aparecer no documento final. É como trabalhar em Microsoft Word ou outro editor de texto. Escreve um uma frase curta o seu motivo para cursar esta disciplina.</p>
 <p>Agora temos o nosso primeiro script, e queremos ‘compilar’ ou ‘executar’ o script para o produto final. Em R, isso se chama ‘knit’ e aparece como um ícone azul acima do seu script. Clique em ‘Knit’ e vai abrir um documento de formato HTML numa janela separada.</p>
 <p>Parabéns! Já produziu a sua primeira análise! Onde fica? Procure o documento na mesma pasta do seu script para o documento com extensão html. Simples, não?</p>
-<h1 id="primeira-programação">Primeira Programação</h1>
+<h2 id="primeira-programação">Primeira Programação</h2>
 <p>O nosso documento é muito simples e não incorpora nenhuma análise técnica ou de programação. A melhor característica de R Markdown é que podemos juntar texto simples e programaçao no mesmo script. Mas existe uma separação forte e clara entre os dois. Deixamos código de programação em lugares específicos e demarcados dentro do script - estes lugares se chamam ‘chunks’. Para inserir um chunk, clique em Insert -&gt; R. No local do seu mouse vai aparecer uma caixa com fundo cinza onde podemos digitar o nosso código de programação:</p>
 <pre class="clike"><code>
 ```{r}
@@ -1409,7 +1406,7 @@ output: html_document
 <pre><code>
 [1] 6364</code></pre>
 </div>
-<p>O R também permite o armazenamento de valores como ‘objetos’, descritos por um nome. No início do seu cálculo, digite um nome do seu objeto desejado, seguido por uma seta à esquerda, ‘&lt;-’ que significa atribuir o resultado do cálculo a esquerda o objeto com nome na esquerda. O objeto <span class="math inline">\(calculo\)</span> fica disponível para o resto do seu script, em todos os linhas e chunks abaixo. Pode ver uma lista de objetos disponíveis na aba ‘Environment’ do RStudio.</p>
+<p>O R também permite o armazenamento de valores como ‘objetos’, descritos por um nome. No início do seu cálculo, digite um nome do seu objeto desejado, seguido por uma seta à esquerda, ‘&lt;-’ que significa atribuir o resultado do cálculo a esquerda o objeto com nome na esquerda. O objeto <code>calculo</code> fica disponível para o resto do seu script, em todos os linhas e chunks abaixo. Pode ver uma lista de objetos disponíveis na aba ‘Environment’ do RStudio.</p>
 <pre class="clike"><code>
 ```{r}
 calculo &lt;- 86*74
@@ -1429,7 +1426,7 @@ nome_objeto &lt;- 15 * 72</code></pre>
 </div>
 </div>
 <p>Que ótimo! Já produzimos o nosso primeiro script de programação!</p>
-<p>Vamos tentar mais uma análise. Por exemplo, calculamos a área de um círculo de raio 20 com o chunk debaixo, usando o constante ‘pi’:</p>
+<p>Vamos tentar mais uma análise. Por exemplo, calculamos a área de um círculo de raio 20 com o chunk debaixo, usando o constante <code>pi</code>:</p>
 <pre class="clike"><code>
 ```{r}
 raio &lt;- 20
@@ -1441,7 +1438,7 @@ area
 <pre><code>
 [1] 1256.637</code></pre>
 </div>
-<p>Nota que temos que escrever o nome do objeto para que o resultado aparece no documento final. Se não, ele fica salvado no objeto ‘area’ para uso no futuro.</p>
+<p>Note que temos que escrever o nome do objeto para que o resultado aparece no documento final. Se não, ele fica salvado no objeto ‘area’ para uso no futuro.</p>
 <p>Como um resumo, existem dois lugares em nosso script, e temo s que lembrar qual tipo de conteúdo fica em cada um:</p>
 <table>
 <thead>
@@ -1498,7 +1495,7 @@ area
 <p><code>$$\alpha^2 + \beta^2 = \chi^2$$</code> <span class="math display">\[\alpha^2 + \beta^2 = \chi^2\]</span><br />
 <code>$$\frac{\sqrt{1}}{2} * \frac{a}{2b} = \frac{a}{4b}$$</code> <span class="math display">\[\frac{\sqrt{1}}{2} * \frac{a}{2b} = \frac{a}{4b}\]</span> <code>$$\sum_0^{10} x = ...$$</code> <span class="math display">\[\sum_0^{10} x = ...\]</span></p>
 <p>Mais detalhes <a href="https://www.caam.rice.edu/~heinken/latex/symbols.pdf">aqui</a>.</p>
-<h1 id="incluindo-resultados-do-código-dentro-do-texto">Incluindo resultados do código dentro do texto</h1>
+<h2 id="incluindo-resultados-do-código-dentro-do-texto">Incluindo resultados do código dentro do texto</h2>
 <p>Até agora, o nosso texto fica bem divido do chunk de código. Mas às vezes queremos integrar eles para faz referência ao resultado dentro do texto mesmo. Por exemplo, podemos querer inserir uma média ou o número de observações do nosso banco de dados não por não da memória, mas como um valor exato, atualizado e calculado.</p>
 <p>Como incluimos o resultado numérico <code>area</code> do cálculo acima dentro de uma frase em nosso texto (fora do chunk do código)? Podemos usar ‘in-line code’ para exibir um valor simples no documento final. O formato é assim, usando o acento grave:</p>
 <p>A área de um círculo de raio 20 é <code>`r area`</code>.</p>
@@ -1510,7 +1507,7 @@ area
 <p>Isso é indispensável, por exemplo, quando enfrentamos um erro na compilação do nosso script e precisamos diagnosticar o problema.</p>
 <p>Há dois jeitos de rodar uma linha de código:<br />
 1. Digite o seu código direitamente na janela/aba de ‘Console’ no seu RStudio.<br />
-2. Selecione a linha de código dentro do seu script (na verdade apenas precisa deixar o cursor na linha relevante) e toque ‘Run’ em R ou digite <strong>Ctrl+Enter</strong>.</p>
+2. Selecione a linha de código dentro do seu script (na verdade apenas precisa deixar o cursor na linha relevante) e toque ‘Run’ em R ou digite <code>Ctrl+Enter</code>.</p>
 <p>Na prática, a nossa recomendação é usar opção (2) quando precisa rodar uma linha de código que já existe no seu script, e opção (1) quando precisa rodar temporiaramente uma linha nova, por exemplo para ajudar em inspecionar um objeto.</p>
 <p>Experimente rodando o código debaixo em modo interativo:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1520,7 +1517,7 @@ area &lt;- pi * raio^2
 
 area</code></pre>
 </div>
-<p>Note que a execução do código por qualquer método gerou o objeto <strong>area</strong> na janela/aba de ‘Environment’ em RStudio. O Environment armazena todos os objetos que são disponíveis em modo interativo.</p>
+<p>Note que a execução do código por qualquer método gerou o objeto <code>area</code> na janela/aba de ‘Environment’ em RStudio. O Environment armazena todos os objetos que são disponíveis em modo interativo.</p>
 <p>Vamos descrobrir que a ordem de execução de linhas de código é absolutamente crucial para o resultado. Em modo interativo sempre existe um risco de executar na ordem errado. É por isso que o modo de script é mais robusto e deixa a ordem de análise clara - na sequência das linhas no script. Se você ficar confuso com quais operações já foram executadas, recomendamos limpar o seu Environment no RStudio, clicando na imagem da vassoura na aba de Environment.</p>
 <h1 id="data-frames-como-a-unidade-básica-de-ciência-de-dados" class="tabset tabset-fade tabset-pills">Data Frames como a Unidade Básica de Ciência de Dados</h1>
 <p>Uma característica distintiva da linguagem de programação R é ter sido desenvolvida para a análise de dados. E quando pensamos em análise de dados, a protagonista do show é a <em>base de dados</em> ou, como conhecido na programação, <strong>data frame</strong>.</p>
@@ -1573,7 +1570,7 @@ area</code></pre>
 <p>Vamos ver como o R representa vetores e data frames na tela. Antes disso, é preciso ‘abrir’ um data frame.</p>
 <h2 id="pacotes-para-mais-poder">Pacotes para Mais Poder</h2>
 <p>Uma das características mais atrativas da linguagem R é o desenvolvimento de <strong>pacotes</strong> pela comunidade de usuários. Pacotes são conjuntos de funções (aka comandos) e, por vezes, guardam também dados em diversos formatos.</p>
-<p>Vamos carregar um pacote chamado <em>nycflights13</em>, que contém um conjunto de dados útil para fins didáticos. Existem dois passos para abrir um pacote em R:</p>
+<p>Vamos carregar um pacote chamado <code>nycflights13</code>, que contém um conjunto de dados útil para fins didáticos. Existem dois passos para abrir um pacote em R:</p>
 <ol type="1">
 <li>Um único vez por máquina (então rode um vez em modo interativo, nunca deixe no seu script):</li>
 </ol>
@@ -1589,8 +1586,8 @@ install.packages(&quot;nycflights13&quot;)
 library(nycflights13)
 ```</code></pre>
 <p>Note que precisamos de aspas no primeiro caso e não usamos no segundo.</p>
-<h1 id="explorando-os-dados-de-flights">Explorando os dados de <em>flights</em></h1>
-<p>O pacote <strong>nycflights13</strong> contém um banco de dados se chama <strong>flights</strong>. É literalmente um banco de dados de todos os voos que partiam de Nova Iorque em 2013.</p>
+<h2 id="explorando-os-dados-de-flights">Explorando os dados de <em>flights</em></h2>
+<p>O pacote <code>nycflights13</code> contém um banco de dados se chama <code>flights</code>. É literalmente um banco de dados de todos os voos que partiam de Nova Iorque em 2013.</p>
 <p>Logo mais veremos como abrir conjuntos de dados de outras fontes (arquivos de texto, outros softwares, etc), mas já podemos começar a trabalhar com <em>data frames</em>.</p>
 <p>Primeiro, queremos conhecer os dados para saber o que eles descrevem, então trabalhamos em modo interativo. Num chunk, digite o nome de banco de dados (o objeto):</p>
 <pre class="clike"><code>
@@ -1602,7 +1599,7 @@ flights
 <pre class="r"><code>
 flights</code></pre>
 </div>
-<p>Olhanda na tabela de <strong>flights</strong>, e antes de avançar, responde as seguintes perguntas:</p>
+<p>Olhanda na tabela de <code>flights</code>, e antes de avançar, responde as seguintes perguntas:</p>
 <ol type="1">
 <li>Quantas observações existem no banco de dados?</li>
 <li>Quantas variáveis?</li>
@@ -1631,7 +1628,7 @@ Sys.Date()</code></pre>
 [1] &quot;2020-02-28&quot;</code></pre>
 </div>
 </div>
-<p>Como sabemos o significado de algumas colunas com nomes ambíguos? Podemos acessor o <strong>help</strong> (documentação) do objeto para descobrir uma descrição do que há no <em>data frame</em> chamado <em>flights</em>:</p>
+<p>Como sabemos o significado de algumas colunas com nomes ambíguos? Podemos acessor o <strong>help</strong> (documentação) do objeto para descobrir uma descrição do que há no <em>data frame</em> chamado <code>flights</code>:</p>
 <pre class="clike"><code>
 ```{r}
 ?flights
@@ -1647,7 +1644,7 @@ Sys.Date()</code></pre>
 <li><p>Inteiros, ou seja, o conjunto dos números inteiros</p></li>
 </ul>
 <p>2- Contínuas, números que podem assumir valores não inteiros</p>
-<p>Estas categorias se traduzem para os tipos de dados de R de acordo com a tabela debaixo:</p>
+<p>Estas categorias se traduzem para os tipos de dados de R de acordo com a tabela abaixo:</p>
 <table>
 <thead>
 <tr class="header">
@@ -1662,13 +1659,13 @@ Sys.Date()</code></pre>
 <td>Discreta</td>
 <td>Nominal</td>
 <td>Factor ou Character</td>
-<td>fctr, ctr</td>
+<td>fctr, chr</td>
 </tr>
 <tr class="even">
 <td></td>
 <td>Ordinal</td>
 <td>Ordered Factor</td>
-<td>fctr, ctr</td>
+<td>fctr, chr</td>
 </tr>
 <tr class="odd">
 <td></td>

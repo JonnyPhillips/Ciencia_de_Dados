@@ -60,7 +60,7 @@ Agora temos o nosso primeiro script, e queremos 'compilar' ou 'executar' o scrip
 
 Parabéns! Já produziu a sua primeira análise! Onde fica? Procure o documento na mesma pasta do seu script para o documento com extensão html. Simples, não?
 
-# Primeira Programação
+## Primeira Programação
 
 O nosso documento é muito simples e não incorpora nenhuma análise técnica ou de programação. A melhor característica de R Markdown é que podemos juntar texto simples e programaçao no mesmo script. Mas existe uma separação forte e clara entre os dois. Deixamos código de programação em lugares específicos e demarcados dentro do script - estes lugares se chamam 'chunks'. Para inserir um chunk, clique em Insert -> R. No local do seu mouse vai aparecer uma caixa com fundo cinza onde podemos digitar o nosso código de programação:
 
@@ -85,7 +85,7 @@ O R funciona como calculador, então podemos digitar uns calcúlos dentro do chu
 86*74
 ```
 
-O R também permite o armazenamento de valores como 'objetos', descritos por um nome. No início do seu cálculo, digite um nome do seu objeto desejado, seguido por uma seta à esquerda, '<-' que significa atribuir o resultado do cálculo a esquerda o objeto com nome na esquerda. O objeto $calculo$ fica disponível para o resto do seu script, em todos os linhas e chunks abaixo. Pode ver uma lista de objetos disponíveis na aba 'Environment' do RStudio.
+O R também permite o armazenamento de valores como 'objetos', descritos por um nome. No início do seu cálculo, digite um nome do seu objeto desejado, seguido por uma seta à esquerda, '<-' que significa atribuir o resultado do cálculo a esquerda o objeto com nome na esquerda. O objeto `calculo` fica disponível para o resto do seu script, em todos os linhas e chunks abaixo. Pode ver uma lista de objetos disponíveis na aba 'Environment' do RStudio.
 
 ````clike
 ```{r}`r ''`
@@ -114,7 +114,7 @@ nome_objeto <- 15*72
 
 Que ótimo! Já produzimos o nosso primeiro script de programação!
 
-Vamos tentar mais uma análise. Por exemplo, calculamos a área de um círculo de raio 20 com o chunk debaixo, usando o constante 'pi': 
+Vamos tentar mais uma análise. Por exemplo, calculamos a área de um círculo de raio 20 com o chunk debaixo, usando o constante `pi`: 
 
 ````clike
 ```{r}`r ''`
@@ -132,7 +132,7 @@ area <- pi * raio^2
 area
 ```
 
-Nota que temos que escrever o nome do objeto para que o resultado aparece no documento final. Se não, ele fica salvado no objeto 'area' para uso no futuro.
+Note que temos que escrever o nome do objeto para que o resultado aparece no documento final. Se não, ele fica salvado no objeto 'area' para uso no futuro.
 
 Como um resumo, existem dois lugares em nosso script, e temo s que lembrar qual tipo de conteúdo fica em cada um: 
 
@@ -183,7 +183,7 @@ Podemos escrever equações com a linguagem de Latex (que vamos aprender a seman
 
 Mais detalhes [aqui](https://www.caam.rice.edu/~heinken/latex/symbols.pdf).
 
-# Incluindo resultados do código dentro do texto
+## Incluindo resultados do código dentro do texto
 
 Até agora, o nosso texto fica bem divido do chunk de código. Mas às vezes queremos integrar eles para faz referência ao resultado dentro do texto mesmo. Por exemplo, podemos querer inserir uma média ou o número de observações do nosso banco de dados não por não da memória, mas como um valor exato, atualizado e calculado.
 
@@ -206,7 +206,7 @@ Isso é indispensável, por exemplo, quando enfrentamos um erro na compilação 
 
 Há dois jeitos de rodar uma linha de código:  
 1. Digite o seu código direitamente na janela/aba de 'Console' no seu RStudio.  
-2. Selecione a linha de código dentro do seu script (na verdade apenas precisa deixar o cursor na linha relevante) e toque 'Run' em R ou digite __Ctrl+Enter__.
+2. Selecione a linha de código dentro do seu script (na verdade apenas precisa deixar o cursor na linha relevante) e toque 'Run' em R ou digite `Ctrl+Enter`.
 
 Na prática, a nossa recomendação é usar opção (2) quando precisa rodar uma linha de código que já existe no seu script, e opção (1) quando precisa rodar temporiaramente uma linha nova, por exemplo para ajudar em inspecionar um objeto.
 
@@ -219,7 +219,7 @@ area <- pi * raio^2
 area
 ```
 
-Note que a execução do código por qualquer método gerou o objeto __area__ na janela/aba de 'Environment' em RStudio.  O Environment armazena todos os objetos que são disponíveis em modo interativo.
+Note que a execução do código por qualquer método gerou o objeto `area` na janela/aba de 'Environment' em RStudio.  O Environment armazena todos os objetos que são disponíveis em modo interativo.
 
 Vamos descrobrir que a ordem de execução de linhas de código é absolutamente crucial para o resultado. Em modo interativo sempre existe um risco de executar na ordem errado. É por isso que o modo de script é mais robusto e deixa a ordem de análise clara - na sequência das linhas no script. Se você ficar confuso com quais operações já foram executadas, recomendamos limpar o seu Environment no RStudio, clicando na imagem da vassoura na aba de Environment. 
 
@@ -256,7 +256,7 @@ Vamos ver como o R representa vetores e data frames na tela. Antes disso, é pre
 
 Uma das características mais atrativas da linguagem R é o desenvolvimento de __pacotes__ pela comunidade de usuários. Pacotes são conjuntos de funções (aka comandos) e, por vezes, guardam também dados em diversos formatos.
 
-Vamos carregar um pacote chamado _nycflights13_, que contém um conjunto de dados útil para fins didáticos. Existem dois passos para abrir um pacote em R:
+Vamos carregar um pacote chamado `nycflights13`, que contém um conjunto de dados útil para fins didáticos. Existem dois passos para abrir um pacote em R:
 
 1. Um único vez por máquina (então rode um vez em modo interativo, nunca deixe no seu script): 
 
@@ -275,9 +275,9 @@ library(nycflights13)
 ````
 Note que precisamos de aspas no primeiro caso e não usamos no segundo. 
 
-# Explorando os dados de *flights*
+## Explorando os dados de *flights*
 
-O pacote __nycflights13__ contém um banco de dados se chama __flights__. É literalmente um banco de dados de todos os voos que partiam de Nova Iorque em 2013.
+O pacote `nycflights13` contém um banco de dados se chama `flights`. É literalmente um banco de dados de todos os voos que partiam de Nova Iorque em 2013.
 
 Logo mais veremos como abrir conjuntos de dados de outras fontes (arquivos de texto, outros softwares, etc), mas já podemos começar a trabalhar com _data frames_.
 
@@ -295,7 +295,7 @@ Os dados aparecem numa tabela interativa embaixo do chunk em que eles foram abri
 flights
 ```
 
-Olhanda na tabela de __flights__, e antes de avançar, responde as seguintes perguntas:
+Olhanda na tabela de `flights`, e antes de avançar, responde as seguintes perguntas:
 
 1. Quantas observações existem no banco de dados?
 2. Quantas variáveis?
@@ -327,7 +327,7 @@ Sys.Date()
 ```
 </div>
 
-Como sabemos o significado de algumas colunas com nomes ambíguos? Podemos acessor o __help__ (documentação) do objeto para descobrir uma descrição do que há no _data frame_ chamado _flights_:
+Como sabemos o significado de algumas colunas com nomes ambíguos? Podemos acessor o __help__ (documentação) do objeto para descobrir uma descrição do que há no _data frame_ chamado `flights`:
 
 ````clike
 ```{r}`r ''`
@@ -353,12 +353,12 @@ Se você já fez um curso de estatísticas básica ou de métodos quantitativos 
 
 2- Contínuas, números que podem assumir valores não inteiros
 
-Estas categorias se traduzem para os tipos de dados de R de acordo com a tabela debaixo:
+Estas categorias se traduzem para os tipos de dados de R de acordo com a tabela abaixo:
 
 |          |          | Tipo em R           | Shortcut em Tabela |
 |----------|----------|---------------------|--------------------|
-| Discreta | Nominal  | Factor ou Character | fctr, ctr          |
-|          | Ordinal  | Ordered Factor      | fctr, ctr          |
+| Discreta | Nominal  | Factor ou Character | fctr, chr          |
+|          | Ordinal  | Ordered Factor      | fctr, chr          |
 |          | Inteiro  | Integer             | int                |
 | Contínua |          | Double/Numeric/Real | dbl                |
 

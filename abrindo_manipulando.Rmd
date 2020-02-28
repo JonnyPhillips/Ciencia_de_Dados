@@ -6,7 +6,7 @@ output:
   distill::distill_article:
     toc: true
     toc_float: true
-    toc_depth: 1
+    toc_depth: 2
 ---
 
 <style>
@@ -313,18 +313,6 @@ O resultado é um novo tibble com quantas linhas? Se o nosso filtro funcionou, d
 flights_junho <- flights %>% filter(month==6)
 ```
 
-Podemos combinar critérios diversos usando o símbolo de 'e', `&`:
-
-```{r, echo=T, eval=F}
-flights_junho_5 <- flights %>% filter(month==6 & day==5)
-```
-
-E existem vários tipos de comparações, incluindo maior (`>`) e menor (`<`):
-
-```{r, echo=T, eval=F}
-flights_junho_5_manha <- flights %>% filter(month==6 & day==5 & dep_time<1200)
-```
-
 <div class = "blue">
 **Habilidade Básica de Programação: Operadores Relacionais (Comparativos)**
 
@@ -341,8 +329,21 @@ O operadores relacionais são seis em R:
 
 Simples. 
 </div>
-<br> </br>   
-<br> </br>  
+
+Podemos combinar critérios diversos usando o símbolo de 'e', `&`:
+
+```{r, echo=T, eval=F}
+flights_junho_5 <- flights %>% filter(month==6 & day==5)
+```
+
+E existem vários tipos de comparações, incluindo maior (`>`) e menor (`<`):
+
+```{r, echo=T, eval=F}
+flights_junho_5_manha <- flights %>% filter(month==6 & day==5 & dep_time<1200)
+```
+
+
+
 <div class = "blue">
 **Habilidade Básica de Programação: Operadores Logicais**
 
@@ -377,5 +378,5 @@ flights %>% filter(!((dep_time<=500 | dest=="ATL") & arr_delay>=50))
 
 </div>
 
-
+# Abrindo Dados
 
