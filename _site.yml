@@ -6,49 +6,49 @@ output_dir: "docs"
 navbar:
   right:
     - text: "Introducao"
-      href: index.html
+      href: docs/index.html
     - text: "Tutoriais"
       menu:
           - text: "1. Introducao"
-            href: introducao.html
+            href: docs/introducao.html
           - text: "2. Abrindo e Manipulando Dados"
-            href: abrindo_manipulando.html
+            href: docs/abrindo_manipulando.html
           - text: "3. Organizando e Limpando Dados"
-            href: limpeza.html
+            href: docs/limpeza.html
           - text: "4. Calculando Estatisticas Resumidas"
-            href: estatisticas.html
+            href: docs/estatisticas.html
           - text: "5. Construindo Tabelas"
-            href: tabelas.html
+            href: docs/tabelas.html
           - text: "6. Visualizacao de Dados"
-            href: visualizacao.html
+            href: docs/visualizacao.html
           - text: "7. Juntando Bancos de Dados"
-            href: juntando.html
+            href: docs/juntando.html
           - text: "8. Mapas e Analises Espaciais"
-            href: mapas.html
+            href: docs/mapas.html
           - text: "9. Testes Estatisticos e Regressoes"
-            href: regressoes.html
+            href: docs/regressoes.html
           - text: "10. Relatorios Reproduziveis"
-            href: reproduziveis.html
+            href: docs/reproduziveis.html
           - text: "11. Funcoes e Repeticao"
-            href: repeticao.html
+            href: docs/repeticao.html
           - text: "12. Mineracao de Textos"
-            href: textos.html
+            href: docs/textos.html
             
     - text: "Desafios"
       menu: 
           - text: "Desafio 1"
-            href: desafio_1.html
+            href: docs/desafio_1.html
           - text: "Desafio 2"
-            href: desafio_2.html 
+            href: docs/desafio_2.html 
           - text: "Desafio 3"
-            href: desafio_3.html 
+            href: docs/desafio_3.html 
           - text: "Desafio 4"
-            href: desafio_4.html 
+            href: docs/desafio_4.html 
           - text: "Desafio 5"
-            href: desafio_5.html 
+            href: docs/desafio_5.html 
     - text: "Recursos"
-      href: recursos.html
+      href: docs/recursos.html
     - text: "Projeto Final"
-      href: projeto.html
+      href: docs/projeto.html
             
 output: distill::distill_article
