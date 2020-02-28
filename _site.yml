@@ -2,7 +2,7 @@ name: "Website_Distill"
 title: "Data Analysis for the Social Sciences"
 description: |
   Data Analysis for the Social Sciences
-output_dir: "docs"
+output_dir: "."
 navbar:
   right:
     - text: "Introducao"
