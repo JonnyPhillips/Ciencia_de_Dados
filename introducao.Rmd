@@ -1,0 +1,565 @@
+---
+title: "Introducao"
+description: |
+  Gerar análises Rápidas e ganhar confiança
+output:
+  distill::distill_article:
+    toc: true
+    toc_float: true
+    toc_depth: 1
+---
+
+<style>
+div.green { background-color:#e5f5e0; border-radius: 5px; padding: 20px;}
+</style>
+
+<style>
+div.orange { background-color:#fee6ce; border-radius: 5px; padding: 20px;}
+</style>
+
+<style>
+div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, tidy=T, highlight=T)
+library(nycflights13)
+```
+
+# Os Princípios de Ciência de Dados
+
+- Transparência
+- Simplicidade
+- Reprodutibilidade
+- Entender os seus dados
+
+# Minha primeira análise
+
+Programação e análise de dados não acontece como mostrando nos filmes. Em vez de digitar comandos furiosamente na hora, preparamos um 'script' com calma em avanço e só temos que 'executar' o nosso script quando tudo está pronto para gerar o nosso produto final.
+
+Em contraste com outras disicplinas, o nosso objetivo geralmente não é apenas executar algum código, mas produzir uma tabela, um gráfico, um relatório, um documento ou um site online. Se separarmos a nossa análise de dados do documento final, temos que copiar-colar as estatísticas, tabelas e gráficos. Mas sempre fazemos algo errado, ou esquecemos de atualizar alguns números e não outros, ou não podemos restrear o origem de uma analíse quando queremos ajustar-lá. Melhor juntar todo e *integrar* a análise de dados com o(s) produto(s) final(is). 
+
+Como podemos comunicar o nosso análise numa forma profissional, integrada, documentada e reproduzivel? Vamos usar o **R Markdown**: um tipo de script (arquivo) compatível com o RStudio e uma linguagem bem fácil e flexível para formatar documentos.
+
+Então vamos abrir o nosso primeiro arquivo de R Markdown: Clique File -> New File -> R Markdown. Escolhe ‘documento’ na esquerda, digite um título e autor, e escolhe o formato HTML para o output final (podemos mudar o formato depois se necessário). Salve o novo script na sua pasta preferida.
+
+O conteúdo default contém um exemplo, mas pode apagar tudo exceto o ‘header’, que parece assim:
+
+```{r, eval=F, echo=T}
+---
+title: "Examplo"
+author: "Jonathan"
+date: "19 de fevereiro 2020"
+output: html_document
+---
+```
+
+Depois, pode escrever qualquer coisa em texto normal e vai aparecer no documento final. É como trabalhar em Microsoft Word ou outro editor de texto. Escreve um uma frase curta o seu motivo para cursar esta disciplina. 
+
+Agora temos o nosso primeiro script, e queremos 'compilar' ou 'executar' o script para o produto final. Em R, isso se chama 'knit' e aparece como um ícone azul acima do seu script. Clique em 'Knit' e vai abrir um documento de formato HTML numa janela separada. 
+
+Parabéns! Já produziu a sua primeira análise! Onde fica? Procure o documento na mesma pasta do seu script para o documento com extensão html. Simples, não?
+
+# Primeira Programação
+
+O nosso documento é muito simples e não incorpora nenhuma análise técnica ou de programação. A melhor característica de R Markdown é que podemos juntar texto simples e programaçao no mesmo script. Mas existe uma separação forte e clara entre os dois. Deixamos código de programação em lugares específicos e demarcados dentro do script - estes lugares se chamam 'chunks'. Para inserir um chunk, clique em Insert -> R. No local do seu mouse vai aparecer uma caixa com fundo cinza onde podemos digitar o nosso código de programação:
+
+````clike
+```{r}`r ''`
+
+```
+````
+
+
+O que inserimos aqui dentro? Em breve, centenas de linhas de código! Tudo que você escreve aqui será processado pela máquina do R e o output inserido no documento final. 
+
+O R funciona como calculador, então podemos digitar uns calcúlos dentro do chunk e ver os resultados no documento final:
+
+````clike
+```{r}`r ''`
+86*74
+```
+````
+
+```{r}
+86*74
+```
+
+O R também permite o armazenamento de valores como 'objetos', descritos por um nome. No início do seu cálculo, digite um nome do seu objeto desejado, seguido por uma seta à esquerda, '<-' que significa atribuir o resultado do cálculo a esquerda o objeto com nome na esquerda. O objeto $calculo$ fica disponível para o resto do seu script, em todos os linhas e chunks abaixo. Pode ver uma lista de objetos disponíveis na aba 'Environment' do RStudio.
+
+````clike
+```{r}`r ''`
+calculo <- 86*74
+
+calculo/4
+```
+````
+
+```{r}
+calculo <- 86*74
+
+calculo/4
+```
+
+<div class = "blue">
+**Habilidade Básica de Programação: Atribuição, '<-'**
+Guardamos dados/resultados para o futuro em objetos do R. A lista de objetos disponíveis fica na aba de 'Environment' do RStudio, e será limpado cada vez que fecha o R, ou limpar o Environment. Para *criar* objetos, temos que atribuir o resultado de uma função/cálculo para um nome único. 
+
+A flecha de atribuição, composto pelos dois símbolos '<' e '-' coneta o nome de objeto e o conteúdo para salvar dentro:
+
+```{r, echo=T, eval=F}
+nome_objeto <- 15*72
+```
+</div>
+
+Que ótimo! Já produzimos o nosso primeiro script de programação!
+
+Vamos tentar mais uma análise. Por exemplo, calculamos a área de um círculo de raio 20 com o chunk debaixo, usando o constante 'pi': 
+
+````clike
+```{r}`r ''`
+raio <- 20
+area <- pi * raio^2
+
+area
+```
+````
+
+```{r, echo=FALSE,eval=TRUE}
+raio <- 20
+area <- pi * raio^2
+
+area
+```
+
+Nota que temos que escrever o nome do objeto para que o resultado aparece no documento final. Se não, ele fica salvado no objeto 'area' para uso no futuro.
+
+Como um resumo, existem dois lugares em nosso script, e temo s que lembrar qual tipo de conteúdo fica em cada um: 
+
+Digite no corpo (fundo branco) | Digite num 'chunk' (fundo cinza)
+-------------------------------|-------------------
+Texto explicativo              | Código de R
+Equações (na sintaxe do Latex) | Tabelas criados com código de R
+-                              | Gráficos criados com código de R
+
+# Formatação de Texto em R Markdown
+
+Em contraste de Microsoft Word, formatando texto em R Markdown não depende de clicar nos botões - precisamos incluir caracteres no script para indicar a formatação que queremos. 
+
+*Italic* - `*Italic*`  
+**Bold** - `**Bold**`  
+
+# Big Header  
+ `# Big Header`  
+ 
+## Sub-Header 
+ `## Sub-Header`  
+ 
+### Sub-Sub-Header 
+ `### Sub-Sub-Header`  
+
+[link](www.google.com) - `[link](http://www.google.com)`
+
+* Bullets  
+    * Sub-Bullets
+
+`* Bullets`  
+`[quatro espaços]    * Sub-Bullets`
+    
+1. Numbered List  
+    1. Sub-numbered list
+    
+`1. Numbered List`  
+`[quatro espaços]    1. Sub-Numbered List`
+
+Para mais detalhes veja [O Cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf).
+
+## Equações
+Podemos escrever equações com a linguagem de Latex (que vamos aprender a semana que vem). Dentro de uma frase, use `$ equation $`, e para centralizar numa nova linha use `$$ big equation $$`. A sintaxe é assim:
+
+`$$\alpha^2 + \beta^2 = \chi^2$$` $$\alpha^2 + \beta^2 = \chi^2$$  
+`$$\frac{\sqrt{1}}{2} * \frac{a}{2b} = \frac{a}{4b}$$` $$\frac{\sqrt{1}}{2} * \frac{a}{2b} = \frac{a}{4b}$$
+`$$\sum_0^{10} x = ...$$` $$\sum_0^{10} x = ...$$
+
+Mais detalhes [aqui](https://www.caam.rice.edu/~heinken/latex/symbols.pdf).
+
+# Incluindo resultados do código dentro do texto
+
+Até agora, o nosso texto fica bem divido do chunk de código. Mas às vezes queremos integrar eles para faz referência ao resultado dentro do texto mesmo. Por exemplo, podemos querer inserir uma média ou o número de observações do nosso banco de dados não por não da memória, mas como um valor exato, atualizado e calculado.
+
+Como incluimos o resultado numérico `area` do cálculo acima dentro de uma frase em nosso texto (fora do chunk do código)? Podemos usar 'in-line code' para exibir um valor simples no documento final. O formato é assim, usando o acento grave:
+
+A área de um círculo de raio 20 é `` `r
+area` ``. 
+
+E o resultado: 
+
+A área de um círculo de raio 20 é `r area`. 
+
+# Trabalho Interativo vs. Com Script
+
+Até agora, trabalhamos com scripts, arquivos .Rmd, e isso é o melhor jeito de organizar as nossas análises e deixá-las prontos e reproduzíveis para um outro pesquisador (ou você mesmo) no futuro. 
+
+Porém, é bem difícil pensar no processamento de dados do início até o final sem interrogar os dados em cada passo do processo. Queremos verificar que cada linha de código gera o resultado esperado. Felizmente, o R nos permite trabalhar no modo *interativo* enquanto preparando o nosso script. A idéia é que executamos o nosso código linha por linha, e avaliamos o resultado de cada linha para confirmar que o resultado faz sentido. 
+
+Isso é indispensável, por exemplo, quando enfrentamos um erro na compilação do nosso script e precisamos diagnosticar o problema. 
+
+Há dois jeitos de rodar uma linha de código:  
+1. Digite o seu código direitamente na janela/aba de 'Console' no seu RStudio.  
+2. Selecione a linha de código dentro do seu script (na verdade apenas precisa deixar o cursor na linha relevante) e toque 'Run' em R ou digite __Ctrl+Enter__.
+
+Na prática, a nossa recomendação é usar opção (2) quando precisa rodar uma linha de código que já existe no seu script, e opção (1) quando precisa rodar temporiaramente uma linha nova, por exemplo para ajudar em inspecionar um objeto.
+
+Experimente rodando o código debaixo em modo interativo:
+
+```{r, echo=T,eval=F}
+raio <- 20
+area <- pi * raio^2
+
+area
+```
+
+Note que a execução do código por qualquer método gerou o objeto __area__ na janela/aba de 'Environment' em RStudio.  O Environment armazena todos os objetos que são disponíveis em modo interativo.
+
+Vamos descrobrir que a ordem de execução de linhas de código é absolutamente crucial para o resultado. Em modo interativo sempre existe um risco de executar na ordem errado. É por isso que o modo de script é mais robusto e deixa a ordem de análise clara - na sequência das linhas no script. Se você ficar confuso com quais operações já foram executadas, recomendamos limpar o seu Environment no RStudio, clicando na imagem da vassoura na aba de Environment. 
+
+# Data Frames como a Unidade Básica de Ciência de Dados {.tabset .tabset-fade .tabset-pills}
+
+Uma característica distintiva da linguagem de programação R é ter sido desenvolvida para a análise de dados. E quando pensamos em análise de dados, a protagonista do show é a _base de dados_ ou, como conhecido na programação, __data frame__.
+
+Por esta razão, em vez de aprender como fazer aritmética, elaborar funções ou executar loops para repetir tarefas e outros aspectos básicos da linguagem, vamos começar olhando para o R como um software concorrente dos demais utilizados para análise de dados em ciências sociais, como SPSS, Stata, SAS, Python e companhia.
+
+As principais características de um data frame são: 
+
+1. Cada coluna representa uma **variável** (ou característica) de um conjunto de observações; 
+2. Cada linha representa uma **observação** e contém os valores de cada variável para tal observação. Vejamos um exemplo:
+
+| Candidato | Partido | Votos | 
+| --------- |:-------:| -----:|
+| Beatriz   | PMDB    |   350 | 
+| Danilo    | SOL     |  1598 | 
+| Pedro     | PTB     |   784 | 
+| Davi      | PSD     |   580 | 
+| Mateus    | PV      |   2   | 
+
+Note que em uma linha os elementos são de tipos diferentes: na primeira coluna há uma nome (texto), na segunda uma sigla de partido (texto, mas limitado a um conjunto de siglas) e na terceira votos (números inteiros). 
+
+Por outro lado, em cada coluna há somente elementos de um tipo. Por exemplo, há apenas números inteiros na coluna votos. Colunas são variáveis e por isso aceitam registros de um único tipo. 
+
+Se destacamos uma coluna do nosso data frame, temos um __vetor__. Por exemplo, a variável "Votos" pode ser presentado da seguinte maneira: {350, 1598, 784, 580, 2}. Um data frame é um conjunto de variáveis (vetores) dispostos na vertical e combinados um ao lado do outro.
+
+Data frame e vetores são __objetos__ na linguagem R.
+
+Vamos ver como o R representa vetores e data frames na tela. Antes disso, é preciso 'abrir' um data frame.
+
+## Pacotes para Mais Poder
+
+Uma das características mais atrativas da linguagem R é o desenvolvimento de __pacotes__ pela comunidade de usuários. Pacotes são conjuntos de funções (aka comandos) e, por vezes, guardam também dados em diversos formatos.
+
+Vamos carregar um pacote chamado _nycflights13_, que contém um conjunto de dados útil para fins didáticos. Existem dois passos para abrir um pacote em R:
+
+1. Um único vez por máquina (então rode um vez em modo interativo, nunca deixe no seu script): 
+
+````clike
+```{r}`r ''`
+install.packages("nycflights13")
+```
+````
+
+2. Cada vez que rodamos o script em que precisamos do conteúdo do pacote (então mantém dentro do seu script, no início): 
+
+````clike
+```{r}`r ''`
+library(nycflights13)
+```
+````
+Note que precisamos de aspas no primeiro caso e não usamos no segundo. 
+
+# Explorando os dados de *flights*
+
+O pacote __nycflights13__ contém um banco de dados se chama __flights__. É literalmente um banco de dados de todos os voos que partiam de Nova Iorque em 2013.
+
+Logo mais veremos como abrir conjuntos de dados de outras fontes (arquivos de texto, outros softwares, etc), mas já podemos começar a trabalhar com _data frames_.
+
+Primeiro, queremos conhecer os dados para saber o que eles descrevem, então trabalhamos em modo interativo. Num chunk, digite o nome de banco de dados (o objeto): 
+
+````clike
+```{r}`r ''`
+flights
+```
+````
+
+Os dados aparecem numa tabela interativa embaixo do chunk em que eles foram abridos. Pode descer para ver mais observações ou passar para a direita para ver mais colunas.
+
+```{r, echo=T, eval=F}
+flights
+```
+
+Olhanda na tabela de __flights__, e antes de avançar, responde as seguintes perguntas:
+
+1. Quantas observações existem no banco de dados?
+2. Quantas variáveis?
+3. O que representa cada observação no banco de dados?
+4. Quais variáveis existem nos dados?
+5. Qual 'tipo' de dado contém cada variável?
+
+Estas questões fundamentais devem ser o seu ponto de entrado para conhecer os seus dados, que é crítico para qualquer análise. 
+
+O R ajuda responder as perguntas em vários formas. O número de linhas e colunas está escrita no fundo da tabela. Se queremos calcular o número de observações (linhas) e variáveis (colunas) usando código, podemos pedir assim:
+
+```{r, eval=F, echo=T}
+nrow(flights)
+ncol(flights)
+```
+
+`nrow` significa o número de linhas, e `ncol` o número de colunas. Use `Ctrl+Enter` para rodar interativamente, e/ou deixe no script para que o número de linhas imprime no seu documento final. Isso é bastante útil, por exemplo quando quer relatar o número de observações no seu paper - não precisa lembrar, o R vai calcular e atualizar automaticamente para você!
+
+<div class = "blue">
+**Habilidade Básica de Programação: Funções e Parênteses**
+Qualquer operação ou transformação em R é uma função que aceita (pelo menos) um input e gera um output. Cada função deve ter um nome único (porém duplicações são possíveis e problemáticos). Funções sempre vem com parênteses depois, e especificamos os inputs nos parênteses. Mesmo quando uma função não precisa de inputs, exige de parênteses, por exemplo `Sys.Date()` devolve a data de hoje.
+
+```{r, echo=T, eval=F}
+funcao(parametros)
+```
+
+```{r, echo=T, eval=T}
+Sys.Date()
+```
+</div>
+
+Como sabemos o significado de algumas colunas com nomes ambíguos? Podemos acessor o __help__ (documentação) do objeto para descobrir uma descrição do que há no _data frame_ chamado _flights_:
+
+````clike
+```{r}`r ''`
+?flights
+```
+````
+
+Os detalhes aparecem na janela/aba de 'Help'. Você pode ler com calma antes de avançar. Se deixamos o código de help no script, lembre-se que vai abrir a página de documentação cada vez que roda o script! Então temos que opera no modo interativo: melhor digite na aba de Console, ou apagar antes de digitar no script.
+
+## Tipos de Dados
+
+E como podemos saber o tipo de dado de cada variável? De novo o R ajuda - debaixo de cada coluna, existe uma descrição, por exemplo `<int>` ou `<chr>`. O que isso significa?
+
+Se você já fez um curso de estatísticas básica ou de métodos quantitativos deve se lembrar que as variáveis são classificadas da seguinte maneira:
+
+1- Discretas
+
+  - Nominais, que são categorias (normalmente texto) não ordenadas
+  
+  - Ordinais, que são categorias (normalmente texto) ordenadas
+  
+  - Inteiros, ou seja, o conjunto dos números inteiros
+
+2- Contínuas, números que podem assumir valores não inteiros
+
+Estas categorias se traduzem para os tipos de dados de R de acordo com a tabela debaixo:
+
+|          |          | Tipo em R           | Shortcut em Tabela |
+|----------|----------|---------------------|--------------------|
+| Discreta | Nominal  | Factor ou Character | fctr, ctr          |
+|          | Ordinal  | Ordered Factor      | fctr, ctr          |
+|          | Inteiro  | Integer             | int                |
+| Contínua |          | Double/Numeric/Real | dbl                |
+
+Por enquanto, R vai cuidar dos tipos de dados e não precisamos nos preocupar na geração/transformação de tipos de dados.
+
+
+## Criando o nosso próprio data.frame
+
+No próximo tutorial, vamos aprender como a importar dados enormes de fontes externos. Mas quase todos os objetos com que vamos trabalhar são data.frames, e as vezes a informação que eles contém é simples, então dá para criar na hora. 
+
+Uma pequena complicação: neste curso vamos trabalhar com uma variedade de data.frame um pouco mais sofisticado - um **'tibble'**. Um tibble é um data.frame, não tem diferença, só que um tibble é mais fléxivel e melhor formatado para facilitar a nossa análise. O banco de dados de `flights` é também um tibble.
+
+Para usar um tibble, temos que aproveitar do pacote super-útil que se chama `tidyverse`. Já está instalada, então é só chamar com `library()`:
+
+```{r, echo=T}
+library(tidyverse)
+```
+
+Vamos ilustrar com um exemplo: imaginar que queremos criar um lembrete dos nomes completos dos aeroportos. Em vez de escrever uma nota física, vamos criar um tibble (um data.frame) em nosso script para documentar a relação entre as siglas e os nomes completos.
+
+Antes de criar um tibble, vamos começar criando um vetor simples das siglas. Um vetor é um **c**onjunto de elementos, então usamos a função `c()` (para conjunto ou concatenate) para definir um vetor. Dentro dos parenteses, digitamos os elementos em aspas. Assim:
+
+```{r, eval=F, echo=T}
+c("NWR","JFK","LGA")
+```
+
+O que acontece se rodamos esta linha? Recebemos em resposta o mesmo vetor. Mas não ajuda muito para só imprimir ou que a gente acabou de imprimir... queremos *salvar* o nosso vetor como um objeto. Então temos que salvar (usando a flecha `<-`) para um objeto nomeado, ex.:
+
+```{r, eval=F, echo=T}
+siglas_aeroportos <- c("NWR","JFK","LGA")
+```
+
+É fácil gerar um segundo vetor com os nomes completos dos aeroportos:
+
+```{r, eval=F, echo=T}
+nomes_aeroportos <- c("Newark","John F Kennedy","Laguardia")
+```
+
+E agora? O R guarda os dois vetors, mas ele não sabe que o primeiro elemento `NWR` de `siglas_aeroportos` é ligado com o primeiro elemento de `nomes_aeroportos`, e o segundo com o segundo etc. O valor de um data.frame/tibble é que ele associa os elementos de vários vetores como observações integras.
+
+A função que nos permite gerar um tibble, supreendentemente, se chame `tibble()`. Nos parenteses, colocamos os nomes das variáveis, separada por vírgulas, e depois o conteúdo do vetor relevante.
+
+```{r, eval=F, echo=T}
+tabela_aeroportos <- tibble(Sigla=siglas_aeroportos,
+                            Nome=nomes_aeroportos)
+```
+
+Se seja mais simples/rápido, não tem problema pular a étapa de definir os vetores separadamente e anteriormente; podemos definir-los direitamente dentro do tibble:
+
+```{r}
+tabela_aeroportos <- tibble(Sigla=c("NWR","JFK","LGA"),
+                            Nome=c("Newark","John F Kennedy","Laguardia"))
+```
+
+Agora, podemos rodar o nome de `tabela_aeroportos` sempre que queremos lembrar, e aparece uma tabela bonita! No futuro, vamos usar isso para vários joins entre tibbles e análises mais complexos.
+
+## Inserindo Tabelas no Documento Final
+
+Voltando para o modo de gerar scripts para documentar a nossa análise, como os tibbles aparecem no nosso documento final? 
+
+Podemos se deixar o nome num chunk e aparece? Experimente!
+
+````clike
+```{r}`r ''`
+tabela_aeroportos
+```
+````
+
+Podemos, sim, mas ele saia feio demais. Precisamos usar uma função que embeleza a tabela. Vamos ver vários opções no futuro, mas por enquanto podemos usar a função `datatable()` do pacote `DT`:
+
+````clike
+```{r}`r ''`
+library(DT)
+datatable(tabela_aeroportos)
+```
+````
+
+```{r}
+library(DT)
+datatable(tabela_aeroportos)
+```
+
+O `datatable` funciona quando o formato do nosso documento final é um HTML, gerando uma tabela interativa. 
+
+
+<div class = "green">
+# Exercício 1
+
+1. Accesse o banco de dados `gapminder` no pacote `dslabs`. Estes dados descrevem as estatísticas resumidas para países do mundo desde 1960. 
+2. Produz um mini-relatório em algumas frases curtas em HTML que descreve o seguinte:
+    a. Número de Observações
+    b. Número e nomes dos variáveis
+    c. O tipo de cada variável
+    d. O que representa cada observação no banco de dados?
+3. Verifique que as respostas 2(a) e 2(b) são calculadas automaticamente no relatório usando in-line code.
+4. Calcule o valor do número de observações multiplicado pelo número de colunas
+5. Inclue uma tabela de banco de dados `gampinder` no relatório. 
+6. Verifique que o seu relatório tem um título, autor e data correto.
+
+</div>
+
+```{r, eval=F, echo=F, include=F}
+#Respostas à Exercício
+
+#install.packages("dslabs")
+library(dslabs)
+
+nrow(gapminder)
+ncol(gapminder)
+
+nrow(gapminder)*ncol(gapminder)
+
+datatable(gapminder)
+```
+<br> </br>
+<div class = "green">
+# Exercício 2: Encontre o erro em todos os códigos abaixo:
+
+Q1)
+
+```{r, eval=F, echo=T}
+dim[flights]
+```
+
+Q2)
+
+```{r, eval=F, echo=T}
+din(flights)
+```
+
+Q3)
+
+```{r, eval=F, echo=T}
+v1 <- ("pato", "cachorro", "minhoca", "lagarto")
+```
+
+Q4) 
+
+```{r, eval=F, echo=T}
+v2 <- c("1", "2", "3", "4")
+v1 + 42
+```
+
+Q5)
+
+```{r, eval=F, echo=T}
+v1 <- c("pato", "cachorro", "minhoca", "lagarto"
+```
+
+Q6) 
+
+```{r, eval=F, echo=T}
+v3 <- c(33 31 40 25 27 40)
+```
+
+Q7)
+
+```{r, eval=F, echo=T}
+v1 <- c(pato, cachorro, minhoca, lagarto)
+```
+
+Q8)
+
+```{r, eval=F, echo=T}
+v1 <- c("pato" "cachorro" "minhoca" "lagarto")
+```
+
+Q9)
+
+```{r, eval=F, echo=T}
+v3 <- C(33, 31, 40, 25, 27, 40)
+```
+
+Q10)
+
+```{r, eval=F, echo=T}
+v1 <- c("pato", "cachorro"", "minhoca", "lagarto")
+```
+
+Q11)
+
+```{r, eval=F, echo=T}
+v1 <- c("pato", "cachorro", "minhoca", "lagarto")
+v4 <- c(33, 31, 40, 25, 27, 40)
+myData <- tibble(v1, v4)
+```
+Q12)
+
+```{r, eval=F, echo=T}
+v1 <- c("pato", "cachorro", "minhoca", "lagarto")
+v4 <- c(33, 31, 40, 25)
+myData <- tibble(v1 = animal, v4 = idade)
+```
+
+</div>
+
+<br> </br>
+
+<div class = "orange">
+# Leitura para Tutorial 2
+
+Por favor ler 
+
+</div>

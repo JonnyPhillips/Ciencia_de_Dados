@@ -1,0 +1,381 @@
+---
+title: "Abrindo e Manipulando Dados"
+description: |
+  Entendendo o mundo de Big Data
+output:
+  distill::distill_article:
+    toc: true
+    toc_float: true
+    toc_depth: 1
+---
+
+<style>
+div.green { background-color:#e5f5e0; border-radius: 5px; padding: 20px;}
+</style>
+
+<style>
+div.orange { background-color:#fee6ce; border-radius: 5px; padding: 20px;}
+</style>
+
+<style>
+div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, tidy=T, highlight=T)
+library(nycflights13)
+```
+
+# Manipulando Dados
+
+Estamos trabalhando com um banco de dados mas ele não é pronto para a nossa análise desejada. Por exemplo, as variáveis não contém os indicadores relevantes, os nomes das variáveis não fazem sentido, a unidade de análise precisa ser mais agregada, e queremos retirar uns outliers. Como podemos 'manipular' um banco de dados para o tamanho, a estrutura e o conteúdo apropriado para a análise? 
+
+Na mesma forma que trabalhamos com os ingredientes de uma refeição: executando **ações** para cortar, selecionar e combinar os ingredientes. Sempre começando com o nosso tibble (data.frame), vamos ver como a aplicar 'verbos' (ações) que transformam o nosso banco de dados. 
+
+Na verdade, esta lógica de manipulação de dados baseado em 'verbos' é apenas uma abordagem, e no futuro vamos ver alternativas. Vamos trabalhar com esta abordagem do pacote `tidyverse` porque é mais fácil aprender, mais sistemático, e mais transparente para ler e entender. Por isso o código descrito embaixo apenas funciona se você abre a biblioteca do tidyvere num chunk inicial:
+
+```{r}
+library(tidyverse)
+```
+
+````clike
+```{r}`r ''`
+library(tidyverse)
+```
+````
+
+## 1. Renomear Variáveis (`Rename`)
+
+Começamos com uma transformação bem simples, mas se você já abriu um banco de dados com variáveis nomeado como 'hu52_lm_00' você vai entender o valor dela. Cada coluna (variável) em nosso tibble sempre tem um nome, e podemos trocar em qualquer momento.
+
+Para inspecionar os nomes de um tibble, podemos simplesmente executar o nome do objeto e veja a tabela embaixo do chunk. Ou podemos usar a funçõ 'names()'. Vamos ver com o exemplo de banco de dados de voos que usamos no tutorial anterior, lembrando que temos que abrir a biblioteca de voos primeiramente.
+
+```{r, echo=T}
+library(nycflights13)
+names(flights)
+```
+
+Nota que o R descreve os índices (as posições na lista) dos nomes na esquerda.
+
+Queremos renomear a variável `arr_time` para `arrival_time` - como faremos? Temos que aplicar a verba e função `rename()` ao banco de dados `flights`. Agora temos um princípio fundamental da manipulação de dados: **começamos com o substantivo (o objeto; o tibble) e depois aplicamos o verbo (a função).**
+
+Para conectar o substantivo com o verbo, usamos um símbolo bizarro que se chama o 'pipe': `%>%`. Não pergunte o motivo para usar este símbolo; apenas deus tem a resposta. A única coisa que importa é como a usar:
+
+```{r, echo=T, eval=F}
+flights %>% rename()
+```
+
+<div class = "blue">
+**Habilidade Básica de Programação: Pipes, `%>%`**
+O pipe conecta um tibble para uma função. Pode ser traduzido como 'e depois', ou 'then' em inglês. Por exemplo, "pegue o banco de dados de flights, e depois renomear". 
+
+Podemos juntar vários pipes para combinar funções diferentes e gerar uma análise mais complexo. Por exemplo:
+
+```{r, echo=T, eval=F}
+flights %>% rename() %>% rename() %>% outra_funcao()
+```
+</div>
+
+O código acima não faz nada, porque ainda não especificamos *qual* variável a renomear, ou o novo nome. Estes são parâmetros da função rename, e tem um formato específico:
+
+```{r, echo=T, eval=F}
+flights %>% rename(arrival_time=arr_time)
+```
+
+Qual o formato aqui? Dentro dos parênteses, colocamos o *novo* nome primeiro, depois o sinal de iguais, depois o nome *velho*. Se digitar o nome original errado, não funciona. O nome novo pode ser diversas coisas, mas evite começar com números e por enquanto evite usar espaços (pode usar `_` em vez de um espaço). 
+
+Vamos inspecionar o nosso novo tibble renomeado em toda a sua glória:
+
+```{r, echo=T, eval=F}
+flights
+```
+
+...O que aconteceu?? Porque você acha a variável em nosso tibble ainda tem o nome `arr_time'?
+
+Porque não mudamos nada: aplicando verbos não *salva* o novo tibble resultado automaticamente. Efetivamente, o novo tibble renomeado desaparece no momento que seja criado. Para salvar, temos que usar a flecha de atribuição ao um novo objeto:
+
+```{r, echo=T, eval=F}
+flights_renomeado <- flights %>% rename(arrival_time=arr_time)
+
+flights_renomeado
+```
+
+Agora, o tibble de `flights_renomeado` tem a variável se chama `arrival_time`, sim?
+
+Dependendo do nosso objetivo, as vezes faz sentido salvar o nosso objeto com o mesmo nome que ele tinha antes, sobreescrevendo o conteúdo dele. (Pelo menos, isso salva memória).
+
+```{r, echo=T, eval=F}
+flights <- flights %>% rename(arrival_time=arr_time)
+
+flights
+```
+
+Mais uma detalhe: Para renomear colunas diversas temos que escrever uma corrente de renomeação?
+
+```{r, echo=T, eval=F}
+flights <- flights %>% rename(arrival_time=arr_time) %>% rename(departure_time=dep_time)
+```
+
+Podemos, mas normalmente é mais eficiente fazer dentro da mesma função, separando as colunas por vírgula (e uma nova linha para deixar o código claro):
+
+```{r, echo=T, eval=F}
+flights <- flights %>% rename(arrival_time=arr_time,
+                   departure_time=dep_time)
+```
+
+## 2. Selecionar Variáveis (`Select`)
+
+Já aprendemos o formato, e tudo fica no mesmo padrão a partir daqui. Quando temos colunas demais em nosso banco de dados, sempre ajuda focar nas variáveis mais relevantes. Para selecionar um subconjunto das variáveis (colunas) para manter no tibble, usamos o verbo `select()`. De novo, começamos com o tibble, o pipe, e finalmente o verbo select:
+
+```{r, echo=T, eval=F}
+flights %>% select(year, month, day)
+```
+
+Note que podemos selecionar várias variáveis usando uma vírgula para separar os nomes das variáveis. Fácil, sim? 
+
+Mas presta atenção - se você salva o seu objeto com o mesmo nome do original, vai perder as outras variáveis definitivamente (ou pelo menos até que abre o banco de dados ou roda o script de novo):
+
+```{r, echo=T, eval=F}
+flights <- flights %>% select(year, month, day)
+```
+
+## 3. Transformar Variáveis (`Mutate`)
+
+Que tal se quisermos *criar* novas variáveis? Isso é comum, por exemplo quando queremos o PIB per capita e não simplesmente o PIB temos que pegar duas variáveis, PIB e população e dividir o primeiro pelo segundo. Em R o verbo para realizar isso se chama um `mutate()`. Ele permite a combinação, usando qualquer tipo de matématica que pode quiser, de colunas que *já existem* no banco de dados (se quer trazer dados de fora, tem que usar um `join` que vamos discutir logo no futuro). 
+
+Como funciona? Como sempre, pegamos o nosso tibble relevante, depois o pipe, depois a função `mutate()`. Dentro dos paramêtros de mutate, precisamos especificar o cálculo a ser realizado usando os nomes de colunas atuais, e o nome da nova variável (coluna) em que vamos guardar o resultado do cálculo. Por exemplo, se queremos dobrar o `dep_delay`:
+
+```{r, echo=T, eval=T}
+flights <- flights %>% mutate(dep_delay_dobro=dep_delay*2)
+```
+
+Note que dentro do mutate, usamos um `=` em vez da flecha para salvar o resultado. 
+
+Onde fica a nossa nova coluna? Na última posição na direita do tibble.
+
+Podemos combinar variáveis múltiplas para fazer cálculos mais complexos. Por exemplo, por algum motivo eu quero saber metade da diferença entre o `dep_time` e `arr_time`:
+
+```{r, echo=T, eval=F}
+flights <- flights %>% mutate(calculo=(arr_time-dep_time)/2)
+```
+
+Como na matemática, lembra se que os parênteses importam. 
+
+Mais uma possibilidade: podemos transformar uma coluna atual sem criar um novo. Para fazer isso, é só renomear a coluna com o mesmo nome do original. Por exemplo, podemos recalcular o `dep_delay` de minutos para segundos:
+
+```{r, echo=T, eval=F}
+flights <- flights %>% mutate(dep_delay=dep_delay*60)
+```
+
+E finalmente, podemos usar funções dentro de mutate e nào simplesmente símbolos matemáticos. No futuro, isso abre um mundo de possibilidades. Por enquanto, vamos apenas usar a função `tolower()` para mudar o `origin` do voo de maiúsculas para minúsculas:
+
+```{r, echo=T, eval=F}
+flights <- flights %>% mutate(origin=tolower(origin))
+```
+
+<div class = "blue">
+**Habilidade Básica de Programação: Operações Matemáticas**
+R serve como calculadora é bastante simples realizar operações matemáticas, quanto com números, tanto com variáveis.
+
+Soma:
+
+```{r, echo=T, eval=F}
+x + y
+```
+
+Subtração:
+
+```{r, echo=T, eval=F}
+x - y
+```
+
+Multiplicação
+
+```{r, echo=T, eval=F}
+x * y
+```
+
+Divisão:
+
+```{r, echo=T, eval=F}
+x / y
+```
+
+Potência:
+
+```{r, echo=T, eval=F}
+x ^ y
+```
+
+Divisão inteira (sem resto):
+
+```{r, echo=T, eval=F}
+x %/% y
+```
+
+Resto da divisão:
+
+```{r, echo=T, eval=F}
+x %% y
+```
+</div>
+
+
+## 4. Cortar Observações (`Slice`)
+
+Até agora, trabalhamos com manipulações de variáveis (colunas). Mas podemos também mexer com as observações (linhas). Podemos, por exemplo, limitar a nossa análise apenas para a quinta linha do banco de dados usando o verbo `slice()`. 
+
+```{r, echo=T, eval=F}
+flights %>% slice(5)
+```
+
+Um pouco triste perder toda a resta da informação, então como selecionamos todas as primeiras cinco linhas?
+
+```{r, echo=T, eval=F}
+flights %>% slice(1:5)
+```
+
+<div class = "blue">
+**Habilidade Básica de Programação: Conjuntos de números**
+Para selecionar observações ou outros elementos de objetos, temos que criar um vetor com os índices (as posições) dos elementos desejados. Um jeito de fazer uso é usando a nossa função para criar vetores, `c()`:
+
+```{r, echo=T, eval=F}
+linhas_desejadas <- c(1,4,5,8,22,169)
+```
+
+Agora, podemos usar este vetor dentro da função slice.
+
+```{r, echo=T, eval=F}
+flights %>% slice(linhas_desejadas)
+```
+
+O R substituirá o objeto (o vetor) `linhas_desejadas` com os 6 números e devolve um tibble das 6 linhas. 
+
+Também é possível selecionar as observações **não**-desejadas, inserindo um menos em frente do número. O R devolve o tibble inteiro sem a linha identificada.
+
+```{r, echo=T, eval=F}
+flights %>% slice(-1)
+```
+
+Compare o número de linhas do código acima com o número de linhas no tibble original de `flights`. 
+
+Para conjuntos de números mais sistemáticos, temos várias opções. Usamos os dois pontos para indicar um conjunto sequencial de números, por exemplo `10:20` significa o mesmo que `c(10,11,12,13,14,15,16,17,18,19,20)`.
+
+```{r, echo=T, eval=F}
+flights %>% slice(10:20)
+```
+
+Para conjuntos não-sequenciais mais sistemáticos, podemos usar a função `seq()`, que tem três paramêtros: valor inicial, valor final, e incremento. Por exemplo, para selecionar cada 10 linhas nas primeiras 100 linhas, usamos:
+
+```{r, echo=T, eval=F}
+flights %>% slice(seq(from=1,
+                      to=100,
+                      by=10))
+```
+
+Note que aqui usamos os nomes de cada parâmetro/argumento seguido por um sinal de iguais e o valor relevante. Estes argumentos têm um ordem oficial dentro da função, e se saibamos de ordem e especificamos todos os argumentos, podemos evitar os nomes de parâmetros/argumentos. O código abaixo é identical ao código acima:
+
+```{r, echo=T, eval=F}
+flights %>% slice(seq(1,100,10))
+```
+
+Como sabemos os nomes e o ordem dos argumentos? Consultamos o help da função:
+
+```{r, echo=T, eval=F}
+?seq
+```
+
+</div>
+
+## 5. Filtrar Observações (`Filter`)
+
+Mais frequentemente, não importa a posição vertical da observação no conjunto de dados, para limitar a nossa análise o que importa é o valor de uma variável. Por exemplo, podemos querer os dados apenas da Ásia, do século 20, de mulheres, ou de homens acima de 18 anos de idade que moram em São Paulo.
+
+Estes critérios podem ser aplicados usando o verbo `filter()`. Nos paramêtros de filter, temos que especificar as **condições** que o R vai avaliar para decidir se vai incluir no banco de dados final. A condição *sempre* tem que avaliar para verdadeiro ou falso (TRUE ou FALSE) para cada observação, e o R guarda apenas as observações 'verdadeiros'. 
+
+Em nosso banco de dados de voos, vamos selecionar apenas os voos de mês 6 (junho). Como definimos esta condição? Precisamos de três elementos:
+
+1. **Nome de variável** - aqui, o mês, `month`. 
+2. **Tipo de comparação** - aqui, queremos selecionar um mês específico então precisamos de uma igualdade que digitamos em R como `==`. Sim, dois iguais juntos! Explicamos embaixo.
+3. **Critério** - aqui, qual mês? Nos dados, junho está codificado num número, então '6'. 
+
+```{r, echo=T, eval=F}
+flights %>% filter(month==6)
+```
+
+```{r, echo=F, eval=T}
+flights %>% filter(month==6)
+```
+
+O resultado é um novo tibble com quantas linhas? Se o nosso filtro funcionou, deve ter bem menos que o tibble original. Normalmente queremos salvar o tibble com outro nome, dado que ele representa um novo conjunto de observações agora:
+
+```{r, echo=T, eval=F}
+flights_junho <- flights %>% filter(month==6)
+```
+
+Podemos combinar critérios diversos usando o símbolo de 'e', `&`:
+
+```{r, echo=T, eval=F}
+flights_junho_5 <- flights %>% filter(month==6 & day==5)
+```
+
+E existem vários tipos de comparações, incluindo maior (`>`) e menor (`<`):
+
+```{r, echo=T, eval=F}
+flights_junho_5_manha <- flights %>% filter(month==6 & day==5 & dep_time<1200)
+```
+
+<div class = "blue">
+**Habilidade Básica de Programação: Operadores Relacionais (Comparativos)**
+
+O operadores relacionais são seis em R:
+
+|   | Operador | Descrição      |
+|---|----------|----------------|
+| 1 | ==       | igual          |
+| 2 | !=       | Não igual      |
+| 3 | <        | Menor          |
+| 4 | >        | Maior          |
+| 5 | <=       | Menor ou igual |
+| 6 | >=       | Maior ou igual |
+
+Simples. 
+</div>
+<br> </br>   
+<br> </br>  
+<div class = "blue">
+**Habilidade Básica de Programação: Operadores Logicais**
+
+Para combinar critérios múltiplos no mesmo filtro, temos que usar os operadores logicais. 
+
+|   | Operador | Descrição      |
+|---|----------|----------------|
+| 1 | !        | Não            |
+| 2 | &        | E              |
+| 3 | \|       | Ou             |
+
+
+Com esta nova flexibilidade, temos que pensar com cuidado para construir o filtro apropriado. E temos que usar os parenteses apropriados, porque a lista acima é em ordem de prioridade (como na matemática quando multiplicação acontece antes de adição). Por exemplo, se quissemos todos os voos que atrasaram na chegada por mais de 50 minutos, e que decolaram antes das 5h *ou* que decolaram de Atlanta (ATL), temos que escrever assim:
+
+```{r, echo=T, eval=F}
+flights %>% filter((dep_time<=500 | dest=="ATL") & arr_delay>=50)
+```
+
+O resultado é diferente do pedido quando tiramos os parenteses:
+
+```{r, echo=T, eval=F}
+flights %>% filter(dep_time<=500 | dest=="ATL" & arr_delay>=50)
+```
+
+Note que o número de linhas é bem diferente. Aqui, pedimos para todos os voos que decolaram antes das 5h (se tivesse atraso ou não), juntado com um outro conjunto os voos que decolaram de Atlanta com atraso de 50 minutos na chegada. 
+
+É fácil pedir o inverso deste conjunto usando `!`:
+
+```{r, echo=T, eval=F}
+flights %>% filter(!((dep_time<=500 | dest=="ATL") & arr_delay>=50))
+```
+
+</div>
+
+
+
