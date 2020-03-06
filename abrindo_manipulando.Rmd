@@ -28,14 +28,15 @@ library(nycflights13)
 
 # Manipulando Dados
 
-Estamos trabalhando com um banco de dados mas ele não é pronto para a nossa análise desejada. Por exemplo, as variáveis não contém os indicadores relevantes, os nomes das variáveis não fazem sentido, a unidade de análise precisa ser mais agregada, e queremos retirar uns outliers. Como podemos 'manipular' um banco de dados para o tamanho, a estrutura e o conteúdo apropriado para a análise? 
+Estamos trabalhando com um banco de dados, mas ele não está pronto para a análise que desejamos fazer. Por exemplo, as variáveis não contém os indicadores relevantes, os nomes das variáveis não fazem sentido, a unidade de análise precisa ser mais agregada, e queremos retirar uns outliers. Como podemos 'manipular' um banco de dados para o tamanho, a estrutura e o conteúdo apropriado para a análise desejada? 
 
-Na mesma forma que trabalhamos com os ingredientes de uma refeição: executando **ações** para cortar, selecionar e combinar os ingredientes. Sempre começando com o nosso tibble (data.frame), vamos ver como a aplicar 'verbos' (ações) que transformam o nosso banco de dados. 
+Fazemos a manipulação da mesma forma que trabalhamos com os ingredientes de uma refeição: executando **ações** para cortar, selecionar e combinar os ingredientes. Sempre começando com o nosso tibble (data.frame), vamos ver como aplicar 'verbos' (ações) que transformam o nosso banco de dados. 
 
-Na verdade, esta lógica de manipulação de dados baseado em 'verbos' é apenas uma abordagem, e no futuro vamos ver alternativas. Vamos trabalhar com esta abordagem do pacote `tidyverse` porque é mais fácil aprender, mais sistemático, e mais transparente para ler e entender. Por isso o código descrito embaixo apenas funciona se você abre a biblioteca do tidyvere num chunk inicial:
+Na verdade, esta lógica de manipulação de dados baseado em 'verbos' é apenas uma abordagem, e no futuro vamos ver alternativas. Vamos trabalhar com a abordagem de verbos do pacote `tidyverse` porque (i) é mais fácil para aprender, (ii) é mais sistemático, e (iii) é mais transparente para ler e entender do que outros pacotes. Os códigos descritos no restante do tutorial só funcionam se você abrir a biblioteca do tidyvere num chunk inicial:
 
 ```{r}
 library(tidyverse)
+library(DT)
 ```
 
 ````clike
@@ -46,9 +47,9 @@ library(tidyverse)
 
 ## 1. Renomear Variáveis (`Rename`)
 
-Começamos com uma transformação bem simples, mas se você já abriu um banco de dados com variáveis nomeado como 'hu52_lm_00' você vai entender o valor dela. Cada coluna (variável) em nosso tibble sempre tem um nome, e podemos trocar em qualquer momento.
+Começamos com uma transformação bem simples, mas se você já abriu um banco de dados com variáveis nomeadas como 'hu52_lm_00' você vai entender o valor deessa transformação. Cada coluna (variável) em nosso tibble sempre tem um nome, e podemos troca-lo a qualquer momento.
 
-Para inspecionar os nomes de um tibble, podemos simplesmente executar o nome do objeto e veja a tabela embaixo do chunk. Ou podemos usar a funçõ 'names()'. Vamos ver com o exemplo de banco de dados de voos que usamos no tutorial anterior, lembrando que temos que abrir a biblioteca de voos primeiramente.
+Para inspecionar os nomes de um tibble, podemos simplesmente executar o nome do objeto e ver o que aparece na tabela abaixo do chunk. Ou podemos usar a funçõ 'names()'. Vamos ver com o exemplo de banco de dados de voos que usamos no tutorial anterior, lembrando que temos que abrir a biblioteca de voos primeiramente.
 
 ```{r, echo=T}
 library(nycflights13)
@@ -327,7 +328,55 @@ O operadores relacionais são seis em R:
 | 5 | <=       | Menor ou igual |
 | 6 | >=       | Maior ou igual |
 
-Simples. 
+Simples. Alguns exemplos de uso básico de operadores abaixo.
+
+```{r, echo=T, eval=F}
+42 == 41
+42 != 41
+(2 + 2) == (3 + 1)
+(2 + 2) != (3 + 1)
+5 > 3
+5 < 3
+42 > 42
+42 < 41
+42 >= 42
+42 <= 41
+```
+
+Operadores relacionais também vale para textos:
+  
+```{r, echo=T, eval=F}
+"texto" == "texto"
+"texto" == "texTo"
+"texto" != "texto"
+```
+
+Note no segundo exemplo que o R é "case sensitive", ou seja, diferencia maiúsculas de minúsculas ao comparar textos.
+
+Textos também podem ser ordenados (lexicograficamente, isto é, alfabeticamente):
+
+```{r, echo=T, eval=F}
+"a" > "b"
+"a" < "b"
+"A" < "b"
+"A" > "a"
+```
+
+E valores lógicos? Veja se entende o que acontece nos exemplos abaixo:
+  
+```{r, echo=T, eval=F}
+TRUE == 1
+FALSE == 0
+TRUE > FALSE
+```
+
+Podemos comparar valores armazenados em variáveis da mesma maneira que fizemos nos exemplos até aqui:
+  
+```{r, echo=T, eval=F}
+x <- 5
+y <- 10
+x > y
+```
 </div>
 
 Podemos combinar critérios diversos usando o símbolo de 'e', `&`:
@@ -355,6 +404,25 @@ Para combinar critérios múltiplos no mesmo filtro, temos que usar os operadore
 | 2 | &        | E              |
 | 3 | \|       | Ou             |
 
+Veja a tabela de possibilidades de combinação de duas proposições com a conjunção "&":
+  
+  | Proposição 1 | Proposição 2 | Combinação | 
+  | ------------ | ------------ | ---------- |
+  | TRUE         | TRUE         | TRUE       |  
+  | TRUE         | FALSE        | FALSE      |
+  | FALSE        | TRUE         | FALSE      |
+  | FALSE        | FALSE        | FALSE      |
+  
+Se o valor atende às duas condições, então o resultado é TRUE. Se ao menos uma proposição é falsa, sob a conjunção "e", então a combinação das proposições também é.
+
+Veja a tabela de possibilidades de combinação de duas proposições com a conjunção "ou":
+  
+  | Proposição 1 | Proposição 2 | Combinação | 
+  | ------------ | ------------ | ---------- |
+  | TRUE         | TRUE         | TRUE       |  
+  | TRUE         | FALSE        | TRUE       |
+  | FALSE        | TRUE         | TRUE       |
+  | FALSE        | FALSE        | FALSE      |
 
 Com esta nova flexibilidade, temos que pensar com cuidado para construir o filtro apropriado. E temos que usar os parenteses apropriados, porque a lista acima é em ordem de prioridade (como na matemática quando multiplicação acontece antes de adição). Por exemplo, se quissemos todos os voos que atrasaram na chegada por mais de 50 minutos, e que decolaram antes das 5h *ou* que decolaram de Atlanta (ATL), temos que escrever assim:
 
@@ -378,5 +446,213 @@ flights %>% filter(!((dep_time<=500 | dest=="ATL") & arr_delay>=50))
 
 </div>
 
+## Combinando Manipulações
+
+Frequentemente, limpar um banco de dados exige dezenas de transformações para construir o banco de dados apropriado para a nossa análise. A lógica e estrutura de cada ação acima nos permitimos combinar operações em sequência; em uma corrente de pipes e verbos. Depois de uma ação, simplesmente continuamos com mais um pipe (`%>%`) e a próxima ação. 
+
+```{r, echo=T, eval=F}
+flights %>% 
+  rename(arrival_time=arr_time) %>% 
+  mutate(dep_delay=dep_delay*60) %>%
+  filter(month==6 & day==5) %>% 
+  select(year, month, day, arrival_time, dep_delay)
+```
+
+É importante entender que depois de cada ação, o banco de dados encaminhado à proxíma ação é o resultado da ação anterior. Então na linha final, `select(year, month, day, arr_time, dep_delay)` não funciona - `arr_time` já foi renomeado para `arrival_time` e temos que fazer referência ao novo nome.
+
+Voltando à analogia de preparar uma refeição, o código acima é uma **receita**: Pegue o banco de dados de `flights`, depois renomear a variável `arr_time`, depois multiplicar a variável `dep_delay` por 60, depois filtrar as observações para elas do 5 de junho, depois selecionar as cinco variáveis, e devolva o banco de dados final. 
+
+Note também que no código acima inserimos uma nova linha depois de cada pipe; isso não é necessário mas ajuda em organizar o código e deixá-lo mais fácil a ler. 
+
+
+<div class = "green">
+
+# Exercício 1: Manipulando dados
+
+Com essas novas habilidades, vamos preparar uma análise rápida do banco de dados `flights` com o objetivo de produzir um relatório em html no final. Gera uma tabela apropriada para cada critério:
+
+1. Os voos de United (`carrier` UA) que decolaram no 25 de janeiro
+
+```{r, eval=F}
+flights %>% filter(carrier=="UA" & month==1 & day==25) %>%
+  datatable()
+```
+
+
+2. Os voos de JetBlue (`carrier` B6) que decolaram mais que 300 minutos atrasados de Newark (`origin` EWR).
+
+```{r, eval=F}
+flights %>% filter(carrier=="B6" & dep_delay>300 & origin=="EWR") %>%
+  datatable()
+```
+
+3. Calcule a velocidade dos voos que decolaram de LaGuardia (`origin` LGA) no dia 7 de setembro antes das 6h. Lembre-se que velocidade é distância dividido por tempo. (Qual é a unidade desta velocidade?)
+
+```{r, eval=F}
+flights %>% filter(origin=="LGA" & month==9 & day==7 & dep_time<600) %>%
+  mutate(speed=distance/air_time) %>%
+  datatable()
+```
+
+4. Uma tabela com apenas o atraso na chegada de todos os voos atrasados por pelo menos 60 minutos que partiram do aeroporto Newark e chegaram em Buffalo (BUF) na sexta dia de qualquer mes. 
+
+```{r, eval=F}
+flights %>% filter(dest=="BUF" & origin=="EWR" & arr_delay>=60 & day==6) %>%
+  select(arr_delay) %>%
+  datatable()
+```
+
+5. Uma tabela dos números dos aviões (`tailnum`), destino, distância e a velocidade em milhas por hora para voos que voaram em maio pelo menos 1000 milhas ou com velocidade acima de 500 milhas por hora.
+
+```{r, eval=F}
+flights %>% mutate(velocidade=distance/(air_time/60)) %>%
+  filter((distance>4800 | velocidade>530) & month==4) %>%
+  select(tailnum, dest, distance, velocidade) %>%
+  datatable()
+```
+
+6. Prepare os resultados de todos os seus análises acima em tabelas uasndao `datatable`, e faça o `knit` do seu script de R markdown para produzir o relatório final.
+
+</div>
+
+
 # Abrindo Dados
+
+## Dados em arquivos textuais (.csv, .tsv, .txt)
+
+Agora que estamos especialistas na manipulação de dados já disponíveis em R, queremos analisar dados mais interessantes e relevantes para a nossa própria pesquisa. Isso exige a abertura de arquivos externos; bancos de dados que criamos ou recebemos de outros estudos. Lembrando que o nosso script vai processar os dados cada vez que é executado pela botão 'Knit', temos que incorporar a abertura de dados em código também, dentro do script. 
+
+Existem muitas funções para abrir arquivos de dados, mas para simplificar neste curso, vamos nos concentrar em algumas dos mais flexíveis, simples e úteis para trabalhar com dados 'retangulares' (.csv, .tsv, .txt). As funções ficam parte da biblioteca `tidyverse` que já abrimos.
+
+Provavelmente a função mais usada é `read_csv`, que abre arquivos com extensão .csv. Em vez de abrir arquivos do nosso computador, também podemos abrir links online e, para simplificar, disponibilizamos vários arquivos em nosso repositório do github. Você pode colar o url de cada arquivo no navegador para ver o seu formato antes de executar o código.
+
+```{r, echo=T, eval=F}
+file1 <- "https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_hv.csv"
+dados <- read_csv(file1)
+```
+
+`dados` deve aperecer como um objeto - um tibble - em seu 'Environment'. A função `read_delim` nos dá mais flexibilidade para lidar com tipos incomuns de arquivos. Por exemplo, podemos especificar o caractere usado para separar as colunas (por padrão, esta é a vírgula em read_csv):
+
+```{r, echo=T, eval=F}
+dados <- read_delim(file1, 
+                    delim = ",")
+
+file_semi_colon <- "https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_hp.csv"
+dados <- read_delim(file_semi_colon, 
+                    delim = ";")
+
+file_tab <- "https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_ht.csv"
+dados <- read_delim(file_tab, 
+                    delim = "\t")
+```
+
+O padrão de _read\_delim_ (e _read\_csv_) é importar a primeira linha como nome das variáveis. Se nossos dados não tiverem um _header_ (cabeçalho, ou seja, nomes das variáveis na primeira linhas), a primeira linha de dados se torna equivocadamente o nome das variáveis (inclusive os números, que aparecem antecedidos por um "X"). Para corrigir o problema utilizamos o argumento "col_names", que deve ser igual a "FALSE" para os dados armezenados sem nomes de colunas, por exemplo:
+
+```{r, echo=T, eval=F}
+file_sem_header <- "https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_nv.csv"
+dados <- read_delim(file_sem_header, 
+                    col_names = F, 
+                    delim = ",")
+```
+
+Além dos valores lógicos, "col_names" também aceita um vetor com novos nomes para as colunas como argumento:
+
+```{r, echo=T, eval=F}
+dados <- read_delim(file_sem_header, 
+                    col_names = c("estado", "municipio_cod", "municipio_nome",
+                                  "NIS", "transferido"),
+                    delim = ",")
+```
+
+Por vezes, é interessante definir as classes das variáveis a serem importadas, para evitar novas transformações quando os dados forem importados. O argumento _col\_types_ deve ser uma sequência de caracteres onde "c" = "character", "d" = "double", "l" = "logical" e "i" = "integer". Por exemplo:
+
+```{r, echo=T, eval=F}
+dados <- read_delim(file1, 
+                    delim = ",", 
+                    col_types = "cicid")
+```
+
+Perceba que quando abrimos os dados sem especificar o tipo da coluna, a função _read\_csv_ tenta identificá-los. 
+
+Uma complexidade de abertura de dados brasileiros é o uso da vírgula como separador decimal e o ponto para indicar milhares. Temos que especificar no argumento _locale_ essas diferenças. 
+
+```{r, echo=T, eval=F}
+dados <- read_delim(file1, 
+                    delim = ",", 
+                    locale = locale(decimal_mark=",",grouping_mark="."))
+```
+
+Também podemos usar _locale_ para especificar o formato da hora, o formato da data e o encoding do arquivo que estamos lendo.
+
+Finalmente, é comum termos problemas para abrir arquivos que contenham caracteres especiais, pois há diferentes formas do computador transformar 0 e 1 em vogais acentuadas, cecedilha, etc. O "encoding" de cada arquivo varia de acordo com o sistema operacional e aplicativo no qual foi gerado.
+
+```{r, echo=T, eval=F}
+dados <- read_delim(file1, 
+                    delim = ",", 
+                    locale = locale(encoding='latin1'))
+```
+
+Para resolver este problema, informamos ao R o parâmetro _encoding_ dentro do _locale_, que indica qual é o "encoding" esperado do arquivo. Infelizmente não há formas automáticas infalíveis de descobrir o "encoding" de um arquivo e é preciso conhecer como foi gerado -- seja por que você produziu o arquivo ou por que você teve acesso à documentação -- ou partir para tentativa e erro. Alguns "encodings" comuns são "latin1", "latin2" e "utf8", mas há diversos outros. Como arquivo com o qual estamos trabalhando não contém caracteres especiais, não é preciso fazer nada.
+
+## Dados em arquivos de Excel
+
+Editores de planilha são, em geral, a primeira ferramenta de análise de dados que aprendemos. Diversas organizações disponibilizam (infelizmente) seus dados em formato .xls ou .xlsx e muitos pesquisadores utilizam editores de planilha para construir bases de dados.
+
+Vamos ver como obter dados em formato .xls ou .xlsx diretamente, sem precisar abrir os arquivos e exportá-los para um formato de texto.
+
+Vamos trabalhar com `readxl`. Importe a biblioteca (não precisa instalá-lo, já está instalado):
+
+```{r, echo=T, eval=F}
+library(readxl)
+```
+
+Nosso exemplo será a Pesquisa Perfil dos Municípios Brasileiros de 2005, produzida pelo IBGE e apelidade de MUNIC. Diferentemente das demais funções deste tutorial, precisamos baixar o arquivo para o computador e acessá-lo localmente. Faça o download diretamente no browser do [site do IBGE](ftp://ftp.ibge.gov.br/Perfil_Municipios/2005/base_MUNIC_2005.zip) e descompacte para o arquivo "base_MUNIC_2005.xls" na pasta do seu projeto. 
+
+Note que um ganho enorme de trabalhar dentro de um projeto é que não precisamos nos preocupar com a especificação do endereço inteiro de cada arquivo (o "C:\\Users\\Documents\\...") - só usamos o nome do arquivo e o R acessa tudo na pasta do projeto.
+
+Com _excel\_sheets_ examinamos quais são as planilhas existentes do arquivo:
+
+```{r, results = 'hide', echo=T, eval=F}
+excel_sheets("Base 2005.xls")
+```
+
+No caso, temos 11 planilhas diferentes (e um bocado de mensagens de erro estranhas). O dicionário, para quem já trabalhou alguma vez com a MUNIC, não é uma base de dados, apenas textos espalhados entre células. As demais, no entanto, têm formato adequado para um tibble.
+
+Vamos importar os dados da planilha "Variáveis externas". As duas maneiras abaixo se equivalem:
+
+```{r, results = 'hide', echo=T, eval=F}
+# 1
+externas <- read_excel("Base 2005.xls", "Variáveis externas")
+
+# 2
+externas <- read_excel("Base 2005.xls", 11)
+```
+
+A função _read\_excel_ aceita os argumentos "col_names" e "col_types" tal como as funções de importação do pacote _readr_.
+
+## Dados de SPSS, Stata e SAS
+
+R é bastante flexível quanto à importação de dados de outros softwares estatísticos. Para este fim também há um pacote _haven_, que é, advinhe só, parte do _tidyverse_. 
+
+```{r, echo=T, eval=F}
+library(haven)
+```
+
+Basicamente, há cinco funções de importação de dados em _haven_: _read\_sas_, para dados em SAS; _read\_stata_ e _read\_dta_, idênticas, para dados em formato .dta gerados em Stata; e _read\_sav_ e _read\_por_, uma para cada formato de dados em SPSS. O uso, como era de se esperar, é bastante similar ao que vimos no tutorial todo.
+
+Vamos usar como exemplo o [Latinobarômetro 2015](http://www.latinobarometro.org/latContents.jsp), que está disponível para SAS, Stata e SPSS. Vamos fazer o processo manual de baixar os dados da página 'data bank', e descompactar os arquivos de 2015. Vamos ignorar SAS por razões que não interessam agora e por não ser uma linguagem popular nas ciências sociais.
+
+Vejamos o uso das funções em arquivos de diferentes formatos:
+
+```{r, echo=T, eval=F}
+# SPSS
+latino_barometro_spss <- read_spss("Latinobarometro_2015_Eng.sav")
+
+# Stata
+latino_barometro_stata <- read_stata("Latinobarometro_2015_Eng.dta")
+```
+
+Simples assim.
+
+Há critérios de conversão de variáveis categóricas, rótulos e etc, adotados pelo R ao importar arquivos de outras linguagens, mas você pode descobrí-los testando sozinha.
 

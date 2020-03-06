@@ -1345,8 +1345,13 @@ Desafios
 <li><a href="#transformar-variáveis-mutate">3. Transformar Variáveis (<code>Mutate</code>)</a></li>
 <li><a href="#cortar-observações-slice">4. Cortar Observações (<code>Slice</code>)</a></li>
 <li><a href="#filtrar-observações-filter">5. Filtrar Observações (<code>Filter</code>)</a></li>
+<li><a href="#combinando-manipulações">Combinando Manipulações</a></li>
 </ul></li>
-<li><a href="#abrindo-dados">Abrindo Dados</a></li>
+<li><a href="#abrindo-dados">Abrindo Dados</a><ul>
+<li><a href="#dados-em-arquivos-textuais-.csv-.tsv-.txt">Dados em arquivos textuais (.csv, .tsv, .txt)</a></li>
+<li><a href="#dados-em-arquivos-de-excel">Dados em arquivos de Excel</a></li>
+<li><a href="#dados-de-spss-stata-e-sas">Dados de SPSS, Stata e SAS</a></li>
+</ul></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
@@ -1360,9 +1365,9 @@ div.orange { background-color:#fee6ce; border-radius: 5px; padding: 20px;}
 div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 </style>
 <h1 id="manipulando-dados">Manipulando Dados</h1>
-<p>Estamos trabalhando com um banco de dados mas ele não é pronto para a nossa análise desejada. Por exemplo, as variáveis não contém os indicadores relevantes, os nomes das variáveis não fazem sentido, a unidade de análise precisa ser mais agregada, e queremos retirar uns outliers. Como podemos ‘manipular’ um banco de dados para o tamanho, a estrutura e o conteúdo apropriado para a análise?</p>
-<p>Na mesma forma que trabalhamos com os ingredientes de uma refeição: executando <strong>ações</strong> para cortar, selecionar e combinar os ingredientes. Sempre começando com o nosso tibble (data.frame), vamos ver como a aplicar ‘verbos’ (ações) que transformam o nosso banco de dados.</p>
-<p>Na verdade, esta lógica de manipulação de dados baseado em ‘verbos’ é apenas uma abordagem, e no futuro vamos ver alternativas. Vamos trabalhar com esta abordagem do pacote <code>tidyverse</code> porque é mais fácil aprender, mais sistemático, e mais transparente para ler e entender. Por isso o código descrito embaixo apenas funciona se você abre a biblioteca do tidyvere num chunk inicial:</p>
+<p>Estamos trabalhando com um banco de dados, mas ele não está pronto para a análise que desejamos fazer. Por exemplo, as variáveis não contém os indicadores relevantes, os nomes das variáveis não fazem sentido, a unidade de análise precisa ser mais agregada, e queremos retirar uns outliers. Como podemos ‘manipular’ um banco de dados para o tamanho, a estrutura e o conteúdo apropriado para a análise desejada?</p>
+<p>Fazemos a manipulação da mesma forma que trabalhamos com os ingredientes de uma refeição: executando <strong>ações</strong> para cortar, selecionar e combinar os ingredientes. Sempre começando com o nosso tibble (data.frame), vamos ver como aplicar ‘verbos’ (ações) que transformam o nosso banco de dados.</p>
+<p>Na verdade, esta lógica de manipulação de dados baseado em ‘verbos’ é apenas uma abordagem, e no futuro vamos ver alternativas. Vamos trabalhar com a abordagem de verbos do pacote <code>tidyverse</code> porque (i) é mais fácil para aprender, (ii) é mais sistemático, e (iii) é mais transparente para ler e entender do que outros pacotes. Os códigos descritos no restante do tutorial só funcionam se você abrir a biblioteca do tidyvere num chunk inicial:</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
@@ -1371,8 +1376,8 @@ div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 library(tidyverse)
 ```</code></pre>
 <h2 id="renomear-variáveis-rename">1. Renomear Variáveis (<code>Rename</code>)</h2>
-<p>Começamos com uma transformação bem simples, mas se você já abriu um banco de dados com variáveis nomeado como ‘hu52_lm_00’ você vai entender o valor dela. Cada coluna (variável) em nosso tibble sempre tem um nome, e podemos trocar em qualquer momento.</p>
-<p>Para inspecionar os nomes de um tibble, podemos simplesmente executar o nome do objeto e veja a tabela embaixo do chunk. Ou podemos usar a funçõ ‘names()’. Vamos ver com o exemplo de banco de dados de voos que usamos no tutorial anterior, lembrando que temos que abrir a biblioteca de voos primeiramente.</p>
+<p>Começamos com uma transformação bem simples, mas se você já abriu um banco de dados com variáveis nomeadas como ‘hu52_lm_00’ você vai entender o valor deessa transformação. Cada coluna (variável) em nosso tibble sempre tem um nome, e podemos troca-lo a qualquer momento.</p>
+<p>Para inspecionar os nomes de um tibble, podemos simplesmente executar o nome do objeto e ver o que aparece na tabela abaixo do chunk. Ou podemos usar a funçõ ‘names()’. Vamos ver com o exemplo de banco de dados de voos que usamos no tutorial anterior, lembrando que temos que abrir a biblioteca de voos primeiramente.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 library(nycflights13)
@@ -1646,7 +1651,50 @@ flights_junho &lt;- flights %&gt;% filter(month == 6)</code></pre>
 </tr>
 </tbody>
 </table>
-<p>Simples.</p>
+<p>Simples. Alguns exemplos de uso básico de operadores abaixo.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+42 == 41
+42 != 41
+(2 + 2) == (3 + 1)
+(2 + 2) != (3 + 1)
+5 &gt; 3
+5 &lt; 3
+42 &gt; 42
+42 &lt; 41
+42 &gt;= 42
+42 &lt;= 41</code></pre>
+</div>
+<p>Operadores relacionais também vale para textos:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+&quot;texto&quot; == &quot;texto&quot;
+&quot;texto&quot; == &quot;texTo&quot;
+&quot;texto&quot; != &quot;texto&quot;</code></pre>
+</div>
+<p>Note no segundo exemplo que o R é “case sensitive”, ou seja, diferencia maiúsculas de minúsculas ao comparar textos.</p>
+<p>Textos também podem ser ordenados (lexicograficamente, isto é, alfabeticamente):</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+&quot;a&quot; &gt; &quot;b&quot;
+&quot;a&quot; &lt; &quot;b&quot;
+&quot;A&quot; &lt; &quot;b&quot;
+&quot;A&quot; &gt; &quot;a&quot;</code></pre>
+</div>
+<p>E valores lógicos? Veja se entende o que acontece nos exemplos abaixo:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+TRUE == 1
+FALSE == 0
+TRUE &gt; FALSE</code></pre>
+</div>
+<p>Podemos comparar valores armazenados em variáveis da mesma maneira que fizemos nos exemplos até aqui:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+x &lt;- 5
+y &lt;- 10
+x &gt; y</code></pre>
+</div>
 </div>
 <p>Podemos combinar critérios diversos usando o símbolo de ‘e’, <code>&amp;</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1688,6 +1736,71 @@ flights_junho_5_manha &lt;- flights %&gt;% filter(month == 6 &amp; day == 5 &amp
 </tr>
 </tbody>
 </table>
+<p>Veja a tabela de possibilidades de combinação de duas proposições com a conjunção “&amp;”:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Proposição 1</th>
+<th>Proposição 2</th>
+<th>Combinação</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>TRUE</td>
+<td>TRUE</td>
+<td>TRUE</td>
+</tr>
+<tr class="even">
+<td>TRUE</td>
+<td>FALSE</td>
+<td>FALSE</td>
+</tr>
+<tr class="odd">
+<td>FALSE</td>
+<td>TRUE</td>
+<td>FALSE</td>
+</tr>
+<tr class="even">
+<td>FALSE</td>
+<td>FALSE</td>
+<td>FALSE</td>
+</tr>
+</tbody>
+</table>
+<p>Se o valor atende às duas condições, então o resultado é TRUE. Se ao menos uma proposição é falsa, sob a conjunção “e”, então a combinação das proposições também é.</p>
+<p>Veja a tabela de possibilidades de combinação de duas proposições com a conjunção “ou”:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Proposição 1</th>
+<th>Proposição 2</th>
+<th>Combinação</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>TRUE</td>
+<td>TRUE</td>
+<td>TRUE</td>
+</tr>
+<tr class="even">
+<td>TRUE</td>
+<td>FALSE</td>
+<td>TRUE</td>
+</tr>
+<tr class="odd">
+<td>FALSE</td>
+<td>TRUE</td>
+<td>TRUE</td>
+</tr>
+<tr class="even">
+<td>FALSE</td>
+<td>FALSE</td>
+<td>FALSE</td>
+</tr>
+</tbody>
+</table>
 <p>Com esta nova flexibilidade, temos que pensar com cuidado para construir o filtro apropriado. E temos que usar os parenteses apropriados, porque a lista acima é em ordem de prioridade (como na matemática quando multiplicação acontece antes de adição). Por exemplo, se quissemos todos os voos que atrasaram na chegada por mais de 50 minutos, e que decolaram antes das 5h <em>ou</em> que decolaram de Atlanta (ATL), temos que escrever assim:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1705,7 +1818,151 @@ flights %&gt;% filter(dep_time &lt;= 500 | dest == &quot;ATL&quot; &amp; arr_del
 flights %&gt;% filter(!((dep_time &lt;= 500 | dest == &quot;ATL&quot;) &amp; arr_delay &gt;= 50))</code></pre>
 </div>
 </div>
+<h2 id="combinando-manipulações">Combinando Manipulações</h2>
+<p>Frequentemente, limpar um banco de dados exige dezenas de transformações para construir o banco de dados apropriado para a nossa análise. A lógica e estrutura de cada ação acima nos permitimos combinar operações em sequência; em uma corrente de pipes e verbos. Depois de uma ação, simplesmente continuamos com mais um pipe (<code>%&gt;%</code>) e a próxima ação.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+flights %&gt;% rename(arrival_time = arr_time) %&gt;% mutate(dep_delay = dep_delay * 
+    60) %&gt;% filter(month == 6 &amp; day == 5) %&gt;% select(year, month, day, 
+    arrival_time, dep_delay)</code></pre>
+</div>
+<p>É importante entender que depois de cada ação, o banco de dados encaminhado à proxíma ação é o resultado da ação anterior. Então na linha final, <code>select(year, month, day, arr_time, dep_delay)</code> não funciona - <code>arr_time</code> já foi renomeado para <code>arrival_time</code> e temos que fazer referência ao novo nome.</p>
+<p>Voltando à analogia de preparar uma refeição, o código acima é uma <strong>receita</strong>: Pegue o banco de dados de <code>flights</code>, depois renomear a variável <code>arr_time</code>, depois multiplicar a variável <code>dep_delay</code> por 60, depois filtrar as observações para elas do 5 de junho, depois selecionar as cinco variáveis, e devolva o banco de dados final.</p>
+<p>Note também que no código acima inserimos uma nova linha depois de cada pipe; isso não é necessário mas ajuda em organizar o código e deixá-lo mais fácil a ler.</p>
+<div class="green">
+<h1 id="exercício-1-manipulando-dados">Exercício 1: Manipulando dados</h1>
+<p>Com essas novas habilidades, vamos preparar uma análise rápida do banco de dados <code>flights</code> com o objetivo de produzir um relatório em html no final. Gera uma tabela apropriada para cada critério:</p>
+<ol type="1">
+<li>Os voos de United (<code>carrier</code> UA) que decolaram no 25 de janeiro</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="2" type="1">
+<li>Os voos de JetBlue (<code>carrier</code> B6) que decolaram mais que 300 minutos atrasados de Newark (<code>origin</code> EWR).</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="3" type="1">
+<li>Calcule a velocidade dos voos que decolaram de LaGuardia (<code>origin</code> LGA) no dia 7 de setembro antes das 6h. Lembre-se que velocidade é distância dividido por tempo. (Qual é a unidade desta velocidade?)</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="4" type="1">
+<li>Uma tabela com apenas o atraso na chegada de todos os voos atrasados por pelo menos 60 minutos que partiram do aeroporto Newark e chegaram em Buffalo (BUF) na sexta dia de qualquer mes.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="5" type="1">
+<li>Uma tabela dos números dos aviões (<code>tailnum</code>), destino, distância e a velocidade em milhas por hora para voos que voaram em maio pelo menos 1000 milhas ou com velocidade acima de 500 milhas por hora.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="6" type="1">
+<li>Prepare os resultados de todos os seus análises acima em tabelas uasndao <code>datatable</code>, e faça o <code>knit</code> do seu script de R markdown para produzir o relatório final.</li>
+</ol>
+</div>
 <h1 id="abrindo-dados">Abrindo Dados</h1>
+<h2 id="dados-em-arquivos-textuais-.csv-.tsv-.txt">Dados em arquivos textuais (.csv, .tsv, .txt)</h2>
+<p>Agora que estamos especialistas na manipulação de dados já disponíveis em R, queremos analisar dados mais interessantes e relevantes para a nossa própria pesquisa. Isso exige a abertura de arquivos externos; bancos de dados que criamos ou recebemos de outros estudos. Lembrando que o nosso script vai processar os dados cada vez que é executado pela botão ‘Knit’, temos que incorporar a abertura de dados em código também, dentro do script.</p>
+<p>Existem muitas funções para abrir arquivos de dados, mas para simplificar neste curso, vamos nos concentrar em algumas dos mais flexíveis, simples e úteis para trabalhar com dados ‘retangulares’ (.csv, .tsv, .txt). As funções ficam parte da biblioteca <code>tidyverse</code> que já abrimos.</p>
+<p>Provavelmente a função mais usada é <code>read_csv</code>, que abre arquivos com extensão .csv. Em vez de abrir arquivos do nosso computador, também podemos abrir links online e, para simplificar, disponibilizamos vários arquivos em nosso repositório do github. Você pode colar o url de cada arquivo no navegador para ver o seu formato antes de executar o código.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+file1 &lt;- &quot;https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_hv.csv&quot;
+dados &lt;- read_csv(file1)</code></pre>
+</div>
+<p><code>dados</code> deve aperecer como um objeto - um tibble - em seu ‘Environment’. A função <code>read_delim</code> nos dá mais flexibilidade para lidar com tipos incomuns de arquivos. Por exemplo, podemos especificar o caractere usado para separar as colunas (por padrão, esta é a vírgula em read_csv):</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dados &lt;- read_delim(file1, delim = &quot;,&quot;)
+
+file_semi_colon &lt;- &quot;https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_hp.csv&quot;
+dados &lt;- read_delim(file_semi_colon, delim = &quot;;&quot;)
+
+file_tab &lt;- &quot;https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_ht.csv&quot;
+dados &lt;- read_delim(file_tab, delim = &quot;\t&quot;)</code></pre>
+</div>
+<p>O padrão de <em>read_delim</em> (e <em>read_csv</em>) é importar a primeira linha como nome das variáveis. Se nossos dados não tiverem um <em>header</em> (cabeçalho, ou seja, nomes das variáveis na primeira linhas), a primeira linha de dados se torna equivocadamente o nome das variáveis (inclusive os números, que aparecem antecedidos por um “X”). Para corrigir o problema utilizamos o argumento “col_names”, que deve ser igual a “FALSE” para os dados armezenados sem nomes de colunas, por exemplo:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+file_sem_header &lt;- &quot;https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_nv.csv&quot;
+dados &lt;- read_delim(file_sem_header, col_names = F, delim = &quot;,&quot;)</code></pre>
+</div>
+<p>Além dos valores lógicos, “col_names” também aceita um vetor com novos nomes para as colunas como argumento:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dados &lt;- read_delim(file_sem_header, col_names = c(&quot;estado&quot;, &quot;municipio_cod&quot;, 
+    &quot;municipio_nome&quot;, &quot;NIS&quot;, &quot;transferido&quot;), delim = &quot;,&quot;)</code></pre>
+</div>
+<p>Por vezes, é interessante definir as classes das variáveis a serem importadas, para evitar novas transformações quando os dados forem importados. O argumento <em>col_types</em> deve ser uma sequência de caracteres onde “c” = “character”, “d” = “double”, “l” = “logical” e “i” = “integer”. Por exemplo:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dados &lt;- read_delim(file1, delim = &quot;,&quot;, col_types = &quot;cicid&quot;)</code></pre>
+</div>
+<p>Perceba que quando abrimos os dados sem especificar o tipo da coluna, a função <em>read_csv</em> tenta identificá-los.</p>
+<p>Uma complexidade de abertura de dados brasileiros é o uso da vírgula como separador decimal e o ponto para indicar milhares. Temos que especificar no argumento <em>locale</em> essas diferenças.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dados &lt;- read_delim(file1, delim = &quot;,&quot;, locale = locale(decimal_mark = &quot;,&quot;, 
+    grouping_mark = &quot;.&quot;))</code></pre>
+</div>
+<p>Também podemos usar <em>locale</em> para especificar o formato da hora, o formato da data e o encoding do arquivo que estamos lendo.</p>
+<p>Finalmente, é comum termos problemas para abrir arquivos que contenham caracteres especiais, pois há diferentes formas do computador transformar 0 e 1 em vogais acentuadas, cecedilha, etc. O “encoding” de cada arquivo varia de acordo com o sistema operacional e aplicativo no qual foi gerado.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+dados &lt;- read_delim(file1, delim = &quot;,&quot;, locale = locale(encoding = &quot;latin1&quot;))</code></pre>
+</div>
+<p>Para resolver este problema, informamos ao R o parâmetro <em>encoding</em> dentro do <em>locale</em>, que indica qual é o “encoding” esperado do arquivo. Infelizmente não há formas automáticas infalíveis de descobrir o “encoding” de um arquivo e é preciso conhecer como foi gerado – seja por que você produziu o arquivo ou por que você teve acesso à documentação – ou partir para tentativa e erro. Alguns “encodings” comuns são “latin1”, “latin2” e “utf8”, mas há diversos outros. Como arquivo com o qual estamos trabalhando não contém caracteres especiais, não é preciso fazer nada.</p>
+<h2 id="dados-em-arquivos-de-excel">Dados em arquivos de Excel</h2>
+<p>Editores de planilha são, em geral, a primeira ferramenta de análise de dados que aprendemos. Diversas organizações disponibilizam (infelizmente) seus dados em formato .xls ou .xlsx e muitos pesquisadores utilizam editores de planilha para construir bases de dados.</p>
+<p>Vamos ver como obter dados em formato .xls ou .xlsx diretamente, sem precisar abrir os arquivos e exportá-los para um formato de texto.</p>
+<p>Vamos trabalhar com <code>readxl</code>. Importe a biblioteca (não precisa instalá-lo, já está instalado):</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(readxl)</code></pre>
+</div>
+<p>Nosso exemplo será a Pesquisa Perfil dos Municípios Brasileiros de 2005, produzida pelo IBGE e apelidade de MUNIC. Diferentemente das demais funções deste tutorial, precisamos baixar o arquivo para o computador e acessá-lo localmente. Faça o download diretamente no browser do <a href="ftp://ftp.ibge.gov.br/Perfil_Municipios/2005/base_MUNIC_2005.zip">site do IBGE</a> e descompacte para o arquivo “base_MUNIC_2005.xls” na pasta do seu projeto.</p>
+<p>Note que um ganho enorme de trabalhar dentro de um projeto é que não precisamos nos preocupar com a especificação do endereço inteiro de cada arquivo (o “C:\Users\Documents\…”) - só usamos o nome do arquivo e o R acessa tudo na pasta do projeto.</p>
+<p>Com <em>excel_sheets</em> examinamos quais são as planilhas existentes do arquivo:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+excel_sheets(&quot;Base 2005.xls&quot;)</code></pre>
+</div>
+<p>No caso, temos 11 planilhas diferentes (e um bocado de mensagens de erro estranhas). O dicionário, para quem já trabalhou alguma vez com a MUNIC, não é uma base de dados, apenas textos espalhados entre células. As demais, no entanto, têm formato adequado para um tibble.</p>
+<p>Vamos importar os dados da planilha “Variáveis externas”. As duas maneiras abaixo se equivalem:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# 1
+externas &lt;- read_excel(&quot;Base 2005.xls&quot;, &quot;Variáveis externas&quot;)
+
+# 2
+externas &lt;- read_excel(&quot;Base 2005.xls&quot;, 11)</code></pre>
+</div>
+<p>A função <em>read_excel</em> aceita os argumentos “col_names” e “col_types” tal como as funções de importação do pacote <em>readr</em>.</p>
+<h2 id="dados-de-spss-stata-e-sas">Dados de SPSS, Stata e SAS</h2>
+<p>R é bastante flexível quanto à importação de dados de outros softwares estatísticos. Para este fim também há um pacote <em>haven</em>, que é, advinhe só, parte do <em>tidyverse</em>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(haven)</code></pre>
+</div>
+<p>Basicamente, há cinco funções de importação de dados em <em>haven</em>: <em>read_sas</em>, para dados em SAS; <em>read_stata</em> e <em>read_dta</em>, idênticas, para dados em formato .dta gerados em Stata; e <em>read_sav</em> e <em>read_por</em>, uma para cada formato de dados em SPSS. O uso, como era de se esperar, é bastante similar ao que vimos no tutorial todo.</p>
+<p>Vamos usar como exemplo o <a href="http://www.latinobarometro.org/latContents.jsp">Latinobarômetro 2015</a>, que está disponível para SAS, Stata e SPSS. Vamos fazer o processo manual de baixar os dados da página ‘data bank’, e descompactar os arquivos de 2015. Vamos ignorar SAS por razões que não interessam agora e por não ser uma linguagem popular nas ciências sociais.</p>
+<p>Vejamos o uso das funções em arquivos de diferentes formatos:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# SPSS
+latino_barometro_spss &lt;- read_spss(&quot;Latinobarometro_2015_Eng.sav&quot;)
+
+# Stata
+latino_barometro_stata &lt;- read_stata(&quot;Latinobarometro_2015_Eng.dta&quot;)</code></pre>
+</div>
+<p>Simples assim.</p>
+<p>Há critérios de conversão de variáveis categóricas, rótulos e etc, adotados pelo R ao importar arquivos de outras linguagens, mas você pode descobrí-los testando sozinha.</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
