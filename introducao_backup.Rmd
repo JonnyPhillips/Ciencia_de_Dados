@@ -299,7 +299,7 @@ Comentários são essenciais para programaçao efetiva. **Posso te garantir, voc
 
 Pode usar o atalho `Ctrl+c` para comentar a(s) linha(s) selecionada(a) ou a linha na qual o cursor estiver posicionado.
 
-```{r, layout="l-body-outset", eval=F, echo=T, tidy=T}
+```{r, layout="l-body-outset", eval=F, echo=T}
 #Nota: O uso de comentário abaixo nos permite notar como foi instalado o pacote, sem rodar o código
 
 #install.packages("nycflights13")
@@ -473,71 +473,36 @@ tabela_aeroportos
 ```
 
 
-Podemos, sim, mas ele sai feio demais. Vamos ver várias opções no futuro, mas por enquanto podemos pedir para o Rmarkdown produzir tabelas mais bonitas especificando uma opção no 'header' do documento.
+Podemos, sim, mas ele sai feio demais. Precisamos usar uma função que embeleze a tabela. Vamos ver várias opções no futuro, mas por enquanto podemos usar a função `datatable()` do pacote `DT`:
 
-```{r, eval=F, echo=T}
----
-title: "Examplo"
-author: "Jonathan"
-date: "19 de fevereiro 2020"
-output: html_document
----
+````clike
+```{r}`r ''`
+library("DT")
+datatable(tabela_aeroportos)
 ```
-
-Vamos especificar o 'output' com a opção de 'df_print: paged', que é um tipo de formatação da tabela simples mas útil:
-
-```{r, eval=F, echo=T}
----
-title: "Examplo"
-author: "Jonathan"
-date: "19 de fevereiro 2020"
-output:
-  html_document:
-    df_print: paged
----
-```
-
-Tome cuidado com os espaços; o melhor é iniciar uma nova linha depois de 'output:' e o cursor já fica no lugar certo. E uma nova linha depois de 'html_document:'.
-
-Agora, se usamoso 'Knit' para compilar o nosso documento, a tabela sai bonita e interativa, facilitando a nossa análise:
+````
 
 ```{r}
-library("rmarkdown")
-paged_table(tabela_aeroportos)
+library("DT")
+datatable(tabela_aeroportos)
 ```
 
-Tente gerar uma tabela para o banco de dados de `flights` para experimentar com a interatividade da tabela.
-
-```{r, echo=F}
-library("rmarkdown")
-paged_table(flights)
-```
-
-A opção de 'df_print: paged' funciona quando o formato do nosso documento final é um HTML, gerando uma tabela interativa. 
-
-## Documentos em Formato Word
-
-Até agora, só produzimos documentos em formato HTML. HTML tem a vantagem de ser simples, flexível e interativo, mas não é comum um relatório. O Rmarkdown facilita a produção de documentos em vários formatos. Um outro é Microsoft Word. Não precisa mudar nada no seu código. 
-
-Clique na seta ao lado do 'Knit' em RStudio e depois 'Knit to Word'. Deve apercer um documento mais familiar em Word.
-
-É isso, já aprendemos como a criar relatórios e análises reproduzíveis! Agora faça os exercícios abaixo com calma e pratique o que você tem aprendido.
+O `datatable` funciona quando o formato do nosso documento final é um HTML, gerando uma tabela interativa. 
 
 
 <div class = "green">
 # Exercício 1
 
-1. Comece um novo script de Rmarkdown e accesse o banco de dados `gapminder` no pacote `dslabs`. Estes dados descrevem as estatísticas resumidas para países do mundo desde 1960. 
-2. Produza um mini-relatório com algumas frases curtas em HTML que descreva o banco de dados `gapminder`:
+1. Accesse o banco de dados `gapminder` no pacote `dslabs`. Estes dados descrevem as estatísticas resumidas para países do mundo desde 1960. 
+2. Produza um mini-relatório com algumas frases curtas em HTML que descreva o seguinte:
     a. Número de observações
     b. Número e nomes das variáveis
     c. O tipo de cada variável
     d. O que representa cada observação no banco de dados?
-3. Verifique que as respostas 2(a) e 2(b) são calculadas automaticamente no relatório usando funções do R e in-line code para inserir as respostas numa frase.
+3. Verifique que as respostas 2(a) e 2(b) são calculadas automaticamente no relatório usando in-line code.
 4. Calcule o valor do número de observações multiplicado pelo número de colunas
-5. Inclua uma tabela do banco de dados `gapminder` no relatório. 
-6. Verifique que o seu relatório tem título, autor e data corretos, e comentários suficientes para explicar o que faça cada linha de código.
-7. Tente compilar o seu script final para um documento de Word.
+5. Inclua uma tabela do banco de dados `gampinder` no relatório. 
+6. Verifique que o seu relatório tem título, autor e data corretos.
 
 </div>
 
@@ -554,19 +519,9 @@ nrow(gapminder)*ncol(gapminder)
 
 datatable(gapminder)
 ```
-<br>
-
+<br> </br>
 <div class = "green">
-
-# Exercício 2: Aprender juntos
-
-Compare o seu script de Exercício 1 com o script do seu vizinho. Quais são as diferenças? Quais delas importam? Como você pode melhorar o seu scipt? Ajuste o seu script para deixa-lo mais limpo e organizado.
-</div>
-
-<br>
-
-<div class = "green">
-# Exercício 3: Encontre o erro em todos os códigos abaixo:
+# Exercício 2: Encontre o erro em todos os códigos abaixo:
 
 Q1)
 
@@ -646,11 +601,11 @@ myData <- tibble(v1 = animal, v4 = idade)
 
 </div>
 
-<br>
+<br> </br>
 
 <div class = "orange">
 # Leitura para Tutorial 2
 
-Antes da próxima aula, por favor leia [R 4 Data Science, Capítulos 2, 4, 5, 9, 10 e 11](https://r4ds.had.co.nz/)
+[R 4 Data Science, Capítulos 2, 4, 5, 9, 10, 11](https://r4ds.had.co.nz/)
 
 </div>
