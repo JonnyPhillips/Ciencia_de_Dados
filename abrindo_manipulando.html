@@ -1284,6 +1284,7 @@
 </div>
 <div class="nav-right">
 <a href="index.html">Introducao</a>
+<a href="syllabus.html">Syllabus</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
 Tutoriais
@@ -1362,14 +1363,14 @@ div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 </div>
 <pre class="clike"><code>
 ```{r}
-library(tidyverse)
+library(&quot;tidyverse&quot;)
 ```</code></pre>
 <h2 id="renomear-variáveis-rename">1. Renomear Variáveis (<code>Rename</code>)</h2>
 <p>Começamos com uma transformação bem simples, mas se você já abriu um banco de dados com variáveis nomeadas como ‘hu52_lm_00’ você vai entender o valor deessa transformação. Cada coluna (variável) em nosso tibble sempre tem um nome, e podemos troca-lo a qualquer momento.</p>
 <p>Para inspecionar os nomes de um tibble, podemos simplesmente executar o nome do objeto e ver o que aparece na tabela abaixo do chunk. Ou podemos usar a funçõ ‘names()’. Vamos ver com o exemplo de banco de dados de voos que usamos no tutorial anterior, lembrando que temos que abrir a biblioteca de voos primeiramente.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-library(nycflights13)
+library(&quot;nycflights13&quot;)
 names(flights)</code></pre>
 <pre><code>
  [1] &quot;year&quot;           &quot;month&quot;          &quot;day&quot;           
@@ -1398,7 +1399,7 @@ flights %&gt;% rename() %&gt;% rename() %&gt;% outra_funcao()</code></pre>
 <p>O código acima não faz nada, porque ainda não especificamos <em>qual</em> variável a renomear, ou o novo nome. Estes são parâmetros da função rename, e tem um formato específico:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights %&gt;% rename(arrival_time = arr_time)</code></pre>
+flights %&gt;% rename(arrival_time=arr_time)</code></pre>
 </div>
 <p>Qual o formato aqui? Dentro dos parênteses, colocamos o <em>novo</em> nome primeiro, depois o sinal de iguais, depois o nome <em>velho</em>. Se digitar o nome original errado, não funciona. O nome novo pode ser diversas coisas, mas evite começar com números e por enquanto evite usar espaços (pode usar <code>_</code> em vez de um espaço).</p>
 <p>Vamos inspecionar o nosso novo tibble renomeado em toda a sua glória:</p>
@@ -1410,7 +1411,7 @@ flights</code></pre>
 <p>Porque não mudamos nada: aplicando verbos não <em>salva</em> o novo tibble resultado automaticamente. Efetivamente, o novo tibble renomeado desaparece no momento que seja criado. Para salvar, temos que usar a flecha de atribuição ao um novo objeto:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights_renomeado &lt;- flights %&gt;% rename(arrival_time = arr_time)
+flights_renomeado &lt;- flights %&gt;% rename(arrival_time=arr_time)
 
 flights_renomeado</code></pre>
 </div>
@@ -1418,19 +1419,20 @@ flights_renomeado</code></pre>
 <p>Dependendo do nosso objetivo, as vezes faz sentido salvar o nosso objeto com o mesmo nome que ele tinha antes, sobreescrevendo o conteúdo dele. (Pelo menos, isso salva memória).</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights &lt;- flights %&gt;% rename(arrival_time = arr_time)
+flights &lt;- flights %&gt;% rename(arrival_time=arr_time)
 
 flights</code></pre>
 </div>
 <p>Mais uma detalhe: Para renomear colunas diversas temos que escrever uma corrente de renomeação?</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights &lt;- flights %&gt;% rename(arrival_time = arr_time) %&gt;% rename(departure_time = dep_time)</code></pre>
+flights &lt;- flights %&gt;% rename(arrival_time=arr_time) %&gt;% rename(departure_time=dep_time)</code></pre>
 </div>
 <p>Podemos, mas normalmente é mais eficiente fazer dentro da mesma função, separando as colunas por vírgula (e uma nova linha para deixar o código claro):</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights &lt;- flights %&gt;% rename(arrival_time = arr_time, departure_time = dep_time)</code></pre>
+flights &lt;- flights %&gt;% rename(arrival_time=arr_time,
+                   departure_time=dep_time)</code></pre>
 </div>
 <h2 id="selecionar-variáveis-select">2. Selecionar Variáveis (<code>Select</code>)</h2>
 <p>Já aprendemos o formato, e tudo fica no mesmo padrão a partir daqui. Quando temos colunas demais em nosso banco de dados, sempre ajuda focar nas variáveis mais relevantes. Para selecionar um subconjunto das variáveis (colunas) para manter no tibble, usamos o verbo <code>select()</code>. De novo, começamos com o tibble, o pipe, e finalmente o verbo select:</p>
@@ -1449,25 +1451,25 @@ flights &lt;- flights %&gt;% select(year, month, day)</code></pre>
 <p>Como funciona? Como sempre, pegamos o nosso tibble relevante, depois o pipe, depois a função <code>mutate()</code>. Dentro dos paramêtros de mutate, precisamos especificar o cálculo a ser realizado usando os nomes de colunas atuais, e o nome da nova variável (coluna) em que vamos guardar o resultado do cálculo. Por exemplo, se queremos dobrar o <code>dep_delay</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights &lt;- flights %&gt;% mutate(dep_delay_dobro = dep_delay * 2)</code></pre>
+flights &lt;- flights %&gt;% mutate(dep_delay_dobro=dep_delay*2)</code></pre>
 </div>
 <p>Note que dentro do mutate, usamos um <code>=</code> em vez da flecha para salvar o resultado.</p>
 <p>Onde fica a nossa nova coluna? Na última posição na direita do tibble.</p>
 <p>Podemos combinar variáveis múltiplas para fazer cálculos mais complexos. Por exemplo, por algum motivo eu quero saber metade da diferença entre o <code>dep_time</code> e <code>arr_time</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights &lt;- flights %&gt;% mutate(calculo = (arr_time - dep_time)/2)</code></pre>
+flights &lt;- flights %&gt;% mutate(calculo=(arr_time-dep_time)/2)</code></pre>
 </div>
 <p>Como na matemática, lembra se que os parênteses importam.</p>
 <p>Mais uma possibilidade: podemos transformar uma coluna atual sem criar um novo. Para fazer isso, é só renomear a coluna com o mesmo nome do original. Por exemplo, podemos recalcular o <code>dep_delay</code> de minutos para segundos:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights &lt;- flights %&gt;% mutate(dep_delay = dep_delay * 60)</code></pre>
+flights &lt;- flights %&gt;% mutate(dep_delay=dep_delay*60)</code></pre>
 </div>
 <p>E finalmente, podemos usar funções dentro de mutate e nào simplesmente símbolos matemáticos. No futuro, isso abre um mundo de possibilidades. Por enquanto, vamos apenas usar a função <code>tolower()</code> para mudar o <code>origin</code> do voo de maiúsculas para minúsculas:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights &lt;- flights %&gt;% mutate(origin = tolower(origin))</code></pre>
+flights &lt;- flights %&gt;% mutate(origin=tolower(origin))</code></pre>
 </div>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Operações Matemáticas</strong> R serve como calculadora é bastante simples realizar operações matemáticas, quanto com números, tanto com variáveis.</p>
@@ -1489,22 +1491,22 @@ x * y</code></pre>
 <p>Divisão:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-x/y</code></pre>
+x / y</code></pre>
 </div>
 <p>Potência:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-x^y</code></pre>
+x ^ y</code></pre>
 </div>
 <p>Divisão inteira (sem resto):</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-x%/%y</code></pre>
+x %/% y</code></pre>
 </div>
 <p>Resto da divisão:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-x%%y</code></pre>
+x %% y</code></pre>
 </div>
 </div>
 <h2 id="cortar-observações-slice">4. Cortar Observações (<code>Slice</code>)</h2>
@@ -1522,7 +1524,7 @@ flights %&gt;% slice(1:5)</code></pre>
 <p><strong>Habilidade Básica de Programação: Conjuntos de números</strong> Para selecionar observações ou outros elementos de objetos, temos que criar um vetor com os índices (as posições) dos elementos desejados. Um jeito de fazer uso é usando a nossa função para criar vetores, <code>c()</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-linhas_desejadas &lt;- c(1, 4, 5, 8, 22, 169)</code></pre>
+linhas_desejadas &lt;- c(1,4,5,8,22,169)</code></pre>
 </div>
 <p>Agora, podemos usar este vetor dentro da função slice.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1544,17 +1546,19 @@ flights %&gt;% slice(10:20)</code></pre>
 <p>Para conjuntos não-sequenciais mais sistemáticos, podemos usar a função <code>seq()</code>, que tem três paramêtros: valor inicial, valor final, e incremento. Por exemplo, para selecionar cada 10 linhas nas primeiras 100 linhas, usamos:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights %&gt;% slice(seq(from = 1, to = 100, by = 10))</code></pre>
+flights %&gt;% slice(seq(from=1,
+                      to=100,
+                      by=10))</code></pre>
 </div>
 <p>Note que aqui usamos os nomes de cada parâmetro/argumento seguido por um sinal de iguais e o valor relevante. Estes argumentos têm um ordem oficial dentro da função, e se saibamos de ordem e especificamos todos os argumentos, podemos evitar os nomes de parâmetros/argumentos. O código abaixo é identical ao código acima:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights %&gt;% slice(seq(1, 100, 10))</code></pre>
+flights %&gt;% slice(seq(1,100,10))</code></pre>
 </div>
 <p>Como sabemos os nomes e o ordem dos argumentos? Consultamos o help da função:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-`?`(seq)</code></pre>
+?seq</code></pre>
 </div>
 </div>
 <h2 id="filtrar-observações-filter">5. Filtrar Observações (<code>Filter</code>)</h2>
@@ -1568,7 +1572,7 @@ flights %&gt;% slice(seq(1, 100, 10))</code></pre>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights %&gt;% filter(month == 6)</code></pre>
+flights %&gt;% filter(month==6)</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>
@@ -1594,7 +1598,7 @@ flights %&gt;% filter(month == 6)</code></pre>
 <p>O resultado é um novo tibble com quantas linhas? Se o nosso filtro funcionou, deve ter bem menos que o tibble original. Normalmente queremos salvar o tibble com outro nome, dado que ele representa um novo conjunto de observações agora:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights_junho &lt;- flights %&gt;% filter(month == 6)</code></pre>
+flights_junho &lt;- flights %&gt;% filter(month==6)</code></pre>
 </div>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Operadores Relacionais (Comparativos)</strong></p>
@@ -1688,13 +1692,12 @@ x &gt; y</code></pre>
 <p>Podemos combinar critérios diversos usando o símbolo de ‘e’, <code>&amp;</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights_junho_5 &lt;- flights %&gt;% filter(month == 6 &amp; day == 5)</code></pre>
+flights_junho_5 &lt;- flights %&gt;% filter(month==6 &amp; day==5)</code></pre>
 </div>
 <p>E existem vários tipos de comparações, incluindo maior (<code>&gt;</code>) e menor (<code>&lt;</code>):</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights_junho_5_manha &lt;- flights %&gt;% filter(month == 6 &amp; day == 5 &amp; dep_time &lt; 
-    1200)</code></pre>
+flights_junho_5_manha &lt;- flights %&gt;% filter(month==6 &amp; day==5 &amp; dep_time&lt;1200)</code></pre>
 </div>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Operadores Logicais</strong></p>
@@ -1793,27 +1796,29 @@ flights_junho_5_manha &lt;- flights %&gt;% filter(month == 6 &amp; day == 5 &amp
 <p>Com esta nova flexibilidade, temos que pensar com cuidado para construir o filtro apropriado. E temos que usar os parenteses apropriados, porque a lista acima é em ordem de prioridade (como na matemática quando multiplicação acontece antes de adição). Por exemplo, se quissemos todos os voos que atrasaram na chegada por mais de 50 minutos, e que decolaram antes das 5h <em>ou</em> que decolaram de Atlanta (ATL), temos que escrever assim:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights %&gt;% filter((dep_time &lt;= 500 | dest == &quot;ATL&quot;) &amp; arr_delay &gt;= 50)</code></pre>
+flights %&gt;% filter((dep_time&lt;=500 | dest==&quot;ATL&quot;) &amp; arr_delay&gt;=50)</code></pre>
 </div>
 <p>O resultado é diferente do pedido quando tiramos os parenteses:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights %&gt;% filter(dep_time &lt;= 500 | dest == &quot;ATL&quot; &amp; arr_delay &gt;= 50)</code></pre>
+flights %&gt;% filter(dep_time&lt;=500 | dest==&quot;ATL&quot; &amp; arr_delay&gt;=50)</code></pre>
 </div>
 <p>Note que o número de linhas é bem diferente. Aqui, pedimos para todos os voos que decolaram antes das 5h (se tivesse atraso ou não), juntado com um outro conjunto os voos que decolaram de Atlanta com atraso de 50 minutos na chegada.</p>
 <p>É fácil pedir o inverso deste conjunto usando <code>!</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights %&gt;% filter(!((dep_time &lt;= 500 | dest == &quot;ATL&quot;) &amp; arr_delay &gt;= 50))</code></pre>
+flights %&gt;% filter(!((dep_time&lt;=500 | dest==&quot;ATL&quot;) &amp; arr_delay&gt;=50))</code></pre>
 </div>
 </div>
 <h2 id="combinando-manipulações">Combinando Manipulações</h2>
 <p>Frequentemente, limpar um banco de dados exige dezenas de transformações para construir o banco de dados apropriado para a nossa análise. A lógica e estrutura de cada ação acima nos permitimos combinar operações em sequência; em uma corrente de pipes e verbos. Depois de uma ação, simplesmente continuamos com mais um pipe (<code>%&gt;%</code>) e a próxima ação.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights %&gt;% rename(arrival_time = arr_time) %&gt;% mutate(dep_delay = dep_delay * 
-    60) %&gt;% filter(month == 6 &amp; day == 5) %&gt;% select(year, month, day, 
-    arrival_time, dep_delay)</code></pre>
+flights %&gt;% 
+  rename(arrival_time=arr_time) %&gt;% 
+  mutate(dep_delay=dep_delay*60) %&gt;%
+  filter(month==6 &amp; day==5) %&gt;% 
+  select(year, month, day, arrival_time, dep_delay)</code></pre>
 </div>
 <p>É importante entender que depois de cada ação, o banco de dados encaminhado à proxíma ação é o resultado da ação anterior. Então na linha final, <code>select(year, month, day, arr_time, dep_delay)</code> não funciona - <code>arr_time</code> já foi renomeado para <code>arrival_time</code> e temos que fazer referência ao novo nome.</p>
 <p>Voltando à analogia de preparar uma refeição, o código acima é uma <strong>receita</strong>: Pegue o banco de dados de <code>flights</code>, depois renomear a variável <code>arr_time</code>, depois multiplicar a variável <code>dep_delay</code> por 60, depois filtrar as observações para elas do 5 de junho, depois selecionar as cinco variáveis, e devolva o banco de dados final.</p>
@@ -1868,43 +1873,55 @@ dados &lt;- read_csv(file1)</code></pre>
 <p><code>dados</code> deve aperecer como um objeto - um tibble - em seu ‘Environment’. A função <code>read_delim</code> nos dá mais flexibilidade para lidar com tipos incomuns de arquivos. Por exemplo, podemos especificar o caractere usado para separar as colunas (por padrão, esta é a vírgula em read_csv):</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-dados &lt;- read_delim(file1, delim = &quot;,&quot;)
+dados &lt;- read_delim(file1, 
+                    delim = &quot;,&quot;)
 
 file_semi_colon &lt;- &quot;https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_hp.csv&quot;
-dados &lt;- read_delim(file_semi_colon, delim = &quot;;&quot;)
+dados &lt;- read_delim(file_semi_colon, 
+                    delim = &quot;;&quot;)
 
 file_tab &lt;- &quot;https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_ht.csv&quot;
-dados &lt;- read_delim(file_tab, delim = &quot;\t&quot;)</code></pre>
+dados &lt;- read_delim(file_tab, 
+                    delim = &quot;\t&quot;)</code></pre>
 </div>
 <p>O padrão de <em>read_delim</em> (e <em>read_csv</em>) é importar a primeira linha como nome das variáveis. Se nossos dados não tiverem um <em>header</em> (cabeçalho, ou seja, nomes das variáveis na primeira linhas), a primeira linha de dados se torna equivocadamente o nome das variáveis (inclusive os números, que aparecem antecedidos por um “X”). Para corrigir o problema utilizamos o argumento “col_names”, que deve ser igual a “FALSE” para os dados armezenados sem nomes de colunas, por exemplo:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 file_sem_header &lt;- &quot;https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_nv.csv&quot;
-dados &lt;- read_delim(file_sem_header, col_names = F, delim = &quot;,&quot;)</code></pre>
+dados &lt;- read_delim(file_sem_header, 
+                    col_names = F, 
+                    delim = &quot;,&quot;)</code></pre>
 </div>
 <p>Além dos valores lógicos, “col_names” também aceita um vetor com novos nomes para as colunas como argumento:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-dados &lt;- read_delim(file_sem_header, col_names = c(&quot;estado&quot;, &quot;municipio_cod&quot;, 
-    &quot;municipio_nome&quot;, &quot;NIS&quot;, &quot;transferido&quot;), delim = &quot;,&quot;)</code></pre>
+dados &lt;- read_delim(file_sem_header, 
+                    col_names = c(&quot;estado&quot;, &quot;municipio_cod&quot;, &quot;municipio_nome&quot;,
+                                  &quot;NIS&quot;, &quot;transferido&quot;),
+                    delim = &quot;,&quot;)</code></pre>
 </div>
 <p>Por vezes, é interessante definir as classes das variáveis a serem importadas, para evitar novas transformações quando os dados forem importados. O argumento <em>col_types</em> deve ser uma sequência de caracteres onde “c” = “character”, “d” = “double”, “l” = “logical” e “i” = “integer”. Por exemplo:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-dados &lt;- read_delim(file1, delim = &quot;,&quot;, col_types = &quot;cicid&quot;)</code></pre>
+dados &lt;- read_delim(file1, 
+                    delim = &quot;,&quot;, 
+                    col_types = &quot;cicid&quot;)</code></pre>
 </div>
 <p>Perceba que quando abrimos os dados sem especificar o tipo da coluna, a função <em>read_csv</em> tenta identificá-los.</p>
 <p>Uma complexidade de abertura de dados brasileiros é o uso da vírgula como separador decimal e o ponto para indicar milhares. Temos que especificar no argumento <em>locale</em> essas diferenças.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-dados &lt;- read_delim(file1, delim = &quot;,&quot;, locale = locale(decimal_mark = &quot;,&quot;, 
-    grouping_mark = &quot;.&quot;))</code></pre>
+dados &lt;- read_delim(file1, 
+                    delim = &quot;,&quot;, 
+                    locale = locale(decimal_mark=&quot;,&quot;,grouping_mark=&quot;.&quot;))</code></pre>
 </div>
 <p>Também podemos usar <em>locale</em> para especificar o formato da hora, o formato da data e o encoding do arquivo que estamos lendo.</p>
 <p>Finalmente, é comum termos problemas para abrir arquivos que contenham caracteres especiais, pois há diferentes formas do computador transformar 0 e 1 em vogais acentuadas, cecedilha, etc. O “encoding” de cada arquivo varia de acordo com o sistema operacional e aplicativo no qual foi gerado.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-dados &lt;- read_delim(file1, delim = &quot;,&quot;, locale = locale(encoding = &quot;latin1&quot;))</code></pre>
+dados &lt;- read_delim(file1, 
+                    delim = &quot;,&quot;, 
+                    locale = locale(encoding=&#39;latin1&#39;))</code></pre>
 </div>
 <p>Para resolver este problema, informamos ao R o parâmetro <em>encoding</em> dentro do <em>locale</em>, que indica qual é o “encoding” esperado do arquivo. Infelizmente não há formas automáticas infalíveis de descobrir o “encoding” de um arquivo e é preciso conhecer como foi gerado – seja por que você produziu o arquivo ou por que você teve acesso à documentação – ou partir para tentativa e erro. Alguns “encodings” comuns são “latin1”, “latin2” e “utf8”, mas há diversos outros. Como arquivo com o qual estamos trabalhando não contém caracteres especiais, não é preciso fazer nada.</p>
 <h2 id="dados-em-arquivos-de-excel">Dados em arquivos de Excel</h2>
@@ -1913,7 +1930,7 @@ dados &lt;- read_delim(file1, delim = &quot;,&quot;, locale = locale(encoding = 
 <p>Vamos trabalhar com <code>readxl</code>. Importe a biblioteca (não precisa instalá-lo, já está instalado):</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-library(readxl)</code></pre>
+library(&quot;readxl&quot;)</code></pre>
 </div>
 <p>Nosso exemplo será a Pesquisa Perfil dos Municípios Brasileiros de 2005, produzida pelo IBGE e apelidade de MUNIC. Diferentemente das demais funções deste tutorial, precisamos baixar o arquivo para o computador e acessá-lo localmente. Faça o download diretamente no browser do <a href="ftp://ftp.ibge.gov.br/Perfil_Municipios/2005/base_MUNIC_2005.zip">site do IBGE</a> e descompacte para o arquivo “base_MUNIC_2005.xls” na pasta do seu projeto.</p>
 <p>Note que um ganho enorme de trabalhar dentro de um projeto é que não precisamos nos preocupar com a especificação do endereço inteiro de cada arquivo (o “C:\Users\Documents\…”) - só usamos o nome do arquivo e o R acessa tudo na pasta do projeto.</p>
@@ -1937,7 +1954,7 @@ externas &lt;- read_excel(&quot;Base 2005.xls&quot;, 11)</code></pre>
 <p>R é bastante flexível quanto à importação de dados de outros softwares estatísticos. Para este fim também há um pacote <em>haven</em>, que é, advinhe só, parte do <em>tidyverse</em>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-library(haven)</code></pre>
+library(&quot;haven&quot;)</code></pre>
 </div>
 <p>Basicamente, há cinco funções de importação de dados em <em>haven</em>: <em>read_sas</em>, para dados em SAS; <em>read_stata</em> e <em>read_dta</em>, idênticas, para dados em formato .dta gerados em Stata; e <em>read_sav</em> e <em>read_por</em>, uma para cada formato de dados em SPSS. O uso, como era de se esperar, é bastante similar ao que vimos no tutorial todo.</p>
 <p>Vamos usar como exemplo o <a href="http://www.latinobarometro.org/latContents.jsp">Latinobarômetro 2015</a>, que está disponível para SAS, Stata e SPSS. Vamos fazer o processo manual de baixar os dados da página ‘data bank’, e descompactar os arquivos de 2015. Vamos ignorar SAS por razões que não interessam agora e por não ser uma linguagem popular nas ciências sociais.</p>

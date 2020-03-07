@@ -22,8 +22,8 @@ div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 </style>
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, tidy=T, highlight=T)
-library(nycflights13)
+knitr::opts_chunk$set(echo = FALSE, highlight=T)
+library("nycflights13")
 ```
 
 # Manipulando Dados
@@ -35,13 +35,13 @@ Fazemos a manipulação da mesma forma que trabalhamos com os ingredientes de um
 Na verdade, esta lógica de manipulação de dados baseado em 'verbos' é apenas uma abordagem, e no futuro vamos ver alternativas. Vamos trabalhar com a abordagem de verbos do pacote `tidyverse` porque (i) é mais fácil para aprender, (ii) é mais sistemático, e (iii) é mais transparente para ler e entender do que outros pacotes. Os códigos descritos no restante do tutorial só funcionam se você abrir a biblioteca do tidyvere num chunk inicial:
 
 ```{r}
-library(tidyverse)
-library(DT)
+library("tidyverse")
+library("DT")
 ```
 
 ````clike
 ```{r}`r ''`
-library(tidyverse)
+library("tidyverse")
 ```
 ````
 
@@ -52,7 +52,7 @@ Começamos com uma transformação bem simples, mas se você já abriu um banco 
 Para inspecionar os nomes de um tibble, podemos simplesmente executar o nome do objeto e ver o que aparece na tabela abaixo do chunk. Ou podemos usar a funçõ 'names()'. Vamos ver com o exemplo de banco de dados de voos que usamos no tutorial anterior, lembrando que temos que abrir a biblioteca de voos primeiramente.
 
 ```{r, echo=T}
-library(nycflights13)
+library("nycflights13")
 names(flights)
 ```
 
@@ -603,7 +603,7 @@ Vamos ver como obter dados em formato .xls ou .xlsx diretamente, sem precisar ab
 Vamos trabalhar com `readxl`. Importe a biblioteca (não precisa instalá-lo, já está instalado):
 
 ```{r, echo=T, eval=F}
-library(readxl)
+library("readxl")
 ```
 
 Nosso exemplo será a Pesquisa Perfil dos Municípios Brasileiros de 2005, produzida pelo IBGE e apelidade de MUNIC. Diferentemente das demais funções deste tutorial, precisamos baixar o arquivo para o computador e acessá-lo localmente. Faça o download diretamente no browser do [site do IBGE](ftp://ftp.ibge.gov.br/Perfil_Municipios/2005/base_MUNIC_2005.zip) e descompacte para o arquivo "base_MUNIC_2005.xls" na pasta do seu projeto. 
@@ -635,7 +635,7 @@ A função _read\_excel_ aceita os argumentos "col_names" e "col_types" tal como
 R é bastante flexível quanto à importação de dados de outros softwares estatísticos. Para este fim também há um pacote _haven_, que é, advinhe só, parte do _tidyverse_. 
 
 ```{r, echo=T, eval=F}
-library(haven)
+library("haven")
 ```
 
 Basicamente, há cinco funções de importação de dados em _haven_: _read\_sas_, para dados em SAS; _read\_stata_ e _read\_dta_, idênticas, para dados em formato .dta gerados em Stata; e _read\_sav_ e _read\_por_, uma para cada formato de dados em SPSS. O uso, como era de se esperar, é bastante similar ao que vimos no tutorial todo.
