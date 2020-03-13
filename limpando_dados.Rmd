@@ -1,0 +1,465 @@
+---
+title: "Organizando e Limpando Dados"
+description: |
+  Construindo o seu Banco de Dados para Analise
+output:
+  distill::distill_article:
+    toc: true
+    toc_float: true
+    toc_depth: 1
+---
+
+<style>
+div.green { background-color:#e5f5e0; border-radius: 5px; padding: 20px;}
+</style>
+
+<style>
+div.orange { background-color:#fee6ce; border-radius: 5px; padding: 20px;}
+</style>
+
+<style>
+div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T, eval=T, highlight=T)
+library("nycflights13")
+library("tidyverse")
+library("rmarkdown")
+
+```
+
+# Dividindo e Unificando Variáveis
+
+## Dividir Variáveis
+
+Recebemos um banco de dados que combina dois pedaços de informação em uma variável único. Por exemplo, que junta mês e ano num formato combinado, ex. "jan2013" Para filtrar, manipular ou calcular baseado no mês ou ano individualmente, é sempre melhor organizar os dados com variáveis separadas para cada pedaço de informação. 
+
+Para dividir uma variável (coluna) em duas, usamos o verbo `separate()`. Os argumentos da função são: (i) o nome da coluna que quer dividir, (ii) os nomes das duas colunas novas, e (iii) como queremos separar a coluna em duas. Pode verificar estes argumentos usando o help, `?separate`. O (i) é fácil. No (ii) temos que especificar dois nomes, então não esquece de usar o `c()`, ex. `c("primeiro","segundo")` para indicar que você queria um vetor com mais de um elemento. 
+
+O (iii) é o mais poderoso e complicado: Existe dois jeitos de separar uma variável em duas - por *posição*, ou por *cáracter*. Vamos ver por posição primeira, que indica que a variavel tem um padrão fixo definido pelo número de cáracteres entre os dois componentes. Ex. "jan2013" pode ser separado depois do terceiro cáracter, então usamos um separador de '3'. 
+
+Vamos mostrar com uma tabela pequena como uma variável de mês-ano pode ser dividido por posição:
+
+```{r, results='hide'}
+ex_separate <- tibble(ID=1:3,
+                      Mes_Ano=c("jan2013","mar2009","out2015"))
+
+ex_separate %>% separate(Mes_Ano, c("Mes","Ano"), 3)
+```
+
+```{r, echo=F}
+ex_separate %>% paged_table()
+```
+
+Funciona, sim? Note que o `separate` tira o variável original; se quiser manter, tem que adicionar o argumento `remove=FALSE` dentro do `separate`. 
+
+As vezes o fornecedor de dados não é tão generoso. Como, por exemplo, dividimos os dados abaixo?
+
+```{r}
+ex_separate_2 <- tibble(ID=1:3,
+                      Mes_Ano=c("janeiro_2013","marco_2009","outobro_2015"))
+```
+
+Não podemos usar posição dado que o tamanho do mês varia. Mas podemos pedir para o R buscar dentro do string de texto para o cáracter específico que divide o mês e o ano: '_'. O `separate` aceita este cáracter em vez de número de posição:
+
+```{r, eval=F}
+ex_separate_2 %>% separate(Mes_Ano, c("Mes","Ano"), "_")
+```
+
+```{r, echo=F}
+ex_separate_2 %>% separate(Mes_Ano, c("Mes","Ano"), "_") %>%
+  paged_table()
+```
+
+Muito poderoso! Vejamos em uma aula futura como a trabalhar mais com estes strings de texto. 
+
+## Unificar Variáveis
+
+Podemos fazer o inverso e unificar duas variáveis? Sim, é fácil, mas temos que justificar o porque. Normalmente faz mais sentido deixar os pedaços de informação em variáveis separadas. Pode ser que por motivos de apresentação queremos unificar duas variáveis em uma. Por exemplo, para juntar nome e sobrenome em uma coluna para um relatório. Veja abaixo o uso de `unite()` para devolver as nossas colunas de mês e ano para mes_ano. Os argumentos são basicamente os mesmos que `separate()`:
+
+```{r, results='hide'}
+ex_separate_3 <- ex_separate_2 %>% separate(Mes_Ano, c("Mes","Ano"), "_")
+
+ex_separate_3 %>% unite("Mes_Ano", c(Mes,Ano))
+```
+
+```{r, echo=F}
+ex_separate_3 %>% unite("Mes_Ano", c(Mes,Ano)) %>%
+  paged_table()
+```
+
+Observe que `unite()` insere um '_' entre os componentes por padrão; podemos especificar o nosso cáracter preferido (ou nenhum) com mais um argumento na função.
+
+<div class = "blue">
+**Habilidade Básica de Programação: Aspas ou sem Aspas?**
+Você já observou que estamos referindo às variáveis em duas formas diferentes? As vezes com aspas `"Variável"`, e as vezes sem aspas `Variável`. Como sabemos qual a usar? É um tópico um pouco chato, mas importante. 
+
+Usamos sem aspas quando referimos ao um objeto que já existe em nosso Environment, ou uma coluna já existente num tibble. Usamos com aspas quando referimos a um nome novo que estamos gerando na hora. 
+
+Então em `separate` são as duas novas colunas que exigem de aspas, enquanto no `unite` é a coluna única e nova que exige aspas. 
+
+Quando trabalhando com valores únicos dentro de uma variável/tabela, sempre temos que usar aspas.
+
+O R é meio tolerante, e tenta ajudar em alguns casos se usamos o formato errado. Mas é importante evitar erros e confusões se possível.
+</div>
+
+# Recodificação de Variáveis
+
+Recodificaçao de variáveis é uma habilidade fundamental na preparação de um banco de dados. Vamos ver várias opções para recodificação, mas começamos com o mais flexível.  Imagine-se que queremos corrigir alguns dos erros na tabela abaixo:
+
+```{r, results='hide'}
+ex_recodificar <- tibble(ID=1:3,
+                        Mes=c("janeiro","february","outubro"),
+                        Ano=c(2013, 2009, 2015))
+```
+
+```{r, echo=F}
+ex_recodificar %>% paged_table()
+```
+
+Queremos renomear 'february' 'fevereiro' para corrigir o erro de um gringo mal-educado. Como? Temos duas tarefas: (i) Identificar o caso relevante (e apenas o caso relevante), e (ii) Especificar o novo valor. Em geral, quando queremos criar ou modificar uma variável trabalhamos dentro de um `mutate()`, mas o mutate acustoma mudar todos os valores na variável. Aqui, queremos sobreescrever a variável 'Mes' com nova informação apenas no caso de 'february'. Para isso, combinamos `mutate()`  com `case_when()` que controle os detalhes de modificação no mutate. 
+
+`case_when()` funciona com um sintáxe específico: Estabalecemos várias condições (do mesmo tipo que usamos no `filter()`), e depois de cada uma usamos '~' e em seguida o novo valor para substituir quando esta condição aplica. Por exemplo, em nosso caso queremos a condição `Mes=="february"` e o novo valor `"fevereiro"`. Então precisamos de `Mes=="february"~fevereiro`.
+
+```{r, eval=F}
+ex_recodificar %>% mutate(Mes=case_when(Mes=="february"~"fevereiro"))
+```
+
+```{r, echo=F}
+ex_recodificar %>% mutate(Mes=case_when(Mes=="february"~"fevereiro")) %>%
+  paged_table()
+```
+
+Qual o resultado? Mudamos o valor para "fevereiro", está bom, mas apagamos os valores dos outros dois meses. O `mutate()` realmente muda a coluna inteira, então as condições no `case_when()` precisam ser **compreensivos** para todos os valores na nova coluna. Felizmente, existe um atalho para preservar os valores originais caso a condição anterior não seja satisfeita: Usamos uma condição que é sempre satisfeita: a condição `TRUE`, e um novo valor que não muda nada; o nome da variável original. Então:
+
+```{r, eval=F}
+ex_recodificar %>% mutate(Mes=case_when(Mes=="february"~"fevereiro",
+                                        TRUE~Mes))
+```
+
+```{r, echo=F}
+ex_recodificar %>% mutate(Mes=case_when(Mes=="february"~"fevereiro",
+                                        TRUE~Mes)) %>%
+  paged_table()
+```
+
+Agora está correto. O sintáxe é um pouco específico então não se preocupe se recebe um erro, volta e verificar se tenha um `~` depois de cada condição, e uma vírgula entre cada recodificação. Também lembre-se que as condições precisam de dois sinas de iguais.
+
+Vamos recodificar a variável 'Ano' usando a mesma lógica, mas agora queremos gerar uma variável binário que identifica todos as observações depois de 2010. Também não queremos sobreescrever o varíavel original, queremos um novo variável:
+
+```{r, eval=F}
+ex_recodificar %>% mutate(Depois_2010=case_when(Ano>=2010~1,
+                                                Ano<2010~0))
+```
+
+```{r, echo=F}
+ex_recodificar %>% mutate(Depois_2010=case_when(Ano>=2010~1,
+                                                Ano<2010~0)) %>%
+  paged_table()
+```
+
+É importante que as duas condições aqui cobrem todos os valores de 'Ano' possível. 
+
+Note que o `case_when()` é flexível demais: Podemos usar muitas condições, fazer referência a todas as variáveis na condição, e pegar os dados de todas as variáveis para definir o novo valor. Para ilustrar, veja o exemplo bobagem abaixo:
+
+```{r, eval=F}
+ex_recodificar %>% mutate(Nova_Variavel=case_when(Ano>=2014~"Sim",
+                                                  Ano<2014 & Mes=="janeiro"~Mes,
+                                                  Ano<2014 & Mes=="february"~"Não"))
+```
+
+```{r, echo=F}
+ex_recodificar %>% mutate(Nova_Variavel=case_when(Ano>=2014~"Sim",
+                                                  Ano<2014 & Mes=="janeiro"~Mes,
+                                                  Ano<2014 & Mes=="february"~"Não")) %>%
+  paged_table()
+```
+
+Tome cuidado na construção das condições: Idealmente elas devam ser **compreensivo** e também mutualmente exclusivos. Se não a ordem das condições importa e pode gerar resultados inesperados. 
+
+# Ordenando os nossos dados
+
+Até agora, ignoramos a ordem das observações em nosso banco de dados. A ordem importa por dois motivos. Primeiro, para apresentação de tabelas mais organizadas no documento final. Segundo, para facilitar funções específicas quando as nossas observações têm um ordem natural. 
+
+## Ordenar: `Arrange`
+
+O verbo para ordenar os dados é `Arrange()`, e podemos especificar uma sequência de variáveis para ser usadas na ordenação. Vamos começar com uns dados desordenados:
+
+```{r}
+ex_arrange <- tibble(ID=1:10,
+                     Ano=c(2008, 2005, 2009, 2006, 2006, 2007, 2008, 2005, 2008, 2005),
+                     Mes=c("Abril","Novembro","Julho","Março","Novembro","Fevereiro",
+                           "Junho","Novembro","Janeiro","Outubro"),
+                     Valor=c(750,800,300,500,850,450,600,450,700,350))
+```
+
+```{r, echo=F}
+ex_arrange %>% paged_table()
+```
+
+Se quisemos as observações em ordem de ano, e depois de Vloar:
+
+```{r, eval=F}
+ex_arrange %>% arrange(Ano, Valor)
+```
+
+```{r, echo=F}
+ex_arrange %>% paged_table()
+```
+
+O resultado é que os dados são ordenados por Ano primeiramente, e dentro de cada Ano, por Valor. 
+
+Se quisemos as observações em ordem *decrescente*, usamos um menos ('-') para invertir a ordem, por exemplo em ordem decrescente de valor:
+
+```{r, eval=F}
+ex_arrange %>% arrange(-Valor)
+```
+
+```{r, echo=F}
+ex_arrange %>% arrange(-Valor) %>%
+  paged_table()
+```
+
+## Filtrar para os Mairoes/Menores: `top_n` e `top_frac`
+
+Um tipo de `filter()` específico é quando queremos os maiores/menores observações de acordo com uma variável. Se não seja um limite absolute (ex. acima de 140) mas acima de um limite *relativo* (ex. os cinco maiores), precisamos fazer um ranquemanto e depois filtrar baseado no ranqueamento. É possível calcular isso manualmente, mas a maneira mais fácil é usar a função `top_n()`. Ela exige dois argumentos: O número de observações desejadas, e a variável para usar.
+
+```{r, eval=F}
+ex_arrange %>% top_n(5, Valor)
+```
+
+```{r, echo=F}
+ex_arrange %>% top_n(5, Valor) %>%
+  paged_table()
+```
+
+Para os menores valores, usamos um menos ('-') em frente do número de observações.
+
+```{r, eval=F}
+ex_arrange %>% top_n(-5, Valor)
+```
+
+```{r, echo=F}
+ex_arrange %>% top_n(-5, Valor) %>%
+  paged_table()
+```
+
+Existe uma função bem parecida que devolve a proporção de observações desejada: `top_frac()`. Para os maiores 30% de observações, usamos o argumento de 0.3.
+
+```{r, eval=F}
+ex_arrange %>% top_frac(0.3, Valor)
+```
+
+```{r, echo=F}
+ex_arrange %>% top_frac(0.3, Valor) %>%
+  paged_table()
+```
+
+## Dados de Time-Series: `lag` e `lead`
+
+Com os nossos dados ordenados, podemos implementar várias técnicas do mundo de análise de Time Series. Por exemplo, podemos calcular para cada observação o valor de uma variável no período anterior usando `lag()`. Note que é *essencial* que os nossos dados já estão ordenados antes de executar o `lag`. Dado que estamos construindo uma nova variável, tambem é necessário usar `lag` dentro de `mutate`:
+
+```{r, eval=F}
+ex_arrange %>% arrange(Ano) %>% 
+  mutate(Valor_anterior=lag(Valor))
+```
+
+```{r, echo=F}
+ex_arrange %>% arrange(Ano) %>% 
+  mutate(Valor_anterior=lag(Valor)) %>%
+  paged_table()
+```
+
+Uma dificuldade com esta operação é que não existe um valor anterior para a primeira observação - veja que o R insere um `NA` para o primeiro valor de Valor_anterior.
+
+Com `lag`, é fácil calcular a diferença entre o valor e o valor anterior para focar sobre mudanças em variáveis:
+
+```{r, eval=F}
+ex_arrange %>% arrange(Ano) %>% 
+  mutate(Valor_anterior=lag(Valor),
+         Valor_diferenca=Valor-Valor_anterior)
+```
+
+```{r, echo=F}
+ex_arrange %>% arrange(Ano) %>% 
+  mutate(Valor_anterior=lag(Valor),
+         Valor_diferenca=Valor-Valor_anterior) %>%
+  paged_table()
+```
+
+A operação de `lead()` é equivalente, mas pega o valor subsequente. 
+
+```{r, eval=F}
+ex_arrange %>% arrange(Ano) %>% 
+  mutate(Valor_anterior=lead(Valor))
+```
+
+```{r, echo=F}
+ex_arrange %>% arrange(Ano) %>% 
+  mutate(Valor_anterior=lead(Valor)) %>%
+  paged_table()
+```
+
+# Factors
+
+Além de numéricos, caracteres e logicais (TRUE/FALSE), o tipo de dado mais útil para análise de dados é um 'factor'. Factors são variáveis que podem assumir um número de valores limitados e pre-definidos (normalmente caracteres). Pense-se em variáveis categóricos, nominais, ordinais etc. Factors nos ajudamos evitar erros e refletir a estrutura real das nossas variáveis, mas eles exigem uma disciplina e cuidado por nosso lado. 
+
+Por exemplo, lembre-se quando o nosso banco de dados incluiu "february" em vez de "fevereiro"? Isso é impossível com uma variável do tipo factor, pois definimos do início os valores aceitáveis num formato padrão - os 'levels'. Vamos recriar o tibble 'ex_arrange' de acima, mas agora especificamos o mês como uma variável factor, com os 'levels' permitidos pela natureza da variável:
+
+```{r, tidy=T}
+ex_arrange <- tibble(ID=1:10,
+                     Ano=c(2008, 2005, 2009, 2006, 2006, 2007, 2008, 2005, 2008, 2005),
+                     Mes=factor(c("Abril","Novembro","Julho","Março","Novembro","February","Junho","Novembro","Janeiro","Outubro"),
+                                levels=c("Janeiro","Fevereiro","Março","Abril","Maio",
+                                         "Junho","Julho","Agosto","Setembro","Outubro",
+                                         "Novembro","Dezembro")),
+                     Valor=c(750,800,300,500,850,450,600,450,700,350))
+```
+
+```{r, echo=F}
+ex_arrange %>% paged_table()
+```
+
+Bastante mais trabalho, não?? Mas vale a pena: Veja a tabela que isso produziu - em lugar de "February" o R colocou `NA` porque não fica na lista de levels que delimitamos no 'levels'. Isso impede que a nossa variável toma valores impossíveis, deixando a nossa análise subsequente mais confiável. Lembre-se de incluir todos os valores possíveis nos 'levels' para evitar problemas futuros, por exemplo temos 'Maio' na lista de levels mesmo que não existe nos dados atuais.
+
+## Factors Ordenados
+
+Existem mais duas vantagens em trabalhar com Factors. Primeiro, é que podemos especificar uma ordem para a variável mesmo para variáveis que contém caracteres. Meses, por exemplo,
+são ordenados. Dentro de `factor`, podemos especificar `ordered=TRUE` para definir a ordem dos valores como eles aperecem no vetor `levels()`:
+
+```{r, tidy=T}
+ex_arrange <- tibble(ID=1:10,
+                     Ano=c(2008, 2005, 2009, 2006, 2006, 2007, 2008, 2005, 2008, 2005),
+                     Mes=factor(c("Abril","Novembro","Julho","Março","Novembro","Fevereiro","Junho","Novembro","Janeiro","Outubro"),
+                                levels=c("Janeiro","Fevereiro","Março","Abril","Maio",
+                                         "Junho","Julho","Agosto","Setembro","Outubro",
+                                         "Novembro","Dezembro"),
+                                ordered=T),
+                     Valor=c(750,800,300,500,850,450,600,450,700,350))
+```
+
+Agora, podemos ordenar os dados por Ano e Mês:
+
+```{r, eval=F}
+ex_arrange %>% arrange(Ano, Mes)
+```
+
+```{r, echo=F}
+ex_arrange %>% arrange(Ano, Mes)
+```
+
+## Completando Bancos de Dados Parciais: `complete`
+
+A segunda vantagem é que um factor deixa fácil preencher os valores da variável ausentes. Por exemplo, os nossos cálculos de `lag`, `lead` e diferença acima não fazem muito sentido - comparamos por exemplo o valor de Junho com o valor de Abril, pulando Maio porque não foi no banco de dados originais. Então o nosso cálculo de `lag` é inconsistente; um mês em alguns casos, dois meses em outros, 9 meses em outros. Um cálculo consistente e confiável tem que refletir os dados ausentes *explicitamente*.
+
+Podemos criar uma linha de tempo completo facilmente se as variáveis originais foram criados corretamente como factors: Usamos o verbo `complete()` para preencher as variáveis:
+
+```{r, eval=F}
+ex_arrange %>% complete(Ano, Mes)
+```
+
+```{r, echo=F}
+ex_arrange %>% complete(Ano, Mes) %>% 
+  paged_table()
+```
+
+Veja o resultado: Temos os 12 meses para cada um dos cinco anos, um banco de dados completo. A maioria dos valores são desconhecidos, `NA`, mas tudo bem, pelo menos entendemos onde temos dados e onde não, e não criamos lags e leads enganosos.
+
+Note para o futuro que é possível especificar o valor que o `complete` usa para preencher para observações ausentes. Por exemplo, pode ser que o 'valor' nos dados reflete vendas e sabemos que não foram vendas nos meses ausentes do banco de dados. Neste caso, faz sentido preencher as observações dos outros meses com zero usando o argumento `fill`:
+
+```{r, eval=F}
+ex_arrange %>% complete(Ano, Mes, fill=list(Valor=0))
+```
+
+```{r, echo=F}
+ex_arrange %>% complete(Ano, Mes, fill=list(Valor=0)) %>%
+  paged_table()
+```
+
+Esta vantagem também ajuda muito na construção de gráficos: Valores podem desaparecer da legenda, e cores podem ficar inconsistentes entre gráficos se não mantemos estável os levels do factor, então é importante aprender como a trabalhar com eles desde o início.
+
+<div class = "blue">
+**Habilidade Básica de Programação: Dados Ausentes, `NA`**
+Muitos problemas e erros são gerados pelo tratamento inapropriado de dados ausentes. Vamos revisar isto várias vezes, mas por enquanto temos que reconhecer que `NA` é um pedaço de informação importante também que não podemos ignorar. Jogar fora os dados ausentes significa perder muitas observações potencias, que pode gerar um viés de seleção em nossa análise. Então é sempre importante deixar os `NA`s explícitos.
+
+Por outro lado, um `NA` fica ambíguo e pode significar duas coisas diferentes: 
+(i) Um NA 'estrutural' que é *impossível* medir. Por exemplo, o PIB do Estado do Tocantins em 1970 (o estado foi criado apenas em 1988). 
+(ii) Um NA que podia ser medido, mas por algum motivo não foi. Por exemplo, faltamos dados de 2014 porque os arquivos foram perdidos em um incêndio.
+O tipo de `NA` vai afetar a nossa interpretação e tratamento de dados. 
+
+Trabalhando com dados `NA` exige umas regras específicas. Para testar se um valor seja `NA`, não podemos usar o padrão `x==NA`. Temos que usar `is.na(x)`. Se quisemos criar valores `NA`, temos que usar uma versão apropriada para o tipo de dado da variável: existe `NA_character_`, `NA_real_` e `NA_integer_`. Para subtituir `NA` com outro valor, use a função `replace_na()`. Todos são demonstrados no exemplo abaixo.
+
+```{r, eval=F}
+ex_arrange %>% complete(Ano, Mes, fill=list(Valor=0)) %>%
+  mutate(ID_NA=case_when(is.na(ID)~1,
+                         TRUE~0),
+         Valor=case_when(Valor==0~NA_real_,
+                          TRUE~Valor),
+         ID=replace_na(ID, "Desonhecido"))
+```
+
+
+</div>
+
+
+## Recodificação de Factors
+
+Um desafio em trabalhar com Factors é que eles exigem funções específicos para recodificação. Existe um pacote inteiro para isso se chama 'forcats', parte do tidyverse.
+
+Existem três funções super-úteis para trabalhar com factors, todos que começam com `fct_`, e usamos todos dentro de um `mutate()` dado que estamos mexendo com uma coluna atual. 
+
+Primeiro, quando queremos renomear os valores de um factor, usamos `fct_recode`. Por exemplo:
+
+```{r, eval=F}
+ex_arrange %>% mutate(Mes=fct_recode(Mes,
+                                     "abril"="Abril",
+                                     "junho"="Junho"))
+```
+
+```{r, echo=F}
+ex_arrange %>% mutate(Mes=fct_recode(Mes,
+                                     "abril"="Abril",
+                                     "junho"="Junho")) %>%
+  paged_table()
+```
+
+Segundo, quando queremos ajustar a ordem de um factor ordenado, usamos `fct_relevel`. Por exemplo, para invertir a ordem:
+
+```{r, tidy=T, eval=F}
+ex_arrange %>% mutate(Mes=fct_relevel(Mes,
+                                     c("Dezembro","Novembro","Outubro","Setembro",
+                                       "Agosto","Julho","Junho","Maio","Abril",
+                                       "Março","Fevereiro","Janeiro"))) %>%
+  arrange(Ano, Mes)
+```
+
+```{r, echo=F}
+ex_arrange %>% mutate(Mes=fct_relevel(Mes,
+                                     c("Dezembro","Novembro","Outubro","Setembro",
+                                       "Agosto","Julho","Junho","Maio","Abril",
+                                       "Março","Fevereiro","Janeiro"))) %>%
+  arrange(Ano, Mes) %>%
+  paged_table()
+```
+
+Terceiro, quando queremos reestrutar/simplificar o factor para menos níveis, usamos `fct_collapse`
+
+```{r, eval=F}
+ex_arrange %>% mutate(Mes=fct_collapse(Mes,"Q1"=c("Janeiro","Fevereiro","Março")))
+```
+
+```{r, echo=F}
+ex_arrange %>% mutate(Mes=fct_collapse(Mes,"Q1"=c("Janeiro","Fevereiro","Março"))) %>%
+  paged_table()
+```
+
+Mais detalhes no cheatsheet de forcats [aqui](https://github.com/rstudio/cheatsheets/raw/master/factors.pdf).
+
+
+<div class = "orange">
+# Leitura para Tutorial 4
+
+Antes da próxima aula, por favor leia [R 4 Data Science, Capítulos ](https://r4ds.had.co.nz/)
+
+</div>

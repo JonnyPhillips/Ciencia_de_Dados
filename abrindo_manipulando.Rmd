@@ -21,18 +21,19 @@ div.orange { background-color:#fee6ce; border-radius: 5px; padding: 20px;}
 div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 </style>
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, echo=F}
 knitr::opts_chunk$set(echo = FALSE, highlight=T)
 library("nycflights13")
+library(rmarkdown)
 ```
 
 # Manipulando Dados
 
-Estamos trabalhando com um banco de dados, mas ele não está pronto para a análise que desejamos fazer. Por exemplo, as variáveis não contém os indicadores relevantes, os nomes das variáveis não fazem sentido, a unidade de análise precisa ser mais agregada, e queremos retirar uns outliers. Como podemos 'manipular' um banco de dados para o tamanho, a estrutura e o conteúdo apropriado para a análise desejada? 
+Estamos trabalhando com um banco de dados, mas ele não está pronto para a análise que desejamos fazer. Por exemplo, as variáveis não contém os indicadores relevantes, os nomes das variáveis não fazem sentido, a unidade de análise precisa ser mais agregada, queremos retirar alguns outliers etc. Como podemos 'manipular' um banco de dados para o tamanho, a estrutura e o conteúdo apropriado para a análise desejada? 
 
-Fazemos a manipulação da mesma forma que trabalhamos com os ingredientes de uma refeição: executando **ações** para cortar, selecionar e combinar os ingredientes. Sempre começando com o nosso tibble (data.frame), vamos ver como aplicar 'verbos' (ações) que transformam o nosso banco de dados. 
+Fazemos a manipulação da mesma forma que trabalhamos com os ingredientes de uma receita: executando **ações** para cortar, selecionar e combinar os ingredientes. Sempre começando com o nosso tibble (data.frame) e aplicamos 'verbos' (ações) que transformam o nosso banco de dados. 
 
-Na verdade, esta lógica de manipulação de dados baseado em 'verbos' é apenas uma abordagem, e no futuro vamos ver alternativas. Vamos trabalhar com a abordagem de verbos do pacote `tidyverse` porque (i) é mais fácil para aprender, (ii) é mais sistemático, e (iii) é mais transparente para ler e entender do que outros pacotes. Os códigos descritos no restante do tutorial só funcionam se você abrir a biblioteca do tidyvere num chunk inicial:
+Na verdade, esta lógica de manipulação de dados baseado em 'verbos' é apenas uma abordagem, e no futuro vamos ver alternativas. Vamos trabalhar com a abordagem de verbos do pacote `tidyverse` porque (i) é mais fácil para aprender, (ii) é mais sistemático, e (iii) é mais transparente para ler e entender do que outros pacotes. Os códigos descritos no restante do tutorial só funcionam se você abrir a biblioteca do tidyverse num chunk inicial:
 
 ```{r}
 library("tidyverse")
@@ -45,22 +46,33 @@ library("tidyverse")
 ```
 ````
 
+Antes de começar, lembre-se de abrir o projeto anterior com quem você trabalhou no tutorial anterior, ou um novo projeto se necessário. Em seguida, abre um novo arquivo de R Markdown, e apague tudo exceto o cabeçalho.
+
+```{r, eval=F, echo=T}
+---
+title: "Examplo"
+author: "Jonathan"
+date: "12 de março 2020"
+output: html_document
+---
+```
+
 ## 1. Renomear Variáveis (`Rename`)
 
-Começamos com uma transformação bem simples, mas se você já abriu um banco de dados com variáveis nomeadas como 'hu52_lm_00' você vai entender o valor deessa transformação. Cada coluna (variável) em nosso tibble sempre tem um nome, e podemos troca-lo a qualquer momento.
+Começamos com uma transformação bem simples, mas se você já abriu um banco de dados com variáveis nomeadas como 'hu52_lm_00' você vai entender o valor dessa transformação. Cada coluna (variável) em nosso tibble sempre tem um nome, e podemos troca-lo a qualquer momento.
 
-Para inspecionar os nomes de um tibble, podemos simplesmente executar o nome do objeto e ver o que aparece na tabela abaixo do chunk. Ou podemos usar a funçõ 'names()'. Vamos ver com o exemplo de banco de dados de voos que usamos no tutorial anterior, lembrando que temos que abrir a biblioteca de voos primeiramente.
+Para inspecionar os nomes de um tibble, podemos simplesmente executar o nome do objeto e ver o que aparece na tabela abaixo do chunk. Ou podemos usar a funçõ `names()`. Vamos utilizar como exemplo de banco de dados os voos de Nova York, dados que usamos no tutorial anterior, lembrando que temos que abrir a biblioteca de voos primeiramente (se esqueceu dê uma olhada no tutorial 1).
 
 ```{r, echo=T}
 library("nycflights13")
 names(flights)
 ```
 
-Nota que o R descreve os índices (as posições na lista) dos nomes na esquerda.
+Note que o R descreve os índices (as posições na lista) dos nomes na esquerda.
 
-Queremos renomear a variável `arr_time` para `arrival_time` - como faremos? Temos que aplicar a verba e função `rename()` ao banco de dados `flights`. Agora temos um princípio fundamental da manipulação de dados: **começamos com o substantivo (o objeto; o tibble) e depois aplicamos o verbo (a função).**
+Queremos renomear a variável `arr_time` para `arrival_time` - como faremos? Temos que aplicar o verbo e função `rename()` ao banco de dados `flights`. Agora temos um princípio fundamental da manipulação de dados: **começamos com o substantivo (o objeto; o tibble) e depois aplicamos o verbo (a função).**
 
-Para conectar o substantivo com o verbo, usamos um símbolo bizarro que se chama o 'pipe': `%>%`. Não pergunte o motivo para usar este símbolo; apenas deus tem a resposta. A única coisa que importa é como a usar:
+Para conectar o substantivo com o verbo, usamos um símbolo bizarro que se chama o 'pipe': `%>%`. Não me pergunte o motivo para usar este símbolo; apenas Deus tem a resposta. A única coisa que importa é como a usar:
 
 ```{r, echo=T, eval=F}
 flights %>% rename()
@@ -68,24 +80,28 @@ flights %>% rename()
 
 <div class = "blue">
 **Habilidade Básica de Programação: Pipes, `%>%`**
-O pipe conecta um tibble para uma função. Pode ser traduzido como 'e depois', ou 'then' em inglês. Por exemplo, "pegue o banco de dados de flights, e depois renomear". 
+O pipe conecta um tibble para uma função. Pode ser traduzido como 'e depois', ou 'then' em inglês. Por exemplo, "pegue o banco de dados de flights, e depois aplique a função renomear". 
 
-Podemos juntar vários pipes para combinar funções diferentes e gerar uma análise mais complexo. Por exemplo:
+Podemos juntar vários pipes para combinar funções diferentes e gerar uma análise mais complexa. Por exemplo:
 
 ```{r, echo=T, eval=F}
-flights %>% rename() %>% rename() %>% outra_funcao()
+flights %>% rename() %>% outra_funcao() %>% outra_funcao()
 ```
 </div>
-
-O código acima não faz nada, porque ainda não especificamos *qual* variável a renomear, ou o novo nome. Estes são parâmetros da função rename, e tem um formato específico:
+<br>
+O código acima não faz nada porque ainda não especificamos *qual* variável a renomear, ou o novo nome. *Qual* variável a renomear e o novo nome da variável são parâmetros da função `rename`, que tem um formato específico:
 
 ```{r, echo=T, eval=F}
-flights %>% rename(arrival_time=arr_time)
+flights %>% rename(arrival_time = arr_time)
 ```
 
-Qual o formato aqui? Dentro dos parênteses, colocamos o *novo* nome primeiro, depois o sinal de iguais, depois o nome *velho*. Se digitar o nome original errado, não funciona. O nome novo pode ser diversas coisas, mas evite começar com números e por enquanto evite usar espaços (pode usar `_` em vez de um espaço). 
+```{r, echo=F, eval=T}
+flights %>% rename(arrival_time = arr_time) %>% select(year, month, day, dep_time, arrival_time) %>% paged_table()
+```
 
-Vamos inspecionar o nosso novo tibble renomeado em toda a sua glória:
+Qual o formato aqui? Dentro dos parênteses, colocamos o *novo* nome primeiro, depois o sinal de igual, depois o nome *velho/original*. Se digitar o nome original errado a função não vai funcionar, irá aparecer uma mensagem de erro. O nome novo pode ser diversas coisas (não abuse da sua criatividade aqui), mas evite começar com números e por enquanto evite usar espaços (pode usar `_` em vez de um espaço).
+
+Vamos inspecionar o nosso novo tibble renomeado:
 
 ```{r, echo=T, eval=F}
 flights
@@ -93,7 +109,7 @@ flights
 
 ...O que aconteceu?? Porque você acha a variável em nosso tibble ainda tem o nome `arr_time'?
 
-Porque não mudamos nada: aplicando verbos não *salva* o novo tibble resultado automaticamente. Efetivamente, o novo tibble renomeado desaparece no momento que seja criado. Para salvar, temos que usar a flecha de atribuição ao um novo objeto:
+Porque não mudamos nada: aplicar verbos não *salva* o novo tibble automaticamente. Efetivamente, o novo tibble renomeado desaparece no momento que é criado. Para salvar, temos que usar a flecha de atribuição ao um novo objeto (se esqueceu, dê uma olhada no tutorial 1):
 
 ```{r, echo=T, eval=F}
 flights_renomeado <- flights %>% rename(arrival_time=arr_time)
@@ -101,9 +117,9 @@ flights_renomeado <- flights %>% rename(arrival_time=arr_time)
 flights_renomeado
 ```
 
-Agora, o tibble de `flights_renomeado` tem a variável se chama `arrival_time`, sim?
+Agora, o tibble de `flights_renomeado` tem a variável se chama `arrival_time`, correto?
 
-Dependendo do nosso objetivo, as vezes faz sentido salvar o nosso objeto com o mesmo nome que ele tinha antes, sobreescrevendo o conteúdo dele. (Pelo menos, isso salva memória).
+Dependendo do nosso objetivo, as vezes faz sentido salvar o nosso objeto com o mesmo nome que ele tinha antes, sobreescrevendo o conteúdo dele, ao invés de criar um novo objeto toda vez que executamos uma função. (Pelo menos, isso salva memória).
 
 ```{r, echo=T, eval=F}
 flights <- flights %>% rename(arrival_time=arr_time)
@@ -111,30 +127,35 @@ flights <- flights %>% rename(arrival_time=arr_time)
 flights
 ```
 
-Mais uma detalhe: Para renomear colunas diversas temos que escrever uma corrente de renomeação?
+Mais uma detalhe: será que para renomear colunas diversas temos que escrever uma corrente que repete a função `rename()` diversas vezes?
 
 ```{r, echo=T, eval=F}
-flights <- flights %>% rename(arrival_time=arr_time) %>% rename(departure_time=dep_time)
+flights <- flights %>% rename(arrival_time=arr_time) %>%
+  rename(departure_time=dep_time)
 ```
 
-Podemos, mas normalmente é mais eficiente fazer dentro da mesma função, separando as colunas por vírgula (e uma nova linha para deixar o código claro):
+Podemos fazer isso, mas é mais eficiente fazer dentro da mesma função, separando as colunas por vírgula (e uma nova linha para deixar o código claro). Lembre-se da vírgula para separar cada renomeação, muitas vezes passamos para a linha de baixo e esquecemos a vírgula; quando rodamos o código aparece mensagem de erro e demoramos a descobrir que o único erro é a vírgula faltante:
 
 ```{r, echo=T, eval=F}
 flights <- flights %>% rename(arrival_time=arr_time,
-                   departure_time=dep_time)
+                              departure_time=dep_time)
 ```
 
 ## 2. Selecionar Variáveis (`Select`)
 
-Já aprendemos o formato, e tudo fica no mesmo padrão a partir daqui. Quando temos colunas demais em nosso banco de dados, sempre ajuda focar nas variáveis mais relevantes. Para selecionar um subconjunto das variáveis (colunas) para manter no tibble, usamos o verbo `select()`. De novo, começamos com o tibble, o pipe, e finalmente o verbo select:
+Já aprendemos o formato para utilizar funções, e tudos que vamos aprender daqui para frente possue o mesmo padrão. Quando temos colunas demais em nosso banco de dados, sempre ajuda focar nas variáveis mais relevantes, excluindo aquelas que não serão utilizadas. Para selecionar um subconjunto das variáveis (colunas) para manter no tibble, usamos o verbo `select()`. De novo, começamos com o tibble, o pipe, e finalmente o verbo `select`:
 
 ```{r, echo=T, eval=F}
 flights %>% select(year, month, day)
 ```
 
-Note que podemos selecionar várias variáveis usando uma vírgula para separar os nomes das variáveis. Fácil, sim? 
+```{r, echo=F, eval=T}
+flights %>% select(year, month, day) %>% paged_table()
+```
 
-Mas presta atenção - se você salva o seu objeto com o mesmo nome do original, vai perder as outras variáveis definitivamente (ou pelo menos até que abre o banco de dados ou roda o script de novo):
+Note que podemos selecionar várias variáveis usando uma vírgula para separar os nomes das variáveis. Fácil, certo? 
+
+Mas preste atenção - se você salvar o seu objeto com o mesmo nome do original, vai perder as outras variáveis definitivamente (ou pelo menos até que abra o banco de dados original novamente ou rode o script do início de novo):
 
 ```{r, echo=T, eval=F}
 flights <- flights %>% select(year, month, day)
@@ -142,17 +163,21 @@ flights <- flights %>% select(year, month, day)
 
 ## 3. Transformar Variáveis (`Mutate`)
 
-Que tal se quisermos *criar* novas variáveis? Isso é comum, por exemplo quando queremos o PIB per capita e não simplesmente o PIB temos que pegar duas variáveis, PIB e população e dividir o primeiro pelo segundo. Em R o verbo para realizar isso se chama um `mutate()`. Ele permite a combinação, usando qualquer tipo de matématica que pode quiser, de colunas que *já existem* no banco de dados (se quer trazer dados de fora, tem que usar um `join` que vamos discutir logo no futuro). 
+Que tal se quisermos *criar* novas variáveis? Isso é comum, por exemplo quando queremos o PIB per capita e não simplesmente o PIB. Para isso, temos que pegar duas variáveis, PIB e população e dividir o primeiro pelo segundo. Em R o verbo para realizar isso se chama `mutate()`. Ele permite a combinação, usando qualquer tipo de matématica que você desejar, de colunas que *já existem* no banco de dados (se quer trazer dados de fora, tem que usar um `join` que vamos discutir logo no futuro). 
 
-Como funciona? Como sempre, pegamos o nosso tibble relevante, depois o pipe, depois a função `mutate()`. Dentro dos paramêtros de mutate, precisamos especificar o cálculo a ser realizado usando os nomes de colunas atuais, e o nome da nova variável (coluna) em que vamos guardar o resultado do cálculo. Por exemplo, se queremos dobrar o `dep_delay`:
+Como funciona? Como sempre, pegamos o nosso tibble relevante, depois o pipe, depois a função `mutate()`. Dentro dos paramêtros de mutate precisamos especificar o cálculo a ser realizado usando os nomes de colunas atuais, e o nome da nova variável (coluna) em que vamos guardar o resultado do cálculo. Por exemplo, se queremos dobrar o `dep_delay`:
 
 ```{r, echo=T, eval=T}
 flights <- flights %>% mutate(dep_delay_dobro=dep_delay*2)
 ```
 
+```{r, echo=F, eval=T}
+flights %>% select(year, month, day, dep_time, dep_delay, dep_delay_dobro) %>% paged_table()
+```
+
 Note que dentro do mutate, usamos um `=` em vez da flecha para salvar o resultado. 
 
-Onde fica a nossa nova coluna? Na última posição na direita do tibble.
+Onde fica a nossa nova coluna? Na última posição a direita do tibble (última coluna do banco de dados).
 
 Podemos combinar variáveis múltiplas para fazer cálculos mais complexos. Por exemplo, por algum motivo eu quero saber metade da diferença entre o `dep_time` e `arr_time`:
 
@@ -160,23 +185,25 @@ Podemos combinar variáveis múltiplas para fazer cálculos mais complexos. Por 
 flights <- flights %>% mutate(calculo=(arr_time-dep_time)/2)
 ```
 
-Como na matemática, lembra se que os parênteses importam. 
+Como na matemática, lembre-se que os parênteses importam. Então o que fizemos a cima `(arr_time-dep_time)/2` é diferente de `arr_time-dep_time/2`. Se quiser, teste para ter certeza.
 
-Mais uma possibilidade: podemos transformar uma coluna atual sem criar um novo. Para fazer isso, é só renomear a coluna com o mesmo nome do original. Por exemplo, podemos recalcular o `dep_delay` de minutos para segundos:
+Mais uma possibilidade: podemos transformar uma coluna atual sem criar uma nova coluna. Para fazer isso, é só renomear a coluna com o mesmo nome do original, dessa maneira sobreescrevemos o conteúdo original da coluna pelo novo conteúdo que calculamos. Por exemplo, podemos recalcular o `dep_delay` de minutos para segundos:
 
 ```{r, echo=T, eval=F}
 flights <- flights %>% mutate(dep_delay=dep_delay*60)
 ```
 
-E finalmente, podemos usar funções dentro de mutate e nào simplesmente símbolos matemáticos. No futuro, isso abre um mundo de possibilidades. Por enquanto, vamos apenas usar a função `tolower()` para mudar o `origin` do voo de maiúsculas para minúsculas:
+E finalmente, podemos usar funções dentro de mutate e não simplesmente símbolos matemáticos. No futuro, isso abre um mundo de possibilidades. Por enquanto, vamos apenas usar a função `tolower()` para mudar o `origin` do voo de maiúsculas para minúsculas:
 
 ```{r, echo=T, eval=F}
 flights <- flights %>% mutate(origin=tolower(origin))
 ```
 
+Abra os dados para ver se deu certo a função `tolower()`.
+
 <div class = "blue">
 **Habilidade Básica de Programação: Operações Matemáticas**
-R serve como calculadora é bastante simples realizar operações matemáticas, quanto com números, tanto com variáveis.
+R serve como calculadora e é simples realizar operações matemáticas, seja com números ou com variáveis.
 
 Soma:
 
@@ -222,7 +249,7 @@ x %% y
 </div>
 
 
-## 4. Cortar Observações (`Slice`)
+## 4. Cortar/selecionar Observações (`Slice`)
 
 Até agora, trabalhamos com manipulações de variáveis (colunas). Mas podemos também mexer com as observações (linhas). Podemos, por exemplo, limitar a nossa análise apenas para a quinta linha do banco de dados usando o verbo `slice()`. 
 
@@ -230,7 +257,11 @@ Até agora, trabalhamos com manipulações de variáveis (colunas). Mas podemos 
 flights %>% slice(5)
 ```
 
-Um pouco triste perder toda a resta da informação, então como selecionamos todas as primeiras cinco linhas?
+```{r, echo=F, eval=T}
+flights %>% slice(5) %>% paged_table()
+```
+
+Um pouco triste perder todo o resto da informação, então como selecionamos todas as primeiras cinco linhas?
 
 ```{r, echo=T, eval=F}
 flights %>% slice(1:5)
@@ -238,21 +269,21 @@ flights %>% slice(1:5)
 
 <div class = "blue">
 **Habilidade Básica de Programação: Conjuntos de números**
-Para selecionar observações ou outros elementos de objetos, temos que criar um vetor com os índices (as posições) dos elementos desejados. Um jeito de fazer uso é usando a nossa função para criar vetores, `c()`:
+Para selecionar observações ou outros elementos de objetos, temos que criar um vetor com os índices (as posições) dos elementos desejados. Um jeito de fazer isso é usando a nossa função para criar vetores, `c()`:
 
 ```{r, echo=T, eval=F}
 linhas_desejadas <- c(1,4,5,8,22,169)
 ```
 
-Agora, podemos usar este vetor dentro da função slice.
+Agora, podemos usar este vetor dentro da função `slice()`.
 
 ```{r, echo=T, eval=F}
 flights %>% slice(linhas_desejadas)
 ```
 
-O R substituirá o objeto (o vetor) `linhas_desejadas` com os 6 números e devolve um tibble das 6 linhas. 
+O R substituirá o objeto (o vetor) `linhas_desejadas` com os 6 números e devolverá um tibble das 6 linhas. 
 
-Também é possível selecionar as observações **não**-desejadas, inserindo um menos em frente do número. O R devolve o tibble inteiro sem a linha identificada.
+Também é possível selecionar as observações **não** desejadas, inserindo um menos em frente do número. O R devolve o tibble inteiro sem a linha identificada.
 
 ```{r, echo=T, eval=F}
 flights %>% slice(-1)
@@ -273,14 +304,15 @@ flights %>% slice(seq(from=1,
                       to=100,
                       by=10))
 ```
+Quais os números que a função `seq(from=1, to=100, by=10)` devolve? Copie e cole a função no "Console" para ver o resultado. Aparece (1, 11, 21, 31, 41, 51, 61, 71, 81, 91).
 
-Note que aqui usamos os nomes de cada parâmetro/argumento seguido por um sinal de iguais e o valor relevante. Estes argumentos têm um ordem oficial dentro da função, e se saibamos de ordem e especificamos todos os argumentos, podemos evitar os nomes de parâmetros/argumentos. O código abaixo é identical ao código acima:
+Note que aqui usamos os nomes de cada parâmetro/argumento seguido por um sinal de igual e o valor relevante. Estes argumentos têm uma ordem oficial dentro da função, e se soubermos a ordem e especificarmos todos os argumentos, podemos evitar os nomes dos parâmetros/argumentos. O código abaixo é idêntico ao código acima:
 
 ```{r, echo=T, eval=F}
 flights %>% slice(seq(1,100,10))
 ```
 
-Como sabemos os nomes e o ordem dos argumentos? Consultamos o help da função:
+Como podemos saber os nomes e a ordem dos argumentos? Consultamos o help da função:
 
 ```{r, echo=T, eval=F}
 ?seq
@@ -290,25 +322,25 @@ Como sabemos os nomes e o ordem dos argumentos? Consultamos o help da função:
 
 ## 5. Filtrar Observações (`Filter`)
 
-Mais frequentemente, não importa a posição vertical da observação no conjunto de dados, para limitar a nossa análise o que importa é o valor de uma variável. Por exemplo, podemos querer os dados apenas da Ásia, do século 20, de mulheres, ou de homens acima de 18 anos de idade que moram em São Paulo.
+Mais frequentemente, não importa a posição vertical (linha) da observação no conjunto de dados, para limitar a nossa análise o que importa é o valor de uma variável. Por exemplo, podemos querer os dados apenas da Ásia, do século 20, de mulheres, ou de homens acima de 18 anos de idade que moram em São Paulo.
 
-Estes critérios podem ser aplicados usando o verbo `filter()`. Nos paramêtros de filter, temos que especificar as **condições** que o R vai avaliar para decidir se vai incluir no banco de dados final. A condição *sempre* tem que avaliar para verdadeiro ou falso (TRUE ou FALSE) para cada observação, e o R guarda apenas as observações 'verdadeiros'. 
+Estes critérios podem ser aplicados usando o verbo `filter()`. Nos paramêtros de `filter()`, temos que especificar as **condições** que o R vai avaliar para decidir se vai incluir no banco de dados final. A condição *sempre* tem que avaliar para verdadeiro ou falso (TRUE ou FALSE) para cada observação, e o R guarda apenas as observações 'verdadeiras'. 
 
 Em nosso banco de dados de voos, vamos selecionar apenas os voos de mês 6 (junho). Como definimos esta condição? Precisamos de três elementos:
 
 1. **Nome de variável** - aqui, o mês, `month`. 
 2. **Tipo de comparação** - aqui, queremos selecionar um mês específico então precisamos de uma igualdade que digitamos em R como `==`. Sim, dois iguais juntos! Explicamos embaixo.
-3. **Critério** - aqui, qual mês? Nos dados, junho está codificado num número, então '6'. 
+3. **Critério** - aqui, qual mês? Nos dados, junho está codificado como número (`int`), então '6'. 
 
 ```{r, echo=T, eval=F}
 flights %>% filter(month==6)
 ```
 
 ```{r, echo=F, eval=T}
-flights %>% filter(month==6)
+flights %>% filter(month==6) %>% paged_table()
 ```
 
-O resultado é um novo tibble com quantas linhas? Se o nosso filtro funcionou, deve ter bem menos que o tibble original. Normalmente queremos salvar o tibble com outro nome, dado que ele representa um novo conjunto de observações agora:
+O resultado é um novo tibble com quantas linhas? Se o nosso filtro funcionou, o novo tibble deve ter bem menos observações (linhas) que o tibble original. Normalmente queremos salvar o tibble com outro nome, dado que ele representa, agora, um novo conjunto de observações:
 
 ```{r, echo=T, eval=F}
 flights_junho <- flights %>% filter(month==6)
@@ -317,11 +349,11 @@ flights_junho <- flights %>% filter(month==6)
 <div class = "blue">
 **Habilidade Básica de Programação: Operadores Relacionais (Comparativos)**
 
-O operadores relacionais são seis em R:
+Os operadores relacionais são seis em R:
 
 |   | Operador | Descrição      |
 |---|----------|----------------|
-| 1 | ==       | igual          |
+| 1 | ==       | Igual          |
 | 2 | !=       | Não igual      |
 | 3 | <        | Menor          |
 | 4 | >        | Maior          |
@@ -343,7 +375,7 @@ Simples. Alguns exemplos de uso básico de operadores abaixo.
 42 <= 41
 ```
 
-Operadores relacionais também vale para textos:
+Operadores relacionais também valem para textos:
   
 ```{r, echo=T, eval=F}
 "texto" == "texto"
@@ -378,8 +410,8 @@ y <- 10
 x > y
 ```
 </div>
-
-Podemos combinar critérios diversos usando o símbolo de 'e', `&`:
+<br>
+Podemos combinar critérios diversos usando o símbolo de 'e', "&":
 
 ```{r, echo=T, eval=F}
 flights_junho_5 <- flights %>% filter(month==6 & day==5)
@@ -394,9 +426,9 @@ flights_junho_5_manha <- flights %>% filter(month==6 & day==5 & dep_time<1200)
 
 
 <div class = "blue">
-**Habilidade Básica de Programação: Operadores Logicais**
+**Habilidade Básica de Programação: Operadores Lógicos**
 
-Para combinar critérios múltiplos no mesmo filtro, temos que usar os operadores logicais. 
+Para combinar critérios múltiplos no mesmo filtro, temos que usar os operadores lógicos. 
 
 |   | Operador | Descrição      |
 |---|----------|----------------|
@@ -413,7 +445,7 @@ Veja a tabela de possibilidades de combinação de duas proposições com a conj
   | FALSE        | TRUE         | FALSE      |
   | FALSE        | FALSE        | FALSE      |
   
-Se o valor atende às duas condições, então o resultado é TRUE. Se ao menos uma proposição é falsa, sob a conjunção "e", então a combinação das proposições também é.
+Se o valor atende às duas condições, então o resultado é TRUE. Se ao menos uma proposição é falsa, sob a conjunção "e", então a combinação das proposições também é falsa.
 
 Veja a tabela de possibilidades de combinação de duas proposições com a conjunção "ou":
   
@@ -424,7 +456,7 @@ Veja a tabela de possibilidades de combinação de duas proposições com a conj
   | FALSE        | TRUE         | TRUE       |
   | FALSE        | FALSE        | FALSE      |
 
-Com esta nova flexibilidade, temos que pensar com cuidado para construir o filtro apropriado. E temos que usar os parenteses apropriados, porque a lista acima é em ordem de prioridade (como na matemática quando multiplicação acontece antes de adição). Por exemplo, se quissemos todos os voos que atrasaram na chegada por mais de 50 minutos, e que decolaram antes das 5h *ou* que decolaram de Atlanta (ATL), temos que escrever assim:
+Com esta nova flexibilidade, temos que pensar com cuidado para construir o filtro apropriado. E temos que usar os parenteses apropriados, porque a lista acima é em ordem de prioridade (como na matemática quando multiplicação acontece antes de adição, aqui "E" acontece antes de "OU"). Por exemplo, se quissemos todos os voos que atrasaram na chegada por mais de 50 minutos, e que decolaram antes das 5h *ou* que decolaram de Atlanta (ATL), temos que escrever assim:
 
 ```{r, echo=T, eval=F}
 flights %>% filter((dep_time<=500 | dest=="ATL") & arr_delay>=50)
@@ -438,7 +470,7 @@ flights %>% filter(dep_time<=500 | dest=="ATL" & arr_delay>=50)
 
 Note que o número de linhas é bem diferente. Aqui, pedimos para todos os voos que decolaram antes das 5h (se tivesse atraso ou não), juntado com um outro conjunto os voos que decolaram de Atlanta com atraso de 50 minutos na chegada. 
 
-É fácil pedir o inverso deste conjunto usando `!`:
+É fácil pedir o inverso deste conjunto usando `!` (símbolo para negação):
 
 ```{r, echo=T, eval=F}
 flights %>% filter(!((dep_time<=500 | dest=="ATL") & arr_delay>=50))
@@ -458,20 +490,20 @@ flights %>%
   select(year, month, day, arrival_time, dep_delay)
 ```
 
-É importante entender que depois de cada ação, o banco de dados encaminhado à proxíma ação é o resultado da ação anterior. Então na linha final, `select(year, month, day, arr_time, dep_delay)` não funciona - `arr_time` já foi renomeado para `arrival_time` e temos que fazer referência ao novo nome.
+É importante entender que depois de cada ação, o banco de dados encaminhado à proxíma ação é o resultado da ação anterior. Então na linha final, `select(year, month, day, arr_time, dep_delay)` não funcionará, pois `arr_time` já foi renomeado para `arrival_time` e temos que fazer referência ao novo nome.
 
-Voltando à analogia de preparar uma refeição, o código acima é uma **receita**: Pegue o banco de dados de `flights`, depois renomear a variável `arr_time`, depois multiplicar a variável `dep_delay` por 60, depois filtrar as observações para elas do 5 de junho, depois selecionar as cinco variáveis, e devolva o banco de dados final. 
+Voltando à analogia de preparar uma refeição, o código acima é uma **receita**: Pegue o banco de dados de `flights`, depois renomei a variável `arr_time`, depois multiplique a variável `dep_delay` por 60, depois filtre as observações para aquelas do dia 5 de junho, depois selecione as cinco variáveis (year, month, day, arrival_time, dep_delay), e devolva o banco de dados final. 
 
-Note também que no código acima inserimos uma nova linha depois de cada pipe; isso não é necessário mas ajuda em organizar o código e deixá-lo mais fácil a ler. 
+Note também que no código acima inserimos uma nova linha depois de cada pipe; isso não é necessário mas ajuda a organizar o código e deixá-lo mais fácil para ler e entender no futuro.
 
 
 <div class = "green">
 
 # Exercício 1: Manipulando dados
 
-Com essas novas habilidades, vamos preparar uma análise rápida do banco de dados `flights` com o objetivo de produzir um relatório em html no final. Gera uma tabela apropriada para cada critério:
+Com essas novas habilidades, vamos preparar uma análise rápida do banco de dados `flights` com o objetivo de produzir um relatório em html no final. Gere uma tabela apropriada para cada critério:
 
-1. Os voos de United (`carrier` UA) que decolaram no 25 de janeiro
+1. Os voos de United (`carrier` UA) que decolaram no dia 25 de janeiro.
 
 ```{r, eval=F}
 flights %>% filter(carrier=="UA" & month==1 & day==25) %>%
@@ -479,7 +511,7 @@ flights %>% filter(carrier=="UA" & month==1 & day==25) %>%
 ```
 
 
-2. Os voos de JetBlue (`carrier` B6) que decolaram mais que 300 minutos atrasados de Newark (`origin` EWR).
+2. Os voos de JetBlue (`carrier` B6) que decolaram com mais de 300 minutos de atraso de Newark (`origin` EWR).
 
 ```{r, eval=F}
 flights %>% filter(carrier=="B6" & dep_delay>300 & origin=="EWR") %>%
@@ -494,7 +526,7 @@ flights %>% filter(origin=="LGA" & month==9 & day==7 & dep_time<600) %>%
   datatable()
 ```
 
-4. Uma tabela com apenas o atraso na chegada de todos os voos atrasados por pelo menos 60 minutos que partiram do aeroporto Newark e chegaram em Buffalo (BUF) na sexta dia de qualquer mes. 
+4. Uma tabela com apenas o atraso na chegada de todos os voos atrasados por pelo menos 60 minutos que partiram do aeroporto Newark e chegaram em Buffalo (BUF) nas sextas-feiras de qualquer mes. 
 
 ```{r, eval=F}
 flights %>% filter(dest=="BUF" & origin=="EWR" & arr_delay>=60 & day==6) %>%
@@ -511,8 +543,49 @@ flights %>% mutate(velocidade=distance/(air_time/60)) %>%
   datatable()
 ```
 
-6. Prepare os resultados de todos os seus análises acima em tabelas uasndao `datatable`, e faça o `knit` do seu script de R markdown para produzir o relatório final.
+6. Prepare os resultados de todos as análises acima em tabelas usando a opção de R Markdown de `df_print: paged` (veja o Tutorial 1), e faça o `knit` do seu script de R markdown para produzir o relatório final.
 
+</div>
+
+# Controlando o que Aparece no Relatório Final
+
+Os nossos relatórios finais são profissionais e claros, mas ficam 'técnicos', com várias linhas de código e informações do R. Isso é importante se quiser documentar e comunicar exatamente como você analisou os dados, mas o seu orientandor provavalmente não tem interesse em saber como a linguiça foi feita. Como geramos um relatório 'limpo' para o público geral?
+
+O R Markdown nos permitimos controlar os produtos de cada chunk individualmente. Existem pelo menos cinco tipos de produtos possíveis para cada chunk, e decidimos quais deles devem aparecer no relatório final com um argumento na linha inicial de cada chunk:
+
+| Tipo de Conteúdo                 | Quero            | Não Quero      |
+|----------------------------------|------------------|----------------|
+| Código em si                     | echo=TRUE        | echo=FALSE     |
+| Resultados da execução do código | results='markup' | results='hide' |
+| Erros                            | error=TRUE       | error=FALSE    |
+| Avisos                           | warning=TRUE     | warning=FALSE  |
+| Mensagens                        | message=TRUE     | message=FALSE  |
+
+O padrão (default) é para incluir todos os cinco tipos de conteúdo no relatório final. Mas na prática, normalmente não queremos mostrar para o leitor o código, erros, avisos e mensagens. Para cada chunk, poodemos especificar as opções assim:
+
+````clike
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}`r ''`
+600/30
+```
+````
+
+Se compilamos o relatório com 'Knit', a única coisa que será impressa no documento final é o resultado do cálculo (20), nada do código ou o pensamento do R. 
+
+Porém, num relatório grande, teremos dezenas de chunks e fica chato especificar todas as opções para cada um dos chunks. Então uma alternativa é ajustar o padrão do nosso análise para que, por exemplo, `echo=FALSE` seja o padrão. O melhor jeito é adicionar um novo chunk no início do seu script com a seguinte linha:
+
+````clike
+```{r, echo=FALSE}`r ''`
+knitr::opts_chunk$set(echo=FALSE, error=FALSE, warning=FALSE, message=FALSE)
+```
+````
+
+Isso indica para o R não imprimir o código original de nenhum chunk. Note que temos que usar `echo=F` na linha inicial deste chunk também para esconder esta linha de código porque o novo padrão só é aplicado depois da conclusão deste chunk.
+
+<div class = "green">
+
+# Exercício 2: Relatórios Limpos
+
+Experimente adicionar um chunk com essa linha acima como o primeiro no seu relatório do Execício 1, e 'Knit' de novo. Veja quão mais simples e bonito fica o seu relatório!
 </div>
 
 
@@ -520,9 +593,9 @@ flights %>% mutate(velocidade=distance/(air_time/60)) %>%
 
 ## Dados em arquivos textuais (.csv, .tsv, .txt)
 
-Agora que estamos especialistas na manipulação de dados já disponíveis em R, queremos analisar dados mais interessantes e relevantes para a nossa própria pesquisa. Isso exige a abertura de arquivos externos; bancos de dados que criamos ou recebemos de outros estudos. Lembrando que o nosso script vai processar os dados cada vez que é executado pela botão 'Knit', temos que incorporar a abertura de dados em código também, dentro do script. 
+Agora que estamos especialistas na manipulação de dados já disponíveis em R, queremos analisar dados mais interessantes e relevantes para a nossa própria pesquisa. Isso exige a abertura de arquivos externos; bancos de dados que criamos ou recebemos de outros estudos. Lembrando que o nosso script vai processar os comandos cada vez que é executado pela botão 'Knit', então temos que incorporar a abertura de dados em código também, dentro do script. 
 
-Existem muitas funções para abrir arquivos de dados, mas para simplificar neste curso, vamos nos concentrar em algumas dos mais flexíveis, simples e úteis para trabalhar com dados 'retangulares' (.csv, .tsv, .txt). As funções ficam parte da biblioteca `tidyverse` que já abrimos.
+Existem muitas funções para abrir arquivos de dados, mas, para simplificar, neste curso vamos nos concentrar em algumas das mais flexíveis, simples e úteis para trabalhar com dados 'retangulares' (.csv, .tsv, .txt). As funções são parte da biblioteca `tidyverse` que já abrimos.
 
 Provavelmente a função mais usada é `read_csv`, que abre arquivos com extensão .csv. Em vez de abrir arquivos do nosso computador, também podemos abrir links online e, para simplificar, disponibilizamos vários arquivos em nosso repositório do github. Você pode colar o url de cada arquivo no navegador para ver o seu formato antes de executar o código.
 
@@ -531,7 +604,7 @@ file1 <- "https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/b
 dados <- read_csv(file1)
 ```
 
-`dados` deve aperecer como um objeto - um tibble - em seu 'Environment'. A função `read_delim` nos dá mais flexibilidade para lidar com tipos incomuns de arquivos. Por exemplo, podemos especificar o caractere usado para separar as colunas (por padrão, esta é a vírgula em read_csv):
+`dados` deve aperecer como um objeto - um tibble - em seu 'Environment'. A função `read_delim` nos dá mais flexibilidade para lidar com tipos incomuns de arquivos. Por exemplo, podemos especificar o caractere usado para separar as colunas (por padrão, esta é a vírgula em read_csv, mas muitos dados brasileiros usam ";" como padrão, já que a vírgula é, no Brasil, um separador decimal):
 
 ```{r, echo=T, eval=F}
 dados <- read_delim(file1, 
@@ -546,7 +619,7 @@ dados <- read_delim(file_tab,
                     delim = "\t")
 ```
 
-O padrão de _read\_delim_ (e _read\_csv_) é importar a primeira linha como nome das variáveis. Se nossos dados não tiverem um _header_ (cabeçalho, ou seja, nomes das variáveis na primeira linhas), a primeira linha de dados se torna equivocadamente o nome das variáveis (inclusive os números, que aparecem antecedidos por um "X"). Para corrigir o problema utilizamos o argumento "col_names", que deve ser igual a "FALSE" para os dados armezenados sem nomes de colunas, por exemplo:
+O padrão de _read\_delim_ (e _read\_csv_) é importar a primeira linha como nome das variáveis. Se nossos dados não tiverem um _header_ (cabeçalho, ou seja, nomes das variáveis na primeira linha), a primeira linha de dados se torna equivocadamente o nome das variáveis (inclusive os números, que aparecem antecedidos por um "X"). Para corrigir o problema utilizamos o argumento "col_names", que deve ser igual a "FALSE" para os dados armezenados sem nomes de colunas, por exemplo:
 
 ```{r, echo=T, eval=F}
 file_sem_header <- "https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_nv.csv"
@@ -582,9 +655,9 @@ dados <- read_delim(file1,
                     locale = locale(decimal_mark=",",grouping_mark="."))
 ```
 
-Também podemos usar _locale_ para especificar o formato da hora, o formato da data e o encoding do arquivo que estamos lendo.
+Também podemos usar _locale_ para especificar o formato da hora e o formato da data do arquivo que estamos lendo.
 
-Finalmente, é comum termos problemas para abrir arquivos que contenham caracteres especiais, pois há diferentes formas do computador transformar 0 e 1 em vogais acentuadas, cecedilha, etc. O "encoding" de cada arquivo varia de acordo com o sistema operacional e aplicativo no qual foi gerado.
+Finalmente, é comum termos problemas para abrir arquivos que contenham caracteres especiais, pois há diferentes formas do computador interpretar vogais acentuadas, cecedilha, etc. O "encoding" de cada arquivo varia de acordo com o sistema operacional e aplicativo no qual foi gerado.
 
 ```{r, echo=T, eval=F}
 dados <- read_delim(file1, 
@@ -592,7 +665,16 @@ dados <- read_delim(file1,
                     locale = locale(encoding='latin1'))
 ```
 
-Para resolver este problema, informamos ao R o parâmetro _encoding_ dentro do _locale_, que indica qual é o "encoding" esperado do arquivo. Infelizmente não há formas automáticas infalíveis de descobrir o "encoding" de um arquivo e é preciso conhecer como foi gerado -- seja por que você produziu o arquivo ou por que você teve acesso à documentação -- ou partir para tentativa e erro. Alguns "encodings" comuns são "latin1", "latin2" e "utf8", mas há diversos outros. Como arquivo com o qual estamos trabalhando não contém caracteres especiais, não é preciso fazer nada.
+Para resolver este problema, informamos ao R o parâmetro _encoding_ dentro do _locale_, que indica qual é o "encoding" esperado do arquivo. 
+
+<div class = "blue">
+**Habilidade Básica de Programação: Encoding dos Arquivos**
+
+Infelizmente não há formas automáticas infalíveis de descobrir o "encoding" de um arquivo e é preciso conhecer como foi gerado -- seja você quem produziu o arquivo ou se você teve acesso à documentação -- ou partir para tentativa e erro. Alguns "encodings" comuns são "latin1", "latin2", "utf8" e "WINDOWS-1252", mas há diversos outros. Se o arquivo com o qual estamos trabalhando não contém caracteres especiais, não é preciso fazer nada; o R vai processa-lo adequadamente.
+
+Para minimixar o processo de tentativa e erro na importação de uma base sem documentação, é possível abrir o arquivo de forma manual clicando em "File" > "Import Dataset" > "From Text (readr)...". Ao clicar nessa opção uma caixa será aberta. Nela você pode indicar onde o arquivo está salvo e selecionar manualmente as opções de "Delimiter", "Locale", entre outras. A vantagem aqui é que a janela possui uma prévia dos dados que serão importados, então se você escolheu primeiro um _encoding_ que não funcionou, você pode mudar sem ter que esperar pelo R importar toda a base. O código final de importação do arquivo ficará no quadro a direita embaixo. Lembre-se de copiar esse código e colar no seu script, porque o "knit" não vai clicar nos botões para abrir a base quando você tentar produzir seu documento.
+</div>
+
 
 ## Dados em arquivos de Excel
 
@@ -606,7 +688,7 @@ Vamos trabalhar com `readxl`. Importe a biblioteca (não precisa instalá-lo, j�
 library("readxl")
 ```
 
-Nosso exemplo será a Pesquisa Perfil dos Municípios Brasileiros de 2005, produzida pelo IBGE e apelidade de MUNIC. Diferentemente das demais funções deste tutorial, precisamos baixar o arquivo para o computador e acessá-lo localmente. Faça o download diretamente no browser do [site do IBGE](ftp://ftp.ibge.gov.br/Perfil_Municipios/2005/base_MUNIC_2005.zip) e descompacte para o arquivo "base_MUNIC_2005.xls" na pasta do seu projeto. 
+Nosso exemplo será a Pesquisa Perfil dos Municípios Brasileiros de 2005, produzida pelo IBGE e apelidade de MUNIC. Diferentemente das demais funções deste tutorial, precisamos baixar o arquivo para o computador e acessá-lo localmente. É uma boa oportunidade para praticar. Faça o download diretamente no browser no [site do IBGE](ftp://ftp.ibge.gov.br/Perfil_Municipios/2005/base_MUNIC_2005.zip) e descompacte para o arquivo "base_MUNIC_2005.xls" na pasta do seu projeto. 
 
 Note que um ganho enorme de trabalhar dentro de um projeto é que não precisamos nos preocupar com a especificação do endereço inteiro de cada arquivo (o "C:\\Users\\Documents\\...") - só usamos o nome do arquivo e o R acessa tudo na pasta do projeto.
 
@@ -656,3 +738,26 @@ Simples assim.
 
 Há critérios de conversão de variáveis categóricas, rótulos e etc, adotados pelo R ao importar arquivos de outras linguagens, mas você pode descobrí-los testando sozinha.
 
+<div class = "green">
+
+# Exercício 3: Abrindo Dados Eleitorais
+
+1. Escolha um banco de dados (qualquer arquivo único) da aba 'Resultados' do site do [Tribunal Superior Eleitoral aqui](http://www.tse.jus.br/eleicoes/estatisticas/repositorio-de-dados-eleitorais-1/repositorio-de-dados-eleitorais), baixa-lo e unzip ele.
+
+2. Use uma função apropriada para abrir o arquivo em R. 
+
+3. Use o arquivo leiame.pdf que fica no zip com o arquivo do TSE para identificar o encoding dos dados, e os nomes das variáveis. Incorporar esta informação na abertura do arquivo.
+
+4. Crie uma tabela bonita em R Markdown, e verifique que o número de colunas e observações fazem sentido.
+
+5. Tente manipular a base utilizando as funções que aprendemos no tutorial de hoje.
+</div>
+
+<br>
+
+<div class = "orange">
+# Leitura para Tutorial 3
+
+Antes da próxima aula, por favor leia [R 4 Data Science, Capítulos 12, 15, 27](https://r4ds.had.co.nz/)
+
+</div>
