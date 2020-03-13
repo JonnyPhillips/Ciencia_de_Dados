@@ -526,7 +526,7 @@ flights %>% filter(origin=="LGA" & month==9 & day==7 & dep_time<600) %>%
   datatable()
 ```
 
-4. Uma tabela com apenas o atraso na chegada de todos os voos atrasados por pelo menos 60 minutos que partiram do aeroporto Newark e chegaram em Buffalo (BUF) nas sextas-feiras de qualquer mes. 
+4. Uma tabela com apenas o atraso na chegada de todos os voos atrasados por pelo menos 60 minutos que partiram do aeroporto Newark e chegaram em Buffalo (BUF) no dia seis de qualquer mes. 
 
 ```{r, eval=F}
 flights %>% filter(dest=="BUF" & origin=="EWR" & arr_delay>=60 & day==6) %>%
