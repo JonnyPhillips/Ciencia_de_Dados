@@ -50,7 +50,7 @@ data <- read_delim("C:/Users/Jonny/Downloads/votacao_candidato_munzona_2012/vota
 
 3. Lendo o leaime.pdf e observando as variáveis no banco de dados, o que representa uma observação (uma linha)? Ou seja, qual a unidade de análise aqui?
 
-4. Leia até o final as instruções e identifique quais variáveis são necessárias. Tire do seu banco de dados as variáveis desnecesárias.
+4. Leia até o final as instruções e identifique quais variáveis serão necessárias para o resto do exercício. Tire do seu banco de dados as variáveis desnecesárias.
 
 ```{r}
 data <- data %>% select()
@@ -58,17 +58,19 @@ data <- data %>% select()
 
 5. Selecione apenas as linhas que contém resultados eleitorais para o primeiro turno da eleição do prefeito(a). 
 
+```{r}
+data_prefeito_turno_1 <- data %>% filter(DESCRICAO_CARGO=="PREFEITO" & NUM_TURNO==1)
+```
+
 6. Note que candidatos podem aparecer mais de uma vez na tabela em Q4 (porque existem múltiplas zonas em cada município). Usando identificadores únicos, identifique os candidatos distintos para o primeiro turno do prefeito. Explique no seu relatório quantos candidatos concorrem para prefeito no primeiro turno em 2012.
 
 ```{r}
-data_prefeito_turno_1 <- data %>% filter(DESCRICAO_CARGO=="PREFEITO" & NUM_TURNO==1)
-
 cands_prefeito_turno_1 <- data_prefeito_turno_1 %>% distinct(SQ_CANDIDATO)
 
 num_cands_prefeito_turno_1 <- nrow(cands_prefeito_turno_1)
 ```
 
-7. Renomeie a variável com nome pouco claro, `DESC_SIT_CAND_TOT` para `RESTULADO`
+7. Renomeie a variável com nome pouco claro `DESC_SIT_CAND_TOT` para `RESTULADO`
 
 ```{r}
 data_prefeito_turno_1 <- data_prefeito_turno_1 %>% rename(RESULTADO=DESC_SIT_CAND_TOT)
@@ -91,7 +93,7 @@ data_prefeito_turno_1_nome_igual %>% filter(DESC_SIT_CAND_TOT=="ELEITO") %>%
   distinct(SQ_CANDIDATO)
 ```
 
-10. Voltando para os dados de todos os candidatos no primeiro turno, vamos focar a nossa análise no município de São Paulo (código do TSE 71072). Ordenar os dados por número de votos e identifique qual candidato recebeu o maior número de votos em qualquer zona da cidade. 
+10. Voltando para os dados de todos os candidatos no primeiro turno, vamos focar a nossa análise no município de São Paulo (código do TSE 71072). Ordene os dados por número de votos e identifique qual candidato recebeu o maior número de votos em qualquer zona da cidade. 
 
 ```{r}
 data_prefeito_turno_1 %>% filter(CODIGO_MUNICIPIO==71072) %>%
@@ -124,19 +126,20 @@ data_prefeito_turno_1 <- data_prefeito_turno_1 %>%
                                        TOTAL_VOTOS<=10000~FALSE))
 ```
 
-13. Voltando para os dados orginais, filtrar para os dados dos vereadores. Agora, imagine que não temos os dados do partido de cada candidato e queremos recuperar do `NUMERO_CAND`, que sempre tem os primeiros dois digitos refletindo o partido do candidato. Divida a coluna `NUMERO_CAND` em duas para criar uma coluna de `NUM_PARTIDO` e outra de `NUM_CAND`.
+13. Voltando para os dados orginais, filtrar para os dados dos vereadores. Agora, imagine que não temos os dados do partido de cada candidato e queremos recuperar do `NUMERO_CAND`, em que os primeiros dois digitos sempre refletem o número do partido do candidato. Divida a coluna `NUMERO_CAND` em duas para criar uma coluna de `NUM_PARTIDO` e outra de `NUM_CAND_RESTANTE`.
 
 ```{r}
 data_verador <- data %>% filter(DESCRICAO_CARGO=="VEREADOR") %>%
-  separate(NUMERO_CAND, into=c("NUM_PARTIDO","NUM_CANDIDATO"), sep=2)
+  separate(NUMERO_CAND, into=c("NUM_PARTIDO","NUM_CAND_RESTANTE"), sep=2)
 ```
 
-14. Agora, unifique as colunas `NUM_PARTIDO` e `NUM_CAND` criado em Q9. O resultado deve ser ígual à coluna original `NUMERO_CAND`.
+14. Agora, unifique as colunas `NUM_PARTIDO` e `NUM_CAND_RESTANTE` criado em Q9. O resultado deve ser ígual à coluna original `NUMERO_CAND`.
 
 ```{r}
-data_verador <- data_verador %>% unite(NUMERO_CAND_NOVO,c(NUM_PARTIDO,NUM_CANDIDATO)) %>%
+data_verador <- data_verador %>% 
+  unite(NUMERO_CAND_NOVO,c(NUM_PARTIDO,NUM_CAND_RESTANTE)) %>%
   mutate()
 ```
 
-15. Limpe o seu script e Knit para o documento de HTML, por exemplo adicionando comentários, verificando que as respostas fazem sentidos, inserindo código in-line, tirando o código, warnings e mensagens do documento final, e formatando as tabelas com `df_print: paged` no cabeçalho.
+15. Limpe o seu script e Knit para um documento de HTML, por exemplo adicionando comentários, verificando que as respostas fazem sentidos, inserindo in-line código, tirando o código, warnings e mensagens do documento final, e formatando as tabelas melhores com `df_print: paged` no cabeçalho.
 
