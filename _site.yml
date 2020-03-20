@@ -21,7 +21,7 @@ navbar:
     - text: "Desafios"
       menu: 
           - text: "Desafio 1"
-            href: Desafios/desafio_1.html
+            href: Desafios/Desafio_1.html
           - text: "Desafio 2"
             href: desafio_2.html 
           - text: "Desafio 3"
