@@ -15,10 +15,13 @@ navbar:
             href: introducao.html
           - text: "2. Abrindo e Manipulando Dados"
             href: abrindo_manipulando.html
+          - text: "3. Organizando e Limpando Dados"
+            href: limpando_dados.html
+
     - text: "Desafios"
       menu: 
           - text: "Desafio 1"
-            href: desafio_1.html
+            href: Desafios/desafio_1.html
           - text: "Desafio 2"
             href: desafio_2.html 
           - text: "Desafio 3"

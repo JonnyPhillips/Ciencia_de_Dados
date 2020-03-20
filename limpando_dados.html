@@ -1296,6 +1296,7 @@ Tutoriais
 <div class="nav-dropdown-content">
 <a href="introducao.html">1. Introducao</a>
 <a href="abrindo_manipulando.html">2. Abrindo e Manipulando Dados</a>
+<a href="limpando_dados.html">3. Organizando e Limpando Dados</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1305,7 +1306,7 @@ Desafios
 <span class="down-arrow">&#x25BE;</span>
 </button>
 <div class="nav-dropdown-content">
-<a href="desafio_1.html">Desafio 1</a>
+<a href="Desafios/desafio_1.html">Desafio 1</a>
 <a href="desafio_2.html">Desafio 2</a>
 <a href="desafio_3.html">Desafio 3</a>
 <a href="desafio_4.html">Desafio 4</a>
@@ -1336,6 +1337,7 @@ Desafios
 <li><a href="#recodificação-de-variáveis">Recodificação de Variáveis</a></li>
 <li><a href="#ordenando-os-nossos-dados">Ordenando os nossos dados</a></li>
 <li><a href="#factors">Factors</a></li>
+<li><a href="#identificando-casosvalores-únicos-distinct">Identificando Casos/Valores Únicos (<code>distinct</code>)</a></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
@@ -1348,8 +1350,11 @@ div.orange { background-color:#fee6ce; border-radius: 5px; padding: 20px;}
 <style>
 div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 </style>
+<style>
+div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
+</style>
 <h1 id="dividindo-e-unificando-variáveis">Dividindo e Unificando Variáveis</h1>
-<h2 id="dividir-variáveis">Dividir Variáveis</h2>
+<h2 id="dividir-variáveis-separate">Dividir Variáveis (<code>separate</code>)</h2>
 <p>Recebemos um banco de dados que combina dois pedaços de informação em uma variável único. Por exemplo, que junta mês e ano num formato combinado, ex. “jan2013” Para filtrar, manipular ou calcular baseado no mês ou ano individualmente, é sempre melhor organizar os dados com variáveis separadas para cada pedaço de informação.</p>
 <p>Para dividir uma variável (coluna) em duas, usamos o verbo <code>separate()</code>. Os argumentos da função são: (i) o nome da coluna que quer dividir, (ii) os nomes das duas colunas novas, e (iii) como queremos separar a coluna em duas. Pode verificar estes argumentos usando o help, <code>?separate</code>. O (i) é fácil. No (ii) temos que especificar dois nomes, então não esquece de usar o <code>c()</code>, ex. <code>c("primeiro","segundo")</code> para indicar que você queria um vetor com mais de um elemento.</p>
 <p>O (iii) é o mais poderoso e complicado: Existe dois jeitos de separar uma variável em duas - por <em>posição</em>, ou por <em>cáracter</em>. Vamos ver por posição primeira, que indica que a variavel tem um padrão fixo definido pelo número de cáracteres entre os dois componentes. Ex. “jan2013” pode ser separado depois do terceiro cáracter, então usamos um separador de ‘3’.</p>
@@ -1388,7 +1393,7 @@ ex_separate_2 %&gt;% separate(Mes_Ano, c(&quot;Mes&quot;,&quot;Ano&quot;), &quot
 </div>
 </div>
 <p>Muito poderoso! Vejamos em uma aula futura como a trabalhar mais com estes strings de texto.</p>
-<h2 id="unificar-variáveis">Unificar Variáveis</h2>
+<h2 id="unificar-variáveis-unite">Unificar Variáveis (<code>unite</code>)</h2>
 <p>Podemos fazer o inverso e unificar duas variáveis? Sim, é fácil, mas temos que justificar o porque. Normalmente faz mais sentido deixar os pedaços de informação em variáveis separadas. Pode ser que por motivos de apresentação queremos unificar duas variáveis em uma. Por exemplo, para juntar nome e sobrenome em uma coluna para um relatório. Veja abaixo o uso de <code>unite()</code> para devolver as nossas colunas de mês e ano para mes_ano. Os argumentos são basicamente os mesmos que <code>separate()</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1403,7 +1408,11 @@ ex_separate_3 %&gt;% unite(&quot;Mes_Ano&quot;, c(Mes,Ano))</code></pre>
   </script>
 </div>
 </div>
-<p>Observe que <code>unite()</code> insere um ’_’ entre os componentes por padrão; podemos especificar o nosso cáracter preferido (ou nenhum) com mais um argumento na função.</p>
+<p>Observe que <code>unite()</code> insere um ’_’ entre os componentes por padrão; podemos especificar o nosso cáracter preferido (ou nenhum) com mais um argumento na função, por exemplo <code>sep="-"</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+ex_separate_3 %&gt;% unite(&quot;Mes_Ano&quot;, c(Mes,Ano), sep=&quot;-&quot;)</code></pre>
+</div>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Aspas ou sem Aspas?</strong> Você já observou que estamos referindo às variáveis em duas formas diferentes? As vezes com aspas <code>"Variável"</code>, e as vezes sem aspas <code>Variável</code>. Como sabemos qual a usar? É um tópico um pouco chato, mas importante.</p>
 <p>Usamos sem aspas quando referimos ao um objeto que já existe em nosso Environment, ou uma coluna já existente num tibble. Usamos com aspas quando referimos a um nome novo que estamos gerando na hora.</p>
@@ -1481,7 +1490,37 @@ ex_recodificar %&gt;% mutate(Nova_Variavel=case_when(Ano&gt;=2014~&quot;Sim&quot
   </script>
 </div>
 </div>
-<p>Tome cuidado na construção das condições: Idealmente elas devam ser <strong>compreensivo</strong> e também mutualmente exclusivos. Se não a ordem das condições importa e pode gerar resultados inesperados.</p>
+<p>Tome cuidado na construção das condições: Idealmente elas devam ser <strong>compreensivo</strong> e também <strong>mutualmente exclusivos</strong>. Se não, a ordem das condições importa e pode gerar resultados inesperados.</p>
+<p><br></p>
+<div class="green">
+<h1 id="exercício-1-limpando-dados">Exercício 1: Limpando Dados</h1>
+<p>Usando o banco de dados de <code>flights</code> no pacote <code>nycflights13</code>, responde as seguintes perguntas:</p>
+<ol type="1">
+<li>Crie uma data completa numa variável única, com o formato “day-month-year”.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="2" type="1">
+<li>Divide a variável <code>time_hour</code> em duas; uma variável de <code>time</code> e outro variável de <code>hour</code>.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="3" type="1">
+<li>Recodifique a variável <code>dep_delay</code> para uma variável binário, que seja <code>1</code> quando tem atraso, e <code>0</code> quando não tem atraso (valores negativos significam decolagens antes de horário previsto).</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="4" type="1">
+<li>A companhia aérea US Airways (código ‘US’) se fundiu com American Airlines (código ‘AA’) em 2015. Recodifique voos de US Airways como voos de American Airlines.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+</div>
+<p><br></p>
 <h1 id="ordenando-os-nossos-dados">Ordenando os nossos dados</h1>
 <p>Até agora, ignoramos a ordem das observações em nosso banco de dados. A ordem importa por dois motivos. Primeiro, para apresentação de tabelas mais organizadas no documento final. Segundo, para facilitar funções específicas quando as nossas observações têm um ordem natural.</p>
 <h2 id="ordenar-arrange">Ordenar: <code>Arrange</code></h2>
@@ -1605,6 +1644,36 @@ ex_arrange %&gt;% arrange(Ano) %&gt;%
   </script>
 </div>
 </div>
+<p><br></p>
+<div class="green">
+<h1 id="exercício-2-ordenação">Exercício 2: Ordenação</h1>
+<p>Use de novo o banco de dados <code>flights</code>:</p>
+<ol type="1">
+<li>Ordene o banco de dados de menor a maior duração (<code>air_time</code>), incluindo apenas os voos com destino de Anchorage (<code>ANC</code>).</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="2" type="1">
+<li>Identifique o voo mais atrasado (<code>dep_delay</code>) entre LaGuardia (<code>LGA</code>) e Atlanta (<code>ATL</code>). Quão atrasado foi o voo?</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="3" type="1">
+<li>Calcule a velocidade de cada voo, e selecione os três voos mais rápidos. Eles são de onde para onde?</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="4" type="1">
+<li>Para os voos com destino de Anchorage (<code>ANC</code>), verifique que eles são ordenados cronologicamente (por <code>year</code>, <code>month</code>, <code>day</code>, e <code>dep_time</code>) e gera uma nova variável com a duração (<code>air_time</code>) do voo <em>anterior</em>. Agora, compare a duração de cada voo com a duração de voo anterior.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+</div>
+<p><br></p>
 <h1 id="factors">Factors</h1>
 <p>Além de numéricos, caracteres e logicais (TRUE/FALSE), o tipo de dado mais útil para análise de dados é um ‘factor’. Factors são variáveis que podem assumir um número de valores limitados e pre-definidos (normalmente caracteres). Pense-se em variáveis categóricos, nominais, ordinais etc. Factors nos ajudamos evitar erros e refletir a estrutura real das nossas variáveis, mas eles exigem uma disciplina e cuidado por nosso lado.</p>
 <p>Por exemplo, lembre-se quando o nosso banco de dados incluiu “february” em vez de “fevereiro”? Isso é impossível com uma variável do tipo factor, pois definimos do início os valores aceitáveis num formato padrão - os ‘levels’. Vamos recriar o tibble ‘ex_arrange’ de acima, mas agora especificamos o mês como uma variável factor, com os ‘levels’ permitidos pela natureza da variável:</p>
@@ -1643,20 +1712,11 @@ ex_arrange &lt;- tibble(ID = 1:10, Ano = c(2008, 2005, 2009, 2006, 2006, 2007,
 ex_arrange %&gt;% arrange(Ano, Mes)</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>
-# A tibble: 10 x 4
-      ID   Ano Mes       Valor
-   &lt;int&gt; &lt;dbl&gt; &lt;ord&gt;     &lt;dbl&gt;
- 1    10  2005 Outubro     350
- 2     2  2005 Novembro    800
- 3     8  2005 Novembro    450
- 4     4  2006 Março       500
- 5     5  2006 Novembro    850
- 6     6  2007 Fevereiro   450
- 7     9  2008 Janeiro     700
- 8     1  2008 Abril       750
- 9     7  2008 Junho       600
-10     3  2009 Julho       300</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["ID"],"name":[1],"type":["int"],"align":["right"]},{"label":["Ano"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mes"],"name":[3],"type":["ord"],"align":["right"]},{"label":["Valor"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"10","2":"2005","3":"Outubro","4":"350"},{"1":"2","2":"2005","3":"Novembro","4":"800"},{"1":"8","2":"2005","3":"Novembro","4":"450"},{"1":"4","2":"2006","3":"Março","4":"500"},{"1":"5","2":"2006","3":"Novembro","4":"850"},{"1":"6","2":"2007","3":"Fevereiro","4":"450"},{"1":"9","2":"2008","3":"Janeiro","4":"700"},{"1":"1","2":"2008","3":"Abril","4":"750"},{"1":"7","2":"2008","3":"Junho","4":"600"},{"1":"3","2":"2009","3":"Julho","4":"300"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 <h2 id="completando-bancos-de-dados-parciais-complete">Completando Bancos de Dados Parciais: <code>complete</code></h2>
 <p>A segunda vantagem é que um factor deixa fácil preencher os valores da variável ausentes. Por exemplo, os nossos cálculos de <code>lag</code>, <code>lead</code> e diferença acima não fazem muito sentido - comparamos por exemplo o valor de Junho com o valor de Abril, pulando Maio porque não foi no banco de dados originais. Então o nosso cálculo de <code>lag</code> é inconsistente; um mês em alguns casos, dois meses em outros, 9 meses em outros. Um cálculo consistente e confiável tem que refletir os dados ausentes <em>explicitamente</em>.</p>
@@ -1744,9 +1804,77 @@ ex_arrange %&gt;% mutate(Mes=fct_collapse(Mes,&quot;Q1&quot;=c(&quot;Janeiro&quo
 </div>
 </div>
 <p>Mais detalhes no cheatsheet de forcats <a href="https://github.com/rstudio/cheatsheets/raw/master/factors.pdf">aqui</a>.</p>
+<p><br></p>
+<div class="green">
+<h1 id="exercício-3-factors">Exercício 3: Factors</h1>
+<p>Use os dados de <code>flights</code> de novo:</p>
+<ol type="1">
+<li>Transforme a variável <code>origin</code> para um factor (não-ordenado).</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="2" type="1">
+<li>Transforme a variável ‘month’ para um factor ordenado.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="3" type="1">
+<li>Recodifique o factor <code>origin</code> para os nomes completos dos aeroportos</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+</div>
+<p><br></p>
+<h1 id="identificando-casosvalores-únicos-distinct">Identificando Casos/Valores Únicos (<code>distinct</code>)</h1>
+<p>Quais valores existem em nosso banco de dados? Em uma variável de 1.000 linhas, quais valores <em>únicos</em> existem? As nossa observações são duplicadas?</p>
+<p>Começando com um tibble, podemos pedir os valores/casos únicos que existem no banco de dados usando o verbo <code>distinct()</code>. Nos parénteses, especificamos quais variáveis queremos avaliar. Se especificarmos uma variável, recebemos todos os valores que existem no banco de dados para esta variável:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+flights %&gt;% distinct(origin)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["origin"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"EWR"},{"1":"LGA"},{"1":"JFK"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<p>Com mais de uma variável, identificamos os conjuntos que existem no banco de dados. Por exemplo, imaginar que queremos saber quais companhias aéreas voam de quais aeroportos (com a ajuda de <code>arrange</code> para organizar o resultado):</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+flights %&gt;% distinct(origin, carrier) %&gt;%
+  arrange(origin, carrier)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["origin"],"name":[1],"type":["chr"],"align":["left"]},{"label":["carrier"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"EWR","2":"9E"},{"1":"EWR","2":"AA"},{"1":"EWR","2":"AS"},{"1":"EWR","2":"B6"},{"1":"EWR","2":"DL"},{"1":"EWR","2":"EV"},{"1":"EWR","2":"MQ"},{"1":"EWR","2":"OO"},{"1":"EWR","2":"UA"},{"1":"EWR","2":"US"},{"1":"EWR","2":"VX"},{"1":"EWR","2":"WN"},{"1":"JFK","2":"9E"},{"1":"JFK","2":"AA"},{"1":"JFK","2":"B6"},{"1":"JFK","2":"DL"},{"1":"JFK","2":"EV"},{"1":"JFK","2":"HA"},{"1":"JFK","2":"MQ"},{"1":"JFK","2":"UA"},{"1":"JFK","2":"US"},{"1":"JFK","2":"VX"},{"1":"LGA","2":"9E"},{"1":"LGA","2":"AA"},{"1":"LGA","2":"B6"},{"1":"LGA","2":"DL"},{"1":"LGA","2":"EV"},{"1":"LGA","2":"F9"},{"1":"LGA","2":"FL"},{"1":"LGA","2":"MQ"},{"1":"LGA","2":"OO"},{"1":"LGA","2":"UA"},{"1":"LGA","2":"US"},{"1":"LGA","2":"WN"},{"1":"LGA","2":"YV"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<p>Finalmente, <code>distinct</code> nos ajuda para entender melhor a unidade de análise no banco de dados, e a presença de duplicados que podem indicar erros ou contaminar análises subsequentes. Por exemplo, em teoria deve ser impossível ter mais que um voo no mesmo horário, com o mesmo número da mesma companhia, do mesmo origem ao mesmo destino. Podemos confirmar isso observando que o número de linhas na seguinte linha é ígual ao número de linhas do banco de dados inteiro:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+flights %&gt;% distinct(year, month, day, dep_time, carrier, flight, origin, dest)</code></pre>
+</div>
+<p>As aviões são também identificados por um número de cauda (<code>tailnum</code>), e imaginando que o <code>tailnum</code> seja única para cada avião, parece razoável assumir que a mesma avião não está voando no mesmo horário mais que uma vez:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+flights %&gt;% distinct(year, month, day, dep_time, tailnum)</code></pre>
+</div>
+<p>Pare, o número de linhas aqui é 334.067, menos do 336.776 no banco de dados inteiro. Isso significa que temos mais que um <code>tailnum</code> decolando no mesmo horário… é crucial saber isso para informar as nossas análises. Com mais investigação, entenderemos que isto é produzido pela presença de observações de <code>dep_time</code> e <code>tailnum</code> que são <code>NA</code>, desconhecidos, e portanto aparecem como duplicados.</p>
 <div class="orange">
 <h1 id="leitura-para-tutorial-4">Leitura para Tutorial 4</h1>
 <p>Antes da próxima aula, por favor leia <a href="https://r4ds.had.co.nz/">R 4 Data Science, Capítulos</a></p>
+</div>
+<p><br></p>
+<div class="purple">
+<h1 id="desafio-1">Desafio 1</h1>
+<p>É mais ou menos fácil seguir um tutorial passo a passo. O teste real do nosso entendimento é quando temos que trabalhar com um novo banco de dados sem instrução. O <a href="Desafios/Desafio_1.html">Desafio 1</a> teste a sua capacidade de abrir, manipular e limpar um banco de dados para produzir um relatório bonito e claro em HTML.</p>
+<p>O prazo para entregar Desafio 1 por email à minha conta é <strong>14h, 26/03/2020</strong>, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.</p>
 </div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

@@ -21,6 +21,11 @@ div.orange { background-color:#fee6ce; border-radius: 5px; padding: 20px;}
 div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 </style>
 
+<style>
+div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
+</style>
+
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = T, eval=T, highlight=T)
 library("nycflights13")
@@ -31,7 +36,7 @@ library("rmarkdown")
 
 # Dividindo e Unificando Variáveis
 
-## Dividir Variáveis
+## Dividir Variáveis (`separate`)
 
 Recebemos um banco de dados que combina dois pedaços de informação em uma variável único. Por exemplo, que junta mês e ano num formato combinado, ex. "jan2013" Para filtrar, manipular ou calcular baseado no mês ou ano individualmente, é sempre melhor organizar os dados com variáveis separadas para cada pedaço de informação. 
 
@@ -74,7 +79,7 @@ ex_separate_2 %>% separate(Mes_Ano, c("Mes","Ano"), "_") %>%
 
 Muito poderoso! Vejamos em uma aula futura como a trabalhar mais com estes strings de texto. 
 
-## Unificar Variáveis
+## Unificar Variáveis (`unite`)
 
 Podemos fazer o inverso e unificar duas variáveis? Sim, é fácil, mas temos que justificar o porque. Normalmente faz mais sentido deixar os pedaços de informação em variáveis separadas. Pode ser que por motivos de apresentação queremos unificar duas variáveis em uma. Por exemplo, para juntar nome e sobrenome em uma coluna para um relatório. Veja abaixo o uso de `unite()` para devolver as nossas colunas de mês e ano para mes_ano. Os argumentos são basicamente os mesmos que `separate()`:
 
@@ -89,7 +94,11 @@ ex_separate_3 %>% unite("Mes_Ano", c(Mes,Ano)) %>%
   paged_table()
 ```
 
-Observe que `unite()` insere um '_' entre os componentes por padrão; podemos especificar o nosso cáracter preferido (ou nenhum) com mais um argumento na função.
+Observe que `unite()` insere um '_' entre os componentes por padrão; podemos especificar o nosso cáracter preferido (ou nenhum) com mais um argumento na função, por exemplo `sep="-"`.
+
+```{r, results='hide'}
+ex_separate_3 %>% unite("Mes_Ano", c(Mes,Ano), sep="-")
+```
 
 <div class = "blue">
 **Habilidade Básica de Programação: Aspas ou sem Aspas?**
@@ -176,7 +185,47 @@ ex_recodificar %>% mutate(Nova_Variavel=case_when(Ano>=2014~"Sim",
   paged_table()
 ```
 
-Tome cuidado na construção das condições: Idealmente elas devam ser **compreensivo** e também mutualmente exclusivos. Se não a ordem das condições importa e pode gerar resultados inesperados. 
+
+Tome cuidado na construção das condições: Idealmente elas devam ser **compreensivo** e também **mutualmente exclusivos**. Se não, a ordem das condições importa e pode gerar resultados inesperados. 
+
+<br>
+
+<div class = "green">
+
+# Exercício 1: Limpando Dados
+
+Usando o banco de dados de `flights` no pacote `nycflights13`, responde as seguintes perguntas:
+
+1. Crie uma data completa numa variável única, com o formato "day-month-year". 
+
+```{r, echo=F, eval=F}
+flights %>% unite(day, month, year, sep="-")
+```
+
+2. Divide a variável `time_hour` em duas; uma variável de `time` e outro variável de `hour`. 
+
+```{r, echo=F, eval=F}
+flights %>% separate(time_hour, into=c("time","hour"), sep=" ")
+```
+
+3. Recodifique a variável `dep_delay` para uma variável binário, que seja `1` quando tem atraso, e `0` quando não tem atraso (valores negativos significam decolagens antes de horário previsto).
+
+```{r, echo=F, eval=F}
+flights <- flights %>% mutate(dep_delay=case_when(dep_delay>0~1,
+                                       dep_delay<=0~0))
+```
+
+4. A companhia aérea US Airways (código 'US') se fundiu com American Airlines (código 'AA') em 2015. Recodifique voos de US Airways como voos de American Airlines.
+
+```{r, echo=F, eval=F}
+flights <- flights %>% mutate(carrier=case_when(carrier=="US"~"AA",
+                                     TRUE~carrier))
+```
+
+
+</div>
+
+<br>
 
 # Ordenando os nossos dados
 
@@ -301,6 +350,48 @@ ex_arrange %>% arrange(Ano) %>%
   paged_table()
 ```
 
+<br>
+
+<div class = "green">
+
+# Exercício 2: Ordenação
+
+Use de novo o banco de dados `flights`:
+
+1. Ordene o banco de dados de menor a maior duração (`air_time`), incluindo apenas os voos com destino de Anchorage (`ANC`). 
+
+```{r, echo=F, eval=F}
+flights %>% filter(dest=="ANC") %>%
+  arrange(air_time)
+```
+
+2. Identifique o voo mais atrasado (`dep_delay`) entre LaGuardia (`LGA`) e Atlanta (`ATL`). Quão atrasado foi o voo?
+
+```{r, echo=F, eval=F}
+flights %>% filter(origin=="LGA" & dest=="ATL") %>%
+  arrange(-dep_delay)
+```
+
+3. Calcule a velocidade de cada voo, e selecione os três voos mais rápidos. Eles são de onde para onde?
+
+```{r, echo=F, eval=F}
+flights %>% mutate(velocidade=distance/air_time) %>% 
+  top_n(3, velocidade)
+```
+
+4. Para os voos com destino de Anchorage (`ANC`), verifique que eles são ordenados cronologicamente (por `year`, `month`, `day`, e `dep_time`) e gera uma nova variável com a duração (`air_time`) do voo *anterior*. Agora, compare a duração de cada voo com a duração de voo anterior.
+
+```{r, echo=F, eval=F}
+flights %>% filter(dest=="ANC") %>%
+  arrange(year, month, day, dep_time) %>% 
+  mutate(air_time_anterior=lag(air_time),
+         air_time_anterior_dif=air_time-air_time_anterior)
+```
+
+</div>
+
+<br>
+
 # Factors
 
 Além de numéricos, caracteres e logicais (TRUE/FALSE), o tipo de dado mais útil para análise de dados é um 'factor'. Factors são variáveis que podem assumir um número de valores limitados e pre-definidos (normalmente caracteres). Pense-se em variáveis categóricos, nominais, ordinais etc. Factors nos ajudamos evitar erros e refletir a estrutura real das nossas variáveis, mas eles exigem uma disciplina e cuidado por nosso lado. 
@@ -346,7 +437,7 @@ ex_arrange %>% arrange(Ano, Mes)
 ```
 
 ```{r, echo=F}
-ex_arrange %>% arrange(Ano, Mes)
+ex_arrange %>% arrange(Ano, Mes) %>% paged_table()
 ```
 
 ## Completando Bancos de Dados Parciais: `complete`
@@ -456,10 +547,92 @@ ex_arrange %>% mutate(Mes=fct_collapse(Mes,"Q1"=c("Janeiro","Fevereiro","Março"
 
 Mais detalhes no cheatsheet de forcats [aqui](https://github.com/rstudio/cheatsheets/raw/master/factors.pdf).
 
+<br>
+
+<div class = "green">
+
+# Exercício 3: Factors
+
+Use os dados de `flights` de novo:
+
+1. Transforme a variável `origin` para um factor (não-ordenado). 
+
+```{r, echo=F, eval=F}
+flights %>% mutate(origin=factor(origin))
+```
+
+2. Transforme a variável 'month' para um factor ordenado. 
+
+```{r, echo=F, eval=F}
+flights %>% mutate(month=factor(month, levels=1:12, ordered=T))
+```
+
+3. Recodifique o factor `origin` para os nomes completos dos aeroportos
+
+```{r, echo=F, eval=F}
+flights %>% mutate(origin=fct_recode(origin,
+                                     "Newark"="EWR",
+                                     "John F Kennedy"="JFK",
+                                     "LaGuardia"="LGA"))
+```
+
+</div>
+
+<br>
+
+# Identificando Casos/Valores Únicos (`distinct`)
+
+Quais valores existem em nosso banco de dados? Em uma variável de 1.000 linhas, quais valores *únicos* existem? As nossa observações são duplicadas?
+
+Começando com um tibble, podemos pedir os valores/casos únicos que existem no banco de dados usando o verbo `distinct()`. Nos parénteses, especificamos quais variáveis queremos avaliar. Se especificarmos uma variável, recebemos todos os valores que existem no banco de dados para esta variável:
+
+```{r, eval=F}
+flights %>% distinct(origin)
+```
+
+```{r, echo=F, eval=T}
+flights %>% distinct(origin) %>% paged_table()
+```
+
+Com mais de uma variável, identificamos os conjuntos que existem no banco de dados. Por exemplo, imaginar que queremos saber quais companhias aéreas voam de quais aeroportos (com a ajuda de `arrange` para organizar o resultado):
+
+```{r, eval=F}
+flights %>% distinct(origin, carrier) %>%
+  arrange(origin, carrier)
+```
+
+```{r, echo=F, eval=T}
+flights %>% distinct(origin, carrier) %>%
+  arrange(origin, carrier) %>% 
+  paged_table()
+```
+
+Finalmente, `distinct` nos ajuda para entender melhor a unidade de análise no banco de dados, e a presença de duplicados que podem indicar erros ou contaminar análises subsequentes. Por exemplo, em teoria deve ser impossível ter mais que um voo no mesmo horário, com o mesmo número da mesma companhia, do mesmo origem ao mesmo destino. Podemos confirmar isso observando que o número de linhas na seguinte linha é ígual ao número de linhas do banco de dados inteiro:
+
+```{r, eval=F}
+flights %>% distinct(year, month, day, dep_time, carrier, flight, origin, dest)
+```
+
+As aviões são também identificados por um número de cauda (`tailnum`), e imaginando que o `tailnum` seja única para cada avião, parece razoável assumir que a mesma avião não está voando no mesmo horário mais que uma vez:
+
+```{r, eval=F}
+flights %>% distinct(year, month, day, dep_time, tailnum)
+```
+
+Pare, o número de linhas aqui é 334.067, menos do 336.776 no banco de dados inteiro. Isso significa que temos mais que um `tailnum` decolando no mesmo horário... é crucial saber isso para informar as nossas análises. Com mais investigação, entenderemos que isto é produzido pela presença de observações de `dep_time` e `tailnum` que são `NA`, desconhecidos, e portanto aparecem como duplicados.
 
 <div class = "orange">
 # Leitura para Tutorial 4
 
 Antes da próxima aula, por favor leia [R 4 Data Science, Capítulos ](https://r4ds.had.co.nz/)
 
+</div>
+<br>
+
+<div class = "purple">
+# Desafio 1
+
+É mais ou menos fácil seguir um tutorial passo a passo. O teste real do nosso entendimento é quando temos que trabalhar com um novo banco de dados sem instrução. O [Desafio 1](Desafios/Desafio_1.html) teste a sua capacidade de abrir, manipular e limpar um banco de dados para produzir um relatório bonito e claro em HTML.
+
+O prazo para entregar Desafio 1 por email à minha conta é **14h, 26/03/2020**, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
 </div>
