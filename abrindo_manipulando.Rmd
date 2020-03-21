@@ -498,53 +498,70 @@ Note também que no código acima inserimos uma nova linha depois de cada pipe; 
 
 
 <div class = "green">
-
 # Exercício 1: Manipulando dados
 
 Com essas novas habilidades, vamos preparar uma análise rápida do banco de dados `flights` com o objetivo de produzir um relatório em html no final. Gere uma tabela apropriada para cada critério:
+</div>
 
+<div class = "green">
 1. Os voos de United (`carrier` UA) que decolaram no dia 25 de janeiro.
+</div>
 
-```{r, eval=F}
-flights %>% filter(carrier=="UA" & month==1 & day==25) %>%
-  datatable()
+<aside>
+```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+flights %>% filter(carrier=="UA" & month==1 & day==25)
 ```
+</aside>
 
-
+<div class = "green">
 2. Os voos de JetBlue (`carrier` B6) que decolaram com mais de 300 minutos de atraso de Newark (`origin` EWR).
+</div>
 
-```{r, eval=F}
-flights %>% filter(carrier=="B6" & dep_delay>300 & origin=="EWR") %>%
-  datatable()
+<aside>
+```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+flights %>% filter(carrier=="B6" & dep_delay>300 & origin=="EWR")
 ```
+</aside>
 
+
+<div class = "green">
 3. Calcule a velocidade dos voos que decolaram de LaGuardia (`origin` LGA) no dia 7 de setembro antes das 6h. Lembre-se que velocidade é distância dividido por tempo. (Qual é a unidade desta velocidade?)
+</div>
 
-```{r, eval=F}
+<aside>
+```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
 flights %>% filter(origin=="LGA" & month==9 & day==7 & dep_time<600) %>%
-  mutate(speed=distance/air_time) %>%
-  datatable()
+  mutate(speed=distance/air_time)
 ```
+</aside>
 
+
+<div class = "green">
 4. Uma tabela com apenas o atraso na chegada de todos os voos atrasados por pelo menos 60 minutos que partiram do aeroporto Newark e chegaram em Buffalo (BUF) no dia seis de qualquer mes. 
+</div>
 
-```{r, eval=F}
+<aside>
+```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
 flights %>% filter(dest=="BUF" & origin=="EWR" & arr_delay>=60 & day==6) %>%
-  select(arr_delay) %>%
-  datatable()
+  select(arr_delay)
 ```
+</aside>
 
+
+<div class = "green">
 5. Uma tabela dos números dos aviões (`tailnum`), destino, distância e a velocidade em milhas por hora para voos que voaram em maio pelo menos 1000 milhas ou com velocidade acima de 500 milhas por hora.
+</div>
 
-```{r, eval=F}
+<aside>
+```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
 flights %>% mutate(velocidade=distance/(air_time/60)) %>%
   filter((distance>4800 | velocidade>530) & month==4) %>%
-  select(tailnum, dest, distance, velocidade) %>%
-  datatable()
+  select(tailnum, dest, distance, velocidade) 
 ```
+</aside>
 
+<div class = "green">
 6. Prepare os resultados de todos as análises acima em tabelas usando a opção de R Markdown de `df_print: paged` (veja o Tutorial 1), e faça o `knit` do seu script de R markdown para produzir o relatório final.
-
 </div>
 
 # Controlando o que Aparece no Relatório Final
@@ -743,13 +760,39 @@ Há critérios de conversão de variáveis categóricas, rótulos e etc, adotado
 # Exercício 3: Abrindo Dados Eleitorais
 
 1. Escolha um banco de dados (qualquer arquivo único) da aba 'Resultados' do site do [Tribunal Superior Eleitoral aqui](http://www.tse.jus.br/eleicoes/estatisticas/repositorio-de-dados-eleitorais-1/repositorio-de-dados-eleitorais), baixa-lo e unzip ele.
+</div>
 
+<div class = "green">
 2. Use uma função apropriada para abrir o arquivo em R. 
+</div>
 
+<aside>
+```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+data <- read_delim("arquivo.txt",
+                   delim=";",
+                   locale=locale(encoding = "latin1"))
+```
+
+</aside>
+
+<div class = "green">
 3. Use o arquivo leiame.pdf que fica no zip com o arquivo do TSE para identificar o encoding dos dados, e os nomes das variáveis. Incorporar esta informação na abertura do arquivo.
+</div>
 
+<aside>
+```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+data <- read_delim("arquivo.txt",
+                   delim=";",
+                   locale=locale(encoding = "latin1"),
+                   col_names=c("Variavel_1","Variavel_2","..."))
+```
+</aside>
+
+<div class = "green">
 4. Crie uma tabela bonita em R Markdown, e verifique que o número de colunas e observações fazem sentido.
+</div>
 
+<div class = "green">
 5. Tente manipular a base utilizando as funções que aprendemos no tutorial de hoje.
 </div>
 

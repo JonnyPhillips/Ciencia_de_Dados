@@ -1858,36 +1858,74 @@ flights %&gt;%
 <div class="green">
 <h1 id="exercício-1-manipulando-dados">Exercício 1: Manipulando dados</h1>
 <p>Com essas novas habilidades, vamos preparar uma análise rápida do banco de dados <code>flights</code> com o objetivo de produzir um relatório em html no final. Gere uma tabela apropriada para cada critério:</p>
+</div>
+<div class="green">
 <ol type="1">
 <li>Os voos de United (<code>carrier</code> UA) que decolaram no dia 25 de janeiro.</li>
 </ol>
-<div class="layout-chunk" data-layout="l-body">
-
 </div>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+flights %&gt;% filter(carrier == &quot;UA&quot; &amp; 
+    month == 1 &amp; day == 25)</code></pre>
+</div>
+</aside>
+<div class="green">
 <ol start="2" type="1">
 <li>Os voos de JetBlue (<code>carrier</code> B6) que decolaram com mais de 300 minutos de atraso de Newark (<code>origin</code> EWR).</li>
 </ol>
-<div class="layout-chunk" data-layout="l-body">
-
 </div>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+flights %&gt;% filter(carrier == &quot;B6&quot; &amp; 
+    dep_delay &gt; 300 &amp; origin == 
+    &quot;EWR&quot;)</code></pre>
+</div>
+</aside>
+<div class="green">
 <ol start="3" type="1">
 <li>Calcule a velocidade dos voos que decolaram de LaGuardia (<code>origin</code> LGA) no dia 7 de setembro antes das 6h. Lembre-se que velocidade é distância dividido por tempo. (Qual é a unidade desta velocidade?)</li>
 </ol>
-<div class="layout-chunk" data-layout="l-body">
-
 </div>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+flights %&gt;% filter(origin == &quot;LGA&quot; &amp; 
+    month == 9 &amp; day == 7 &amp; dep_time &lt; 
+    600) %&gt;% mutate(speed = distance/air_time)</code></pre>
+</div>
+</aside>
+<div class="green">
 <ol start="4" type="1">
 <li>Uma tabela com apenas o atraso na chegada de todos os voos atrasados por pelo menos 60 minutos que partiram do aeroporto Newark e chegaram em Buffalo (BUF) no dia seis de qualquer mes.</li>
 </ol>
-<div class="layout-chunk" data-layout="l-body">
-
 </div>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+flights %&gt;% filter(dest == &quot;BUF&quot; &amp; 
+    origin == &quot;EWR&quot; &amp; arr_delay &gt;= 
+    60 &amp; day == 6) %&gt;% select(arr_delay)</code></pre>
+</div>
+</aside>
+<div class="green">
 <ol start="5" type="1">
 <li>Uma tabela dos números dos aviões (<code>tailnum</code>), destino, distância e a velocidade em milhas por hora para voos que voaram em maio pelo menos 1000 milhas ou com velocidade acima de 500 milhas por hora.</li>
 </ol>
-<div class="layout-chunk" data-layout="l-body">
-
 </div>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+flights %&gt;% mutate(velocidade = distance/(air_time/60)) %&gt;% 
+    filter((distance &gt; 4800 | velocidade &gt; 
+        530) &amp; month == 4) %&gt;% 
+    select(tailnum, dest, distance, 
+        velocidade)</code></pre>
+</div>
+</aside>
+<div class="green">
 <ol start="6" type="1">
 <li>Prepare os resultados de todos as análises acima em tabelas usando a opção de R Markdown de <code>df_print: paged</code> (veja o Tutorial 1), e faça o <code>knit</code> do seu script de R markdown para produzir o relatório final.</li>
 </ol>
@@ -2064,11 +2102,43 @@ latino_barometro_stata &lt;- read_stata(&quot;Latinobarometro_2015_Eng.dta&quot;
 <div class="green">
 <h1 id="exercício-3-abrindo-dados-eleitorais">Exercício 3: Abrindo Dados Eleitorais</h1>
 <ol type="1">
-<li><p>Escolha um banco de dados (qualquer arquivo único) da aba ‘Resultados’ do site do <a href="http://www.tse.jus.br/eleicoes/estatisticas/repositorio-de-dados-eleitorais-1/repositorio-de-dados-eleitorais">Tribunal Superior Eleitoral aqui</a>, baixa-lo e unzip ele.</p></li>
-<li><p>Use uma função apropriada para abrir o arquivo em R.</p></li>
-<li><p>Use o arquivo leiame.pdf que fica no zip com o arquivo do TSE para identificar o encoding dos dados, e os nomes das variáveis. Incorporar esta informação na abertura do arquivo.</p></li>
-<li><p>Crie uma tabela bonita em R Markdown, e verifique que o número de colunas e observações fazem sentido.</p></li>
-<li><p>Tente manipular a base utilizando as funções que aprendemos no tutorial de hoje.</p></li>
+<li>Escolha um banco de dados (qualquer arquivo único) da aba ‘Resultados’ do site do <a href="http://www.tse.jus.br/eleicoes/estatisticas/repositorio-de-dados-eleitorais-1/repositorio-de-dados-eleitorais">Tribunal Superior Eleitoral aqui</a>, baixa-lo e unzip ele.</li>
+</ol>
+</div>
+<div class="green">
+<ol start="2" type="1">
+<li>Use uma função apropriada para abrir o arquivo em R.</li>
+</ol>
+</div>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+data &lt;- read_delim(&quot;arquivo.txt&quot;, 
+    delim = &quot;;&quot;, locale = locale(encoding = &quot;latin1&quot;))</code></pre>
+</div>
+</aside>
+<div class="green">
+<ol start="3" type="1">
+<li>Use o arquivo leiame.pdf que fica no zip com o arquivo do TSE para identificar o encoding dos dados, e os nomes das variáveis. Incorporar esta informação na abertura do arquivo.</li>
+</ol>
+</div>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+data &lt;- read_delim(&quot;arquivo.txt&quot;, 
+    delim = &quot;;&quot;, locale = locale(encoding = &quot;latin1&quot;), 
+    col_names = c(&quot;Variavel_1&quot;, 
+        &quot;Variavel_2&quot;, &quot;...&quot;))</code></pre>
+</div>
+</aside>
+<div class="green">
+<ol start="4" type="1">
+<li>Crie uma tabela bonita em R Markdown, e verifique que o número de colunas e observações fazem sentido.</li>
+</ol>
+</div>
+<div class="green">
+<ol start="5" type="1">
+<li>Tente manipular a base utilizando as funções que aprendemos no tutorial de hoje.</li>
 </ol>
 </div>
 <p><br></p>
