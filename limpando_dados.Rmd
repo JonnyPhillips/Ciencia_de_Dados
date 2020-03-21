@@ -647,5 +647,5 @@ Antes da próxima aula, por favor leia [R 4 Data Science, Capítulos 6, 8, 17, 1
 
 É mais ou menos fácil seguir um tutorial passo a passo. O teste real do nosso entendimento é quando temos que trabalhar com um novo banco de dados sem instrução. O [Desafio 1](Desafios/Desafio_1.html) teste a sua capacidade de abrir, manipular e limpar um banco de dados para produzir um relatório bonito e claro em HTML.
 
-O prazo para entregar Desafio 1 por email à minha conta é **14h, 26/03/2020**, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
+O prazo para entregar Desafio 1 por email à minha conta é **14h, 27/03/2020**, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
 </div>

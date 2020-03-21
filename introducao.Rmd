@@ -523,37 +523,66 @@ Clique na seta ao lado do 'Knit' em RStudio e depois 'Knit to Word'. Deve aperce
 
 É isso, já aprendemos como a criar relatórios e análises reproduzíveis! Agora faça os exercícios abaixo com calma e pratique o que você tem aprendido.
 
-
 <div class = "green">
 # Exercício 1
+</div>
 
+<div class = "green">
 1. Comece um novo script de Rmarkdown e accesse o banco de dados `gapminder` no pacote `dslabs`. Estes dados descrevem as estatísticas resumidas para países do mundo desde 1960. 
+</div>
+
+<aside>
+```{r, eval=F, echo=T}
+#install.packages("dslabs")
+library("dslabs")
+```
+</aside>
+
+<div class = "green">
 2. Produza um mini-relatório com algumas frases curtas em HTML que descreva o banco de dados `gapminder`:
     a. Número de observações
     b. Número e nomes das variáveis
     c. O tipo de cada variável
     d. O que representa cada observação no banco de dados?
-3. Verifique que as respostas 2(a) e 2(b) são calculadas automaticamente no relatório usando funções do R e in-line code para inserir as respostas numa frase.
-4. Calcule o valor do número de observações multiplicado pelo número de colunas
-5. Inclua uma tabela do banco de dados `gapminder` no relatório. 
-6. Verifique que o seu relatório tem título, autor e data corretos, e comentários suficientes para explicar o que faça cada linha de código.
-7. Tente compilar o seu script final para um documento de Word.
-
 </div>
 
-```{r, eval=F, echo=F, include=F}
-#Respostas à Exercício
-
-#install.packages("dslabs")
-library("dslabs")
-
+<aside>
+```{r, eval=F, echo=T}
 nrow(gapminder)
 ncol(gapminder)
-
-nrow(gapminder)*ncol(gapminder)
-
-datatable(gapminder)
 ```
+</aside>
+    
+<div class = "green">
+3. Verifique que as respostas 2(a) e 2(b) são calculadas automaticamente no relatório usando funções do R e in-line code para inserir as respostas numa frase.
+</div>
+
+<div class = "green">
+4. Calcule o valor do número de observações multiplicado pelo número de colunas
+</div>
+
+<aside>
+```{r, eval=F, echo=T}
+nrow(gapminder)*ncol(gapminder)
+```
+</aside>
+
+<div class = "green">
+5. Inclua uma tabela do banco de dados `gapminder` no relatório.
+</div>
+
+<aside>
+```{r, eval=F, echo=T}
+gapminder
+```
+</aside>
+
+<div class = "green">
+6. Verifique que o seu relatório tem título, autor e data corretos, e comentários suficientes para explicar o que faça cada linha de código.
+7. Tente compilar o seu script final para um documento de Word.
+</div>
+
+
 <br>
 
 <div class = "green">
@@ -569,82 +598,172 @@ Compare o seu script de Exercício 1 com o script do seu vizinho. Quais são as 
 # Exercício 3: Encontre o erro em todos os códigos abaixo:
 
 Q1)
-
+</div>
+<div class = "green">
 ```{r, eval=F, echo=T}
-dim[flights]
+nrow[flights]
 ```
+</div>
 
+<aside>
+```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+nrow(flights)
+```
+</aside>
+
+<div class = "green">
 Q2)
-
 ```{r, eval=F, echo=T}
-din(flights)
+nrou(flights)
 ```
+</div>
 
+<aside>
+```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+nrow(flights)
+```
+</aside>
+
+<div class = "green">
 Q3)
-
 ```{r, eval=F, echo=T}
-v1 <- ("pato", "cachorro", "minhoca", "lagarto")
+v1 <- ("pato", "cachorro",
+       "minhoca", "lagarto")
 ```
+</div>
 
+<aside>
+```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+v1 <- c("pato", "cachorro", "minhoca", "lagarto")
+```
+</aside>
+
+<div class = "green">
 Q4) 
-
 ```{r, eval=F, echo=T}
 v2 <- c("1", "2", "3", "4")
-v1 + 42
+v2 + 42
 ```
+</div>
 
+<aside>
+```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+v2 <- c(1, 2, 3, 4)
+v2 + 42
+```
+</aside>
+
+<div class = "green">
 Q5)
-
 ```{r, eval=F, echo=T}
 v1 <- c("pato", "cachorro", "minhoca", "lagarto"
 ```
+</div>
 
+<aside>
+```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+v1 <- c("pato", "cachorro", "minhoca", "lagarto")
+```
+</aside>
+
+<div class = "green">
 Q6) 
-
 ```{r, eval=F, echo=T}
 v3 <- c(33 31 40 25 27 40)
 ```
+</div>
 
+<aside>
+```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+v3 <- c(33, 31, 40, 25, 27, 40)
+```
+</aside>
+
+<div class = "green">
 Q7)
-
 ```{r, eval=F, echo=T}
 v1 <- c(pato, cachorro, minhoca, lagarto)
 ```
+</div>
 
+<aside>
+```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+v1 <- c("pato", "cachorro", "minhoca", "lagarto")
+```
+</aside>
+
+<div class = "green">
 Q8)
-
 ```{r, eval=F, echo=T}
 v1 <- c("pato" "cachorro" "minhoca" "lagarto")
 ```
+</div>
 
+<aside>
+```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+v1 <- c("pato", "cachorro", "minhoca", "lagarto")
+```
+</aside>
+
+<div class = "green">
 Q9)
-
 ```{r, eval=F, echo=T}
 v3 <- C(33, 31, 40, 25, 27, 40)
 ```
+</div>
 
+<aside>
+```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+v3 <- c(33, 31, 40, 25, 27, 40)
+```
+</aside>
+
+<div class = "green">
 Q10)
-
 ```{r, eval=F, echo=T}
 v1 <- c("pato", "cachorro"", "minhoca", "lagarto")
 ```
+</div>
 
+<aside>
+```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+v1 <- c("pato", "cachorro", "minhoca", "lagarto")
+```
+</aside>
+
+<div class = "green">
 Q11)
-
 ```{r, eval=F, echo=T}
 v1 <- c("pato", "cachorro", "minhoca", "lagarto")
 v4 <- c(33, 31, 40, 25, 27, 40)
 myData <- tibble(v1, v4)
 ```
-Q12)
+</div>
 
+<aside>
+```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+v1 <- c("pato", "cachorro", "minhoca", "lagarto","","")
+v4 <- c(33, 31, 40, 25, 27, 40)
+myData <- tibble(v1, v4)
+```
+</aside>
+
+<div class = "green">
+Q12)
 ```{r, eval=F, echo=T}
 v1 <- c("pato", "cachorro", "minhoca", "lagarto")
 v4 <- c(33, 31, 40, 25)
 myData <- tibble(v1 = animal, v4 = idade)
 ```
-
 </div>
+
+<aside>
+```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+v1 <- c("pato", "cachorro", "minhoca", "lagarto")
+v4 <- c(33, 31, 40, 25)
+myData <- tibble(animal = v1, idade = v4)
+```
+</aside>
 
 <br>
 
