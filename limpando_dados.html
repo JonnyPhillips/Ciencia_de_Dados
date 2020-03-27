@@ -1496,60 +1496,64 @@ ex_recodificar %&gt;% mutate(Nova_Variavel=case_when(Ano&gt;=2014~&quot;Sim&quot
 <p><br></p>
 <div class="green">
 <h1 id="exercício-1-limpando-dados">Exercício 1: Limpando Dados</h1>
-<p>Usando o banco de dados de <code>flights</code> no pacote <code>nycflights13</code>, responde as seguintes perguntas:</p>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
+<script>
+  function codefolder(query) {
+
+    var x = document.querySelectorAll(query);
+    if (x.length === 0) return;
+
+    function toggle_vis(o) {
+      var d = o.style.display;
+      o.style.display = (d === 'block' || d === '') ? 'none':'block';
+    }
+
+    for (i = 0; i < x.length; i++) {
+      var y = x[i];
+      toggle_vis(y);
+    }
+
+    var elem = document.getElementById("codefolder-button");
+    if (elem.value === "Hide Code") elem.value = "Show Code";
+    else elem.value = "Hide Code";
+  }
+</script>
 </div>
-<div class="green">
+</aside>
+<p>Usando o banco de dados de <code>flights</code> no pacote <code>nycflights13</code>, responde as seguintes perguntas:</p>
 <ol type="1">
 <li>Crie uma data completa numa variável única, com o formato “day-month-year”.</li>
 </ol>
-</div>
-<aside>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights %&gt;% unite(&quot;Data&quot;, day, 
-    month, year, sep = &quot;-&quot;)</code></pre>
+flights %&gt;% unite(&quot;Data&quot;, day, month, year, sep = &quot;-&quot;)</code></pre>
 </div>
-</aside>
-<div class="green">
 <ol start="2" type="1">
 <li>Divide a variável <code>time_hour</code> em duas; uma variável de <code>time</code> e a outra variável de <code>hour</code>.</li>
 </ol>
-</div>
-<aside>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights %&gt;% separate(time_hour, 
-    c(&quot;time&quot;, &quot;hour&quot;), sep = &quot; &quot;)</code></pre>
+flights %&gt;% separate(time_hour, c(&quot;time&quot;, &quot;hour&quot;), sep = &quot; &quot;)</code></pre>
 </div>
-</aside>
-<div class="green">
 <ol start="3" type="1">
 <li>Recodifique a variável <code>dep_delay</code> para uma variável binário, que seja <code>1</code> quando tem atraso, e <code>0</code> quando não tem atraso (valores negativos significam decolagens antes do horário previsto).</li>
 </ol>
-</div>
-<aside>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights &lt;- flights %&gt;% 
-    mutate(dep_delay = case_when(dep_delay &gt; 
-        0 ~ 1, dep_delay &lt;= 
-        0 ~ 0))</code></pre>
+flights &lt;- flights %&gt;% mutate(dep_delay = case_when(dep_delay &gt; 0 ~ 1, 
+    dep_delay &lt;= 0 ~ 0))</code></pre>
 </div>
-</aside>
-<div class="green">
 <ol start="4" type="1">
 <li>A companhia aérea US Airways (código ‘US’) se fundiu com American Airlines (código ‘AA’) em 2015. Recodifique voos de US Airways como voos de American Airlines.</li>
 </ol>
-</div>
-<aside>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights &lt;- flights %&gt;% 
-    mutate(carrier = case_when(carrier == 
-        &quot;US&quot; ~ &quot;AA&quot;, 
-        TRUE ~ carrier))</code></pre>
+flights &lt;- flights %&gt;% mutate(carrier = case_when(carrier == &quot;US&quot; ~ &quot;AA&quot;, 
+    TRUE ~ carrier))</code></pre>
 </div>
-</aside>
+</div>
 <p><br></p>
 <h1 id="ordenando-os-nossos-dados">Ordenando os nossos dados</h1>
 <p>Até agora, ignoramos a ordem das observações em nosso banco de dados. A ordem importa por dois motivos. Primeiro, para apresentação de tabelas mais organizadas no documento final. Segundo, para facilitar funções específicas quando as nossas observações têm uma ordem natural.</p>
@@ -1677,63 +1681,70 @@ ex_arrange %&gt;% arrange(Ano) %&gt;%
 <p><br></p>
 <div class="green">
 <h1 id="exercício-2-ordenação">Exercício 2: Ordenação</h1>
-<p>Use de novo o banco de dados <code>flights</code>:</p>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
+<script>
+  function codefolder(query) {
+
+    var x = document.querySelectorAll(query);
+    if (x.length === 0) return;
+
+    function toggle_vis(o) {
+      var d = o.style.display;
+      o.style.display = (d === 'block' || d === '') ? 'none':'block';
+    }
+
+    for (i = 0; i < x.length; i++) {
+      var y = x[i];
+      toggle_vis(y);
+    }
+
+    var elem = document.getElementById("codefolder-button");
+    if (elem.value === "Hide Code") elem.value = "Show Code";
+    else elem.value = "Hide Code";
+  }
+</script>
+<script>
+  window.addEventListener('load', function () {
+    codefolder('d-code');
+  });
+</script>
 </div>
-<div class="green">
+</aside>
+<p>Use de novo o banco de dados <code>flights</code>:</p>
 <ol type="1">
 <li>Ordene o banco de dados de menor a maior duração (<code>air_time</code>), incluindo apenas os voos com destino de Anchorage (<code>ANC</code>).</li>
 </ol>
-</div>
-<aside>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights %&gt;% filter(dest == 
-    &quot;ANC&quot;) %&gt;% arrange(air_time)</code></pre>
+flights %&gt;% filter(dest == &quot;ANC&quot;) %&gt;% arrange(air_time)</code></pre>
 </div>
-</aside>
-<div class="green">
 <ol start="2" type="1">
 <li>Identifique o voo mais atrasado (<code>dep_delay</code>) entre LaGuardia (<code>LGA</code>) e Atlanta (<code>ATL</code>). Quão atrasado foi o voo?</li>
 </ol>
-</div>
-<aside>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights %&gt;% filter(origin == 
-    &quot;LGA&quot; &amp; dest == &quot;ATL&quot;) %&gt;% 
-    top_n(1, dep_delay)</code></pre>
+flights %&gt;% filter(origin == &quot;LGA&quot; &amp; dest == &quot;ATL&quot;) %&gt;% top_n(1, dep_delay)</code></pre>
 </div>
-</aside>
-<div class="green">
 <ol start="3" type="1">
 <li>Calcule a velocidade de cada voo, e selecione os três voos mais rápidos. Eles voaram de qual aeroporto para qual destino?</li>
 </ol>
-</div>
-<aside>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights %&gt;% mutate(velocidade = distance/air_time) %&gt;% 
-    top_n(3, velocidade) %&gt;% 
-    select(velocidade, 
-        origin, dest)</code></pre>
+flights %&gt;% mutate(velocidade = distance/air_time) %&gt;% top_n(3, velocidade) %&gt;% 
+    select(velocidade, origin, dest)</code></pre>
 </div>
-</aside>
-<div class="green">
 <ol start="4" type="1">
 <li>Para os voos com destino de Anchorage (<code>ANC</code>), verifique que eles são ordenados cronologicamente (por <code>year</code>, <code>month</code>, <code>day</code>, e <code>dep_time</code>) e gera uma nova variável com a duração (<code>air_time</code>) do voo <em>anterior</em>. Agora, compare a duração de cada voo com a duração do voo anterior.</li>
 </ol>
-</div>
-<aside>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights %&gt;% filter(dest == 
-    &quot;ANC&quot;) %&gt;% arrange(year, 
-    month, day, dep_time) %&gt;% 
-    mutate(air_time_anterior = lag(air_time), 
-        air_time_anterior_dif = air_time - 
-            air_time_anterior)</code></pre>
+flights %&gt;% filter(dest == &quot;ANC&quot;) %&gt;% arrange(year, month, day, dep_time) %&gt;% 
+    mutate(air_time_anterior = lag(air_time), air_time_anterior_dif = air_time - 
+        air_time_anterior)</code></pre>
 </div>
-</aside>
+</div>
 <p><br></p>
 <h1 id="factors">Factors</h1>
 <p>Além de numéricos, caracteres e logicais (TRUE/FALSE), o tipo de dado mais útil para análise de dados é um ‘factor’. Factors são variáveis que podem assumir um número de valores <em>limitados e pre-definidos</em> (normalmente strings de texto). Pense-se em variáveis categóricas, nominais, ordinais etc. Factors nos ajudamos evitar erros e refletir a estrutura correta das nossas variáveis, mas elas exigem uma disciplina e um cuidado por nosso lado.</p>
@@ -1895,58 +1906,69 @@ ex_arrange %&gt;% mutate(Mes=fct_collapse(Mes,&quot;Q1&quot;=c(&quot;Janeiro&quo
 <p><br></p>
 <div class="green">
 <h1 id="exercício-3-factors">Exercício 3: Factors</h1>
-<p>Usando os dados de <code>flights</code> de novo:</p>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
+<script>
+  function codefolder(query) {
+
+    var x = document.querySelectorAll(query);
+    if (x.length === 0) return;
+
+    function toggle_vis(o) {
+      var d = o.style.display;
+      o.style.display = (d === 'block' || d === '') ? 'none':'block';
+    }
+
+    for (i = 0; i < x.length; i++) {
+      var y = x[i];
+      toggle_vis(y);
+    }
+
+    var elem = document.getElementById("codefolder-button");
+    if (elem.value === "Hide Code") elem.value = "Show Code";
+    else elem.value = "Hide Code";
+  }
+</script>
+<script>
+  window.addEventListener('load', function () {
+    codefolder('d-code');
+  });
+</script>
 </div>
-<div class="green">
+</aside>
+<p>Usando os dados de <code>flights</code> de novo:</p>
 <ol type="1">
 <li>Transforme a variável <code>origin</code> para um factor (não-ordenado).</li>
 </ol>
-</div>
-<aside>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights &lt;- flights %&gt;% 
-    mutate(origin = factor(origin))</code></pre>
+flights &lt;- flights %&gt;% mutate(origin = factor(origin))</code></pre>
 </div>
-</aside>
-<div class="green">
 <ol start="2" type="1">
 <li>Salve o resultado de (1) e tente-se usar o novo banco de dados para recodificar o aeroporto de origem “EWR” para “Newark” usando <code>case_when</code> dentro de <code>mutate</code>. É possível?</li>
 </ol>
-</div>
-<aside>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights %&gt;% mutate(origin = case_when(month == 
-    &quot;EWR&quot; ~ &quot;Newark&quot;, 
-    TRUE ~ origin))</code></pre>
+flights %&gt;% mutate(origin = case_when(month == &quot;EWR&quot; ~ &quot;Newark&quot;, TRUE ~ 
+    origin))</code></pre>
 </div>
-</aside>
-<div class="green">
 <ol start="3" type="1">
 <li>Usando as funções dedicadas do pacote <code>forcats</code>, recodifique o factor <code>origin</code> para os nomes completos dos aeroportos (Newark, John F Kennedy e LaGuardia).</li>
 </ol>
-</div>
-<aside>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights %&gt;% mutate(origin = fct_recode(origin, 
-    Newark = &quot;EWR&quot;, `John F Kennedy` = &quot;JFK&quot;, 
+flights %&gt;% mutate(origin = fct_recode(origin, Newark = &quot;EWR&quot;, `John F Kennedy` = &quot;JFK&quot;, 
     LaGuardia = &quot;LGA&quot;))</code></pre>
 </div>
-</aside>
-<div class="green">
 <ol start="4" type="1">
 <li>Transforme a variável <code>month</code> para um factor ordenado.</li>
 </ol>
-</div>
-<aside>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights %&gt;% mutate(month = factor(month, 
-    levels = 1:12, ordered = T))</code></pre>
+flights %&gt;% mutate(month = factor(month, levels = 1:12, ordered = T))</code></pre>
 </div>
-</aside>
+</div>
 <p><br></p>
 <h1 id="identificando-casosvalores-únicos-distinct">Identificando Casos/Valores Únicos (<code>distinct</code>)</h1>
 <p>Quais valores existem em nosso banco de dados? Em uma variável de 1.000 linhas, quais valores <em>únicos</em> existem? As nossa observações são duplicadas?</p>

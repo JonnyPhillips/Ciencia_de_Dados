@@ -193,51 +193,42 @@ Tome cuidado na construção das condições: Idealmente elas devam ser **compre
 <div class = "green">
 # Exercício 1: Limpando Dados
 
-Usando o banco de dados de `flights` no pacote `nycflights13`, responde as seguintes perguntas:
-</div>
-
-<div class = "green">
-1. Crie uma data completa numa variável única, com o formato "day-month-year". 
-</div>
-
 <aside>
-```{r, echo=T, eval=F, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+```{r codefolder, echo=FALSE, results='asis'}
+codefolder::distill(init = "show")
+```
+</aside>
+
+Usando o banco de dados de `flights` no pacote `nycflights13`, responde as seguintes perguntas:
+
+1. Crie uma data completa numa variável única, com o formato "day-month-year". 
+
+```{r, echo=T, eval=F, tidy=TRUE}
 flights %>% unite("Data", day, month, year, sep="-")
 ```
-</aside>
 
-<div class = "green">
 2. Divide a variável `time_hour` em duas; uma variável de `time` e a outra variável de `hour`. 
-</div>
 
-<aside>
-```{r, echo=T, eval=F, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+```{r, echo=T, eval=F, tidy=TRUE}
 flights %>% separate(time_hour, c("time","hour"), sep=" ")
 ```
-</aside>
 
-<div class = "green">
 3. Recodifique a variável `dep_delay` para uma variável binário, que seja `1` quando tem atraso, e `0` quando não tem atraso (valores negativos significam decolagens antes do horário previsto).
-</div>
 
-<aside>
-```{r, echo=T, eval=F, tidy=TRUE, tidy.opts=list(width.cutoff=20)}
+```{r, echo=T, eval=F, tidy=TRUE}
 flights <- flights %>% 
   mutate(dep_delay= case_when( dep_delay>0~1,
                                        dep_delay<=0~0))
 ```
-</aside>
 
-<div class = "green">
 4. A companhia aérea US Airways (código 'US') se fundiu com American Airlines (código 'AA') em 2015. Recodifique voos de US Airways como voos de American Airlines.
-</div>
 
-<aside>
-```{r, echo=T, eval=F, tidy=TRUE, tidy.opts=list(width.cutoff=20)}
+```{r, echo=T, eval=F, tidy=TRUE}
 flights <- flights %>% mutate(carrier=case_when(carrier=="US"~"AA",
                                      TRUE~carrier))
 ```
-</aside>
+
+</div>
 
 <br>
 
@@ -369,57 +360,48 @@ ex_arrange %>% arrange(Ano) %>%
 <div class = "green">
 # Exercício 2: Ordenação
 
-Use de novo o banco de dados `flights`:
-</div>
-
-<div class = "green">
-1. Ordene o banco de dados de menor a maior duração (`air_time`), incluindo apenas os voos com destino de Anchorage (`ANC`). 
-</div>
-
 <aside>
-```{r, echo=T, eval=F, tidy=TRUE, tidy.opts=list(width.cutoff=20)}
+```{r codefolder2, echo=FALSE, results='asis'}
+codefolder::distill(init = "hide")
+```
+</aside>
+
+Use de novo o banco de dados `flights`:
+
+1. Ordene o banco de dados de menor a maior duração (`air_time`), incluindo apenas os voos com destino de Anchorage (`ANC`). 
+
+```{r, echo=T, eval=F, tidy=TRUE}
 flights %>% filter(dest=="ANC") %>%
   arrange(air_time)
 ```
-</aside>
 
-<div class = "green">
 2. Identifique o voo mais atrasado (`dep_delay`) entre LaGuardia (`LGA`) e Atlanta (`ATL`). Quão atrasado foi o voo?
-</div>
 
-<aside>
-```{r, echo=T, eval=F, tidy=TRUE, tidy.opts=list(width.cutoff=20)}
+```{r, echo=T, eval=F, tidy=TRUE}
 flights %>% filter(origin=="LGA" & dest=="ATL") %>%
   top_n(1,dep_delay)
 ```
-</aside>
 
-<div class = "green">
 3. Calcule a velocidade de cada voo, e selecione os três voos mais rápidos. Eles voaram de qual aeroporto para qual destino?
-</div>
 
-<aside>
-```{r, echo=T, eval=F, tidy=TRUE, tidy.opts=list(width.cutoff=20)}
+```{r, echo=T, eval=F, tidy=TRUE}
 flights %>% 
   mutate(velocidade = distance/
                      air_time) %>% 
   top_n(3, velocidade) %>%
   select(velocidade, origin, dest)
 ```
-</aside>
 
-<div class = "green">
 4. Para os voos com destino de Anchorage (`ANC`), verifique que eles são ordenados cronologicamente (por `year`, `month`, `day`, e `dep_time`) e gera uma nova variável com a duração (`air_time`) do voo *anterior*. Agora, compare a duração de cada voo com a duração do voo anterior.
-</div>
 
-<aside>
-```{r, echo=T, eval=F, tidy=TRUE, tidy.opts=list(width.cutoff=20)}
+```{r, echo=T, eval=F, tidy=TRUE}
 flights %>% filter(dest=="ANC") %>%
   arrange(year, month, day, dep_time) %>% 
   mutate(air_time_anterior=lag(air_time),
          air_time_anterior_dif=air_time-air_time_anterior)
 ```
-</aside>
+
+</div>
 
 <br>
 
@@ -616,54 +598,43 @@ Mais detalhes no cheatsheet de forcats [aqui](https://github.com/rstudio/cheatsh
 <div class = "green">
 # Exercício 3: Factors
 
-Usando os dados de `flights` de novo:
-</div>
-
-<div class = "green">
-1. Transforme a variável `origin` para um factor (não-ordenado). 
-</div>
-
 <aside>
-```{r, echo=T, eval=F, tidy=TRUE, tidy.opts=list(width.cutoff=20)}
-flights <- flights %>% mutate(origin=factor(origin))
+```{r codefolder3, echo=FALSE, results='asis'}
+codefolder::distill(init = "hide")
 ```
 </aside>
 
-<div class = "green">
-2. Salve o resultado de (1) e tente-se usar o novo banco de dados para recodificar o aeroporto de origem "EWR" para "Newark" usando `case_when` dentro de `mutate`. É possível? 
-</div>
+Usando os dados de `flights` de novo:
 
-<aside>
-```{r, echo=T, eval=F, tidy=TRUE, tidy.opts=list(width.cutoff=20)}
+1. Transforme a variável `origin` para um factor (não-ordenado). 
+
+```{r, echo=T, eval=F, tidy=TRUE}
+flights <- flights %>% mutate(origin=factor(origin))
+```
+
+2. Salve o resultado de (1) e tente-se usar o novo banco de dados para recodificar o aeroporto de origem "EWR" para "Newark" usando `case_when` dentro de `mutate`. É possível? 
+
+```{r, echo=T, eval=F, tidy=TRUE}
 flights %>% mutate(origin=case_when(month=="EWR"~"Newark",
                                     TRUE~origin))
 ```
-</aside>
 
-<div class = "green">
 3. Usando as funções dedicadas do pacote `forcats`, recodifique o factor `origin` para os nomes completos dos aeroportos (Newark, John F Kennedy e LaGuardia).
-</div>
 
-<aside>
-```{r, echo=T, eval=F, tidy=TRUE, tidy.opts=list(width.cutoff=20)}
-flights %>% 
-  mutate(origin = 
-           fct_recode( origin,  
+```{r, echo=T, eval=F, tidy=TRUE}
+flights %>% mutate(origin = fct_recode( origin,  
                                      "Newark"="EWR", 
                                      "John F Kennedy"="JFK", 
                                     "LaGuardia"="LGA"))
 ```
-</aside>
 
-<div class = "green">
 4. Transforme a variável `month` para um factor ordenado. 
-</div>
 
-<aside>
-```{r, echo=T, eval=F, tidy=TRUE, tidy.opts=list(width.cutoff=20)}
+```{r, echo=T, eval=F, tidy=TRUE}
 flights %>% mutate(month=factor(month, levels=1:12, ordered=T))
 ```
-</aside>
+
+</div>
 
 <br>
 

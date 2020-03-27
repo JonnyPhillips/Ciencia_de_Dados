@@ -450,7 +450,9 @@ flights %>% mutate(Pct_distance=100*(distance/sum(distance,na.rm=TRUE)))
 ```
 
 ```{r, echo=F}
+options(scipen=999)
 flights %>% mutate(Pct_distance=100*(distance/sum(distance,na.rm=TRUE))) %>%
+  select(year, month, day, origin, dest, distance, Pct_distance) %>%
   paged_table()
 ```
 
@@ -466,6 +468,7 @@ flights %>% group_by(month) %>%
 ```{r, echo=F}
 flights %>% group_by(month) %>% 
   mutate(Pct_distance_por_mes=100*(distance/sum(distance,na.rm=TRUE))) %>%
+  select(year, month, day, origin, dest, distance, Pct_distance_por_mes) %>%
   paged_table()
 ```
 
@@ -481,6 +484,7 @@ flights %>% group_by(month, day, hour, origin) %>%
 ```{r, echo=F}
 flights %>% group_by(month, day, hour, origin) %>% 
   mutate(Pct_distance_por_mes_hora_origem=100*(distance/sum(distance,na.rm=TRUE))) %>%
+  select(year, month, day, origin, dest, distance, Pct_distance_por_mes_hora_origem) %>%
   paged_table()
 ```
 
@@ -534,6 +538,7 @@ flights %>% group_by(origin, month) %>%
   tally() %>%
   group_by(month) %>% 
   mutate(Pct_por_mes_no_aeroporto=n/sum(n)) %>%
+  arrange(month, origin) %>%
   paged_table()
 ```
 
