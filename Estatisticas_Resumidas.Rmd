@@ -158,7 +158,6 @@ Isto é programação. Agora sabemos como trabalhar com os dois elementos fundam
 
 </div>
 
-
 # Grupos (`group_by`)
 
 Quase sempre, os nossos dados estão organizados em grupos e sub-grupos, pode ser anos, meses e dias, aeroportos, ou países. Frequentemente, nos queremos as estatísticas resumidas *por ano*, ou *por país*. O poder de `summarize()` é ampliado exponentialmente quando os resumos/agregações são feitos no nível de grupos e não para o banco de dados inteiro. O que define os grupos? Uma outra variável em nossa tabela.
@@ -310,7 +309,6 @@ flights %>% group_by(origin, dest) %>%
   paged_table()
 ```
 
-
 <div class = "green">
 # Exercício 2: Observações por Grupo
 
@@ -430,7 +428,7 @@ Um dos pedidos mais comuns é calcular porcentagens em R. Tome cuidado: já vi m
 
 $$\text{%} = \frac{\text{Valor}}{\text{Total do grupo relevante}}*100 $$
 
-Queremos uma porcentagem para cada observação no banco de dados, então isso exige um `mutate()` Por exemplo, se quisemos calcular a percentagem da distância de cada voo na distância total de todos os voos:
+Queremos uma porcentagem para cada observação no banco de dados, então isso exige um `mutate()` Por exemplo, se quisemos calcular a porcentagem da distância de cada voo na distância total de todos os voos:
 
 ```{r, eval=F}
 flights %>% mutate(Pct_distance=100*(distance/sum(distance,na.rm=TRUE)))
@@ -502,6 +500,38 @@ flights %>% group_by(origin, month) %>%
 ```
 
 Você consegue descrever o que o código acima fez, passo-a-passo?
+
+<div class = "blue">
+**Habilidade Básica de Programação: Filtros Avançados (`%in%`)**
+
+Filtros são úteis para limitar as nossas operações, mas as vezes é demorado construir condições complexas. Por exemplo, se quisermos calcular a porcentagem da distância de cada voo na distância total de todos os voos com destino de "ILM", "ACK", "GRR" ou "PSP"
+
+```{r, eval=F}
+flights %>% filter(dest=="ILM"|dest=="ACK"|dest=="GRR"|dest=="PSP") %>%
+  mutate(Pct_distance=100*(distance/sum(distance,na.rm=TRUE)))
+```
+
+```{r, echo=F}
+flights %>% filter(dest=="ILM"|dest=="ACK"|dest=="GRR"|dest=="PSP") %>%
+  mutate(Pct_distance=100*(distance/sum(distance,na.rm=TRUE))) %>%
+  paged_table()
+```
+
+Que chato repetir `dest==` cada vez... É necessário porque podemos combinar condições de várias variáveis e precisamos ser explícito com R qual variável queremos comparar cada vez. Mas existe uma alternativa: Criamos um vetor de todas as opções com `c()` e pedimos o R filtrar a variável para qualquer elemento do vetor. É equivalente a `==` para cada elemento.
+
+```{r, eval=F}
+flights %>% filter(dest %in% c("ILM", "ACK", "GRR", "PSP")) %>%
+  mutate(Pct_distance=100*(distance/sum(distance,na.rm=TRUE)))
+
+```
+
+```{r, echo=F}
+flights %>% filter(dest %in% c("ILM", "ACK", "GRR", "PSP")) %>%
+  mutate(Pct_distance=100*(distance/sum(distance,na.rm=TRUE))) %>%
+  paged_table()
+```
+
+</div>
 
 # Resumos e Transformações de Múltiplas Colunas (`summarize_all`)
 

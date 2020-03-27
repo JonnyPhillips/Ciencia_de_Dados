@@ -446,6 +446,36 @@ ex_arrange %>% paged_table()
 
 Bastante mais trabalho, não?? Mas vale a pena: Veja a tabela que isso produziu - em lugar de "February" o R colocou `NA` porque "February" não fica na lista de levels que delimitamos no argumento 'levels'. Isso impede que a nossa variável toma valores impossíveis, deixando a nossa análise subsequente mais confiável. Lembre-se de incluir todos os valores possíveis nos 'levels' para evitar problemas futuros. Por exemplo temos 'Maio' na lista de levels mesmo que ele não existe nos dados atuais.
 
+O código acima mostra como a criar variáveis de tipo factor num novo banco de dados. Mais frequentemente, já temos um banco de dados com uma variável de tipo caractere, e queremos transformá-lo em factor. Vamos criar o mesmo banco de dados de novo, mas sem especificar o mês como factor, e depois aplica a transformação dentro de mutatue.
+
+```{r, tidy=T}
+ex_arrange <- tibble(ID=1:10,
+                     Ano=c(2008, 2005, 2009, 2006, 2006, 2007, 2008, 2005, 2008, 2005),
+                     Mes=c("Abril","Novembro","Julho","Março","Novembro","February","Junho","Novembro","Janeiro","Outubro"),
+                     Valor=c(750,800,300,500,850,450,600,450,700,350))
+```
+
+```{r}
+ex_arrange <- ex_arrange %>% mutate(Mes=factor(Mes))
+```
+
+Note que aqui não temos que especificar os 'levels' do factor - o R use os valores atuais para preencher os levels. Podemos fazer assim, mas lembre-se que os levels não incluem todos os meses, que pode gerar problemas no futuro se quisermos adicionar mais dados. 
+
+Para permitir todos os doze meses desde o início, temos que especificar os levels explicitamente:
+
+```{r, tidy=T}
+ex_arrange <- tibble(ID=1:10,
+                     Ano=c(2008, 2005, 2009, 2006, 2006, 2007, 2008, 2005, 2008, 2005),
+                     Mes=c("Abril","Novembro","Julho","Março","Novembro","February","Junho","Novembro","Janeiro","Outubro"),
+                     Valor=c(750,800,300,500,850,450,600,450,700,350))
+
+ex_arrange <- ex_arrange %>% 
+  mutate(Mes=factor(Mes,
+                    levels=c("Janeiro","Fevereiro","Março","Abril","Maio","Junho",
+                             "Julho","Agosto","Setembro","Outubro","Novembro",
+                             "Dezembro")))
+```
+
 ## Factors Ordenados
 
 Existem mais duas vantagens em trabalhar com Factors. Primeiro, é que podemos especificar uma ordem para a variável mesmo para variáveis que contém caracteres. Meses, por exemplo,

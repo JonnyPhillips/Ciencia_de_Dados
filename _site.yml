@@ -18,7 +18,7 @@ navbar:
           - text: "3. Organizando e Limpando Dados"
             href: limpando_dados.html
           - text: "4. Calculando Estatisticas Resumidas"
-            href: estatisticas.html
+            href: Estatisticas_Resumidas.html
 
     - text: "Desafios"
       menu: 

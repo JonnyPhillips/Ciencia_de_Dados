@@ -1297,7 +1297,7 @@ Tutoriais
 <a href="introducao.html">1. Introducao</a>
 <a href="abrindo_manipulando.html">2. Abrindo e Manipulando Dados</a>
 <a href="limpando_dados.html">3. Organizando e Limpando Dados</a>
-<a href="estatisticas.html">4. Calculando Estatisticas Resumidas</a>
+<a href="Estatisticas_Resumidas.html">4. Calculando Estatisticas Resumidas</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1755,6 +1755,31 @@ ex_arrange &lt;- tibble(ID = 1:10, Ano = c(2008, 2005, 2009, 2006, 2006, 2007,
 </div>
 </div>
 <p>Bastante mais trabalho, não?? Mas vale a pena: Veja a tabela que isso produziu - em lugar de “February” o R colocou <code>NA</code> porque “February” não fica na lista de levels que delimitamos no argumento ‘levels’. Isso impede que a nossa variável toma valores impossíveis, deixando a nossa análise subsequente mais confiável. Lembre-se de incluir todos os valores possíveis nos ‘levels’ para evitar problemas futuros. Por exemplo temos ‘Maio’ na lista de levels mesmo que ele não existe nos dados atuais.</p>
+<p>O código acima mostra como a criar variáveis de tipo factor num novo banco de dados. Mais frequentemente, já temos um banco de dados com uma variável de tipo caractere, e queremos transformá-lo em factor. Vamos criar o mesmo banco de dados de novo, mas sem especificar o mês como factor, e depois aplica a transformação dentro de mutatue.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+ex_arrange &lt;- tibble(ID = 1:10, Ano = c(2008, 2005, 2009, 2006, 2006, 2007, 
+    2008, 2005, 2008, 2005), Mes = c(&quot;Abril&quot;, &quot;Novembro&quot;, &quot;Julho&quot;, &quot;Março&quot;, 
+    &quot;Novembro&quot;, &quot;February&quot;, &quot;Junho&quot;, &quot;Novembro&quot;, &quot;Janeiro&quot;, &quot;Outubro&quot;), 
+    Valor = c(750, 800, 300, 500, 850, 450, 600, 450, 700, 350))</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+ex_arrange &lt;- ex_arrange %&gt;% mutate(Mes=factor(Mes))</code></pre>
+</div>
+<p>Note que aqui não temos que especificar os ‘levels’ do factor - o R use os valores atuais para preencher os levels. Podemos fazer assim, mas lembre-se que os levels não incluem todos os meses, que pode gerar problemas no futuro se quisermos adicionar mais dados.</p>
+<p>Para permitir todos os doze meses desde o início, temos que especificar os levels explicitamente:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+ex_arrange &lt;- tibble(ID = 1:10, Ano = c(2008, 2005, 2009, 2006, 2006, 2007, 
+    2008, 2005, 2008, 2005), Mes = c(&quot;Abril&quot;, &quot;Novembro&quot;, &quot;Julho&quot;, &quot;Março&quot;, 
+    &quot;Novembro&quot;, &quot;February&quot;, &quot;Junho&quot;, &quot;Novembro&quot;, &quot;Janeiro&quot;, &quot;Outubro&quot;), 
+    Valor = c(750, 800, 300, 500, 850, 450, 600, 450, 700, 350))
+
+ex_arrange &lt;- ex_arrange %&gt;% mutate(Mes = factor(Mes, levels = c(&quot;Janeiro&quot;, 
+    &quot;Fevereiro&quot;, &quot;Março&quot;, &quot;Abril&quot;, &quot;Maio&quot;, &quot;Junho&quot;, &quot;Julho&quot;, &quot;Agosto&quot;, 
+    &quot;Setembro&quot;, &quot;Outubro&quot;, &quot;Novembro&quot;, &quot;Dezembro&quot;)))</code></pre>
+</div>
 <h2 id="factors-ordenados">Factors Ordenados</h2>
 <p>Existem mais duas vantagens em trabalhar com Factors. Primeiro, é que podemos especificar uma ordem para a variável mesmo para variáveis que contém caracteres. Meses, por exemplo, são ordenados, mas não conseguimos usar na seção anterior para ordenação porque o R não entende automaticamente a ordem de “Janeiro”,“Fevereiro”. Na verdade, o R entendo que a ordem de caracteres é <em>alfabética</em>, que não faz sentido para a variável de mês. Dentro de <code>factor</code>, podemos especificar <code>ordered=TRUE</code> para definir a ordem dos valores na sequência que eles aperecem no vetor <code>levels()</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
