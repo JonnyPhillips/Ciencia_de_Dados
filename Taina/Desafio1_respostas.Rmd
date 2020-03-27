@@ -1,0 +1,219 @@
+---
+title: "Desafio 1"
+author: "Tainá Pacheco"
+date: "20 de março de 2020"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = F, error = F, message = F, cache = T)
+knitr::knit_hooks$set(inline = function(x) { if(!is.numeric(x)){ x }else{ prettyNum(round(x,2), big.mark=",") } })
+options(scipen=999)
+library("tidyverse")
+```
+
+1. **Vá ao Repositório de Dados Eleitorais do TSE. Na página “Resultados” e no ano 2012, faça o download do arquivo “Votação nominal por município e zona” e descompacte-o.**
+```{r}
+# download.file(
+#   url = "http://agencia.tse.jus.br/estatistica/sead/odsele/votacao_candidato_munzona/votacao_candidato_munzona_2012.zip",
+#   destfile = "C:/Users/taina/Google Drive/Trabalho/Ciencia_de_Dados/Taina/votacao_candidato_munzona_2012.zip",
+#   mode="wb")
+# 
+# unzip(zipfile = "C:/Users/taina/Google Drive/Trabalho/Ciencia_de_Dados/Taina/votacao_candidato_munzona_2012.zip",
+#       exdir = "C:/Users/taina/Google Drive/Trabalho/Ciencia_de_Dados/Taina")
+```
+
+2. **Abre o arquivo para São Paulo (votacao_candidato_munzona_2012_SP.txt) em R com os nomes de colunas e o encoding corretos de acordo com a seção relevante de leaime.pdf.**
+
+Segundo o arquivo *LEIAME*:
+
+* A codificação de caracteres dos arquivos é “Latin 1”;
+* Os campos estão entre aspas e separados por ponto e vírgula, inclusive os campos numéricos;
+* Campos preenchidos com “#NULO” significam que a informação está em branco no banco de dados. O correspondente para #NULO nos campos numéricos é “-1”;
+* Campos preenchidos com “#NE” significam que naquele ano a informação não era registrada em banco de dados pelos sistemas eleitorais. O correspondente para #NE nos campos numéricos é “-3”;
+* O campo UF, além das unidades da federação pode conter alguma das seguintes situações:
+    + BR – Quando se tratar de informação a nível nacional;
+    + VT – Quando se tratar de voto em trânsito;
+    + ZZ – Quando se tratar de Exterior.
+
+A descrição das variáveis do banco de dados que estamos utilizando está descrita na página 12 do *LEIAME*.
+
+```{r}
+#library(readr)
+# iconvlist() # usei para ver como o encoding Latin 1 estava escrito para a função entender
+nomes_colunas <- c("DATA_GERACAO", "HORA_GERACAO", "ANO_ELEICAO", 
+                   "NUM_TURNO", "DESCRICAO_ELEICAO", "SIGLA_UF", "SIGLA_UE",
+                   "CODIGO_MUNICIPIO", "NOME_MUNICIPIO", "NUMERO_ZONA", 
+                   "CODIGO_CARGO", "NUMERO_CAND", "SQ_CANDIDATO",
+                   "NOME_CANDIDATO", "NOME_URNA_CANDIDATO", "DESCRICAO_CARGO", 
+                   "COD_SIT_CAND_SUPERIOR","DESC_SIT_CAND_SUPERIOR", 
+                   "CODIGO_SIT_CANDIDATO", "DESC_SIT_CANDIDATO", 
+                   "CODIGO_SIT_CAND_TOT","DESC_SIT_CAND_TOT", "NUMERO_PARTIDO", 
+                   "SIGLA_PARTIDO", "NOME_PARTIDO", "SEQUENCIAL_LEGENDA", 
+                   "NOME_COLIGACAO", "COMPOSICAO_LEGENDA", "TOTAL_VOTOS")
+
+votacaoSP <- 
+  read_delim(
+  "C:/Users/taina/Google Drive/Trabalho/Ciencia_de_Dados/Taina/votacao_candidato_munzona_2012_SP.txt",
+                        col_names = nomes_colunas,
+                        delim = ";", 
+                        escape_double = FALSE, 
+                        locale = locale(decimal_mark = ",", 
+                                        grouping_mark = ".", 
+                                        encoding = "LATIN1"), 
+                        trim_ws = TRUE)
+
+
+```
+    
+3. **Lendo o leaime.pdf e observando as variáveis no banco de dados, o que representa uma observação (uma linha)? Ou seja, qual a unidade de análise aqui?**
+
+A descrição das variáveis do banco de dados que estamos utilizando está descrita na página 12 do *LEIAME*. Obervando as variáveis, o banco de dados e o nome do arquivo, entendi que cada linha (observação) é o total de votos de cada candidato por município, zona e turno, na eleição de 2012 (`r votacaoSP %>% distinct(DESCRICAO_CARGO) %>% pull()`).
+
+4. **Leia até o final as instruções e identifique quais variáveis serão necessárias para o resto do exercício. Tire do seu banco de dados as variáveis desnecesárias.**
+
+Pelos exercícios propostos serão necessárias as variáveis:
+
+* NUM_TURNO (Q5);
+* NOME_CANDIDATO, SQ_CANDIDATO (Q6);
+* DESC_SIT_CAND_TOT (Q7) --> renomear para RESULTADO;
+* NOME_URNA_CANDIDATO (Q8);
+* DESC_SIT_CAND_TOT (Q9);
+* CODIGO_MUNICIPIO, NOME_MUNICIPIO, NUMERO_ZONA (Q10);
+* SIGLA_PARTIDO, NOME_PARTIDO (Q11);
+* TOTAL_VOTOS (Q12);
+* DESCRICAO_CARGO, NUMERO_CAND, NUMERO_PARTIDO (Q13);
+
+```{r}
+votacaoSP <- votacaoSP %>% 
+  select(NUM_TURNO, NOME_CANDIDATO, DESC_SIT_CAND_TOT, NOME_URNA_CANDIDATO, SQ_CANDIDATO,
+         DESC_SIT_CAND_TOT, CODIGO_MUNICIPIO, NOME_MUNICIPIO, NUMERO_ZONA, SIGLA_PARTIDO, 
+         NOME_PARTIDO, TOTAL_VOTOS, DESCRICAO_CARGO, NUMERO_CAND, NUMERO_PARTIDO)
+```
+
+5. **Selecione apenas as linhas que contém resultados eleitorais para o primeiro turno da eleição do prefeito(a).**
+```{r}
+votacaoSP_primeiro <- votacaoSP %>% filter(NUM_TURNO == 1)
+```
+
+Do banco de dados original (`r nrow(votacaoSP)` oservações), a grande maioria é de primeiro turno (`r nrow(votacaoSP_primeiro)` observações, ou `r round((nrow(votacaoSP_primeiro)/nrow(votacaoSP))*100, 2)`%.)
+
+6. **Note que candidatos podem aparecer mais de uma vez na tabela em Q4 (porque existem múltiplas zonas em cada município). Usando identificadores únicos, identifique os candidatos distintos para o primeiro turno do prefeito. Explique no seu relatório quantos candidatos concorrem para prefeito no primeiro turno em 2012.**
+
+```{r}
+cand_prim_pref <- votacaoSP_primeiro %>% 
+  filter(DESCRICAO_CARGO == "PREFEITO") %>% 
+  distinct(SQ_CANDIDATO, .keep_all = TRUE)
+```
+
+Ao todo existiram `r nrow(cand_prim_pref)` candidatos a prefeito no estado de São Paulo. Esse número parece fazer sentido, já que o estado possui `r nrow(votacaoSP %>% distinct(NOME_MUNICIPIO))` municípios. Isso é, então, uma média de `r round(nrow(cand_prim_pref)/nrow(votacaoSP %>% distinct(NOME_MUNICIPIO)), 2)` candidatos por município. A tabela abaixo apresenta as 15 primeiras linhas do banco de dados de candidatos distintos para o primeiro turno do prefeito. 
+```{r}
+cand_prim_pref %>% select(NOME_CANDIDATO, DESC_SIT_CAND_TOT, NOME_MUNICIPIO) %>% arrange(NOME_MUNICIPIO) %>% slice(1:15)
+```
+
+7. **Renomeie a variável com nome pouco claro DESC_SIT_CAND_TOT para RESTULADO**
+```{r}
+votacaoSP_primeiro <- votacaoSP_primeiro %>% 
+  rename(RESULTADO = DESC_SIT_CAND_TOT)
+```
+
+8. **Filtrar os dados para os candidatos que se candidataram com Nome de Urna ígual ao seu Nome completo, e identifique os candidatos únicos de novo. No seu relatório, explique qual percentagem de todos os candidatos para prefeito no primeiro turno isso representa.**
+
+```{r}
+nome_cand_urna_pref <- votacaoSP_primeiro %>% 
+  filter(NOME_CANDIDATO == NOME_URNA_CANDIDATO & DESCRICAO_CARGO == "PREFEITO") %>% 
+  distinct(SQ_CANDIDATO, .keep_all = TRUE)
+```
+
+Ao todo, `r nrow(nome_cand_urna_pref)` candidatos a prefeito tem nome completo igual ao nome de urna. Isso representa `r round((nrow(nome_cand_urna_pref)/nrow(cand_prim_pref))*100, 2)`% do total de candiatos a prefeito no estado de São Paulo.
+
+9. **Quantos dos candidatos identificados em Q6 foram eleitos no primeiro turno?**
+```{r}
+cand_prim_pref_eleito <- votacaoSP %>% 
+  filter(NUM_TURNO == 1 & DESCRICAO_CARGO == "PREFEITO" & DESC_SIT_CAND_TOT == "ELEITO") %>% 
+  distinct(SQ_CANDIDATO, .keep_all = TRUE)
+
+teste <- cand_prim_pref_eleito %>% 
+  count(NOME_MUNICIPIO) %>% filter(n>1) %>% 
+  select(NOME_MUNICIPIO) %>% pull
+
+teste2 <- cand_prim_pref_eleito %>% 
+  filter(NOME_MUNICIPIO %in% teste)
+```
+Ao todo foram `r nrow(cand_prim_pref_eleito)` candidatos eleitos em primeiro turno, de um total de `r nrow(cand_prim_pref)` candidatos distintos. Esses `r nrow(cand_prim_pref_eleito)` foram eleitos em `r nrow(cand_prim_pref_eleito %>% count(NOME_MUNICIPIO))` municípios. Isso se deve porque em `r nrow(cand_prim_pref_eleito %>% count(NOME_MUNICIPIO) %>% filter(n>1))` municípios houve mais de uma eleição para prefeito (eleições suplementares). A tabela abaixo elenca esses casos.
+```{r, echo=F}
+teste2 %>% 
+  select(NUM_TURNO, NOME_CANDIDATO, DESC_SIT_CAND_TOT, 
+         NOME_MUNICIPIO, SIGLA_PARTIDO, DESCRICAO_CARGO)
+```
+
+10. **Voltando para os dados de todos os candidatos no primeiro turno, vamos focar a nossa análise no município de São Paulo (código do TSE 71072). Ordene os dados por número de votos e identifique qual candidato recebeu o maior número de votos em qualquer zona da cidade.**
+```{r}
+sp_prim_turno <- votacaoSP %>% 
+  filter(NUM_TURNO == 1 & CODIGO_MUNICIPIO == 71072)
+
+sp_prim_turno %>% arrange(-TOTAL_VOTOS) %>% slice(1)
+```
+
+O candidato com o maior número de votos em qualquer seção foi `r sp_prim_turno %>% arrange(-TOTAL_VOTOS) %>% slice(1) %>% pull(NOME_CANDIDATO)`, com `r sp_prim_turno %>% arrange(-TOTAL_VOTOS) %>% slice(1) %>% pull(TOTAL_VOTOS)` votos na zona `r sp_prim_turno %>% arrange(-TOTAL_VOTOS) %>% slice(1) %>% pull(NUMERO_ZONA)`. 
+
+11. **Usando a sua própria classificação, crie uma nova variável que descreve a ideologia de cada partido no banco de dados do município de São Paulo nas três categorias ‘Esquerda’, ‘Direita’ e ‘Outro’.**
+
+Primeiro preciso saer quais partidos existiam na eleição de 2012 na cidade de São Paulo.
+```{r}
+sp_prim_turno %>% distinct(SIGLA_PARTIDO, NOME_PARTIDO)
+```
+
+```{r}
+partidos_esquerda <- c("PDT", "PSTU", "PC do B", "PSOL", "PSB", "PCO", "PPS", "PCB")
+
+partidos_centro <- c("PT", "PSD", "PT do B", "PSDB", "PTC", "PTB", "PSC")
+
+partidos_direita <- c("PRP", "PV", "PMN", "PHS", "PRTB", "PTN", "PMDB", 
+                      "PSDC", "DEM", "PSL", "PP", "PPL", "PR", "PRB")
+
+sp_prim_turno <- sp_prim_turno %>% 
+  mutate(IDEOLOGIA = case_when(SIGLA_PARTIDO %in% partidos_esquerda ~ "esquerda",
+                               SIGLA_PARTIDO %in% partidos_centro ~ "centro",
+                               SIGLA_PARTIDO %in% partidos_direita ~ "direita",
+                               TRUE ~ "NA"))
+```
+Segundo a minha classificação os partidos se dividem assim:
+```{r}
+sp_prim_turno %>% distinct(SIGLA_PARTIDO, .keep_all = TRUE) %>% count(IDEOLOGIA)
+```
+
+12. **Criei uma variável que indica se o candidato no município de São Paulo recebeu mais de 10.000 votos na zona.**
+```{r}
+sp_prim_turno <- sp_prim_turno %>% 
+  mutate(MAIS_10MIL = ifelse(TOTAL_VOTOS > 10000, 1, 0))
+```
+Existem `r nrow(sp_prim_turno %>% filter(MAIS_10MIL == 1))` observações com mais de 10.000 votos na zona.
+
+13. **Voltando para os dados orginais, filtrar para os dados dos vereadores. Agora, imagine que não temos os dados do partido de cada candidato e queremos recuperar do NUMERO_CAND, em que os primeiros dois digitos sempre refletem o número do partido do candidato. Divida a coluna NUMERO_CAND em duas para criar uma coluna de NUM_PARTIDO e outra de NUM_CAND_RESTANTE.**
+```{r}
+votacaoSP_vereador <- votacaoSP %>% filter(DESCRICAO_CARGO == "VEREADOR")
+
+votacaoSP_vereador <- votacaoSP_vereador %>% 
+  separate(NUMERO_CAND, c("NUM_PARTIDO", "NUM_CAND_RESTANTE"), 2, remove=FALSE)
+```
+Posso testar e ver se `NUM_PARTIDO == NUMERO_PARTIDO` para todas as observações. Veja que a tabela retorna que a comparação é verdadeira para todas as variáveis.
+```{r}
+table(votacaoSP_vereador$NUMERO_PARTIDO == votacaoSP_vereador$NUM_PARTIDO)
+```
+
+
+14. **Agora, unifique as colunas NUM_PARTIDO e NUM_CAND_RESTANTE criado em Q9. O resultado deve ser ígual à coluna original NUMERO_CAND.**
+```{r}
+votacaoSP_vereador <- votacaoSP_vereador %>% 
+  mutate(NUM_CAND = paste0(NUM_PARTIDO, NUM_CAND_RESTANTE))
+```
+Novamente a tabela retorna que a comparação `NUM_CAND == NUMERO_CAND` é verdadeira para todas as observações.
+```{r}
+table(votacaoSP_vereador$NUM_CAND == votacaoSP_vereador$NUMERO_CAND)
+```
+
+
+15. **Limpe o seu script e Knit para um documento de HTML, por exemplo adicionando comentários, verificando que as respostas fazem sentidos, inserindo in-line código, tirando o código, warnings e mensagens do documento final, e formatando as tabelas melhores com df_print: paged no cabeçalho.**

@@ -54,29 +54,29 @@ library("rmarkdown")
 
 Fácil, sim? Usando a variedade das funções estatísticas em R (ou qualquer pacote adicional), pode calcular qualquer estatística que te interesse. Experimente com os exemplos na tabela.
 
-| Estatística  |  Função em R |
-|--------------|--------------|
-| Média        | `mean()` |
-| Mediana      |  `median()` |
-| Desvio padrão|  `sd()` |
-| Quantil  |  `quantile(var, probs=0.1)` |
+| Estatística  |        Função em R          |
+|--------------|:---------------------------:|
+| Média        | `mean()`                    |
+| Mediana      |  `median()`                 |
+| Desvio padrão|  `sd()`                     |
+| Quantil      |  `quantile(var, probs=0.1)` |
 
 A nossa nova tabela agregada pode conter mais de uma estatística resumida, cada uma em uma coluna nova:
 
 ```{r, eval=F}
 flights %>% summarize(media_distance=mean(distance),
-                                      mediana_distance=median(distance),
-                                      sd_distance=sd(distance))
+                      mediana_distance=median(distance),
+                      sd_distance=sd(distance))
 ```
 
 ```{r, echo=F}
 flights %>% summarize(media_distance=mean(distance),
-                                      mediana_distance=median(distance),
-                                      sd_distance=sd(distance)) %>%
+                      mediana_distance=median(distance),
+                      sd_distance=sd(distance)) %>%
   paged_table()
 ```
 
-É comum incorporar estatísticas resumidas no texto do nosso documento de R Markdown. Lembre-se de 'in-line' código, usando `` `r ` `` fora do chunk? Como podemos inserir a nossa estatística no texto do relatório? O resultado de `summarize()` ainda é um tibble, e uma tabela não cabe em um parágrafo. Temos que transformar o valor no tibble em um valor único. 
+É comum incorporar estatísticas resumidas no texto do nosso documento de R Markdown. Lembra-se de códigos 'in-line', no qual usamos `` `r ` `` fora do chunk? Como podemos inserir a nossa estatística no texto do relatório? O resultado de `summarize()` ainda é um tibble, e uma tabela não cabe em um parágrafo. Temos que transformar o valor no tibble em um valor único. 
 
 Uma função bastante útil aqui é `pull()` (tirar). Ele transforma uma variável de um tibble para um vetor, e quando o vetor tem apenas um elemento (ou seja, o tibble tem apenas uma linha), o resultado é um valor único, perfeito para inserir em in-line código:
 
@@ -104,7 +104,7 @@ Vamos tentar mais uma estatística:
 flights %>% summarize(dep_delay=mean(dep_delay))
 ```
 
-Qual foi o resultado? `NA`? O que significa dados faltandos aqui? O padrão em R é que o R reclama quando tem um potential por erros, forçando você a investigar. Isso pode ser chato as vezes, mas no longo prazo é uma medida necessária para garantir que você entende o que você está calculando. Neste caso, na presença de *pelo menos um* valor `NA` na variável que estamos resumido, o R passa este `NA` para o resultado final, mesmo que existe milhares de outros valores prontos para ser resumidos. Isso é o nosso sinal que os nossos dados contém lucanas, e temos que deixar explícito para R como a tratar estes casos. Por enquanto vamos ignorar eles usando o argumento `na.rm=TRUE`, e calcular a estatística resumida apenas com os dados restantes:
+Qual foi o resultado? `NA`? O que significa dados faltandos aqui? O padrão em R é reclamar quando tem um erro em potential, forçando você a investigar. Isso pode ser chato as vezes, mas no longo prazo é uma medida necessária para garantir que você entende o que você está calculando. Neste caso, na presença de *pelo menos um* valor `NA` na variável que estamos resumido, o R passa este `NA` para o resultado final, mesmo que existe milhares de outros valores prontos para ser resumidos. Isso é o nosso sinal que os nossos dados contém lacunas, e temos que deixar explícito para R como a tratar estes casos. Por enquanto vamos ignorar eles usando o argumento `na.rm=TRUE`, e calcular a estatística resumida apenas com os dados restantes:
 
 ```{r, eval=F}
 flights %>% summarize(dep_delay=mean(dep_delay,na.rm=TRUE))
@@ -117,7 +117,7 @@ flights %>% summarize(dep_delay=mean(dep_delay,na.rm=TRUE))
 <div class = "blue">
 **Habilidade Básica de Programação: Funções Novas**
 
-O R é muito flexível - se você quiser uma agregação não disponível em uma função atual, pode gerar a sua própria função. Escrever uma função depends de um formato padrão - um nome pela função, os insumos que a função recebe como argumento, e o objeto que quer devolver como resultado da função.
+O R é muito flexível - se você quiser uma agregação não disponível em uma função atual, pode gerar a sua própria função. Escrever uma função depende de um formato padrão - um nome pela função, os insumos que a função recebe como argumento, e o objeto que quer devolver como resultado da função.
 
 ```{r}
 nome_funcao <- function(insumo1, insumo2){
@@ -154,7 +154,7 @@ flights %>% summarize(percentile_90_10_distance=percentile_90_10(distance),
   paged_table()
 ```
 
-Isto é programação. Agora sabemos como a trabalhar com os dois elementos fundamentais: objetos (data.frames/tibbles etc.) e funções. Tudo em R é uma combinação de objetos (substantivos) com funções (verbos) para criar a nossa receita de análise.
+Isto é programação. Agora sabemos como trabalhar com os dois elementos fundamentais: objetos (data.frames/tibbles etc.) e funções. Tudo em R é uma combinação de objetos (substantivos) com funções (verbos) para criar a nossa receita de análise.
 
 </div>
 
@@ -218,6 +218,68 @@ flights %>% group_by(origin, month) %>%
   paged_table()
 ```
 
+Outras funções de resumo também funcionam com `group_by()`. Quer o voo mais atrasado por aeroporto de origem? Use `group_by` conjunto com `top_n` (do tutorial anterior):
+
+```{r, eval=F}
+flights %>% group_by(origin) %>%
+  top_n(1,dep_delay)
+```
+
+```{r, echo=F}
+flights %>% group_by(origin) %>%
+  top_n(1,dep_delay) %>%
+  paged_table()
+```
+
+<div class = "green">
+# Exercício 1: Análises por Grupo
+
+Usando o banco de dados de `flights` no pacote `nycflights13`, responde as seguintes perguntas:
+
+1. Calcule a duração (`air_time`) média por companhia aérea (`carrier`). 
+
+```{r, echo=F, eval=F}
+flights %>% group_by(carrier) %>%
+  summarize(media_air_time=mean(air_time,na.rm=T))
+```
+
+2. Calcule a duração (`air_time`) média por companhia aérea (`carrier`) e mês.
+
+```{r, echo=F, eval=F}
+flights %>% group_by(carrier, month) %>%
+  summarize(media_air_time=mean(air_time,na.rm=T))
+```
+
+3. Calcule o atraso média por aeroporto de origem (`dep_delay`). Qual aeroporto tem o pior?
+
+```{r, echo=F, eval=F}
+flights %>% group_by(origin) %>%
+  summarize(media_dep_delay=mean(dep_delay,na.rm=T)) %>%
+  arrange(-media_dep_delay)
+```
+
+4. Qual companhia aérea tem o pior registro de atrasos (`dep_delay`) na média no aeroporto JFK?
+
+
+```{r, echo=F, eval=F}
+flights %>% filter(origin=="JFK") %>% 
+  group_by(carrier) %>%
+  summarize(media_dep_delay=mean(dep_delay,na.rm=T)) %>%
+  arrange(-media_dep_delay)
+```
+
+5. Você odeia atrasos. Qual é o pior mês para viajar do aeroporto JFK?
+
+```{r, echo=F, eval=F}
+flights %>% filter(origin=="JFK") %>% 
+  group_by(month) %>%
+  summarize(media_dep_delay=mean(dep_delay,na.rm=T)) %>%
+  arrange(-media_dep_delay)
+```
+
+</div>
+
+
 ## Número do observações por Grupo (`tally`)
 
 Uma aplicação enormamente útil de `group_by()` é para calcular o número de observações (linhas) em cada grupo do banco de dados. 
@@ -248,6 +310,55 @@ flights %>% group_by(origin, dest) %>%
   paged_table()
 ```
 
+
+<div class = "green">
+# Exercício 2: Observações por Grupo
+
+1. Quantos voos decolaram de Nova Iorque em cada mes de 2013?
+
+```{r, eval=F, echo=F}
+flights %>% group_by(month) %>% 
+  tally()
+```
+
+2. Qual companhia aérea teve o maior número de voos em cada mês de 2013?
+
+```{r, eval=F, echo=F}
+flights %>% group_by(month, carrier) %>% 
+  tally() %>%
+  group_by(month) %>% 
+  top_n(1,n)
+```
+
+3. Qual é a média do número de voos que decolaram dos três aeroportos por mês?
+
+```{r, eval=F, echo=F}
+flights %>% group_by(origin, month) %>% 
+  tally() %>%
+  group_by(month) %>%
+  summarize(media_n=mean(n,na.rm=T))
+```
+
+4. Qual é a média mensal do número de voos que decolaram de cada aeroporto?
+
+```{r, eval=F, echo=F}
+flights %>% group_by(origin, month) %>% 
+  tally() %>%
+  group_by(origin) %>%
+  summarize(media_n=mean(n,na.rm=T))
+```
+
+5. Qual horário de partida (`dep_time`) é o segundo mais congestionado (medida pelo número de decolagens) em cada aeroporto? (O mais congestionado é o horário `NA`, então é mais interessante pegar o segundo mais congestionado).
+
+```{r, eval=F, echo=F}
+flights %>% group_by(origin,dep_time) %>%
+  tally() %>%
+  group_by(origin) %>%
+  top_n(2,n)
+```
+
+</div>
+
 # Mutate por Grupo
 
 Não é apenas resumos que conseguimos executar por grupo. É comum também aplicar um `mutate()` por grupo. Esta combinação fornece muita flexibilidade e poder. Por exemplo, se quiser manter o tamanho e a unidade de análise do seu banco de dados original, e inserir a média do grupo como coluna, pode executar assim:
@@ -271,11 +382,53 @@ Qual a diferença conceitual entre `summarize()` e `mutate()`?
 
 2. `mutate()` *nunca* reduz (ou aumenta) o número de linhas no banco de dados - apenas adiciona uma nova coluna.
 
-## Percentagens
+## Saindo de Agrupamentos (`ungroup`)
 
-Um dos pedidos mais comuns é calcular porcentagens em R. Tome cuidado: já vi muitos cálculos errados, mesmo que uma porcentagem é uma variável simples. O chave é que temos que definir o *denominador* da fórmula de porcentagem:
+Agrupamento é poderoso - ele permite organizar os nossos dados na forma que faz sentido para a nossa análise sem calcular os denominadores separadamente. Mas tome cuidado: O R lembra de tudo. Quando você usa `group_by()` ele é mantido para o resto da operação (os pipes seguintes), e também dentro de objetos salvos. Isso é útil se queremos continuar com o mesmo agrupamento, mas pode gerar resultados inesperados se esquecemos que já agrupamos os nossos dados. Para tirar o agrupamento, temos que usar a função `ungroup()`, sem argumento.
 
-$$% = \frac{Valor}{Total do grupo relevante}*100 $$
+Para demonstrar isso, veja a descrição do objeto salvo abaixo com a função de utilidade `groups` que imprime os grupos do tibble:
+
+```{r, eval=T, echo=T}
+flights_media <- flights %>% group_by(origin) %>%
+  mutate(media_distance=mean(distance,na.rm=TRUE))
+
+groups(flights)
+groups(flights_media)
+```
+
+O que acontece se usarmos o tibble agrupado em uma nova operação? Imaginar que em mais três páginas queremos calcular a média de atrasos (`dep_delay`) com `summarize`?
+
+```{r, eval=F}
+flights_media %>% summarize(media_atraso=mean(dep_delay,na.rm=T))
+```
+
+```{r, echo=F}
+flights_media %>% summarize(media_atraso=mean(dep_delay,na.rm=T)) %>%
+  paged_table()
+```
+
+Recebemos três linhas, mesmo que pedimos só uma média! O agrupamento ainda aplica para restringir o escope do resumo de `summarize`, e o R gerou uma média por aeroporto (`origin`). Mais geralmente, se esquecemos do agrupamento, é fácil gerar o resultado inesperado.
+
+Para evitar esta situação chata, temos que sempre lembrar qual é a unidade de agrupamento. Para voltar analisar o banco de dados inteiro, temos que tirar o agrupamento com `ungroup()`:
+
+```{r, eval=F}
+flights_media %>% ungroup() %>% 
+  summarize(media_atraso=mean(dep_delay,na.rm=T))
+```
+
+```{r, echo=F}
+flights_media %>% ungroup() %>% 
+  summarize(media_atraso=mean(dep_delay,na.rm=T))
+```
+
+Fácil de fazer, difícil de lembrar! Presta atenção!
+
+
+## Porcentagens
+
+Um dos pedidos mais comuns é calcular porcentagens em R. Tome cuidado: já vi muitos cálculos errados, mesmo sendo porcentagem uma variável simples. A chave para evitar erros está na definição do *denominador* da fórmula da porcentagem:
+
+$$\text{%} = \frac{\text{Valor}}{\text{Total do grupo relevante}}*100 $$
 
 Queremos uma porcentagem para cada observação no banco de dados, então isso exige um `mutate()` Por exemplo, se quisemos calcular a percentagem da distância de cada voo na distância total de todos os voos:
 
@@ -348,6 +501,8 @@ flights %>% group_by(origin, month) %>%
   paged_table()
 ```
 
+Você consegue descrever o que o código acima fez, passo-a-passo?
+
 # Resumos e Transformações de Múltiplas Colunas (`summarize_all`)
 
 Uma limitação de `summarize()` é que temos que pedir a média de cada variável separadamente. Se tivermos dezenas de variáveis, isso exige muito código. Não há jeito de calcular a média de todas as variáveis? Há sim! Podemos usar `summarize_all()`:
@@ -361,7 +516,7 @@ flights %>% summarize_all(mean,na.rm=TRUE) %>%
   paged_table()
 ```
 
-Salvamos 18 linhas de código comparado com o uso de `summarize` para cada variável individualmente! O sintaxe de `summarize_all()` é um pouco diferente: nos parenteses, especificamos o nome da função/estatística *sem parenteses* (`mean`), e depois da vírgula qualquer outro argumento à função mean (aqui `na.rm=TRUE`). Não precisamos especificar as variáveis para resumir; estamos resumindo todos.
+Salvamos 18 linhas de código comparado com o uso de `summarize` para cada variável individualmente! O sintaxe de `summarize_all()` é um pouco diferente: nos parenteses, especificamos o nome da função/estatística *sem parenteses* (`mean`), e depois da vírgula qualquer outro argumento à função mean (aqui `na.rm=TRUE`). Não precisamos especificar as variáveis para resumir; estamos resumindo todas.
 
 Note que `mean` apenas funciona para variáveis numéricas; ele devolve `NA` para variáveis do tipo caractere ou factor.  
 
@@ -386,7 +541,7 @@ Deu certo, mas um pouco chato para digitar. A segunda opção usa uma outra vari
 flights %>% mutate_at(vars(year, month, day, dep_time, sched_dep_time, dep_delay, arr_time, sched_arr_time, arr_delay, flight, air_time, distance, hour, minute), scale)
 ```
 
-A terceira opção é a mais eficiente e vai identificar automaticamente as colunas númericas - esta variedade final de `mutate`, `mutate_if()` aceita um 'teste' em vez de uma lista de variáveis para ser transformadas. O teste é uma função simples que devolve o resultado `TRUE` ou `FALSE` para cada coluna. Em nosso caso, queremos testar se a coluna seja númerico, então vamos usar o teste (a função) `is.numeric`:
+A terceira opção é a mais eficiente e vai identificar automaticamente as colunas númericas - esta variedade final de `mutate`, `mutate_if()` aceita um 'teste' em vez de uma lista de variáveis para ser transformadas. O teste é uma função simples que devolve o resultado `TRUE` ou `FALSE` para cada coluna. Em nosso caso, queremos testar se a coluna é númerica, então vamos usar o teste (a função) `is.numeric()`:
 
 ```{r}
 flights %>% mutate_if(is.numeric, scale)
@@ -395,3 +550,54 @@ flights %>% mutate_if(is.numeric, scale)
 Veja a beleza de programação mais eficiente - o mesmo resultado com menos digitação! Como interpretamos o código? "Pegue o banco de dados de `flights`, depois aplica uma transformação às variáveis *se* a variável `is.numeric` (é númerica), e a transformação é `scale`."
 
 Existe também as versões equivalentes destas funcões para `summarize`: `summarize_all`, `summarize_at` e `summarize_if`. 
+
+<div class = "green">
+# Exercício 3: Resumos Avançados
+
+1. Calcule o total de distância dos voos que decoloram de cada aeroporto como uma coluna nova.
+
+```{r, echo=F, eval=F}
+flights %>% group_by(dist_total=sum(distance,na.rm=T))
+```
+
+2. Calcule a média do atraso média de cada aeroporto de origem em cada mês 
+
+```{r, echo=F, eval=F}
+flights %>% group_by(origin,month) %>%
+  summarize(media_dep_delay=mean(dep_delay,na.rm=T)) %>%
+  ungroup() %>% 
+  summarize(media_media_dep_delay=mean(media_dep_delay,na.rm=T))
+```
+
+3. Quão porcentagem dos voos voaram para cada destino? Qual destino é o mais comum?
+
+```{r, echo=F, eval=F}
+flights %>% group_by(dest) %>% 
+  tally() %>%
+  mutate(Pct_dest=100*(n/sum(n))) %>%
+  arrange(-Pct_dest)
+```
+
+4. Quão porcentagem do tempo de atraso em cada aeroporto é a responsibilidade de cada companhia aérea? Qual é a companhia aérea responsável para o maior porcentagem de tempo atrasado no aeroporto de Newark (EWR)?
+
+```{r, echo=F, eval=F}
+flights %>% group_by(origin, carrier) %>%
+  summarize(total_atraso=sum(dep_delay, na.rm=T)) %>%
+  group_by(origin) %>%
+  mutate(Pct_total_atraso=100*(total_atraso/sum(total_atraso,na.rm=T))) %>%
+  arrange(origin, -Pct_total_atraso)
+```
+
+5. Transforme as variáveis `dep_time`, `sched_dep_time`, `dep_delay`, `arr_time`, `sched_arr_time` e `arr_delay` de mensuração em minutos para mensuração em horas. Escreve uma função nova para facilitar esta transformação.
+
+```{r, echo=F, eval=F}
+mins_to_horas <- function(x){
+  return(x/60)
+}
+
+flights %>% mutate_at(vars(dep_time, sched_dep_time, dep_delay, arr_time, sched_arr_time, arr_delay), mins_to_horas)
+```
+
+
+</div>
+

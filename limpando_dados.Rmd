@@ -616,11 +616,13 @@ flights %>% mutate(origin=case_when(month=="EWR"~"Newark",
 </div>
 
 <aside>
-```{r, echo=T, eval=F, tidy=TRUE, tidy.opts=list(width.cutoff=20)}
-flights %>% mutate(origin=fct_recode(origin,
-                                     "Newark"="EWR",
-                                     "John F Kennedy"="JFK",
-                                     "LaGuardia"="LGA"))
+```{r, echo=T, eval=F, tidy=TRUE, tidy.opts=list(width.cutoff=25)}
+flights %>% 
+  mutate(origin = 
+           fct_recode( origin,  
+                                     "Newark"="EWR", 
+                                     "John F Kennedy"="JFK", 
+                                    "LaGuardia"="LGA"))
 ```
 </aside>
 
