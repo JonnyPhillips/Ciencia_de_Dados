@@ -31,7 +31,6 @@ knitr::opts_chunk$set(echo = T, eval=T, highlight=T)
 library("nycflights13")
 library("tidyverse")
 library("rmarkdown")
-
 ```
 
 # Dividindo e Unificando Variáveis
@@ -646,7 +645,7 @@ flights %>% mutate(origin=case_when(month=="EWR"~"Newark",
 </div>
 
 <aside>
-```{r, echo=T, eval=F, tidy=TRUE, tidy.opts=list(width.cutoff=25)}
+```{r, echo=T, eval=F, tidy=TRUE, tidy.opts=list(width.cutoff=20)}
 flights %>% 
   mutate(origin = 
            fct_recode( origin,  
