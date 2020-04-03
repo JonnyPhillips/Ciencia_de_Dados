@@ -1,6 +1,6 @@
 ---
-title: "Desafio 1: De Banco de Dados ao Relatório"
-subtitle: "Respostas Sugeridas"
+title: "Desafio 1: Respostas Sugeridas"
+subtitle: ""
 output: distill::distill_article
 ---
 
@@ -13,10 +13,6 @@ library(rmarkdown)
 <style>
 div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </style>
-
-## Instruções
-
-Siga as instruções abaixo. Documente *todos* os seus passos em um script. Comente no seu script *todos* os seus passos e explique a si mesma(o) suas escolhas e estratégias. Se você se beneficiou da assistência de outra pessoa, sempre reconheça isso em comentários no código.
 
 ## Roteiro
 

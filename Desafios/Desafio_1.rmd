@@ -16,6 +16,10 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 O prazo para entregar Desafio 1 por email com título “[FLS6397] - D1” à minha conta é **14h, 27/03/2020**, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
 </div>
 
+<br>
+
+[Respostas Sugeridas para Desafio 1 aqui](Desafio_1_Suggested_Responses.html)
+
 ## Instruções
 
 Siga as instruções abaixo. Documente *todos* os seus passos em um script. Comente no seu script *todos* os seus passos e explique a si mesma(o) suas escolhas e estratégias. Se você se beneficiou da assistência de outra pessoa, sempre reconheça isso em comentários no código.

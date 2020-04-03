@@ -688,14 +688,14 @@ flights %>% group_by(origin, carrier) %>%
   arrange(origin, -Pct_total_atraso)
 ```
 
-5. Transforme todas as variáveis `dep_time`, `sched_dep_time`, `dep_delay`, `arr_time`, `sched_arr_time` e `arr_delay` de mensuração em minutos para mensuração em horas. Escreve uma função nova para facilitar esta transformação.
+5. Transforme todas as variáveis `dep_delay`, `arr_delay` e `air_time` de mensuração em minutos para mensuração em horas. Escreve uma função nova para facilitar esta transformação.
 
 ```{r, echo=T, eval=F, tidy=T}
 mins_to_horas <- function(x){
   return(x/60)
 }
 
-flights %>% mutate_at(vars(dep_time, sched_dep_time, dep_delay, arr_time, sched_arr_time, arr_delay), mins_to_horas)
+flights %>% mutate_at(vars(dep_delayarr_delay, air_time), mins_to_horas)
 ```
 
 
