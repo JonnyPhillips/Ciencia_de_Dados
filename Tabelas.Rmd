@@ -74,7 +74,7 @@ set.seed(05508)
 flights %>% sample_n(8) 
 ```
 
-Execute este código umas vezes e confirme que o resultado não muda.
+Execute este código (tudo o código, incluindo o `set.seed`) umas vezes e confirme que o resultado não muda.
 
 </div>
 
@@ -439,7 +439,7 @@ flights %>% group_by(origin) %>%
 <br>
 
 <div class = "orange">
-# Leitura para Tutorial 5
+# Leitura para Tutorial 6
 
 Antes da próxima aula, por favor leia [R 4 Data Science, Capítulo 3](https://r4ds.had.co.nz/data-visualisation.html) e [ggplot2: Elegant Graphics for Data Analysis, Capítulos 1-6](https://ggplot2-book.org/)
 

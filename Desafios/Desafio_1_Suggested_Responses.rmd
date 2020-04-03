@@ -72,6 +72,9 @@ cands_prefeito_turno_1 <- data_prefeito_turno_1 %>% distinct(SQ_CANDIDATO)
 num_cands_prefeito_turno_1 <- nrow(cands_prefeito_turno_1)
 ```
 
+O número de candidatos que concorrem para prefeito no primeiro turno em 2012 em São Paulo é `` `r
+num_cands_prefeito_turno_1` ``. 
+
 O número de candidatos que concorrem para prefeito no primeiro turno em 2012 em São Paulo é `r num_cands_prefeito_turno_1`.
 
 **7. No banco de dados de prefeitos no primeiro turno gerado na questão anterior, renomeie a variável com nome pouco claro `DESC_SIT_CAND_TOT` para `RESULTADO`**
@@ -97,6 +100,9 @@ cands_prefeito_turno_1_nome_igual <- data_prefeito_turno_1 %>%
 Pct_nome_igual <- 100*(nrow(cands_prefeito_turno_1_nome_igual)/nrow(cands_prefeito_turno_1))
 ```
 
+O porcentagem de candidatos para prefeito no primeiro turno com nome completo ígual ao nome de urna é `` `r
+round(Pct_nome_igual,2)` ``. 
+
 O porcentagem de candidatos para prefeito no primeiro turno com nome completo ígual ao nome de urna é `r round(Pct_nome_igual,2)`%.
 
 **9. Quantos dos candidatos identificados em Q8 foram eleitos no primeiro turno?**
@@ -108,6 +114,10 @@ num_cands_nome_igual_eleito <- data_prefeito_turno_1 %>%
   distinct(SQ_CANDIDATO) %>% 
   nrow()
 ```
+
+Dos `` `r
+nrow(cands_prefeito_turno_1_nome_igual)` `` candidatos com nome completo ígual ao nome de urna, `` `r
+num_cands_nome_igual_eleito` ``  foram eleitos.
 
 Dos `r nrow(cands_prefeito_turno_1_nome_igual)` candidatos com nome completo ígual ao nome de urna, `r num_cands_nome_igual_eleito` foram eleitos.
 
@@ -168,6 +178,9 @@ data_prefeito_turno_1 <- data_prefeito_turno_1 %>%
 
 cands_sp_maior_10000 <- data_prefeito_turno_1 %>% filter(Mais_de_10000_votos==TRUE) %>% nrow()
 ```
+
+Existem `` `r
+cands_sp_maior_10000` `` candidatos-zonas com mais de 10000 votos.
 
 Existem `r cands_sp_maior_10000` candidatos-zonas com mais de 10000 votos.
 
