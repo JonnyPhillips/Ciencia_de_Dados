@@ -1827,7 +1827,7 @@ flights_junho_5_manha &lt;- flights %&gt;% filter(month==6 &amp; day==5 &amp; de
 </tr>
 </tbody>
 </table>
-<p>Com esta nova flexibilidade, temos que pensar com cuidado para construir o filtro apropriado. E temos que usar os parenteses apropriados, porque a lista acima é em ordem de prioridade (como na matemática quando multiplicação acontece antes de adição, aqui “E” acontece antes de “OU”). Por exemplo, se quissemos todos os voos que atrasaram na chegada por mais de 50 minutos, e que decolaram antes das 5h <em>ou</em> que decolaram de Atlanta (ATL), temos que escrever assim:</p>
+<p>Com esta nova flexibilidade, temos que pensar com cuidado para construir o filtro apropriado. E temos que usar os parenteses apropriados, porque a lista acima é em ordem de prioridade (como na matemática quando multiplicação acontece antes de adição, aqui “E” acontece antes de “OU”). Por exemplo, se quissemos todos os voos que atrasaram na chegada por mais de 50 minutos, e que decolaram antes das 5h <em>ou</em> que chegaram em Atlanta (ATL), temos que escrever assim:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights %&gt;% filter((dep_time&lt;=500 | dest==&quot;ATL&quot;) &amp; arr_delay&gt;=50)</code></pre>
@@ -1927,7 +1927,7 @@ flights %&gt;% filter(dest == &quot;BUF&quot; &amp; origin == &quot;EWR&quot; &a
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights %&gt;% mutate(velocidade = distance/(air_time/60)) %&gt;% filter((distance &gt; 
-    4800 | velocidade &gt; 530) &amp; month == 4) %&gt;% select(tailnum, dest, distance, 
+    1000 | velocidade &gt; 500) &amp; month == 5) %&gt;% select(tailnum, dest, distance, 
     velocidade)</code></pre>
 </div>
 <ol start="6" type="1">

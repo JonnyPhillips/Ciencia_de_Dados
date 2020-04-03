@@ -456,7 +456,7 @@ Veja a tabela de possibilidades de combinação de duas proposições com a conj
   | FALSE        | TRUE         | TRUE       |
   | FALSE        | FALSE        | FALSE      |
 
-Com esta nova flexibilidade, temos que pensar com cuidado para construir o filtro apropriado. E temos que usar os parenteses apropriados, porque a lista acima é em ordem de prioridade (como na matemática quando multiplicação acontece antes de adição, aqui "E" acontece antes de "OU"). Por exemplo, se quissemos todos os voos que atrasaram na chegada por mais de 50 minutos, e que decolaram antes das 5h *ou* que decolaram de Atlanta (ATL), temos que escrever assim:
+Com esta nova flexibilidade, temos que pensar com cuidado para construir o filtro apropriado. E temos que usar os parenteses apropriados, porque a lista acima é em ordem de prioridade (como na matemática quando multiplicação acontece antes de adição, aqui "E" acontece antes de "OU"). Por exemplo, se quissemos todos os voos que atrasaram na chegada por mais de 50 minutos, e que decolaram antes das 5h *ou* que chegaram em Atlanta (ATL), temos que escrever assim:
 
 ```{r, echo=T, eval=F}
 flights %>% filter((dep_time<=500 | dest=="ATL") & arr_delay>=50)
@@ -538,7 +538,7 @@ flights %>% filter(dest=="BUF" & origin=="EWR" & arr_delay>=60 & day==6) %>%
 
 ```{r, eval=F, echo=T, tidy=TRUE}
 flights %>% mutate(velocidade=distance/(air_time/60)) %>%
-  filter((distance>4800 | velocidade>530) & month==4) %>%
+  filter((distance>1000 | velocidade>500) & month==5) %>%
   select(tailnum, dest, distance, velocidade) 
 ```
 

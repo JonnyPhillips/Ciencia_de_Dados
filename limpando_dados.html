@@ -1670,12 +1670,12 @@ ex_arrange %&gt;% arrange(Ano) %&gt;%
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ex_arrange %&gt;% arrange(Ano) %&gt;% 
-  mutate(Valor_anterior=lead(Valor))</code></pre>
+  mutate(Valor_posterior=lead(Valor))</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["ID"],"name":[1],"type":["int"],"align":["right"]},{"label":["Ano"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mes"],"name":[3],"type":["chr"],"align":["left"]},{"label":["Valor"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Valor_anterior"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"2005","3":"Novembro","4":"800","5":"450"},{"1":"8","2":"2005","3":"Novembro","4":"450","5":"350"},{"1":"10","2":"2005","3":"Outubro","4":"350","5":"500"},{"1":"4","2":"2006","3":"Março","4":"500","5":"850"},{"1":"5","2":"2006","3":"Novembro","4":"850","5":"450"},{"1":"6","2":"2007","3":"Fevereiro","4":"450","5":"750"},{"1":"1","2":"2008","3":"Abril","4":"750","5":"600"},{"1":"7","2":"2008","3":"Junho","4":"600","5":"700"},{"1":"9","2":"2008","3":"Janeiro","4":"700","5":"300"},{"1":"3","2":"2009","3":"Julho","4":"300","5":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["ID"],"name":[1],"type":["int"],"align":["right"]},{"label":["Ano"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mes"],"name":[3],"type":["chr"],"align":["left"]},{"label":["Valor"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Valor_posterior"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"2005","3":"Novembro","4":"800","5":"450"},{"1":"8","2":"2005","3":"Novembro","4":"450","5":"350"},{"1":"10","2":"2005","3":"Outubro","4":"350","5":"500"},{"1":"4","2":"2006","3":"Março","4":"500","5":"850"},{"1":"5","2":"2006","3":"Novembro","4":"850","5":"450"},{"1":"6","2":"2007","3":"Fevereiro","4":"450","5":"750"},{"1":"1","2":"2008","3":"Abril","4":"750","5":"600"},{"1":"7","2":"2008","3":"Junho","4":"600","5":"700"},{"1":"9","2":"2008","3":"Janeiro","4":"700","5":"300"},{"1":"3","2":"2009","3":"Julho","4":"300","5":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>

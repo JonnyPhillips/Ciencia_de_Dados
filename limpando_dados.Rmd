@@ -346,12 +346,12 @@ A operação de `lead()` é equivalente, mas traz o valor subsequente.
 
 ```{r, eval=F}
 ex_arrange %>% arrange(Ano) %>% 
-  mutate(Valor_anterior=lead(Valor))
+  mutate(Valor_posterior=lead(Valor))
 ```
 
 ```{r, echo=F}
 ex_arrange %>% arrange(Ano) %>% 
-  mutate(Valor_anterior=lead(Valor)) %>%
+  mutate(Valor_posterior=lead(Valor)) %>%
   paged_table()
 ```
 
