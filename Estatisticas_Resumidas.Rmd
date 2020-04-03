@@ -62,6 +62,9 @@ Fácil, sim? Usando a variedade das funções estatísticas em R (ou qualquer pa
 | Mediana      |  `median(variavel)`                 |
 | Desvio padrão|  `sd(variavel)`                     |
 | Quantil (10%)     |  `quantile(variavel, probs=0.1)` |
+| Máximo        | `max(variavel)`                    |
+| Mínimo        | `min(variavel)`                    |
+
 
 A nossa nova tabela agregada pode conter mais de uma estatística resumida, cada uma em uma coluna nova:
 
