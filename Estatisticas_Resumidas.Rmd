@@ -241,25 +241,32 @@ Recebemos três voos, o mais atrasado em EWR, o mais atrasado em JFK, e o mais a
 <div class = "green">
 # Exercício 1: Análises por Grupo
 
+<aside>
+```{r codefolder, echo=FALSE, results='asis'}
+codefolder::distill(init = "show")
+```
+</aside>
+
+
 Usando o banco de dados de `flights` no pacote `nycflights13`, responda às seguintes perguntas:
 
 1. Calcule a duração (`air_time`) média por companhia aérea (`carrier`). 
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F}
 flights %>% group_by(carrier) %>%
   summarize(media_air_time=mean(air_time,na.rm=T))
 ```
 
 2. Calcule a duração (`air_time`) média por companhia aérea (`carrier`) e mês.
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F}
 flights %>% group_by(carrier, month) %>%
   summarize(media_air_time=mean(air_time,na.rm=T))
 ```
 
 3. Calcule o atraso média por aeroporto de origem (`dep_delay`). Qual aeroporto tem o pior?
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F}
 flights %>% group_by(origin) %>%
   summarize(media_dep_delay=mean(dep_delay,na.rm=T)) %>%
   arrange(-media_dep_delay)
@@ -268,20 +275,16 @@ flights %>% group_by(origin) %>%
 4. Qual companhia aérea tem o pior registro de atrasos (`dep_delay`) na média no aeroporto JFK?
 
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F}
 flights %>% filter(origin=="JFK") %>% 
   group_by(carrier) %>%
   summarize(media_dep_delay=mean(dep_delay,na.rm=T)) %>%
   arrange(-media_dep_delay)
-
-flights %>% group_by(carrier, origin) %>%
-summarize(mean_dep_delay=mean(dep_delay,na.rm=TRUE)) %>%
-filter(origin=="JFK") %>% top_n(1, mean_dep_delay)
 ```
 
 5. Você odeia atrasos. Qual é o pior mês para viajar do aeroporto JFK?
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F}
 flights %>% filter(origin=="JFK") %>% 
   group_by(month) %>%
   summarize(media_dep_delay=mean(dep_delay,na.rm=T)) %>%
@@ -324,16 +327,22 @@ flights %>% group_by(origin, dest) %>%
 <div class = "green">
 # Exercício 2: Observações por Grupo
 
+<aside>
+```{r codefolder2, echo=FALSE, results='asis'}
+codefolder::distill(init = "show")
+```
+</aside>
+
 1. Quantos voos decolaram de Nova Iorque em cada mês de 2013?
 
-```{r, eval=F, echo=F}
+```{r, eval=F, echo=T}
 flights %>% group_by(month) %>% 
   tally()
 ```
 
 2. Qual companhia aérea teve o maior número de voos em cada mês de 2013?
 
-```{r, eval=F, echo=F}
+```{r, eval=F, echo=T}
 flights %>% group_by(month, carrier) %>% 
   tally() %>%
   group_by(month) %>% 
@@ -342,7 +351,7 @@ flights %>% group_by(month, carrier) %>%
 
 3. Qual é a média do número de voos que decolaram dos três aeroportos por mês?
 
-```{r, eval=F, echo=F}
+```{r, eval=F, echo=T}
 flights %>% group_by(origin, month) %>% 
   tally() %>%
   group_by(month) %>%
@@ -351,7 +360,7 @@ flights %>% group_by(origin, month) %>%
 
 4. Qual é a média mensal do número de voos que decolaram de cada aeroporto?
 
-```{r, eval=F, echo=F}
+```{r, eval=F, echo=T}
 flights %>% group_by(origin, month) %>% 
   tally() %>%
   group_by(origin) %>%
@@ -360,7 +369,7 @@ flights %>% group_by(origin, month) %>%
 
 5. Qual horário de partida (`dep_time`) é o segundo mais congestionado (medida pelo número de decolagens) em cada aeroporto? (O mais congestionado é o horário `NA`, então é mais interessante pegar o segundo mais congestionado).
 
-```{r, eval=F, echo=F}
+```{r, eval=F, echo=T}
 flights %>% group_by(origin,dep_time) %>%
   tally() %>%
   group_by(origin) %>%
@@ -501,13 +510,13 @@ Finalmente, é comum calcular a porcentagem do número de observações (linhas)
 ```{r, eval=F}
 flights %>% group_by(origin) %>% 
   tally() %>%
-  mutate(Pct_por_aeroporto=n/sum(n))
+  mutate(Pct_por_aeroporto=100*(n/sum(n)))
 ```
 
 ```{r, echo=F}
 flights %>% group_by(origin) %>% 
   tally() %>%
-  mutate(Pct_por_aeroporto=n/sum(n)) %>%
+  mutate(Pct_por_aeroporto=100*(n/sum(n))) %>%
   paged_table()
 ```
 
@@ -517,14 +526,14 @@ Se quiser calcular a porcentagem de voos por mês em cada aeroporto separado, po
 flights %>% group_by(origin, month) %>% 
   tally() %>%
   group_by(origin) %>% 
-  mutate(Pct_por_mes_no_aeroporto=n/sum(n))
+  mutate(Pct_por_mes_no_aeroporto=100*(n/sum(n)))
 ```
 
 ```{r, echo=F}
 flights %>% group_by(origin, month) %>% 
   tally() %>%
   group_by(origin) %>% 
-  mutate(Pct_por_mes_no_aeroporto=n/sum(n)) %>%
+  mutate(Pct_por_mes_no_aeroporto=100*(n/sum(n))) %>%
   paged_table()
 ```
 
@@ -536,14 +545,14 @@ Você consegue descrever o que o código acima fez, passo-a-passo?
 flights %>% group_by(origin, month) %>% 
   tally() %>%
   group_by(month) %>% 
-  mutate(Pct_por_mes_no_aeroporto=n/sum(n))
+  mutate(Pct_por_mes_no_aeroporto=100*(n/sum(n)))
 ```
 
 ```{r, echo=F}
 flights %>% group_by(origin, month) %>% 
   tally() %>%
   group_by(month) %>% 
-  mutate(Pct_por_mes_no_aeroporto=n/sum(n)) %>%
+  mutate(Pct_por_mes_no_aeroporto=100*(n/sum(n))) %>%
   arrange(month, origin) %>%
   paged_table()
 ```
@@ -638,15 +647,22 @@ Existe também as versões equivalentes destas funcões para `summarize`: `summa
 <div class = "green">
 # Exercício 3: Resumos Avançados
 
+<aside>
+```{r codefolder3, echo=FALSE, results='asis'}
+codefolder::distill(init = "show")
+```
+</aside>
+
+
 1. Calcule o total de distância dos voos que decoloram de cada aeroporto como uma coluna nova.
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F}
 flights %>% group_by(origin) %>% summarize(dist_total=sum(distance,na.rm=T))
 ```
 
 2. Calcule a média do atraso média de cada aeroporto de origem em cada mês 
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F}
 flights %>% group_by(origin,month) %>%
   summarize(media_dep_delay=mean(dep_delay,na.rm=T)) %>%
   ungroup() %>% 
@@ -655,7 +671,7 @@ flights %>% group_by(origin,month) %>%
 
 3. Quão porcentagem dos voos voaram para cada destino? Qual destino é o mais comum?
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F}
 flights %>% group_by(dest) %>% 
   tally() %>%
   mutate(Pct_dest=100*(n/sum(n))) %>%
@@ -664,7 +680,7 @@ flights %>% group_by(dest) %>%
 
 4. Quão porcentagem do tempo de atraso em cada aeroporto é a responsibilidade de cada companhia aérea? Qual é a companhia aérea responsável para o maior porcentagem de tempo atrasado no aeroporto de Newark (EWR)?
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F}
 flights %>% group_by(origin, carrier) %>%
   summarize(total_atraso=sum(dep_delay, na.rm=T)) %>%
   group_by(origin) %>%
@@ -674,7 +690,7 @@ flights %>% group_by(origin, carrier) %>%
 
 5. Transforme todas as variáveis `dep_time`, `sched_dep_time`, `dep_delay`, `arr_time`, `sched_arr_time` e `arr_delay` de mensuração em minutos para mensuração em horas. Escreve uma função nova para facilitar esta transformação.
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F, tidy=T}
 mins_to_horas <- function(x){
   return(x/60)
 }
