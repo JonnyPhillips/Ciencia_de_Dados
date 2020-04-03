@@ -40,12 +40,15 @@ Até agora, trabalhamos com as tabelas padrões fornecidas pelo R e a opção `d
 A primeira função de formatação de tabelas se chama `kable` e fica num pacote se chama `knitr`, então temos que instalar (uma vez só, e depois comentado) e abrir o pacote:
 
 ```{r eval=F}
+library("tidyverse")
+library("nycflights13")
 #install.packages("knitr")
-library(knitr)
+library("knitr")
+
 ```
 
 ```{r echo=F}
-library(knitr)
+library("knitr")
 ```
 
 Agora, seguimos qualquer tibble com `%>% kable()` e o R vai produzir uma tabela *estática*. Tabelas estáticas são simples e limpas, mas geram um risco grande - uma tabela grande será impressa *na íntegra*. Com um banco de dados de milhares de linhas, isso gera um arquivo enorme e difícil de navegar. Então temos que tomar cuidado: é a sua responsibilidade `filter` ou `slice` a sua tabela anteriormente para que o resultado final tenha o tamanho desejado.
