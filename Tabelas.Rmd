@@ -1,0 +1,456 @@
+---
+title: "Construindo Tabelas"
+description: |
+  Comunicando os nossos Dados
+output:
+  distill::distill_article:
+    toc: true
+    toc_float: true
+    toc_depth: 1
+---
+
+<style>
+div.green { background-color:#e5f5e0; border-radius: 5px; padding: 20px;}
+</style>
+
+<style>
+div.orange { background-color:#fee6ce; border-radius: 5px; padding: 20px;}
+</style>
+
+<style>
+div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
+</style>
+
+<style>
+div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
+</style>
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T, eval=T, highlight=T)
+library("nycflights13")
+library("tidyverse")
+library("rmarkdown")
+```
+
+# Tabelas Estáticas
+
+Até agora, trabalhamos com as tabelas padrões fornecidas pelo R e a opção `df_print: paged` no cabeçalho. É só digitar o nome do tibble num chunk e no resultado vai aparecer uma tabela com navegação por página e colunas. Mas existem várias funções de 'formatação' que traduz o conteúdo de um tibble para uma tabela bonita no documento final. Elas funcionam como qualquer outra função do R e ficam no final de nosso fluxo de pipes.
+
+A primeira função de formatação de tabelas se chama `kable` e fica num pacote se chama `knitr`, então temos que instalar (uma vez só, e depois comentado) e abrir o pacote:
+
+```{r eval=F}
+#install.packages("knitr")
+library(knitr)
+```
+
+```{r echo=F}
+library(knitr)
+```
+
+Agora, seguimos qualquer tibble com `%>% kable()` e o R vai produzir uma tabela *estática*. Tabelas estáticas são simples e limpas, mas geram um risco grande - uma tabela grande será impressa *na íntegra*. Com um banco de dados de milhares de linhas, isso gera um arquivo enorme e difícil de navegar. Então temos que tomar cuidado: é a sua responsibilidade `filter` ou `slice` a sua tabela anteriormente para que o resultado final tenha o tamanho desejado.
+
+```{r}
+flights %>% filter(dest=="ANC") %>%
+  kable()
+```
+
+Uma alternativa de `filter` ou `slice` que é útil para apresentar uma amostra aleatória da sua tabela (e também para realizar amostras aleatórias em estudos empíricas) é `sample_n()`. Escolhemos o número de observações desejadas, e o R vai selecionar aleatoriamente este número de linhas da tabela (Observe que as observações mudam cada vez que rodamos/compilamos o nosso documento):
+
+```{r}
+flights %>% sample_n(8) %>%
+  kable()
+```
+
+<div class = "blue">
+**Habilidade Básica de Programação: Aleatoriedade reproduzível**
+
+É comum usar funções aleatórias em R para gerar distribuições, simulações e amostras. A função `sample_n()` seleciona linhas aleatórias *cada vez* que rodamos o código ou compilar o relatório com 'knit'. Isto é útil, mas impede um dos nossos objetivos - a reprodutibilidade, dado que o relatório final fica diferente depois de cada compilação e não vamos saber se seja por causa de um erro ou por causa da aleatorização. 
+
+A solução é a 'aleatoriedade reproduzível': Imediatamente antes de roder `sample_n()` (fora do pipe, numa linha única), especificamos um 'seed' que será mapeado a uma seleção aleatória, mas fixa, porque o seed fica o mesmo cada vez. É para nos especificar um seed aribtrário, eu sempre gosto de usar um CEP, mas pode escolher qualquer número, não significa nada:
+
+```{r, eval=F}
+set.seed(05508)
+flights %>% sample_n(8) 
+```
+
+Execute este código umas vezes e confirme que o resultado não muda.
+
+</div>
+
+Compile o seu script atual com 'Knit': como fica a tabela? O número de linhas não é problemático, mas as colunas saiam do lado direito da página... Também é a nossa responsibilidade limitar o número de colunas para incluir apenas elas que cabem no espaço da tabela final com `select`. Dificilmente queremos ver todas as colunas de uma tabela.
+
+```{r}
+flights %>% sample_n(8) %>%
+  select(month, day, dep_time, carrier, flight, origin, dest) %>%
+  kable()
+```
+
+A tabela no relatório final melhorou? Sim. Mas porque investimos todo este esforço? Exige mais trabalho para limitar as linhas e colunas, e não temos as botões para navegar que recebemos com a opção `df_print: paged`... Há três motivos para trabalhar com tabelas estáticas:
+
+1. A tabela é apropriada para publicações em que interatividade não é possível, e funciona melhor com relatórios em Word e PDF (que vamos ver em breve). Compile o seu script para Word ('Knit to Word' com a flecha ao lado de 'Knit') para ver o resultado. Deve ser muito melhor. Lembre-se que um artigo ou dissertação publicada exige tabelas estáticas.
+
+2. A necessidade de selecionar as observações e colunas necessárias nos motiva a pensar bem sobre o desenho e a estruta mais apropriados para a nossa tabela. Incluir a tabela inteira cada vez gera documentos grandes e pesados. 
+
+3. A função `kable` é muito mais flexível do que as tabelas padrões de R. Podemos personalizar todos os elementos da tabela. Vejamos alguns exemplos abaixo.
+
+Em primeiro lugar, podemos especificar o título da tabela com a opção `caption`:
+
+```{r}
+flights %>% sample_n(8) %>%
+  select(month, day, dep_time, carrier, flight, origin, dest) %>%
+  kable(caption="Tabela de 8 voos aleatórios")
+```
+
+Mais profissional. Em segundo lugar, o `kable` deixa mais fácil formatar os resultados númericos - para arredondar os números com as tabelas padrões temos que manualmente usar `mutate` para mexer com os valores atuais da tabela. Mas é melhor manter os números 'corretos' e completos no tibble, e só ajustar a apresentação na tabela final. Conseguimos realizar uma formatação do número de dígitos com `kable` com a opção `digits`. A nossa tabela não contém valores não integras então vamos calcular velocidade para ilustrar isso:
+
+```{r}
+flights %>% sample_n(8) %>%
+  mutate(velocidade=distance/air_time) %>%
+  select(month, day, dep_time, carrier, flight, origin, dest, velocidade) %>%
+    kable(digits=1)
+```
+
+Em terceiro lugar, é comum que a descrição das nossas variáveis na tabela final seja diferente que o nome da variável no script de programação. Isto é natural; em nosso script temos que escrever os nomes das variáveis muitas vezes e um atalho é muito mais eficiente, mas na tabela final o leitor tem que entender o significado da variável com apenas a informação na tabela. O `kable` permite especificar nomes de colunas mais complexas, sem renomear elas no tibble original. Por exemplo, o significado de 'dep_time' não é óbvio:
+
+```{r}
+flights %>% sample_n(8) %>%
+  select(month, day, dep_time, carrier, flight, origin, dest) %>%
+    kable(col.names=c("Mês","Dia","Hora de Partida","Companhia Aérea","Voo","Origem","Destino"))
+```
+
+Finalmente, podemos formatar os números em português (ou qualquer outro local) com o argumento `format.args`:
+
+```{r}
+flights %>% sample_n(8) %>%
+  mutate(velocidade=distance/air_time) %>%
+  select(month, day, dep_time, carrier, flight, origin, dest, velocidade) %>%
+    kable(digits=1, format.args=list(big.mark=".", decimal.mark=","))
+```
+
+Para mais opções de `kable`, leia [aqui](https://bookdown.org/yihui/rmarkdown-cookbook/kable.html), e para saber ainda veja o pacote `kableExtra` [aqui](https://haozhu233.github.io/kableExtra/).
+
+Note que existe a opção de gerar tabelas direitamente em R markdown, fora de um chunk (detalhes [aqui](https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)). Não recomendo isso porque a sintaxe é chata para digitar, não temos controle de formatação, e não podemos acessar e transformar o conteúdo no futuro. Se você precisa gerar uma tabela rápida, sempre é recomendado que você gera uma pequena tabela com `tibble()` e manda para `kable()`, por exemplo:
+
+```{r, tidy=T}
+tibble(Função=c("kable","opção df_print: paged","datatable"),
+       Utilidade=c("Word/PDF, relatórios estáticos","HTML, relatórios interativos simples","HTML, relatórios interativos complexos")) %>%
+  kable()
+```
+
+# Tabelas Interativas
+
+A terceira entrada na tabela acima é mais uma opção para gerar tabelas. A função `datatable()` (do pacote `DT`) tem o mesmo objetivo da opção `df_print: paged`; gerar tabelas interativas em HTML. O problema com `df_print: paged` é que ela não tem opções para personalizar a tabela final e temos que fazer toda a preparação manualmente. O `datatable` é uma função mais avançada que permite personalizações infinitas.
+
+Não entramos nos detalhes de `datatable` no tutorial; vocês podem explorar a documentação detalhada [aqui](https://rstudio.github.io/DT/). Mas vamos mostrar um exemplo com funcionalidade avançado (filtros de colunas, formatação de números, e coloração de células por valor, neste caso velocidade acima de 7,5):
+
+```{r, eval=F}
+#install.packages("DT")
+library(DT)
+```
+
+```{r, echo=F}
+library(DT)
+```
+
+```{r}
+flights %>% 
+  sample_n(100) %>%
+  mutate(velocidade=distance/air_time) %>%
+  select(month, day, dep_time, carrier, flight, origin, dest, velocidade) %>%
+  datatable()
+```
+
+```{r}
+flights %>% 
+  sample_n(100) %>%
+  mutate(velocidade=distance/air_time) %>%
+  select(month, day, dep_time, carrier, flight, origin, dest, velocidade) %>%
+  datatable(colnames=c("Mês","Dia","Hora de Partida","Companhia Aérea","Voo","Origem","Destino","Velocidade"), 
+            caption="Tabela de 100 voos aleatórios",
+            filter='top') %>%
+  formatRound("velocidade",1) %>%
+  formatStyle('velocidade',
+    backgroundColor = styleInterval(7, c('white', 'orange'))
+  )
+  
+```
+
+<div class = "green">
+# Exercício 1: Tabelas Bonitas
+
+1. Gere uma tabela estática de duração (`air_time`) média dos voos de cada aeoporto de origem, ordenado de menor a maior duração. Inclua um título e a formatação apropriada na sua tabela.
+
+```{r, echo=F, eval=F}
+flights %>% group_by(origin) %>%
+  summarize(media_air_time=mean(air_time,na.rm=T)) %>%
+  arrange(media_air_time) %>%
+  kable(digits=1, format.args=list(big.mark=".", decimal.mark=","),
+        caption="Duração média dos voos de Nova Iorque em 2013")
+```
+
+2. Identifique os voos de origem 'EWR' no dia 1 de Abril com decolagem antes de 6h. Prepare uma tabela estática que mostra as variáveis `dep_time`, `dep_delay`, `carrier`, `flight`, `dest`, `air_time`, `distance`. Inclua um título e a formatação apropriada.
+
+```{r, echo=F, eval=F}
+flights %>% filter(month==4 & day==1 & origin=="EWR" & dep_time<600) %>%
+  select(dep_time, dep_delay, carrier, flight, dest, air_time, distance) %>%
+  kable(caption="Voos de EWR no dia 4 de abril, antes de 6h")
+```
+
+3. Duplique a tabela de questão 2, mas agora mande o resultado para uma tabela interativa de `datatable`. (Não se preocupe com a formatação).
+
+```{r, echo=F, eval=F}
+flights %>% filter(month==4 & day==1 & origin=="EWR" & dep_time<600) %>%
+  select(dep_time, dep_delay, carrier, flight, dest, air_time, distance) %>%
+  datatable(caption="Voos de EWR no dia 4 de abril, antes de 6h")
+```
+
+4. Knit o seu script para HTML e verifique que as tabelas aparecem limpas e claras.
+
+</div>
+
+# Mudando a Unidade de Observação (`Pivot_wide`, `Pivot_long`)
+
+Nós temos trabalhado com uma distinção entre variáveis (colunas) e observações (linhas) fixa. Mas a distinção na prática é mais flexível, e a estrutura/organização dos nossos dados depende do nosso objetivo. As vezes vamos querer virar a nossa tabela (tibble) para que as variáveis se transformem em observações múltiplas, ou vice-versa. Esse tipo de operação é muito útil quando trabalhamos com ou queremos criar dados em painel.
+
+É mais fácil demonstar com um exemplo. Veja a tabela de `flights` com as variáveis `origin` e `dest`:
+
+```{r, eval=F}
+flights %>% filter(dest=="SNA") %>% 
+  select(month, day, origin, dest)
+```
+
+```{r, echo=F}
+flights %>% filter(dest=="SNA") %>% 
+  select(month, day, origin, dest) %>%
+  paged_table()
+```
+
+A observação é cada voo, e cada variável é um atributo de cada voo. Mas ambos `origin` e `dest` são aeroportos - podemos imaginar um banco de dados em que cadastramos 'eventos', decolagens e chegadas. Neste banco de dados alternativo, cada observação é um evento e cada voo tem duas entradas (observações, linhas), um decolagem e uma chegada. Isso pode ser útil, por exemplo, se tenhamos muitos dados sobre cada evento/aeroporto, por exemplo os dados de controle de tráfego aéreo. 
+
+### De Largo para Longo
+
+Para 'virar' (pivot) a nossa tabela para o formato mais 'longo', usamos a função `pivot_longer`. O objetivo de `pivot_longer` é converter colunas em observações. Mas não todas as colunas; temos que especificar quais colunas queremos virar no argumento `cols`. É sempre mais que uma coluna, então temos que especificar as colunas dentro de `c()`. As outras colunas nào mencionadas em `cols` são colunas 'identificadoras' que queremos duplicar para as novas linhas (em nosso exemplo os dados que pertencem ao voo e não ao aeroporto). 
+
+Como uma primeira tentativa, o código abaixo é suficiente para virar o nosso tibble:
+
+```{r, eval=F}
+flights %>% filter(dest=="SNA") %>% 
+  select(month, day, origin, dest) %>% 
+  pivot_longer(cols=c(origin, dest))
+```
+
+```{r, echo=F}
+flights %>% filter(dest=="SNA") %>% 
+  select(month, day, origin, dest) %>% 
+  pivot_longer(cols=c(origin, dest)) %>%
+  paged_table()
+```
+
+Note que agora o nosso banco de dados tem *dobro* o número de linhas que antes. Cada observação é um evento (decolagen/chegada). As duas colunas 'origin' e 'dest' agora são linhas separadas, identificados na colona `name`, e o aeroporto que antes era um valor abaixo de 'origin' ou 'dest' na coluna tem a sua própria coluna `value`. Ou seja, em vez de ler os detalhes do primeiro voo *horizontalmente* no tibble original, agora lemos *verticalmente* - origem EWR, destino ANC.
+
+O que falta aqui é que os nomes das colunas `name` e `value` são genéricas e não ajudam entender e descrever os dados. Então é importante renomear as colunas como parte de `pivot_longer`. Há duas colunas para nomear: a coluna de `name` que contém os nomes de colunas no tibble original (a direção de viagem), que especificamos com o argumento `names_to`, e a coluna de `valor` que contém os valores no tibble original (os aeroportos), que especificamos com o argumento `values_to`.
+
+```{r, eval=F}
+flights %>% filter(dest=="SNA") %>% 
+  select(month, day, origin, dest) %>% 
+  pivot_longer(cols=c(origin, dest), names_to="Direção", values_to="Aeroporto")
+```
+
+```{r, echo=F}
+flights %>% filter(dest=="SNA") %>% 
+  select(month, day, origin, dest) %>% 
+  pivot_longer(cols=c(origin, dest), names_to="Direção", values_to="Aeroporto") %>%
+  paged_table()
+```
+
+Agora, recebemos o mesmo resultado, mas é bem mais fácil interpretar, pois a natureza do evento é cadastrado na coluna 'Direção' e o local do evento fica na coluna 'Aeroporto'.
+
+Mas ainda existe um problema sério aqui - como sabemos que a primeira linha - o voo com origem em EWR no dia 1 de janeiro é o mesmo voo que chegou no aeroporto SNA no mesmo dia? Não sabemos isso porque não temos dados suficientes para identificar os mesmos voos em linhas separadas. Pode ser que o voo da primeira linha de origem é o mesmo voo na linha 3 ou linha 
+
+O problema é que não temos um **identificador único** para cada voo no banco de dados. Isto é importante para todos os bancos de dados, mas sobretudo quando usamos um 'pivot' para mudar a unidade de análise, pois temos que restrear a divisão de uma observação em duas.
+
+Para resolver o problema, temos que incluir colunas suficientes no tibble original. Usando `distinct` do tutorial 3, podemos verificar que as colunas month, day, dep_time, carrier, flight, origin e dest são suficientes para identificar cada voo único. O banco de dados original tem 336,776 linhas, ígual o resultado do `distinct` com estas variáveis:
+
+```{r, eval=F}
+flights %>% distinct(month, day, dep_time, carrier, flight, origin, dest) 
+```
+
+Agora podemos refazer o `pivot_longer` incluindo estas variáveis identificadores:
+
+```{r, eval=F}
+flights_longo <- flights %>% filter(dest=="SNA") %>% 
+  select(month, day, dep_time, carrier, flight, origin, dest) %>% 
+  pivot_longer(cols=c(origin, dest), names_to="Direção", values_to="Aeroporto")
+```
+
+```{r, echo=F}
+flights_longo <- flights %>% filter(dest=="SNA") %>% 
+  select(month, day, dep_time, carrier, flight, origin, dest) %>% 
+  pivot_longer(cols=c(origin, dest), names_to="Direção", values_to="Aeroporto")
+
+flights_longo %>% 
+  paged_table()
+```
+
+Perfeito! Agora, dá para rastrear cada voo: Voo UA1496 as 0646 no dia 1 de janeiro tem duas entradas - origem em EWR e chegada em SNA. 
+
+### De Longo para Largo
+
+É comum que recebemos um banco de dados no formato longo e queremos virar (pivot) para o formato largo. Ou seja, tornar observações em variáveis. Imagine-se que recebemos do fornecedor o banco de dados `flights_longo` produzido no chunk anterior. Como reproduzimos o nosso banco de dados bem conhecido, `flight`, no formato mais largo?
+
+A função `pivot_wider` é exatamante o inverso de `pivot_longer`. Em vez de especificar as colunas que queremos virar, especificamos as colunas de 'identificação' que *não queremos virar* no argumento `id_cols`; em vez da coluna nova, especificamos a coluna atual que contém os nomes das colunas novas, no argumento `names_from`; e em vez de valores noves, especificamos a coluna que contém os valores que vão preencher as colunas novas (no argumento `values_from`. 
+
+Note que com `pivot_longer` os argumentos `names_to` e `values_to` precisam de aspas porque são colunas novas que não existem em nosso tibble. No `pivot_wider` os argumentos `names_from` e `values_from` são colunas atuais em nosso tibble, então não precisam de aspas. 
+
+```{r, eval=F, tidy=T}
+flights_longo %>% pivot_wider(id_cols=c(month, day, dep_time, carrier, flight), names_from=Direção, values_from=Aeroporto)
+```
+
+```{r, echo=F}
+flights_longo %>% pivot_wider(id_cols=c(month, day, dep_time, carrier, flight), names_from=Direção, values_from=Aeroporto) %>% paged_table()
+```
+
+Veja que o resultado aqui tem metade das linhas de `flights_longo`, e o mesmo número do nosso banco de dados original. O R peguou os valores da coluna 'Direção' e criou uma coluna para cada valor único (uma para 'origin', uma para 'dest'). Os valores destas duas novas colunas são preenchidas da coluna 'Aeroporto'.
+
+Um atalho para simplificar aqui é quando queremos virar todas as colunas exceto eles mencionados em `names_from` e `values_from`, podemos pular a especificação de `id_cols`:
+
+```{r, eval=F}
+flights_longo %>% pivot_wider(names_from=Direção, values_from=Aeroporto)
+```
+
+Essas duas funções de pivot são mais avançadas, mas as vezes são essenciais para gerar a estrutura e formato da tabela desejada. É comum que o resultado da nossa análise em R é em formato 'larga', mas seria mais bonito imprimir no relatório final no formato 'longo'. Podemos usar `pivot_longer` para rapidamente produzir a tabela desejada. Similarmente, na semana que vem, aprendemos que os gráficos exigem um formato específico - frequentemente o formato 'longo' - e estas novas habilidades ajudam bastante.
+
+<div class = "green">
+# Exercício 2: Virando Tabelas
+
+1. Use `pivot_longer` para virar a tabela `flights` mais longa, para que cada voo tem duas observações - uma para a hora de partida (`dep_time`) e uma outra para a hora de chegada (`arr_time`). 
+
+```{r, echo=F, eval=F}
+flights_hora_longo <- flights %>% pivot_longer(c(arr_time, dep_time),
+                         names_to="Direção",
+                         values_to="Hora")
+```
+
+2. Usando o seu resultado de questão 1, gere uma tabela estática de 10 linhas selecionadas aleatoriamente por R, mostrando as variáveis `carrier`, `flight`, `origin`, `dest` e as colunas novas que você gerou na questão 1. 
+
+```{r, echo=F, eval=F}
+flights_hora_longo %>% 
+  select(carrier, flight, origin, dest, Direção, Hora) %>%
+  sample_n(10) %>%
+  kable(caption="Tabela de cada Partida e Chegada")
+```
+
+3. Usando o seu resultado de questão 1, use `pivot_wider` para recuperar o banco de dados original de `flights`. Verifique que os números de colunas e linhas são íguais.
+
+```{r, echo=F, eval=F}
+flights_recuperado <- flights_hora_longo %>% pivot_wider(names_from="Direção",
+                                                         values_from="Hora")
+```
+
+</div>
+
+
+# Voltando ao R Base Brevemente
+
+As funçoes de `filter`, `select`, `mutate` etc. e o nosso pipe `%>%` que compõem o tidyverse têm cerca de 5 anos de idade, mas o R tem mais de 25 anos de idade. O que os usuários fizeram antes do tidyverse? 
+
+Existem várias formas de interagir e manipular dados em R, mas nada muda os básicos: existem um script, objetos que podemos salvar, e funções que transformam objetos. Também trabalhamos mais frequentemente com um data.frame, que é um tibble um pouco mais básico.
+
+A maior diferença quando trabalhamos no mundo do 'R básico' é na forma em que acessamos e transformamos os valores dentro de um data.frame. Não usamos uma sequência de ações/verbos para separar cada passo; temos que usar uma sintaxe e símbolos bem específicos.
+
+Note que nada nesta seção do tutorial é necessário, e encorajamos vocês a trabalhar dentro do tidyverse sempre que possível, para criar análises mais simples, transparentes e reproduizíveis. Porém, as vezes temos que trabalhar com usuários ou pacotes fora do tidyverse, então é útil entender os conceitos básicos, e também ajuda a entender como o R funciona atrás do interface.
+
+Os símbolos mais importantes no R base são os colchetes. Depois de um data.frame, eles significam que queremos ajustar as colunas e/ou as linhas. Dentro dos colchetes, tem dois 'espaços'; o primeiro para mexer com as linhas, e o segundo para mexer com as colunas, separado por vírgula. 
+
+```{r, eval=F}
+flights[ , ]
+```
+
+O que inserimos nestes espaços? Vamos começar com as linhas e deixar o espaço para colunas branco. Podemos escolher as linhas para manter por número (como `slice`) ou por condição (como `filter`):
+
+```{r, eval=F}
+flights[1:5, ]
+```
+
+```{r, echo=F}
+flights[1:5, ] %>% paged_table()
+```
+
+```{r, eval=T, error=T, warning=T, message=T}
+flights[distance==200, ]
+```
+
+Hmm, o primeiro funcionou bem, mas o `distance==200` não deu certo. As condições no R base são idênticas às que usamos no tidyverse, isso não é o problema. O problema é que no R base, o R não sabe o que significa `distance`. Ele busca para um *objeto* (um data.frame) se chama `distance`, mas realmente `distance` é uma coluna dentro do objeto `flights`. Mesmo que começamos com `flights`, temos que informar R que `distance` fica dentro de `flights` de novo (o motivo para exigir a repetição do objeto é que podemos querer no futuro filtro uma tabela baseado no conteúdo de uma segunda tabela). Digitamos isso assim, separando o data.frame e a coluna com o símbolo `$`:
+
+```{r, eval=F}
+flights[flights$distance==200, ]
+```
+
+```{r, echo=F}
+flights[flights$distance==200, ] %>% paged_table()
+```
+
+Agora funcionou. Como escolhemos colunas em R base? Usamos o segundo espaço, depois da vírgula, para escrever os nomes das colunas desejadas, agora - e em contraste ao tidyverse - em aspas e dentro de um vetor, `c()`:
+
+```{r, eval=F}
+flights[flights$distance==200, c("month","day", "dep_time","origin","dest")]
+```
+
+```{r, echo=F}
+flights[flights$distance==200, c("month","day", "dep_time","origin","dest")] %>%
+  paged_table()
+```
+
+Compare isso com o equivalente no tidyverse:
+
+```{r, eval=F}
+flights %>% filter(distance==200) %>%
+  select(month, day, dep_time, origin, dest)
+```
+
+Qual você prefere? Para a maioria de tarefas, sobretudo para tarefas mais complexas, é mais intuitivo e transparente usar o tidyverse.
+
+# Totais para Tabelas
+
+Em alguns momentos os símbolos de R base voltam no tidyverse também. Por exemplo, se quisermos gerar tabelas resumidas, às vezes é útil adicionar uma linha resumida no final, por exemplo um total ou uma média.  Para adicionar mais uma linha no final da nossa tabela, podemos usar a função `add_row()` no fluxo de pipes, e especificar um argumento para cada coluna na tabela, com o nome de coluna na esquerda do símbolo de íguais, e o valor desejado na direita. É comum adicionar uma linha 'Total':
+
+```{r, error=T}
+flights %>% group_by(origin) %>%
+  tally() %>%
+  add_row(origin="Total", n=sum(n))
+```
+
+Com toda a nossa intuição do tidyverse isso deve funcionar. Mas infelizmente (e por motivos bem chatos da programação de `add_row`) não dá. O problema é que o `sum(n)` na funcão `add_row` não sabe procurar a colona `n` na tabela atual (o tibble resultante do último pipe). Ele precisa uma dica para onde procurar. Dentro do tidyverse o símbolo '.' significa o tibble atual, e já aprendemos do R base que o `$` nos permitimos especificar uma coluna de um tibble. Então em vez de usar o atalho `n`, temos que usar `.$n`. Um conjunto de símbolos estranhos, mas funciona:
+
+```{r, eval=F}
+flights %>% group_by(origin) %>%
+  tally() %>%
+  add_row(origin="Total", n=sum(.$n))
+```
+
+```{r, echo=F}
+flights %>% group_by(origin) %>%
+  tally() %>%
+  add_row(origin="Total", n=sum(.$n)) %>%
+  paged_table()
+```
+
+<br>
+
+<div class = "orange">
+# Leitura para Tutorial 5
+
+Antes da próxima aula, por favor leia [R 4 Data Science, Capítulo 3](https://r4ds.had.co.nz/data-visualisation.html) e [ggplot2: Elegant Graphics for Data Analysis, Capítulos 1-6](https://ggplot2-book.org/)
+
+</div>
+
+<br>
+
+<div class = "purple">
+# Desafio 2
+
+O [Desafio 2](Desafios/Desafio_2.html) teste a sua capacidade de organizar, resumir, agrupar, e apresentar um banco de dados para produzir um relatório bonito e claro em HTML.
+
+O prazo para entregar Desafio 2 por email com título “[FLS6397] - D2” à minha conta é **14h, 10/04/2020**, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
+</div>

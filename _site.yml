@@ -19,13 +19,15 @@ navbar:
             href: limpando_dados.html
           - text: "4. Calculando Estatisticas Resumidas"
             href: Estatisticas_Resumidas.html
+          - text: "5. Construindo Tabelas"
+            href: Tabelas.html
 
     - text: "Desafios"
       menu: 
           - text: "Desafio 1"
             href: Desafios/Desafio_1.html
           - text: "Desafio 2"
-            href: desafio_2.html 
+            href: Desafios/Desafio_2.html
           - text: "Desafio 3"
             href: desafio_3.html 
           - text: "Desafio 4"

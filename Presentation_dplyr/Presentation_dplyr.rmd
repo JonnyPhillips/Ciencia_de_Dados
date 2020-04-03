@@ -1,0 +1,411 @@
+---
+title: "Manipulando Dados"
+output: 
+  ioslides_presentation:
+    incremental: true
+    widescreen: true
+css: styles.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
+library(tidyverse)
+library(knitr)
+library(nycflights13)
+library(DT)
+library(stargazer)
+library(DiagrammeR)
+```
+
+## Processando dados - Uma Lista de Ações
+
+Primeiro, ações que definem o escopo de nossos dados:
+
+![](Scope_Verbs.png)
+
+## Processing Data: Dados Originais
+
+```{r, eval=FALSE, echo=TRUE}
+flights
+```
+
+```{r, eval=TRUE}
+flights %>% slice(1:5) %>% 
+  select(carrier,origin,air_time,distance,dep_delay) %>% 
+  datatable(options = list(dom = 't')) 
+#mtcars %>% rownames_to_column() %>% slice(1:5) %>% datatable()
+
+```
+
+## Processando dados: Select
+
+```{r, eval=FALSE, echo=TRUE}
+flights %>% 
+  select(air_time) 
+```
+
+```{r, eval=TRUE}
+flights %>% slice(1:5) %>% 
+  select(carrier,origin,air_time,distance,dep_delay) %>% 
+  datatable(options = list(dom = 't')) %>% 
+  formatStyle("air_time",backgroundColor="orange")
+#mtcars %>% rownames_to_column() %>% slice(1:5) %>% datatable()
+
+```
+
+## Processando dados: Selecct
+
+```{r, eval=FALSE, echo=TRUE}
+flights %>% 
+  select(air_time) 
+```
+
+```{r, eval=TRUE}
+flights %>% slice(1:5) %>% 
+  select(air_time) %>% 
+  datatable(options = list(dom = 't'))
+#mtcars %>% rownames_to_column() %>% slice(1:5) %>% datatable()
+
+```
+
+
+## Processando dados: Slice
+
+```{r, eval=FALSE, echo=TRUE}
+flights %>% 
+  slice(1:2)
+```
+
+```{r, eval=TRUE}
+flights %>% slice(1:5) %>% 
+  select(carrier,origin,air_time,distance,dep_delay) %>% 
+  datatable(options = list(dom = 't')) %>% 
+  formatStyle("carrier",target="row",backgroundColor=styleEqual("UA","orange"))
+#mtcars %>% rownames_to_column() %>% slice(1:5) %>% datatable()
+
+```
+
+## Processando dados: Slice
+
+```{r, eval=FALSE, echo=TRUE}
+flights %>% 
+  slice(1:2)
+```
+
+```{r, eval=TRUE}
+flights %>% slice(1:2) %>% 
+  select(carrier,origin,air_time,distance,dep_delay)  %>% 
+  datatable(options = list(dom = 't')) 
+```
+
+
+## Processando dados: Filter
+
+```{r, eval=FALSE, echo=TRUE}
+flights %>% 
+  filter(origin=="JFK")
+```
+
+```{r, eval=TRUE}
+flights %>% slice(1:5) %>% 
+  select(carrier,origin,air_time,distance,dep_delay) %>% 
+  datatable(options = list(dom = 't')) %>% 
+  formatStyle("origin",target="row",backgroundColor=styleEqual("JFK","orange"))
+```
+
+## Processando dados: Filter
+
+```{r, eval=FALSE, echo=TRUE}
+flights %>% 
+  filter(origin=="JFK")
+```
+
+```{r, eval=TRUE}
+flights %>% slice(1:5) %>% 
+  select(carrier,origin,air_time,distance,dep_delay) %>% 
+  filter(origin=="JFK") %>% 
+  datatable(options = list(dom = 't')) 
+```
+
+
+## Processando dados: Rename
+
+```{r, eval=FALSE, echo=TRUE}
+flights %>% 
+  rename("airline"="carrier")
+```
+
+```{r, eval=TRUE}
+flights %>% slice(1:5) %>% 
+  select(carrier,origin,air_time,distance,dep_delay) %>% 
+  datatable(options = list(dom = 't')) %>% 
+  formatStyle("carrier",backgroundColor="orange")
+```
+
+## Processando dados: Rename
+
+```{r, eval=FALSE, echo=TRUE}
+flights %>% 
+  rename("airline"="carrier")
+```
+
+```{r, eval=TRUE}
+flights %>% slice(1:5) %>% 
+  rename("airline"="carrier") %>%
+  select(airline,origin,air_time,distance,dep_delay) %>% 
+  datatable(options = list(dom = 't')) 
+```
+
+## Processando dados - Uma Lista de Ações
+
+Segundo, ações para calcular a medida / estatística que precisamos
+
+![](Calc_Verbs.png)
+
+## Processing Data: Dados Originais
+
+```{r, eval=FALSE, echo=TRUE}
+flights
+```
+
+```{r, eval=TRUE}
+flights %>% slice(1:5) %>% 
+  select(carrier,origin,air_time,distance,dep_delay) %>% 
+  datatable(options = list(dom = 't')) 
+#mtcars %>% rownames_to_column() %>% slice(1:5) %>% datatable()
+
+```
+
+## Processando dados: Mutate
+
+```{r, eval=FALSE, echo=TRUE}
+flights %>% 
+  mutate(air_time=round(air_time/60,3))
+```
+
+```{r, eval=TRUE}
+flights %>% slice(1:5) %>% 
+  select(carrier,origin,air_time,distance,dep_delay) %>% 
+  datatable(options = list(dom = 't')) %>% 
+  formatStyle("air_time",backgroundColor="orange")
+```
+
+## Processando dados: Mutate
+
+```{r, eval=FALSE, echo=TRUE}
+flights %>% 
+  mutate(air_time=round(air_time/60,3))
+```
+
+```{r, eval=TRUE}
+flights %>% slice(1:5) %>% 
+  select(carrier,origin,air_time,distance,dep_delay) %>% 
+  mutate(air_time=round(air_time/60,3)) %>% 
+  datatable(options = list(dom = 't')) 
+```
+
+## Processando dados: Summarize
+
+```{r, eval=FALSE, echo=TRUE}
+flights %>% 
+  summarize(avg_distance=mean(distance,na.rm=TRUE))
+```
+
+```{r, eval=TRUE}
+flights %>% slice(1:5) %>% 
+  select(carrier,origin,air_time,distance,dep_delay) %>% 
+  datatable(options = list(dom = 't')) %>% 
+  formatStyle("distance",backgroundColor="orange")
+```
+
+## Processando dados: Summarize
+
+```{r, eval=FALSE, echo=TRUE}
+flights %>% 
+  summarize(avg_distance=mean(distance,na.rm=TRUE))
+```
+
+```{r, eval=TRUE}
+flights %>% slice(1:5) %>% 
+  select(carrier,origin,air_time,distance,dep_delay) %>% 
+  summarize(avg_distance=mean(distance,na.rm=TRUE)) %>% 
+  datatable(options = list(dom = 't')) 
+```
+
+## Processando dados: Tally
+
+```{r, eval=FALSE, echo=TRUE}
+flights %>% 
+  tally()
+```
+
+```{r, eval=TRUE}
+flights %>% 
+  tally() %>% 
+  datatable(options = list(dom = 't'))
+```
+
+## Processando dados: Group_by
+
+```{r, eval=FALSE, echo=TRUE}
+flights %>% 
+  group_by(carrier) %>%
+  summarize(avg_distance=mean(distance,na.rm=TRUE))
+```
+
+```{r, eval=TRUE}
+flights %>% slice(1:5) %>% 
+  select(carrier,origin,air_time,distance,dep_delay) %>% 
+  datatable(options = list(dom = 't')) %>% 
+  formatStyle("distance",backgroundColor="orange") %>% 
+  formatStyle("carrier",backgroundColor="blue")
+```
+
+## Processando dados: Group_by
+
+```{r, eval=FALSE, echo=TRUE}
+flights %>% 
+  group_by(carrier) %>%
+  summarize(avg_distance=mean(distance,na.rm=TRUE))
+```
+
+```{r, eval=TRUE}
+flights %>% slice(1:5) %>% 
+  group_by(carrier) %>%
+  select(carrier,origin,air_time,distance,dep_delay) %>% 
+  summarize(avg_distance=mean(distance,na.rm=TRUE)) %>% 
+  datatable(options = list(dom = 't')) 
+```
+
+
+## Estratégias com Dados {.smaller}
+
+Cada analise precisa uma sequência diferente de ações, mas uma estratégia geral é:
+
+1. **Defina sua pergunta de pesquisa**  
+    - Desenhe seu data frame desejado primeiro!
+
+2. **Refine o escopo da análise**  
+    - `filter` para as linhas relevantes
+    - `select` e `rename` para tirar dados desnecessários
+    
+3. **'Split' os dados em subgrupos para análise** (se necessário)  
+    - `group_by` subgrupos
+
+4. **'Apply' um cálculo ou resumo estatístico para cada subgrupo **
+    - `summarize` ou `mutate`
+
+5. **'Combine' para a sua unidade de análise desejada**
+
+## Estratégias com Dados {.smaller}
+
+1. **Defina sua pergunta de pesquisa**  
+    - Qual é o atraso médio para cada mês para cada companhia aérea que sai do JFK?
+
+2. **Refine o escopo da análise**  
+    - `filter` só para JFK
+    - `select` as variáveis de companhia aérea, mês e atraso
+    
+3. **'Split' os dados em subgrupos para análise**  
+    - `group_by` companhia aérea e mês
+
+4. **'Apply' um cálculo ou resumo estatístico para cada subgrupo **
+      - `summarize` para calcular o atraso médio
+
+5. **'Combine' para a sua unidade de análise desejada**
+
+## Estratégias com Dados
+
+2 - Refine o escopo da análise  
+    - `filter` só para JFK
+
+```{r,echo=TRUE,eval=FALSE}
+flights_analysis <- flights %>% filter(origin=="JFK")
+```
+
+```{r, eval=TRUE}
+flights %>% 
+  select(carrier,origin,air_time,distance,dep_delay,month) %>% 
+  filter(origin=="JFK") %>%
+  slice(1:5) %>% 
+  datatable(options = list(dom = 't')) 
+
+flights_analysis <- flights %>% 
+  filter(origin=="JFK")
+```
+
+## Estratégias com Dados
+
+2 - Refine o escopo da análise  
+    - `select` as variáveis de companhia aérea, mês e atraso
+
+```{r,echo=TRUE,eval=FALSE}
+flights_analysis <- flights_analysis %>% 
+  select(carrier,month,dep_delay)
+```
+
+```{r, eval=TRUE}
+flights_analysis %>%
+  select(carrier,month,dep_delay) %>% 
+  slice(1:5) %>%
+  datatable(options = list(dom = 't'))
+
+flights_analysis <- flights %>% 
+  select(carrier,month,dep_delay)  
+```
+
+## Estratégias com Dados
+
+3 - 'Split' os dados em subgrupos para análise  
+    - `group_by` companhia aérea e mês
+
+```{r, echo=TRUE, eval=FALSE}
+flights_analysis <- flights_analysis %>%
+  group_by(carrier,month)
+```
+
+```{r, eval=TRUE}
+flights_analysis %>%
+  slice(1:5) %>%
+  group_by(carrier,month) %>%
+  
+  datatable(options = list(dom = 't')) 
+
+flights_analysis <- flights_analysis %>%
+  group_by(carrier,month) 
+```
+
+## Estratégias com Dados
+
+4 - 'Apply' um cálculo ou resumo estatístico para cada subgrupo  
+      - `summarize` para calcular o atraso médio
+    
+```{r, echo=TRUE, eval=FALSE}
+flights_analysis <- flights_analysis %>%
+  summarize(avg_delay=mean(dep_delay,na.rm=TRUE))
+```
+
+```{r, eval=TRUE}
+flights_analysis %>%
+  summarize(avg_delay=round(mean(dep_delay,na.rm=TRUE),2)) %>% 
+  slice(1:5) %>%
+  datatable(options = list(dom = 't'))
+
+flights_analysis <- flights_analysis %>%
+  summarize(avg_delay=round(mean(dep_delay,na.rm=TRUE),2))
+```
+
+## Estratégias com Dados
+
+5 - 'Combine' para a sua unidade de análise desejada  
+
+## Estratégias com Dados
+
+Tudo juntos:
+
+```{r,echo=TRUE,eval=FALSE}
+flights_analysis <- flights %>% filter(origin=="JFK") %>%
+  select(carrier,month,dep_delay) %>%
+  group_by(carrier,month) %>%
+  summarize(avg_delay=mean(dep_delay,na.rm=TRUE))
+```

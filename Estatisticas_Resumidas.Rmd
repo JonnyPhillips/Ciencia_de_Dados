@@ -34,6 +34,8 @@ library("rmarkdown")
 
 ```
 
+[Veja um resumo das funções principais até o final deste tutorial aqui](Presentation_dplyr/Presentation_dplyr_v2.html)
+
 # Estatísticas Resumidas (`summarize`)
 
 Nos últimos tutoriais, não mexemos com a unidade de análise de nosso banco de dados - sempre avaliamos os voos individuais, por exemplo. Porém, mesmo depois de vários filtros e mutates, os seus dados provavalmente tem dezenas, centenas ou milhares de linhas - é difícil incluir toda esta informação no seu relatório, e impossível para o leitor entender tudo. É por isso que usamos estatísticas resumidas: médias, medianas etc.
@@ -271,6 +273,10 @@ flights %>% filter(origin=="JFK") %>%
   group_by(carrier) %>%
   summarize(media_dep_delay=mean(dep_delay,na.rm=T)) %>%
   arrange(-media_dep_delay)
+
+flights %>% group_by(carrier, origin) %>%
+summarize(mean_dep_delay=mean(dep_delay,na.rm=TRUE)) %>%
+filter(origin=="JFK") %>% top_n(1, mean_dep_delay)
 ```
 
 5. Você odeia atrasos. Qual é o pior mês para viajar do aeroporto JFK?
