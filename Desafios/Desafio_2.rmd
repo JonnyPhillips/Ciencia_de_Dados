@@ -36,14 +36,14 @@ educ_RO <- educ %>% filter(UF=="Roraima") %>%
                                BIBLIO=="n"~0,
                                TRUE~NA_real_))
 
-educ_RO %>% write_delim("../../CENSOESC_2004_RO.csv", delim="|")
+educ_RO %>% write_delim("CENSOESC_2004_RO.csv", delim="|")
 ```
 
-1. Baixe e abra o banco de dados "CENSOESC_2004_RO.CSV". Incomumente este banco usa o separador "|". O banco nacional é 1GB então já filtramos o banco para o estado de Roraima para deixar ele mais leve e accessível. Os nomes das variáveis são mais ou menos auto-explicativas, e descrevemos alguns em mais detalhe ao longo do desafio.
+1. Baixe e abra o banco de dados ["CENSOESC_2004_RO.CSV"](https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Desafios/bf_amostra_hv.csv). Incomumente este banco usa o separador "|". O banco nacional é 1GB então já filtramos o banco para o estado de Roraima para deixar ele mais leve e accessível. Os nomes das variáveis são mais ou menos auto-explicativas, e descrevemos alguns em mais detalhe ao longo do desafio.
 
 ```{r}
 library(tidyverse)
-educ_RO <- read_delim("../../CENSOESC_2004_RO.csv", delim="|")
+educ_RO <- read_delim("CENSOESC_2004_RO.csv", delim="|")
 ```
 
 
