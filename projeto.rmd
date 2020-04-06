@@ -15,7 +15,7 @@ A tarefa é:
 
 - Gerar um relatório reproduzível em R  
 - Explicar brevemente os objetivos da análise  
-- Abrir pelo menos um banco de dados externo  
+- Abrir pelo menos um banco de dados externo, ou montar um banco de dados original  
 - Manipular, transformar e limpar os dados para atender os objetivos  
 - Incorporar pelo menos duas estatísticas resumidas no relatório final em In-line código  
 - Gerar pelo menos uma tabela bem formatada no relatório final  
