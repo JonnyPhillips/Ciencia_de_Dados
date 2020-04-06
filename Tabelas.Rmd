@@ -455,5 +455,5 @@ Antes da próxima aula, por favor leia [R 4 Data Science, Capítulo 3](https://r
 
 O [Desafio 2](Desafios/Desafio_2.html) teste a sua capacidade de organizar, resumir, agrupar, e apresentar um banco de dados para produzir um relatório bonito e claro em HTML.
 
-O prazo para entregar Desafio 2 por email com título “[FLS6397] - D2” à minha conta é **14h, 10/04/2020**, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
+O prazo para entregar Desafio 2 por email com título “[FLS6397] - D2” à minha conta é **14h, 17/04/2020**, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
 </div>

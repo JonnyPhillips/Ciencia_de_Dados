@@ -1,0 +1,225 @@
+---
+title: "Gráficos"
+description: |
+  Visualizando os nossos Dados
+output:
+  distill::distill_article:
+    toc: true
+    toc_float: true
+    toc_depth: 1
+---
+
+<style>
+div.green { background-color:#e5f5e0; border-radius: 5px; padding: 20px;}
+</style>
+
+<style>
+div.orange { background-color:#fee6ce; border-radius: 5px; padding: 20px;}
+</style>
+
+<style>
+div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
+</style>
+
+<style>
+div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
+</style>
+
+
+```{r setup, include=FALSE, echo=F}
+knitr::opts_chunk$set(echo = T, eval=T, highlight=T)
+library("nycflights13")
+library("tidyverse")
+library("rmarkdown")
+```
+
+# Gráficos
+
+Já aprendemos muito sobre a 'gramática' de manipulação de dados para produzir tibbles/tabelas conforme os requisitos da nossa análise. Existe uma gramática diferente mais conectada que usamos para produzir um gráfico. Note que em contraste com outros jeitos de produzir gráficos, não desenhamos os elementos à mão ou individualmente - para produzir gráficos programaticamente, temos que definir todos os elementos do gráfico *baseado nas variáveis* em nosso tibble.
+
+Existe uma forte ligação entre a gramática de manipulação de dados e a gramática de visualização: toda a informação para o nosso gráfico vem de um tibble; cada linha em nosso tibble é uma 'unidade' a ser exibida no gráfico, e cada coluna em nosso tibble é uma variável que determina um aspeto visual específico do gráfico, incluindo posição, cor, tamanho e forma. Por isso, apenas podemos pensar em produzir um gráfico depois de organizar e transformar os nossos dados para o tibble apropriado.
+
+Neste tutorial vamos priorizar a compreensão da estrutura do código para produzir gráficos a partir de alguns exemplos simples e propositalmente não cobriremos todas as (inúmeras) possibilidades de visualização.
+
+Antes de mais nada, temos que lembrar a classificação de tipos de dado, porque isso é crucial para determinar quais gráficos podemos produzir:
+
+|          |          | Tipo em R           | Shortcut em tibble |
+|----------|----------|---------------------|--------------------|
+| Discreta | Nominal  | Factor ou Character | fctr, chr          |
+|          | Ordinal  | Ordered Factor      | fctr, chr          |
+|          | Inteiro  | Integer             | int                |
+| Contínua |          | Double/Numeric/Real | dbl                |
+
+Vamos distinguir principalmente entre variáveis discretas e variáveis contínuas. As discretas têm que ser mapeadas para elementos gráficos independentes - colunas, ou histogramas, formas, cores distintos - e as contínuas têm que ser mapeadas para elementos gráficos que variam gradualmente - densidades, tamanho, escalas de cores. 
+
+# A Gramática de Gráficos
+
+O nosso pacote de gráficos já foi abrido dentro de `tidyverse`, e se chama `ggplot` ('gg' para gramática de gráficos). A sintaxe de `ggplot` é novo e diferente, mas se integra perfeitamente ao nosso fluxo de trabalho, seguindo a nossa preparação de dados depois de mais um pipe. É mais fácil mostra com um exemplo:
+
+```{r}
+library("tidyverse")
+library("nycflights13")
+```
+
+```{r, echo=F}
+library("knitr")
+library("kableExtra")
+```
+
+
+```{r}
+flights %>% filter(dest=="DEN") %>%
+  ggplot() + 
+  geom_point(aes(x=dep_time, y=dep_delay), size=1)
+```
+
+Parabéns, já produziu o seu primeiro gráfico! O que você acha? Não é o mais bonito, mas é impressionante para um código de três linhas curtas. Mas provavalmente o código acima permanece um mistério. Vamos desagregar os componentes:
+
+![](Grafico_Disagg_b.png)
+
+Começamos - como sempre - com o nosso banco de dados (tibble) relevante. Seguimos com qualquer transformação de dados desejada, aqui um filtro para o destino de Denver ('DEN'). O último pipe passa o tibble resultante (apenas os voos para Denver) para o meio-ambiente de gráficos, o `ggplot()` (sem argumento). `ggplot()` é uma função que inicia um gráfico, mas na verdade não coloca nenhum conteúdo nele.
+
+Agora, uma observação importante: os nossos gráficos compõem várias 'camadas' que podemos juntar em linhas separadas, e adicionamos as camadas com o símbolo '+' em vez de um pipe ('%>%'). É fácil esquecer a diferença, mas é importante: um pipe ('%>%') passa os dados para *transformação* e o '+' *adiciona* mais informação, mais camadas. 
+
+## Estéticas
+
+Existem centenas de elementos do nosso gráfico que podemos personalizar. Em breve vamos ver como a customizar os títulos, eixos, o fundo, a leganda etc. Agora, vamos focar nos elementos visuais de cada camada (cada geometria) de dados. Há várias opções, e qual é disponível depende de qual geometria estamos usando, mas é bom resumir as opções mais comuns:
+
+```{r}
+aesthetics <- tibble(Estética=c("x","y","colour","fill","alpha","shape","size","linetype","label"),
+                     Descrição=c("Posição em relação a eixo x",
+                                 "Posição em relação a eixo y",
+                                 "Cor de ponto/linha",
+                                 "Cor de dentro de área/barra",
+                                 "Transparência",
+                                 "Forma da observação",
+                                 "Tamanho da observação",
+                                 "Se a linha estiver preenchida, pontilhada ou tracejada",
+                                 "Texto"))
+
+aesthetics %>% kable() %>% kable_styling(full_width=F)
+```
+
+Estéticas podem ser ligadas com as variáveis do nosso banco de dados. Por exemplo, se quisemos mostrar um ponto para cada voo, pode ser que o `x` reflete a hora de partida (a variável `dep_time`), o `y` reflete o atraso (`dep_delay`), o `colour` reflete a companhia aérea (`carrier`), e o `shape` reflete o aeroporto de partido (`origin`). O `size` de ponto e a sua `alpha` (transparência) podem ser fixos, com um `size` de 10 (em unidades de 'pontos', o mesmo que usamos para medir caracteres) e um `alpha` de 1 (zero transparência).
+
+Há duas opções para especificar as estéticas de uma camada, dependendo se quissemos que as estéticas variam conforme com os nossos dados, ou sejam fixos e constantes para todas as observações. 
+
+1. Para estéticas que variam com os nossos dados (ex. o cor depende da companhia aérea), definimos a estética com uma variável, e *dentro da função `aes()`*. 
+
+```{r, eval=F}
+... geom_point(aes(colour=carrier))
+```
+
+2. Para estéticas que **não** variam com os nossos dados (ex. o tamanho é fixo), definimos a estética com um valor único em vez de uma variável (e fora da função `aes()`). 
+
+```{r, eval=F}
+... geom_point(size=10)
+```
+
+## Geometrias
+
+A parte mais difícil de preparar um gráfico é escolher a geometria apropriada. Claro que isto tem a ver com o estilo de gráfico que queremos, mas também depende do número e os tipos de variáveis que queremos apresentar. Todas as geometrias começam com `geom_`, e as opções mais comuns são as seguintes:
+
+```{r, fig.show="hide", fig.height=1, fig.width=1.5, echo=F}
+set.seed(05410)
+flights_sample <- flights %>% sample_n(2000)
+
+graph1 <- flights_sample %>% ggplot() +
+  geom_bar(aes(x=origin)) +
+    theme(text = element_text(size=6),
+        axis.text.x = element_text(size=6)) 
+
+graph2 <- flights_sample %>% ggplot() +
+  geom_histogram(aes(x=dep_time)) +
+    theme(text = element_text(size=6),
+        axis.text.x = element_text(size=6))
+
+graph3 <- flights_sample %>% ggplot() +
+  geom_density(aes(x=dep_time)) +
+    theme(text = element_text(size=6),
+        axis.text.x = element_text(size=6))
+
+graph4 <- flights_sample %>% ggplot() +
+  geom_point(aes(x=dep_time, y=dep_delay), size=0.2) +
+    theme(text = element_text(size=6),
+        axis.text.x = element_text(size=6)) + 
+  theme(legend.key.size = unit(0.2,"line"))
+
+graph5 <- flights_sample %>% ggplot() +
+  geom_histogram(aes(x=dep_time, fill=origin)) +
+    theme(text = element_text(size=6),
+        axis.text.x = element_text(size=6)) + 
+  theme(legend.position="bottom") + 
+  theme(legend.title = element_text(size=4),
+        legend.text = element_text(size=4)) + 
+  theme(legend.key.size = unit(0.2,"line"))
+
+graph6 <- flights_sample %>% ggplot() +
+  geom_density(aes(x=dep_time, fill=origin)) +
+    theme(text = element_text(size=6),
+        axis.text.x = element_text(size=6)) + 
+  theme(legend.position="bottom") + 
+  theme(legend.title = element_text(size=4),
+        legend.text = element_text(size=4)) + 
+  theme(legend.key.size = unit(0.2,"line"))
+
+graph7 <- flights_sample %>% ggplot() +
+  geom_boxplot(aes(x=origin, y=dep_time)) +
+    theme(text = element_text(size=6),
+        axis.text.x = element_text(size=6)) + 
+  theme(legend.position="bottom") + 
+  theme(legend.title = element_text(size=4),
+        legend.text = element_text(size=4)) + 
+  theme(legend.key.size = unit(0.2,"line"))
+
+graph8 <- flights_sample %>% ggplot() +
+  geom_point(aes(x=dep_time, y=dep_delay, colour=origin), size=0.2) +
+    theme(text = element_text(size=6),
+        axis.text.x = element_text(size=6)) + 
+  theme(legend.position="bottom") + 
+  theme(legend.title = element_text(size=4),
+        legend.text = element_text(size=4)) + 
+  theme(legend.key.size = unit(0.2,"line"))
+
+graphs_list <- list(graph1, graph2, graph3, graph4, graph5, graph6, graph7, graph8)
+
+invisible(lapply(graphs_list, print))
+
+#add geom_col
+geometrias <- tibble(Geom=c("geom_bar","geom_histogram","geom_density",
+                            "geom_point","geom_histogram","geom_density",
+                            "geom_boxplot","geom_point"),
+                     Variaveis=c("Número de observações por variável discreta","Uma variável contínua",
+                                 "Uma variável contínua","Duas variáveis contínuas",
+                                 "Uma variável contínua, e uma discreta",
+                                 "Uma variável contínua, e uma discreta",
+                                 "Uma variável contínua, e uma discreta",
+                                 "Duas variáveis contínuas e uma discreta"),
+                     Estéticas=c("x","x","x","x, y",
+                                 "x, fill","x, colour","x, y",
+                                 "x, y, colour/shape/size"),
+                     Exemplo=cbind(sprintf("![](%s%s-%s.png)", 
+       opts_current$get("fig.path"), opts_current$get("label"), 1:8)))
+
+geometrias %>% kable()
+
+```
+
+## 
+
+# Personalização de Gráficos além de geometria
+
+Existem infinitas personalizações possíveis. Ninguém pode lembrar todas os detalhes ou o código. É frequentemente necessário buscar online para ajuda ou ideais, mas buscando para 'gráfico bonito' não ajuda nada. Temos que usar a linguagem e a gramática de gráficos para encontrar o que estamos procurando, então é crucial entender o que significa uma geometria, uma estética, etc. 
+
+Em caso de dúvida, pode consultar o cheatsheet [aqui](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf).
+
+<br>
+
+<div class = "orange">
+# Leitura para Tutorial 6
+
+Antes da próxima aula, por favor leia [R 4 Data Science, Capítulo 3](https://r4ds.had.co.nz/data-visualisation.html)
+
+</div>
+
+<br>
