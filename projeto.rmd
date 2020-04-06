@@ -1,0 +1,40 @@
+---
+title: "Projeto Final"
+output:
+  distill::distill_article:
+    toc: false
+    toc_float: true
+    toc_depth: 2
+---
+
+## Projeto Final
+
+O projeto final é a sua oportunidade para aplicar tudo que você aprendeu na disciplina para os seus próprios dados e pergunta de pesquisa. Não precisa ser um projeto finalizado, e é sempre melhor escolher um tópico simples - o erro mais comum é ser ambicioso demais e tentar incorporar demais dados ou análises. Mas também recomendamos que você prepara algo que será útil para a sua própria pesquisa, pois a oportunidade de explorar dados é uma ótima maneira de se tornar um especialista em seu tópico.
+
+A tarefa é:  
+
+- Gerar um relatório reproduzível em R  
+- Explicar brevemente os objetivos da análise  
+- Abrir pelo menos um banco de dados externo  
+- Manipular, transformar e limpar os dados para atender os objetivos  
+- Incorporar pelo menos duas estatísticas resumidas no relatório final em In-line código  
+- Gerar pelo menos uma tabela bem formatada no relatório final  
+- Gerar pelo menos dois gráficos ou mapas bem formatados no relatório final  
+- Organizar e comentar o seu script para que seja claro o efeito de cada chunk e cada operação  
+- Configurar os parâmetros dos chunks para gerar um relatório limpo e claro  
+- Submeter o seu script, e o documento final (HMTL/PDF)  
+
+O critério de avaliação será a aplicação dos princípios e técnicas discutidos na disciplina, priorizando a clareza e organização do script e as boas práticas da ciência de dados e a programação, e **não** a sofisticação da análise ou o argumento substantivo do relatório final. 
+
+**O prazo para submissão é o dia 24 de julho 2020 para o email do professor.**
+
+### Exemplos de Projetos Finais em anos anteriores
+
+- Analisar despesas eleitorais dos candidatos
+- Análise de dados de IPTU
+- Rastreando mudanças na discussão de temas nos jornais online
+- Mapeamento de eventos políticos no Estado de São Paulo
+- Análise de participação de mulheres
+- Avaliação da condição de saúde de pacientes com mutações genéticas
+- Descrição da trajetória de inflação
+- Mensuração de desigualdades no uso de transporte público
