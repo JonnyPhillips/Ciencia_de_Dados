@@ -1,0 +1,512 @@
+ggplot() +
+geom_line(aes(x=month, y=dep_delay_media, group=origin))
+flights %>%
+mutate(month=factor(month, levels=1:12, ordered=TRUE)) %>%
+group_by(month) %>%
+summarize(dep_delay_media=mean(dep_delay,na.rm=T)) %>%
+ggplot() +
+geom_line(aes(x=month, y=dep_delay_media), group=1)
+flights %>%
+mutate(month=factor(month, levels=1:12, ordered=TRUE)) %>%
+group_by(month, origin) %>%
+summarize(dep_delay_media=mean(dep_delay,na.rm=T)) %>%
+ggplot() +
+geom_line(aes(x=month, y=dep_delay_media, group=origin, colour=origin))
+flights %>%
+mutate(month=factor(month, levels=1:12, ordered=TRUE)) %>%
+group_by(month) %>%
+summarize(dep_delay_media=mean(dep_delay,na.rm=T)) %>%
+ggplot() +
+geom_line(aes(x=month, y=dep_delay_media), group=1) +
+theme(text = element_text(size=6),
+axis.text.x = element_text(size=6)) +
+theme(legend.key.size = unit(0.2,"line"))
+flights %>% ggplot() +
+geom_point(aes(x = distance, y = air_time))
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time))
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=dep_delay))
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=dep_time))
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=dep_time)) +
+scale_color_gradient(low="#e5f5f9",high="#238b45" )
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=dep_time)) +
+scale_color_gradient(low="#f7fcfd",high="#238b45" )
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=dep_time)) +
+scale_color_brewer(palette="Set2")
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=origin)) +
+scale_color_brewer(palette="Set2")
+flights %>% group_by(origin, month) %>%
+summarize(dep_delay_media=mean(dep_delay,na.rm=T)) %>%
+ggplot() +
+geom_tile(aes(x = origin, y = month, fill=dep_delay_media)) +
+scale_fill_gradient(low="#f7fcfd", high="#238b45")
+flights %>% group_by(origin, month) %>%
+summarize(dep_delay_media=mean(dep_delay,na.rm=T)) %>%
+ggplot() +
+geom_tile(aes(x = origin, y = month, fill=dest)) +
+scale_fill_gradient(palette="Set2")
+flights %>% group_by(origin, month) %>%
+summarize(dep_delay_media=mean(dep_delay,na.rm=T))
+flights %>% group_by(origin, month)
+flights %>% group_by(origin, month, carrier) %>%
+tally()
+flights %>% group_by(origin, month, carrier) %>%
+tally() %>%
+group_by(origin, month) %>%
+filter(n=max(n))
+flights %>% group_by(origin, month, carrier) %>%
+tally() %>%
+group_by(origin, month) %>%
+filter(n==max(n))
+flights %>% group_by(origin, month, carrier) %>%
+tally() %>%
+group_by(origin, month) %>%
+filter(n==max(n)) %>%
+ggplot() +
+geom_tile(aes(x = origin, y = month, fill=carrier)) +
+scale_fill_gradient(palette="Set2")
+flights %>% group_by(origin, month, carrier) %>%
+tally() %>%
+group_by(origin, month) %>%
+filter(n==max(n)) %>%
+ggplot() +
+geom_tile(aes(x = origin, y = month, fill=carrier)) +
+scale_fill_brewer(palette="Set2")
+flights %>% group_by(origin, month, carrier) %>%
+tally() %>%
+group_by(origin, month) %>%
+filter(n==max(n)) %>%
+ggplot() +
+geom_tile(aes(x = origin, y = month, fill=carrier)) +
+scale_fill_brewer(palette="Set2")
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=origin))
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=origin))
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=origin)) +
+ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013") +
+xlab("Distância") +
+ylab("Duração")
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=origin)) +
+ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013") +
+xlab("Distância") +
+ylab("Duração")
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=origin)) +
+ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013") +
+xlab("Distância") +
+ylab("Duração") +
+theme_classic()
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=origin)) +
+ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013") +
+xlab("Distância") +
+ylab("Duração") +
+theme_minimal()
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=origin)) +
+ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013") +
+xlab("Distância") +
+ylab("Duração") +
+theme_bw()
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=origin)) +
+ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013") +
+xlab("Distância") +
+ylab("Duração") +
+theme_classic()
+#install.packages("ggthemes")
+library(ggthemes)
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=origin)) +
+ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013") +
+xlab("Distância") +
+ylab("Duração") +
+theme_economist()
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=origin)) +
+ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013") +
+xlab("Distância") +
+ylab("Duração") +
+theme_economist()
+#install.packages("plotly")
+library(plotly)
+graf_1 <- flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=origin)) +
+ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013") +
+xlab("Distância") +
+ylab("Duração") +
+theme_classic()
+graf_1 %>%
+ggplotly()
+graf_2 <- flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=origin, frame=month)) +
+ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013") +
+xlab("Distância") +
+ylab("Duração") +
+theme_classic()
+graf_2 %>%
+ggplotly()
+knitr::opts_chunk$set(echo = T, eval=T, highlight=T)
+library("nycflights13")
+library("tidyverse")
+library("rmarkdown")
+%>% mutate(PCT_carrier=100*(dep_delay/sum(dep_delay, na.rm = T)))
+flights_PCTatraso <- flights %>% group_by(origin,carrier) %>%
+mutate(PCT_carrier=100*(dep_delay/sum(dep_delay, na.rm = T)))
+flights_PCTatraso
+%>% filter(origin=="EWR") %>% group_by(carrier) %>% arrange(-PCT_carrier)
+flights_PCTatraso2 <- flights %>% group_by(origin,carrier) %>%
+mutate(PCT_carrier=100*(dep_delay/sum(dep_delay, na.rm = T))) %>%
+filter(origin=="EWR") %>% group_by(carrier) %>% arrange(-PCT_carrier)
+flights_PCTatraso2
+knitr::opts_chunk$set(echo = T, eval=T, highlight=T)
+library("nycflights13")
+library("tidyverse")
+library("rmarkdown")
+flights_sample <- flights %>% sample_n(2000)
+flights_sample <- flights %>% sample_n(2000)
+flights
+flights %>% select(dep_time, dep_delay, origin, distance, carrier)
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=origin)) +
+ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013") +
+xlab("Distância") +
+ylab("Duração") +
+theme(legend.position="bottom")
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=origin)) +
+ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013") +
+xlab("Distância") +
+ylab("Duração") +
+theme(axis.text.x = element_text(size=4),
+axis.text.y = element_text(size=4),
+axis.title.y = element_text(size=4),
+axis.title.y = element_text(size=4))
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=origin)) +
+ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013") +
+xlab("Distância") +
+ylab("Duração") +
+theme(axis.text.x = element_text(size=4),
+axis.text.y = element_text(size=4),
+axis.title.x = element_text(size=4),
+axis.title.y = element_text(size=4))
+flights %>% sample_n(1000) %>% ggplot() +
+geom_point(aes(x = distance, y = air_time, color=origin)) +
+ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013") +
+xlab("Distância") +
+ylab("Duração") +
+theme(axis.text.x = element_text(size=4),
+axis.text.y = element_text(size=4),
+axis.title.x = element_text(size=4),
+axis.title.y = element_text(size=4))
+library(tidyverse)
+library(tidyverse)
+educ <- read_delim("../../CENSOESC_2004.csv", delim="|") %>%
+select(MASCARA, UF, CODMUNIC, MUNIC, DEP, CODFUNC, LAB_INFO, BIBLIO, PROFESS, FUNCION, VDG1CA,VDG1C1,VDG1C3,VDG1C4)
+educ_RO %>% group_by(MUNIC, DEP) %>% tally() %>%
+ungroup() %>%
+mutate(MUNIC=factor(MUNIC),
+DEP=factor(DEP))
+library(tidyverse)
+educ <- read_delim("../../CENSOESC_2004.csv", delim="|") %>%
+select(MASCARA, UF, CODMUNIC, MUNIC, DEP, CODFUNC, LAB_INFO, BIBLIO, PROFESS, FUNCION, VDG1CA,VDG1C1,VDG1C3,VDG1C4)
+library(tidyverse)
+library(tidyverse)
+educ_RO <- read_delim("CENSOESC_2004_RO.csv", delim="|")
+educ_RO <- educ_RO %>% filter(CODFUNC=="Ativo")
+educ_RO %>% group_by(MUNIC, DEP) %>% tally() %>%
+ungroup() %>%
+mutate(MUNIC=factor(MUNIC),
+DEP=factor(DEP))
+educ_RO_long <- educ_RO %>% pivot_longer(c(VDG1CA,VDG1C1,VDG1C3,VDG1C4),
+names_to="Nível_Professor",
+values_to="Numero_Professores")
+educ_RO_long
+educ_RO_long <- educ_RO %>% pivot_longer(c(VDG1CA,VDG1C1,VDG1C3,VDG1C4),
+names_to="Nível_Professor",
+values_to="Numero_Professores") %>%
+mutate(Nível_Professor=case_when(Nível_Professor=="VDG1CA"~"Creche",
+Nível_Professor=="VDG1C1"~"Pré-Escola",
+Nível_Professor=="VDG1C3"~"Fundamental",
+Nível_Professor=="VDG1C4"~"Médio"))
+educ_RO_long
+educ_RO_long <- educ_RO %>% pivot_longer(c(VDG1CA,VDG1C1,VDG1C3,VDG1C4),
+names_to="Nível_Professor",
+values_to="Numero_Professores") %>%
+mutate(Nível_Professor=case_when(Nível_Professor=="VDG1CA"~"Creche",
+Nível_Professor=="VDG1C1"~"Pré-Escola",
+Nível_Professor=="VDG1C3"~"Fundamental",
+Nível_Professor=="VDG1C4"~"Médio"))
+educ_RO_long %>% group_by(Nível_Professor) %>%
+summarize(Numero_Professores=sum(Numero_Professores,na.rm=T))
+educ_RO_long
+knitr::opts_chunk$set(echo = T, eval=T, highlight=T)
+library("nycflights13")
+library("tidyverse")
+library("rmarkdown")
+flights %>%
+mutate(month=factor(month, levels=1:12, ordered=TRUE)) %>%
+group_by(month, origin) %>%
+summarize(dep_delay_media=mean(dep_delay,na.rm=T)) %>%
+ggplot() +
+geom_bar(aes(x=month, y=dep_delay_media, fill=origin), position = "fill",stat = "identity")
+flights %>%
+mutate(month=factor(month, levels=1:12, ordered=TRUE)) %>%
+group_by(month, origin) %>%
+summarize(dep_delay_media=mean(dep_delay,na.rm=T)) %>%
+ggplot() +
+geom_bar(aes(x=month, y=dep_delay_media, fill=origin), position = "fill")
+flights %>%
+mutate(month=factor(month, levels=1:12, ordered=TRUE)) %>%
+group_by(month, origin) %>%
+summarize(dep_delay_media=mean(dep_delay,na.rm=T)) %>%
+ggplot() +
+geom_col(aes(x=month, y=dep_delay_media, fill=origin), position = "fill")
+flights %>% sample_n(1000) %>%
+ggplot() +
+geom_point(aes(x = dep_time, y = dep_delay)) +
+facet_grid(cols=origin)
+flights %>% sample_n(1000) %>%
+ggplot() +
+geom_point(aes(x = dep_time, y = dep_delay)) +
+facet_grid(cols=vars(origin))
+flights %>% sample_n(1000) %>%
+ggplot() +
+geom_point(aes(x = dep_time, y = dep_delay)) +
+facet_grid(rows=vars(origin))
+flights %>% sample_n(1000) %>%
+ggplot() +
+geom_point(aes(x = dep_time, y = dep_delay)) +
+facet_grid(rows=vars(month), cols=vars(origin))
+flights %>% sample_n(1000) %>%
+ggplot() +
+geom_point(aes(x = dep_time, y = dep_delay)) +
+facet_grid(cols=vars(origin))
+flights %>% sample_n(1000) %>%
+ggplot() +
+geom_point(aes(x = dep_time, y = dep_delay)) +
+facet_grid(rows=vars(origin))
+flights %>% group_by(origin) %>%
+summarize(dep_delay_media=mean(dep_delay,na.rm=T)) %>%
+ggplot() +
+geom_col(aes(x=origin, y=dep_delay_media))
+flights
+flights %>%
+ggplot() +
+geom_bar(aes(x=month))
+flights %>% filter(origin=="JFK") %>%
+ggplot() +
+geom_bar(aes(x=dest))
+flights
+flights %>% filter(origin=="JFK") %>%
+ggplot() +
+geom_bar(aes(x=carrier))
+flights %>% filter(origin=="JFK") %>%
+ggplot() +
+geom_histogram(aes(x=dep_time))
+flights %>% filter(origin=="EWR" & dest=="BOS") %>%
+ggplot() +
+geom_histogram(aes(x=dep_time))
+flights %>% filter(origin=="EWR" & dest=="SFO") %>%
+ggplot() +
+geom_histogram(aes(x=dep_time))
+flights %>% filter(origin=="EWR" & dest=="SFO") %>%
+ggplot() +
+geom_density(aes(x=dep_time))
+flights %>% filter(origin=="EWR" & dest=="SFO") %>%
+ggplot() +
+geom_density(aes(x=distance))
+flights %>% filter(origin=="EWR" & dest=="SFO") %>%
+ggplot() +
+geom_density(aes(x=air_time))
+flights %>% filter(origin=="JFK" & dest=="LAX") %>%
+ggplot() +
+geom_density(aes(x=air_time))
+flights %>% filter(origin=="LGA")
+flights %>% filter(origin=="LGA") %>%
+ggplot() +
+geom_density(aes(x=air_time, colour=dest))
+flights %>% filter(origin=="LGA") %>%
+ggplot() +
+geom_density(aes(x=air_time, colour=dest))
+flights %>% filter(origin=="LGA" & dest=="BOS") %>%
+ggplot() +
+geom_density(aes(x=air_time, colour=month))
+flights %>% filter(origin=="LGA" & dest=="BOS") %>%
+ggplot() +
+geom_density(aes(x=air_time, group=month, colour=month))
+flights %>% filter(origin=="LGA" & dest=="BOS") %>%
+ggplot() +
+geom_density(aes(x=air_time, group=month, colour=hour))
+flights
+flights %>% filter(origin=="LGA" & dest=="BOS") %>%
+ggplot() +
+geom_density(aes(x=air_time, colour=carrier))
+flights %>% filter(origin=="LGA" & dest=="BOS") %>%
+ggplot() +
+geom_density(aes(x=air_time, group=carrier, colour=carrier))
+flights %>% filter(origin=="EWR" & dest=="BOS") %>%
+ggplot() +
+geom_density(aes(x=air_time, group=carrier, colour=carrier))
+flights %>% filter(origin=="EWR" & dest=="BOS") %>%
+ggplot() +
+geom_density(aes(x=dep_time, group=carrier, colour=carrier))
+flights
+flights %>% group_by(carrier) %>%
+summarize(duracao_media=mean(air_time, na.rm=T)) %>%
+ggplot() +
+geom_col(aes(x=carrier, y=duracao_media))
+flights %>% group_by(carrier) %>%
+summarize(dep_delay_media=mean(dep_delay, na.rm=T),
+duracao_media=mean(air_time, na.rm=T)) %>%
+ggplot() +
+geom_col(aes(x=duracao_media, y=dep_delay_media))
+flights %>% group_by(carrier) %>%
+summarize(dep_delay_media=mean(dep_delay, na.rm=T),
+duracao_media=mean(air_time, na.rm=T)) %>%
+ggplot() +
+geom_point(aes(x=duracao_media, y=dep_delay_media))
+flights %>% group_by(carrier) %>%
+summarize(dep_delay_media=mean(dep_delay, na.rm=T),
+duracao_media=mean(air_time, na.rm=T)) %>%
+ggplot() +
+geom_point(aes(x=duracao_media, y=dep_delay_media)) +
+geom_smooth(aes(x=duracao_media, y=dep_delay_media), method="lm")
+flights
+flights %>%
+ggplot() +
+geom_point(aes(x=hora, y=distance))
+flights %>%
+ggplot() +
+geom_point(aes(x=hour, y=distance))
+flights
+flights %>%
+ggplot() +
+geom_point(aes(x=dep_time, y=air_time))
+flights
+flights %>% filter(origin=="JFK" & dest=="MIA") %>%
+ggplot() +
+geom_point(aes(x=dep_delay, y=arr_delay))
+flights %>% group_by(carrier) %>%
+summarize(dep_delay_media=mean(dep_delay, na.rm=T),
+duracao_media=mean(air_time, na.rm=T)) %>%
+ggplot() +
+geom_point(aes(x=duracao_media, y=dep_delay_media))
+flights %>% filter(origin=="JFK" & dest=="MIA") %>%
+ggplot() +
+geom_point(aes(x=dep_delay, y=arr_delay))
+flights %>% filter(origin=="JFK" & dest=="MIA") %>%
+ggplot() +
+geom_point(aes(x=dep_delay, y=arr_delay, colour=hour))
+flights %>% filter(origin=="JFK" & dest=="MIA") %>%
+ggplot() +
+geom_point(aes(x=dep_delay, y=arr_delay, colour=month))
+flights %>% filter(origin=="JFK" & dest=="MIA") %>%
+ggplot() +
+geom_point(aes(x=dep_delay, y=arr_delay, colour=hour))
+flights %>% filter(origin=="JFK" & dest=="LHR") %>%
+ggplot() +
+geom_point(aes(x=dep_delay, y=arr_delay, colour=hour))
+flights %>% filter(origin=="JFK" & dest=="MIA") %>%
+ggplot() +
+geom_point(aes(x=dep_delay, y=arr_delay, colour=hour))
+flights
+flights %>% filter(origin=="JFK" & dest=="MIA") %>%
+ggplot() +
+geom_point(aes(x=dep_delay, y=arr_delay, colour=carrier))
+flights
+flights %>% filter(origin=="JFK" & dest=="MIA") %>%
+ggplot() +
+geom_point(aes(x=dep_time, y=arr_delay, colour=carrier))
+flights %>% group_by(carrier) %>%
+summarize(dep_delay_media=mean(dep_delay, na.rm=T),
+duracao_media=mean(air_time, na.rm=T)) %>%
+ggplot() +
+geom_point(aes(x=duracao_media, y=dep_delay_media))
+flights
+flights %>% group_by(month, carrier) %>%
+summarize(distancia_total=sum(distance, na.rm=T)) %>%
+ggplot() +
+geom_line(aes(x=month, y=distancia_total))
+flights %>% group_by(month, carrier) %>%
+summarize(distancia_total=sum(distance, na.rm=T)) %>%
+ggplot() +
+geom_line(aes(x=month, y=distancia_total, group=carrier))
+flights %>% group_by(month, origin) %>%
+summarize(distancia_total=sum(distance, na.rm=T)) %>%
+ggplot() +
+geom_line(aes(x=month, y=distancia_total, group=origin))
+flights %>% mutate(month=factor(month, 1:12, ordered=TRUE)) %>%
+group_by(month, origin) %>%
+summarize(distancia_total=sum(distance, na.rm=T)) %>%
+ggplot() +
+geom_line(aes(x=month, y=distancia_total, group=origin))
+flights %>%
+ggplot() +
+geom_line(aes(x=hour, y=dep_delay))
+flights %>% group_by(hour, origin, carrier) %>%
+summarize(dep_delay_media=mean(dep_delay,na.rm=T))
+flights %>% group_by(hour, origin, carrier) %>%
+summarize(dep_delay_media=mean(dep_delay,na.rm=T)) %>%
+ggplot() +
+geom_line(aes(x=hour, y=dep_delay)) +
+facet_grid(rows=vars(carrier), cols=vars(origin))
+flights %>% group_by(hour, origin, carrier) %>%
+summarize(dep_delay_media=mean(dep_delay,na.rm=T)) %>%
+ggplot() +
+geom_line(aes(x=hour, y=dep_delay_media)) +
+facet_grid(rows=vars(carrier), cols=vars(origin))
+flights %>% mutate(month=factor(month, 1:12, ordered=TRUE)) %>%
+group_by(month, origin) %>%
+summarize(distancia_total=sum(distance, na.rm=T)) %>%
+ggplot() +
+geom_line(aes(x=month, y=distancia_total, group=origin))
+flights %>% mutate(month=factor(month, 1:12, ordered=TRUE)) %>%
+group_by(month, origin) %>%
+summarize(distancia_total=sum(distance, na.rm=T)) %>%
+ggplot() +
+geom_line(aes(x=month, y=distancia_total, group=origin, colour=origin))
+flights %>% mutate(month=factor(month, 1:12, ordered=TRUE)) %>%
+group_by(month, origin) %>%
+summarize(distancia_total=sum(distance, na.rm=T)) %>%
+ggplot() +
+geom_line(aes(x=month, y=distancia_total, group=origin, colour=origin)) +
+scale_colour_brewer(palette="Set2")
+flights
+flights
+flights %>%
+mutate(catch_up=dep_delay-arr_delay) %>%
+ggplot() +
+geom_point(aes(x=dep_time, y=catch_up))
+flights %>% filter(origin=="JFK" & dest=="MIA")
+flights %>% filter(origin=="JFK" & dest=="MIA") %>%
+ggplot() +
+geom_point(aes(x=dep_delay, y=arr_delay, colour=hora)) +
+scale_colour_gradient(low="#efedf5", high="#4a1486")
+flights %>% filter(origin=="JFK" & dest=="MIA") %>%
+ggplot() +
+geom_point(aes(x=dep_delay, y=arr_delay, colour=hour)) +
+scale_colour_gradient(low="#efedf5", high="#4a1486")
+flights %>% filter(origin=="JFK" & dest=="MIA") %>%
+ggplot() +
+geom_point(aes(x=dep_delay, y=arr_delay, colour=dep_time)) +
+scale_colour_gradient(low="#efedf5", high="#4a1486")
+flights
+flights %>% filter(origin=="JFK" & dest=="MIA") %>%
+ggplot() +
+geom_point(aes(x=dep_delay, y=arr_delay, colour=dep_time, forma=carrier)) +
+scale_colour_gradient(low="#efedf5", high="#4a1486")
+flights %>% filter(origin=="JFK" & dest=="MIA") %>%
+ggplot() +
+geom_point(aes(x=dep_delay, y=arr_delay, colour=dep_time)) +
+scale_colour_gradient(low="#efedf5", high="#4a1486")
