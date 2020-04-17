@@ -84,7 +84,7 @@ Agora, uma observação importante: os nossos gráficos compõem várias 'camada
 
 Existem centenas de elementos do nosso gráfico que podemos personalizar. Em breve vamos ver como a customizar os títulos, eixos, o fundo, a leganda etc. Agora, vamos focar nos elementos visuais de cada camada (cada geometria) de dados. Há várias opções, e qual é disponível depende de qual geometria estamos usando, mas é bom resumir as opções mais comuns:
 
-```{r}
+```{r, echo=F}
 aesthetics <- tibble(Estética=c("x","y","colour","fill","alpha","shape","size","linetype","label"),
                      Descrição=c("Posição em relação a eixo x",
                                  "Posição em relação a eixo y",
@@ -99,7 +99,7 @@ aesthetics <- tibble(Estética=c("x","y","colour","fill","alpha","shape","size",
 aesthetics %>% kable() %>% kable_styling(full_width=F)
 ```
 
-Estéticas podem ser ligadas com as variáveis do nosso banco de dados. Por exemplo, se quisemos mostrar um ponto para cada voo, pode ser que o `x` reflete a hora de partida (a variável `dep_time`), o `y` reflete o atraso (`dep_delay`), o `colour` reflete a companhia aérea (`carrier`), e o `shape` reflete o aeroporto de partido (`origin`). O `size` de ponto e a sua `alpha` (transparência) podem ser fixos, com um `size` de 10 (em unidades de 'pontos', o mesmo que usamos para medir caracteres) e um `alpha` de 1 (zero transparência).
+Estéticas podem ser ligadas com as variáveis do nosso banco de dados. Por exemplo, se quisemos mostrar um ponto para cada voo, pode ser que o `x` reflete a hora de partida (a variável `dep_time`), o `y` reflete o atraso (`dep_delay`), o `shape` reflete o aeroporto de partido (`origin`), o `size` reflete a distância de viagem (`distance`), e o `colour` reflete a companhia aérea (`carrier`). 
 
 ![](Mapping_Graphics.png)
 
@@ -108,13 +108,13 @@ Há duas opções para especificar as estéticas de uma camada, dependendo se qu
 1. Para estéticas que variam com os nossos dados (ex. o cor depende da companhia aérea), definimos a estética com uma variável, e *dentro da função `aes()`*. 
 
 ```{r, eval=F}
-... geom_point(aes(colour=carrier))
+... geom_point(aes(x=dep_time, y=dep_delay, shape=origin, size=distance, colour=carrier))
 ```
 
-2. Para estéticas que **não** variam com os nossos dados (ex. o tamanho é fixo), definimos a estética com um valor único em vez de uma variável (e fora da função `aes()`). 
+2. Para estéticas que **não** variam com os nossos dados (ex. o tamanho é fixo), definimos a estética com um valor único (uma constante) em vez de uma variável, e fora da função `aes()`. 
 
 ```{r, eval=F}
-... geom_point(size=10)
+... geom_point(size=10, alpha=0.7)
 ```
 
 # Geometrias
@@ -200,7 +200,7 @@ geometrias <- tibble(Geom=c("geom_bar","geom_histogram","geom_density",
                             "geom_point","geom_histogram","geom_density",
                             "geom_boxplot","geom_col",
                             "geom_line","geom_point"),
-                     Variaveis=c("Uma variável discreta (número de observações)","Uma variável contínua",
+                     Variaveis=c("Uma variável discreta (o número de observações por grupo)","Uma variável contínua",
                                  "Uma variável contínua","Duas variáveis contínuas",
                                  "Uma variável contínua, e uma discreta",
                                  "Uma variável contínua, e uma discreta",
@@ -215,10 +215,10 @@ geometrias <- tibble(Geom=c("geom_bar","geom_histogram","geom_density",
                      Exemplo=cbind(sprintf("![](%s%s-%s.png)", 
        opts_current$get("fig.path"), opts_current$get("label"), 1:10)))
 
-geometrias %>% kable()
+geometrias %>% kable(col.names=c("Geom","Variáveis para Visualizar","Estéticas comuns", "Exemplo"))
 ```
 
-## Geometria para uma variável discreta (número de observações por grupo)
+## Geometria para uma variável discreta (o número de observações por grupo)
 
 Vamos começar com o gráfico mais simples: Os nossos dados são divididos em grupos por uma variável discreta e queremos conhecer o número de observações (linhas) em cada grupo. Veja como apresentar essa informação em `ggplot` para o banco de dados de `flights` por `origin`:
 
@@ -290,7 +290,7 @@ flights %>%
   geom_bar(aes(x=velocidade))
 ```
 
-Este gráfico está quase em branco, por quê? Tentamos representar uma variável contínua (`velocidade`) com uma geometria construído para variáveis discretas (`geom_bar`). Como cada valor de velocidade é quase único, existe uma barra (minúscula) para cada indivíduo e o gráfico não faz sentido. Precisamos mudar o geometria - o equivalente de um gráfico de barras para variáveis únicas contínuas é uma histograma, então usamos _geom\_histogram_.
+Este gráfico está quase em branco, por quê? Tentamos representar uma variável contínua (`velocidade`) com uma geometria construído para variáveis discretas (`geom_bar`). Como cada valor de velocidade é quase único, existe uma barra (minúscula) para cada indivíduo e o gráfico não faz sentido. Precisamos mudar o geometria: o equivalente de um gráfico de barras para variáveis únicas contínuas é uma histograma, então usamos _geom\_histogram_.
 
 ```{r}
 flights %>% 
@@ -312,7 +312,7 @@ flights %>%
 
 Uma observação importante aqui: o `binwidth` é especificado _fora_ do _aes()_. Por que? Porque existe uma regra importante no `ggplot`: parâmetros que variem dependendo de nossos dados devem ficar dentro de `aes()`; parâmetros fixos que não dependam de nossos dados devem ficar fora do `aes()`. Então, em nosso código, temos dentro de `aes()` uma variável, velocidade, e fora de `aes()` um número fixo independente dos dados, 1. 
 
-O gráfico está muito cinza. Se quisemos mudar algumas cores, onde vamos especificar novos parâmetros de cores? Enquanto as cores são fixas para todo o gráfico e não depende de nossos dados, inserimos o parãmetro fora de _aes()_. O parâmetro de `fill` especifica o preenchimento da barra, e o `colour` a borda. Pode usar nomes de cores simples em inglês (vamos ver outras opções em breve). 
+O gráfico está muito cinza. Se quisemos mudar algumas cores, onde vamos especificar novos parâmetros de cores? Enquanto as cores são fixas para todo o gráfico e não dependem de nossos dados, inserimos o parãmetro fora de _aes()_. O parâmetro de `fill` especifica o preenchimento da barra, e o `colour` a borda. Pode usar nomes de cores simples em inglês (vamos ver outras opções em breve). 
 
 ```{r}
 flights %>% 
@@ -322,7 +322,7 @@ flights %>%
 
 Melhor, não? Em geral, os argumentos "colour" e "fill" servem a várias geometrias.
 
-Curiosidade: R aceita as duas grafias em inglês para a palavra cor, "colour" (britânico) e "color" (americano).
+Curiosidade: R aceita as duas grafias em inglês para a palavra cor, "colour" (britânico, e obviamente o mais correto e bonito!) e "color" (americano).
 
 ## Gráficos com uma variável contínua - Gráficos de densidade
 Uma alternativa mais elegante ao histograma são os gráficos de densidade. Vamos, assim, apenas alterar a geometria para a mesma variável, velocidade, e observar novamente sua distribuição. A lição é que, embora a geometria deva corresponder ao tipo de dados, existem várias geometrias que podem funcionar para um tipo de dado específico (histograma ou densidade, por exemplo).
@@ -364,7 +364,7 @@ media_velocidade <- flights %>% summarize(media_velocidade=mean(velocidade,na.rm
   pull(media_velocidade)
 ```
 
-Mas estamos tratando de curvas de densidade, não estamos? Nessa geometria não há possibilidade de representar valores com uma linha vertical. Vamos, então, adicionar uma *nova geometria*, com uma "aesthetics" própria, com novos dados (no caso, um valor único), ao gráfico que já havíamos construído:
+Mas estamos tratando de curvas de densidade, não estamos? Nessa geometria não há possibilidade de representar valores com uma linha vertical. Vamos, então, adicionar uma *nova geometria*, com uma estética própria, `xintercept` que aceita a localização de uma linha vertical, e com novos dados (no caso, um valor único), ao gráfico que já havíamos construído:
 
 ```{r}
 flights %>% 
@@ -373,7 +373,7 @@ flights %>%
   geom_vline(aes(xintercept = media_velocidade))
 ```
 
-Veja que, com `ggplot` podemos adicionar novas geometrias e dados sempre que precisarmos. Agora, temos duas camadas e duas geometrias. 
+Veja que, com `ggplot`, podemos adicionar novas geometrias e dados sempre que precisarmos. Agora, temos duas camadas e duas geometrias. 
 
 Para tornar o gráfico mais interessante, vamos alterar a forma e a cor da linha adicionada no gráfico anterior:
 
@@ -425,7 +425,7 @@ flights %>% filter(origin=="JFK" & dest=="LAX") %>%
 
 Vamos dar alguns passos para traz e retornar aos histogramas. E se quisermos comparar as distribuições de `dep_time` por origem, por exemplo? Precisamos filtrar os dados e fazer um gráfico para cada aeroporto?
 
-Poderíamos. Mas mais interessante é comparar as distribuições em um mesmo gráfico. Para fazer isso, precisamos saber como visualizar duas variáveis do nosso tibble ao mesmo tempo. Como estamos separando uma distribuição de uma variável contínua (`dep_time`) em três, a partir de uma segunda variável discreta (`origin`), precisamos adicionar essa nova variável à "aesthetics". Veja como:
+Poderíamos. Mas mais interessante é comparar as distribuições em um mesmo gráfico. Para fazer isso, precisamos saber como visualizar duas variáveis do nosso tibble ao mesmo tempo. Como estamos separando uma distribuição de uma variável contínua (`dep_time`) em três, a partir de uma segunda variável discreta (`origin`), precisamos adicionar essa nova variável à "aesthetics" (aes). Veja como:
 
 ```{r}
 flights %>% 
@@ -435,7 +435,7 @@ flights %>%
 
 Observe que adicionamos o parâmetro "fill" à "aesthetics" (dentro do `aes()` porque ele depende de nossos dados). Isso significa que a variável `origin` separará as distribuições de velocidade em cores de preenchimento diferentes. Conseguem ver as três distribuições, uma acima da outra? Note que agora temos uma legenda.
 
-A sobreposição dos dois histogramas dificulta a visualização de todos os dados. Podemos ajustar como os dois conjuntos de dados são exibidos um em cima do outro com o argumento 'position'. Por exemplo, com _position="dodge"_ podemos organizar os dados lado a lado:
+A sobreposição das duas histogramas dificulta a visualização de todos os dados. Podemos ajustar como os dois conjuntos de dados são exibidos um em cima do outro com o argumento 'position'. Por exemplo, com _position="dodge"_ podemos organizar os dados lado a lado:
 
 ```{r}
 flights %>% 
@@ -446,7 +446,7 @@ flights %>%
 
 Melhor? Não sei, depende das suas preferências.
 
-Vamos tentar algo semelhante com as curvas de densidade. Em vez de "fill", vamos usar a variável `origin` em "colour" na "aesthetics" e separar as distribuições por cores de borda:
+Vamos tentar algo semelhante com as curvas de densidade. Em vez de "fill", vamos usar a variável `origin` em `colour` em `aes` e separar as distribuições por cores de borda:
 
 ```{r}
 flights %>% 
@@ -492,7 +492,7 @@ flights %>%
 
 ## Gráficos com um valor único por uma variável discreta - Gráficos de coluna
 
-Os gráficos de histograma, densidade e boxplot geram gráficos baseado no distribuição de múltiplas observações por categoria discreta. Quando temos apenas um valor único por categoria discreta, usamos um gráfico de coluna. Normalmente isso exige o uso de `group_by` e `summarize` para mudar o tamanho de nosso banco de dados para ter uma linha por grupo. 
+Os gráficos de histograma, densidade e boxplot geram gráficos baseado na distribuição de múltiplas observações por categoria discreta. Quando temos apenas um valor único por categoria discreta, usamos um gráfico de coluna. Normalmente isso exige o uso de `group_by` e `summarize` para mudar o tamanho de nosso banco de dados e a unidade de análise para ter uma linha por grupo. 
 
 Sempre temos que pensar no tibble que estamos encaminhando para o `ggplot`. O tibble de `flights` é uma tabela de todos os voos e não será apropriado para mostrar um valor por aeroporto - temas milhares de observações por aeroporto! Então a preparação de dados tem que produzir um tibble apropriado antes da visualização:
 
@@ -522,7 +522,7 @@ Gráficos de histogramas, densidade, coluna e boxplot são os melhores gráficos
 
 ## Gráficos de duas variáveis contínuas
 
-Até agora trabalhamos com distribuições de uma única variável ou com a distribuição conjunta de uma variável contínua por outra discreta (em outras palavras, separados a distribuição de uma variável em várias a partir de um variável categórica).
+Até agora trabalhamos com distribuições de uma única variável ou com a distribuição conjunta de uma variável contínua por outra discreta (em outras palavras, separando a distribuição de uma variável em várias a partir de um variável categórica).
 
 Vamos ver agora como relacionar graficamente duas variáveis contínuas. O padrão é usarmos a geometria de gráfico de dispersão, que presenta cada par de informações como uma coordenada no espaço bidimensional. Vamos ver um exemplo com `distance` (eixo horizontal) e `air_time` (eixo vertical) usando a geometria _geom\_point_:
 
@@ -534,7 +534,7 @@ flights %>% sample_n(1000) %>%
   geom_point(aes(x = distance, y = air_time))
 ```
 
-Você consegue ler este gráfico? Cada ponto representa um voo, ou seja, posiciona no espaço o par (`distance`, `air_time`) daquela(e) voo. Note que há uma certa tendência nos dados: os voos mais cedos são menos atrasados. 
+Você consegue ler este gráfico? Cada ponto representa um voo, ou seja, posiciona no espaço o par (`distance`, `air_time`) daquele voo. Naturalmente, há uma certa tendência nos dados: os voos mais distantes duram mais tempo. 
 
 Para personalizar o gráfico, podemos ajustar o cor dos pontos, o tamanho deles, e a forma deles:
 
@@ -557,10 +557,10 @@ flights %>% sample_n(1000) %>%
   geom_smooth(aes(x = distance, y = air_time), method = "lm", se = FALSE)
 ```
 
-Legal, não? Se retirarmos o parâmetro "se" (standard error), ou voltarmos seu valor para o padrão "TRUE", obteremos também o intervalo de confiança (95\%) da reta que inserimos.
+Legal, não? Se retirarmos o parâmetro "se" (standard error), ou voltarmos seu valor para o padrão "TRUE", obteremos também o intervalo de confiança (95\%) da reta que inserimos. (Diminuimos o `n` aqui para tornar o intervalo de confiança em cinza mais visível).
 
 ```{r}
-flights %>% sample_n(1000) %>% 
+flights %>% sample_n(50) %>% 
   ggplot() + 
   geom_point(aes(x = distance, y = air_time), size=0.1) +
   geom_smooth(aes(x = distance, y = air_time), method = "lm")
@@ -628,7 +628,7 @@ flights %>% group_by(carrier) %>%
 
 ## Gráficos de três ou mais variáveis
 
-Em geral, estamos limitados por papel e telas bidimensionais para exibir apenas geometrias de duas variáveis. Mas existe um truque que podemos usar para mostrar mais informações: incluir os outros parâmetros de uma geometria, tais como cores, tamanhos e formas, dentro de _aes_ segundo uma terceira variável em seu data.frame. 
+Em geral, estamos limitados por papel e telas bidimensionais para exibir apenas geometrias de duas variáveis. Mas existe um truque que podemos usar para mostrar mais informações: incluir os outros parâmetros de uma geometria, tais como cores, tamanhos e formas, dentro de _aes_ segundo uma terceira variável em seu tibble. 
 
 Se, por exemplo, queremos representar uma terceira variável numérica, podemos colocá-la como o tamanho dos pontos (raio do círculo). Por exemplo, num gráfico comparando o `dep_time` e `dep_delay` dos voos, podemos definir o tamabho dos pontos proporcionalmente à distância de cada voo:
 
@@ -686,12 +686,12 @@ flights %>% sample_n(1000) %>%
 O `facet_grid()` mostra todas as combinações de variável de facet horizontal e vertical, mesmo que umas combinações não existem nos dados. Isto é equivalente a função `complete()` - o gráfico para a combinação ausente vai aparecer vazio. Para mostrar apenas as combinações que existem nos dados (e perder a estrutura de grade), existe a função alternativa `facet_wrap()`.
 </aside>
 
-O que mostra este gráfico? Cada elemento é um aerporto de origem em um mês, e mostra a relação entre horário de partida e atraso neste mês e aeroporto. 
+O que mostra este gráfico? Cada elemento é um aeroporto de origem em um mês, e mostra a relação entre horário de partida e atraso neste mês e aeroporto. 
 
 
 ## Gráficos de Linha
 
-Gráficos de linha exigem, em geral, um pouco mais de preparação de nossos dados. A variável x pode ser discreta ou contínua, mas precisa ser *ordenada* para que as linhas façam sentido. Precisamos organizar o tibble fora do `ggplot` e colocá-lo antes no pipe. Por exemplo, podemos visualizar apenas os dados para as mulheres.
+Gráficos de linha exigem, em geral, um pouco mais de preparação de nossos dados. A variável x pode ser discreta ou contínua, mas precisa ser *ordenada* para que as linhas façam sentido. Precisamos organizar o tibble fora do `ggplot` e colocá-lo antes no pipe. 
 
 Para criar um gráfico de linha vamos usar `month` como nossa variável ordenada e, portanto, precisamos resumir os dados por `month`. Vamos analisar o atraso média por mês. O primeiro passo é transformar a variável `month` em um factor ordenado. Em seguida, vamos calcular o atraso média por mês. E finalmente, encaminhar os dados ao gráfico de linha, `geom_line`. `geom_line` exige um `x`, um `y`, e um `group`, para definir como a juntar os pontos ao longo do tempo - neste exemplo temos apenas um grupo/uma linha então podemos deixar `group=1`. 
 
@@ -712,7 +712,7 @@ flights %>%
   paged_table()
 ```
 
-E agora que temos os nossos dados na estrutura apropriada, com a unidade de análise a mes e a variável de atraso média disponível, adicionamos o código de `ggplot`:
+E agora que temos os nossos dados na estrutura apropriada, com a unidade de análise o mês e a variável de atraso média disponível, adicionamos o código de `ggplot`:
 
 ```{r}
 flights %>% 
@@ -723,7 +723,7 @@ flights %>%
   geom_line(aes(x=month, y=dep_delay_media), group=1)
 ```
 
-O que faremos se quisermos uma linha separada para cada aeroporto de origem? Como sempre, primeiramente temos que preparar os dados na forma apropriada, agrupando por `origin` no resumo, e depois definir `group=origin` dentro de `geom_line`. 
+O que faremos se quisermos uma linha separada para cada aeroporto de origem? Como sempre, primeiramente temos que preparar os dados na forma apropriada, agrupando por `origin` também no resumo de dados, e depois definir `group=origin` dentro de `geom_line` (e dentro de `aes`). 
 
 ```{r}
 flights %>% 
@@ -747,7 +747,7 @@ flights %>%
 
 Perfeito!
 
-Os gráficos de linha podem ser um pouco confusos no começo, enão é legal ver como fica a estrutura da tabela que é criada antes do gráfico. Você imaginou como é a tabela do último gráfico?
+Os gráficos de linha podem ser um pouco confusos no começo, então é legal ver como fica a estrutura da tabela que é criada antes do gráfico. Você imaginou como é a tabela do último gráfico?
 
 ```{r, eval=F}
 flights %>% 
@@ -765,15 +765,15 @@ flights %>%
 ```
 
 ## Gráfico de barras 100% 
-Podemos aproveitar a mesma estrutura da tabela que craimos para o gráfico de linhas para criar gráficos de barras 100%. Esse tipo de gráfico é útil para entender a participação de cada grupo no total. É só trocar `geom_line` para `geom_col` e ajustar os parâmetros. Especificamente, `geom_col` permite o argumento `position` (que já usamos com `geom_histogram` acima) para comparar as barras relativamente, em porcentagens:
+Podemos aproveitar o mesmo tipe de estrutura da tabela que criamos para o gráfico de linhas para criar gráficos de barras 100%. Esse tipo de gráfico é útil para entender a participação de cada grupo no total. Por exemplo, vamos calcular a contribuição de cada aeroporto ao atraso total em cada mês. Depois, é só trocar `geom_line` para `geom_col` e ajustar as estéticas apropriadas. Especificamente, `geom_col` permite o argumento `position` (que já usamos com `geom_histogram` acima) para comparar as barras relativamente, em porcentagens, quando `position="fill"`:
 
-```{r, echo = F}
+```{r}
  flights %>% 
    mutate(month=factor(month, levels=1:12, ordered=TRUE)) %>%
    group_by(month, origin) %>%
-   summarize(dep_delay_media=mean(dep_delay,na.rm=T)) %>%
+   summarize(dep_delay_total=sum(dep_delay,na.rm=T)) %>%
    ggplot() +
-   geom_col(aes(x=month, y=dep_delay_media, fill=origin), position = "fill")
+   geom_col(aes(x=month, y=dep_delay_total, fill=origin), position = "fill")
 ```
 
 
@@ -815,7 +815,7 @@ Um pouco complexo, sim, mas fornece muita flexibilidade. Quais são os cores `co
 
 O problema é que não estamos designers, e sempre escolhemos cores feios (eu escolho pelo menos...). É melhor consultar a guia no site [Color Brewer](http://colorbrewer2.org) e copiar-colar os códigos dos cores desejados. 
 
-Vamos para um exemplo. Primeiro, de uma variável contínua (`dep_time`) e uma estética de color (de pontos). Lembre-se que os pontos ainda exigem uma posição então também precisamos definir o `x`e `y`. Os cores padrão do ggplot aparecem assim:
+Vamos para um exemplo. Primeiro, de uma variável contínua (`dep_time`) e uma estética de colour (de pontos). Lembre-se que os pontos ainda exigem uma posição então também precisamos definir o `x` e `y`. Os cores padrão do ggplot aparecem assim:
 
 ```{r}
 flights %>% sample_n(1000) %>% ggplot() + 
@@ -830,7 +830,7 @@ flights %>% sample_n(1000) %>% ggplot() +
   scale_color_gradient(low="#f7fcfd", high="#238b45" )
 ```
 
-Entre os dois cores extremos, o R preenche uma escala contínua automaticamente. Com variáveis discretas, é mais difícil porque temos que especificar um cor distinto para cada categoria possível. Uma alternativa é aproveitar de uma paleta pre-definida opr especialistas. Por exemplo, para definir cores dos pontos para cada aeroporto podemos usar a paleta 'Set2' (encontrada na opção 'qualitative' de [Color Brewer](http://colorbrewer2.org)): 
+Entre os dois cores extremos, o R preenche uma escala contínua automaticamente. Com variáveis discretas, é mais difícil porque temos que especificar um cor distinto para cada categoria possível. Uma alternativa é aproveitar de uma paleta pre-definida por especialistas. Por exemplo, para definir cores dos pontos para cada aeroporto podemos usar a paleta 'Set2' (encontrada na opção 'qualitative' de [Color Brewer](http://colorbrewer2.org)): 
 
 ```{r}
 flights %>% sample_n(1000) %>% ggplot() + 
@@ -869,7 +869,7 @@ Em primeiro lugar, vamos adicionar um título ao gráfico:
 ```{r}
 flights %>% sample_n(1000) %>% ggplot() + 
   geom_point(aes(x = distance, y = air_time, color=origin)) +
-  ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013")
+  ggtitle("Relação entre distância e duração de voo, por aeroporto do Nova Iorque")
 ```
 
 A seguir, vamos modificar os nomes dos rótulos dos eixos, com `xlab()` e `ylab()`:
@@ -877,7 +877,7 @@ A seguir, vamos modificar os nomes dos rótulos dos eixos, com `xlab()` e `ylab(
 ```{r}
 flights %>% sample_n(1000) %>% ggplot() + 
   geom_point(aes(x = distance, y = air_time, color=origin)) +
-  ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013") +
+  ggtitle("Relação entre distância e duração de voo, por aeroporto do Nova Iorque") +
   xlab("Distância") +
   ylab("Duração")
 ```
@@ -887,7 +887,7 @@ O posicionamento da legenda pode ser modificado:
 ```{r}
 flights %>% sample_n(1000) %>% ggplot() + 
   geom_point(aes(x = distance, y = air_time, color=origin)) +
-  ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013") +
+  ggtitle("Relação entre distância e duração de voo, por aeroporto do Nova Iorque") +
   xlab("Distância") +
   ylab("Duração") + 
   theme(legend.position="bottom")
@@ -898,7 +898,7 @@ Literalmente todos os elementos podem ser modificados, por exemplo o tamanho do 
 ```{r}
 flights %>% sample_n(1000) %>% ggplot() + 
   geom_point(aes(x = distance, y = air_time, color=origin)) +
-  ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013") +
+  ggtitle("Relação entre distância e duração de voo, por aeroporto do Nova Iorque") +
   xlab("Distância") +
   ylab("Duração") +
     theme(axis.text.x = element_text(size=4),
@@ -912,7 +912,7 @@ O `ggplot` nos permite modificar basicamente todos os elementos de estilo do nos
 ```{r}
 flights %>% sample_n(1000) %>% ggplot() + 
   geom_point(aes(x = distance, y = air_time, color=origin)) +
-  ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013") +
+  ggtitle("Relação entre distância e duração de voo, por aeroporto do Nova Iorque") +
   xlab("Distância") +
   ylab("Duração") +
   theme_classic()
@@ -926,7 +926,7 @@ library(ggthemes)
 
 flights %>% sample_n(1000) %>% ggplot() + 
   geom_point(aes(x = distance, y = air_time, color=origin)) +
-  ggtitle("Relação entre distância e duração de cada voo, por aeroporto do Nova Iorque em 2013") +
+  ggtitle("Relação entre distância e duração de voo, por aeroporto do Nova Iorque") +
   xlab("Distância") +
   ylab("Duração") +
   theme_economist()
@@ -982,7 +982,7 @@ graf_2 %>%
   ggplotly()
 ```
 
-Existem infinitas personalizações possíveis. Ninguém pode lembrar todas os detalhes ou o código. É frequentemente necessário buscar online para ajuda ou ideais, mas buscando para 'gráfico bonito' não ajuda nada. Temos que usar a linguagem e a gramática de gráficos para encontrar o que estamos procurando, então é crucial entender o que significa uma geometria, uma estética, etc. 
+Existem infinitas personalizações possíveis. Ninguém pode lembrar todas os detalhes ou o código. É frequentemente necessário buscar online para ajuda ou ideais, mas buscando para 'gráfico bonito' não ajuda nada. Temos que usar a linguagem e a gramática de gráficos para encontrar o que estamos procurando, então é crucial entender o que significa uma geometria, uma estética, uma escala, etc. 
 
 Em caso de dúvida, pode consultar o cheatsheet [aqui](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf). Um outro ponto de referência é a lista de tipo de gráficos com exemplos [aqui](http://www.sthda.com/english/wiki/ggplot2-essentials).
 
@@ -1019,7 +1019,7 @@ flights %>% mutate(month=factor(month, 1:12, ordered=TRUE)) %>%
   scale_colour_brewer(palette="Set2")
 ```
 
-4. Prepare vários gráficos numa grade, cada um mostrando a relação entre a hora de partida (`hour`) e atraso média de partida em um aeroporto de origem para uma companhia aérea.
+4. Prepare vários gráficos numa grade, cada um mostrando a relação entre a hora de partida (`hour`) e o atraso média de partida em um aeroporto de origem para uma companhia aérea.
 
 ```{r, echo=F, eval=F}
 flights %>% group_by(hour, origin, carrier) %>%

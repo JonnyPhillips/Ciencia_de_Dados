@@ -1305,6 +1305,7 @@ Tutoriais
 <a href="limpando_dados.html">3. Organizando e Limpando Dados</a>
 <a href="Estatisticas_Resumidas.html">4. Calculando Estatisticas Resumidas</a>
 <a href="Tabelas.html">5. Construindo Tabelas</a>
+<a href="visualizacao.html">6. Visualizacao de Dados</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1643,7 +1644,7 @@ funcao(insumos)</code></pre>
 <pre class="r"><code>
 Sys.Date()</code></pre>
 <pre><code>
-[1] &quot;2020-04-03&quot;</code></pre>
+[1] &quot;2020-04-17&quot;</code></pre>
 </div>
 </div>
 <p>Como sabemos o significado de algumas colunas com nomes ambíguos? Podemos acessor o <strong>help</strong> (documentação) do objeto para descobrir uma descrição do que há no <em>data frame</em> chamado <code>flights</code>:</p>
@@ -1741,23 +1742,39 @@ tabela_aeroportos &lt;- tibble(Sigla=c(&quot;NWR&quot;,&quot;JFK&quot;,&quot;LGA
 <div class="layout-chunk" data-layout="l-body">
 <table>
 <thead>
-<tr class="header">
-<th style="text-align: left;">Sigla</th>
-<th style="text-align: left;">Nome</th>
+<tr>
+<th style="text-align:left;">
+Sigla
+</th>
+<th style="text-align:left;">
+Nome
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td style="text-align: left;">NWR</td>
-<td style="text-align: left;">Newark</td>
+<tr>
+<td style="text-align:left;">
+NWR
+</td>
+<td style="text-align:left;">
+Newark
+</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">JFK</td>
-<td style="text-align: left;">John F Kennedy</td>
+<tr>
+<td style="text-align:left;">
+JFK
+</td>
+<td style="text-align:left;">
+John F Kennedy
+</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">LGA</td>
-<td style="text-align: left;">Laguardia</td>
+<tr>
+<td style="text-align:left;">
+LGA
+</td>
+<td style="text-align:left;">
+Laguardia
+</td>
 </tr>
 </tbody>
 </table>
@@ -1786,8 +1803,8 @@ library(&quot;DT&quot;)
 datatable(tabela_aeroportos)
 ```</code></pre>
 <div class="layout-chunk" data-layout="l-body">
-<div id="htmlwidget-1703f96c0a43738a469b" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1703f96c0a43738a469b">{"x":{"filter":"none","data":[["1","2","3"],["NWR","JFK","LGA"],["Newark","John F Kennedy","Laguardia"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sigla<\/th>\n      <th>Nome<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"order":[],"autoWidth":false,"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1d686d65c9dac46bd81a" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1d686d65c9dac46bd81a">{"x":{"filter":"none","data":[["1","2","3"],["NWR","JFK","LGA"],["Newark","John F Kennedy","Laguardia"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sigla<\/th>\n      <th>Nome<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"order":[],"autoWidth":false,"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p>O <code>datatable</code> funciona quando o formato do nosso documento final é um HTML, gerando uma tabela interativa.</p>
 <div class="green">
