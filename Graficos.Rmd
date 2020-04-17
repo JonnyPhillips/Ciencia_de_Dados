@@ -800,6 +800,27 @@ flights %>% group_by(origin, month) %>%
 
 Evita voar de JFK em julho!
 
+Finalmente, vamos ver como a gerar um gráfico de pizza. A primeira observação é que um gráfico de pizza contém os mesmos dados que um gráfico de barras relativo, de porcentagem. Então a primeira tarefa é gerar a tabela apropriada para este tipo de gráfico. Precismaos de um `geom_col`, com `position="fill"` para garantir que os valores somam a 100%, e vamos deixar a estética `x` em branco porque queremos apenas uma barra.
+
+```{r}
+flights %>% group_by(origin) %>%
+  summarize(dep_delay_total=sum(dep_delay, na.rm=T)) %>%
+  ggplot() + 
+  geom_col(aes(x="", y=dep_delay_total, fill=origin), position="fill")
+```
+
+Veja o resultado. Com imaginação deve ser aparente que é um gráfico de pizza, mas organizado 'verticalmente'. Para virar o nosso gráfico para um círculo, precisamos entender mais um elemento da gramática de gráficos: Além de geometrias e estéticas, existem *sistemas de coordenados*. Normalmente, eles são invisíveis e não precisamos especificar nada porque os coordenados são óbvios - uma grade definida horizontalmente por `x` e verticalmente por `y`, como usamos em todos os outros gráficos do tutorial atual. Mas existem outros sistemas de coordenados, por exemplo sistemas 'polar', que dividim a tela/papel em graus de um círuclo. Se definimos um sistema de coordenados polar com mais uma camada de `coord_polar()`, e varia o ángulo theta baseado na variável y (`dep_delay`), `coord_polar(theta="y")` geramos um gráfico de pizza:
+
+```{r}
+flights %>% group_by(origin) %>%
+  summarize(dep_delay_total=sum(dep_delay, na.rm=T)) %>%
+  ggplot() + 
+  geom_col(aes(x="", y=dep_delay_total, fill=origin), position="fill") +
+  coord_polar(theta="y")
+```
+
+Mais uma linha e recebemos um gráfico completamente diferente visualmente, mas apresentado os mesmos dados.
+
 # Controlando cores com 'scales'
 
 Os partes mais envolventes dos gráficos são os cores. Mas também são os partes mais complexos. Temos que identificar exatamente qual parte do gráfico deve ser representado com qual cor, e especificar isso em termos sistemáticos. O mapeamento entre valores dos nossas variáveis e cores específicos é feito em ggplot por **scales (escalas)**. Scales são definidos em mais uma camada do nosso gráfico. 
