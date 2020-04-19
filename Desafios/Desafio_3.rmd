@@ -1,0 +1,248 @@
+---
+title: "Desafio 3: Combinação e Visualização de Dados"
+output: distill::distill_article
+---
+
+```{r, echo=F}
+knitr::opts_chunk$set(echo = F, eval=F, highlight=T)
+```
+
+
+<style>
+div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
+</style>
+
+<div class = "purple">
+O prazo para entregar Desafio 3 por email com título “[FLS6397] - D3” à minha conta é **14h, 08/05/2020**, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
+</div>
+
+<br>
+
+<!-- [Respostas Sugeridas para Desafio 3 aqui](Desafio_3_Suggested_Responses.html) -->
+
+## Instruções
+
+Siga as instruções abaixo. Documente *todos* os seus passos em um script. Comente no seu script *todos* os seus passos e explique a si mesma(o) suas escolhas e estratégias. Se você se beneficiou da assistência de outra pessoa, sempre reconheça isso em comentários no código.
+
+## Roteiro
+
+1. Vamos trabalher de novo com os dados eleitorais do Tribunal Superior Eleitoral. Vá ao [Repositório de Dados Eleitorais do TSE](http://www.tse.jus.br/eleitor-e-eleicoes/estatisticas/repositorio-de-dados-eleitorais-1/repositorio-de-dados-eleitorais). O TSE disponibiliza dados sobre os resultados eleitorais separadamente dos dados sobre os candidatos. 
+
+(a) Na aba de 'resultados', faça o download do arquivo "Votação nominal por município e zona" para 2016 e descompacte-o. 
+
+(b) Na aba de 'candidatos', faça o download do arquivo "Candidatos" para 2016 e descompacte-o. 
+
+(c) Dos arquivos descompactados, abre os dois bancos para Roraima (RR) em R com os parâmetros apropriados (note que o formato é um pouco diferente dos arquivos no desafio 1). Para detalhes sober as colunas, veja o parte apropriado do documento leiame.pdf nos arquivos.
+
+```{r}
+library(tidyverse)
+resultados <- read_delim("C:/Users/Jonny/Downloads/votacao_candidato_munzona_2016 (1)/votacao_candidato_munzona_2016_RR.csv",
+                   delim=";",
+                   locale=locale(encoding="latin1"))
+
+candidatos <- read_delim("C:/Users/Jonny/Downloads/consulta_cand_2016/consulta_cand_2016_RR.csv",
+                   delim=";",
+                   locale=locale(encoding="latin1"))
+```
+
+2. Queremos analisar os resultados eleitorais baseado nas características dos candidatos, então precisamos juntar os dois bancos. 
+
+(a) Identifique a unidade de análise de cada banco de dados, e lista as variáveis que compõem os identificadores comuns para realizar a junção dos dois bancos. (Cuidado: o número do candidato (`NR_CANDIDATO`) não é único para cada candidato, use uma outra variável).
+
+(b) Use `anti_join` para identificador se há candidatos faltando no banco de dados de resultados. (Bonus: Investigando as colunas do resultado de `anti_join`, pode identificar porque eles não existem no banco de resultados?).
+
+```{r}
+candidatos %>% anti_join(resultados, by=c("SQ_CANDIDATO","CD_CARGO","NR_TURNO"))
+
+resultados %>% distinct(SQ_CANDIDATO, CD_CARGO, NR_TURNO)
+
+candidatos %>% distinct(SQ_CANDIDATO, CD_CARGO, NR_TURNO)
+
+candidatos %>% distinct(SQ_CANDIDATO)
+
+candidatos %>% group_by(SQ_CANDIDATO) %>% tally() %>% arrange(-n)
+
+```
+
+(c) Execute um join do tipo apropriado para uma análise comparando as caractéristicas dos candidatos e os resultados eleitorais. 
+
+```{r}
+combinado <- resultados %>% left_join(candidatos, by=c("SQ_CANDIDATO","CD_CARGO","NR_TURNO"))
+
+#candidatos %>% left_join(resultados, by=c("SQ_CANDIDATO","CD_CARGO","NR_TURNO")) #Includes useless candidates
+```
+
+3. Filtre os seus dados juntados para focar no primeiro turno das eleições para vereador. 
+
+```{r}
+combinado <- combinado %>% filter(NR_TURNO==1 & CD_CARGO==13)
+```
+
+4. Para o nosso primeiro gráfico, vamos apresentar o número de candidatos para vereador por município
+
+```{r}
+combinado %>% 
+  ggplot() +
+  geom_bar(aes(x=NM_MUNICIPIO))
+```
+
+5. Agora, a nossa questão de pesquisa é o número de candidatos por gênero (variável `DS_GENERO`) no estado inteiro. Prepare um gráfico apropriado.
+
+```{r}
+combinado %>% 
+  ggplot() +
+  geom_bar(aes(x=DS_GENERO))
+```
+
+6. (a) Gere um gráfico que mostra o porcentagem de candidatos por gênero em cada município.
+
+```{r}
+combinado %>% group_by(NM_MUNICIPIO, DS_GENERO) %>%
+  tally() %>%
+  ggplot() +
+  geom_col(aes(x=NM_MUNICIPIO, y=n, fill=DS_GENERO), position="fill")
+```
+
+7. (a) Gere uma variável binário para os vereadores eleitos (da variável `DS_SIT_TOT_TURNO`), e mostra um gráfico de barras da taxa de sucesso dos candidatos femininos por município. 
+
+(b) Extende o seu gráfico para mostrar a taxa de sucesso de homens e mulheres lado a lado, por município.
+
+```{r}
+combinado %>% mutate(Eleito=case_when(DS_SIT_TOT_TURNO.x %in% c("ELEITO POR QP",
+                                                                "ELEITO POR MÉDIA", "ELEITO")~1,
+                                      TRUE~0)) %>% 
+  group_by(NM_MUNICIPIO, DS_GENERO, Eleito) %>%
+  tally() %>%
+  group_by(NM_MUNICIPIO, DS_GENERO) %>%
+  mutate(Pct_eleito=100*(n/sum(n,na.rm=T))) %>%
+  filter(DS_GENERO=="FEMININO" & Eleito==1) %>%
+  ggplot() +
+  geom_col(aes(x=NM_MUNICIPIO, y=Pct_eleito))
+```
+
+(c) Qual é o município em que as mulheres têm uma maior taxa de sucesso que os homens? 
+
+```{r}
+combinado %>% mutate(Eleito=case_when(DS_SIT_TOT_TURNO.x %in% c("ELEITO POR QP",
+                                                                "ELEITO POR MÉDIA", "ELEITO")~1,
+                                      TRUE~0)) %>% 
+  group_by(NM_MUNICIPIO, DS_GENERO, Eleito) %>%
+  tally() %>%
+  group_by(NM_MUNICIPIO, DS_GENERO) %>%
+  mutate(Pct_eleito=100*(n/sum(n,na.rm=T))) %>%
+  filter(Eleito==1) %>%
+  ggplot() +
+  geom_col(aes(x=NM_MUNICIPIO, y=Pct_eleito, fill=DS_GENERO), position="dodge")
+```
+
+8. Gere um gráfico de 'tile', que mostra o número de candidatos por município e gênero. Aplique uma escala de cores apropriado. 
+
+```{r}
+combinado %>% group_by(NM_MUNICIPIO, DS_GENERO) %>%
+  tally() %>%
+  ggplot() +
+  geom_tile(aes(x=DS_GENERO, y=NM_MUNICIPIO, fill=n)) +
+  scale_fill_gradient(low="#efedf5", high="#3f007d")
+```
+
+9. (a) Apresente um gráfico de histograma da idade dos candidatos (`NR_IDADE_DATA_POSSE`).
+
+(b) Há algum problem com o seu gráfico? Qual é? Resolve o problema.
+
+(c) Apresente um gráfico de histograma da idade dos candidatos, separado por gênero.
+
+```{r}
+combinado %>% 
+  mutate(NR_IDADE_DATA_POSSE=case_when(NR_IDADE_DATA_POSSE==999~NA_real_,
+                                       TRUE~NR_IDADE_DATA_POSSE)) %>%
+  ggplot() +
+  geom_histogram(aes(x=NR_IDADE_DATA_POSSE))
+
+combinado %>% 
+  mutate(NR_IDADE_DATA_POSSE=case_when(NR_IDADE_DATA_POSSE==999~NA_real_,
+                                       TRUE~NR_IDADE_DATA_POSSE)) %>%
+  ggplot() +
+  geom_histogram(aes(x=NR_IDADE_DATA_POSSE, fill=DS_GENERO))
+
+```
+
+(d) Como uma forma alternative de apresenatar os dados, divide o gráfico em parte (a/b) para facets diferentes, dividido por gênero e raça.
+
+```{r}
+combinado %>% 
+  mutate(NR_IDADE_DATA_POSSE=case_when(NR_IDADE_DATA_POSSE==999~NA_real_,
+                                       TRUE~NR_IDADE_DATA_POSSE)) %>%
+  ggplot() +
+  geom_histogram(aes(x=NR_IDADE_DATA_POSSE)) +
+  facet_grid(rows=vars(DS_COR_RACA), cols=vars(DS_GENERO))
+```
+
+
+10. (a) Gere um gráfico de pontos da idade do candidato no eixo x e o porcentagem de votos do candidato no eixo y. 
+
+(b) Diferenciar o cor dos pontos baseado no gênero do candidato.
+
+(c) Aplique uma escala de cores ao seu gráfico em (b)
+
+```{r}
+combinado %>% 
+  mutate(NR_IDADE_DATA_POSSE=case_when(NR_IDADE_DATA_POSSE==999~NA_real_,
+                                       TRUE~NR_IDADE_DATA_POSSE)) %>% 
+  group_by(CD_MUNICIPIO) %>%
+  mutate(Pct_Votos=100*(QT_VOTOS_NOMINAIS/sum(QT_VOTOS_NOMINAIS,na.rm=T))) %>%
+  ggplot() +
+  geom_point(aes(x=NR_IDADE_DATA_POSSE, y=Pct_Votos)) +
+  geom_smooth(aes(x=NR_IDADE_DATA_POSSE, y=Pct_Votos))
+
+combinado %>% 
+  mutate(NR_IDADE_DATA_POSSE=case_when(NR_IDADE_DATA_POSSE==999~NA_real_,
+                                       TRUE~NR_IDADE_DATA_POSSE)) %>% 
+  group_by(CD_MUNICIPIO) %>%
+  mutate(Pct_Votos=100*(QT_VOTOS_NOMINAIS/sum(QT_VOTOS_NOMINAIS,na.rm=T))) %>%
+  ggplot() +
+  geom_point(aes(x=NR_IDADE_DATA_POSSE, y=Pct_Votos, colour=DS_GENERO))
+```
+
+11. (a) Calcule o porcentagem de votos dos candidatos no seu município.
+
+(b) Calcule a média do porcentagem de votos dos candidatos por idade.
+
+(c) Mostre num gráfico da linhas o porcentagem de votos dos candidatos (no eixo y) por idade do candidato (no eixo x).
+
+(d) Mostre num gráfico da linhas o porcentagem de votos dos candidatos (no eixo y) por idade do candidato (no eixo x), com linhas separadas para cada gênero.
+
+(e) Em qual idade os homens e as mulheres tem o maior chance para ganhar a eleição?
+
+```{r}
+combinado %>% 
+  mutate(NR_IDADE_DATA_POSSE=case_when(NR_IDADE_DATA_POSSE==999~NA_real_,
+                                       TRUE~NR_IDADE_DATA_POSSE)) %>% 
+  group_by(CD_MUNICIPIO) %>%
+  mutate(Pct_Votos=100*(QT_VOTOS_NOMINAIS/sum(QT_VOTOS_NOMINAIS,na.rm=T))) %>%
+  group_by(DS_GENERO, NR_IDADE_DATA_POSSE) %>%
+  mutate(Media_Pct_Votos=mean(Pct_Votos,na.rm=T)) %>%
+  ggplot() +
+  geom_line(aes(x=NR_IDADE_DATA_POSSE, y=Media_Pct_Votos, group=DS_GENERO, colour=DS_GENERO))
+```
+
+12. (a) 
+
+```{r}
+combinado %>% 
+  ggplot() +
+  geom_histogram(aes(x=, y=))
+
+combinado %>% group_by(SG_PARTIDO.x) %>%
+  summarize(Total_Votos=sum(QT_VOTOS_NOMINAIS,na.rm=T)) %>%
+  ggplot() +
+  geom_col(aes(x=SG_PARTIDO.x, y=Total_Votos))
+
+combinado %>% group_by(DS_GRAU_INSTRUCAO) %>%
+  summarize(Total_Votos=sum(QT_VOTOS_NOMINAIS,na.rm=T)) %>%
+  ggplot() +
+  geom_col(aes(x=DS_GRAU_INSTRUCAO, y=Total_Votos))
+
+DS_COR_RACA
+DS_OCUPACAO
+```
+

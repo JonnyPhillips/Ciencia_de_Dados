@@ -848,7 +848,7 @@ Vamos adicionar uma escala personalizada agora, usando cores de [Color Brewer](h
 ```{r}
 flights %>% sample_n(1000) %>% ggplot() + 
   geom_point(aes(x = distance, y = air_time, color=dep_time)) +
-  scale_color_gradient(low="#f7fcfd", high="#238b45" )
+  scale_color_gradient(low="#f7fcfd", high="#238b45")
 ```
 
 Entre os dois cores extremos, o R preenche uma escala contínua automaticamente. Com variáveis discretas, é mais difícil porque temos que especificar um cor distinto para cada categoria possível. Uma alternativa é aproveitar de uma paleta pre-definida por especialistas. Por exemplo, para definir cores dos pontos para cada aeroporto podemos usar a paleta 'Set2' (encontrada na opção 'qualitative' de [Color Brewer](http://colorbrewer2.org)): 
