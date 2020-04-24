@@ -32,11 +32,11 @@ Siga as instruções abaixo. Documente *todos* os seus passos em um script. Come
 
 (b) Na aba de 'candidatos', faça o download do arquivo "Candidatos" para 2016 e descompacte-o. 
 
-(c) Dos arquivos descompactados, abre os dois bancos para Roraima (RR) em R com os parâmetros apropriados (note que o formato é um pouco diferente dos arquivos no desafio 1). Para detalhes sober as colunas, veja o parte apropriado do documento leiame.pdf nos arquivos.
+(c) Dos arquivos descompactados, abre os dois bancos para Roraima (RR) em R com os parâmetros apropriados (note que o formato é um pouco diferente dos arquivos no desafio 1). Para detalhes sobre as colunas, veja o parte apropriado do documento leiame.pdf nos arquivos.
 
 ```{r}
 library(tidyverse)
-resultados <- read_delim("C:/Users/Jonny/Downloads/votacao_candidato_munzona_2016 (1)/votacao_candidato_munzona_2016_RR.csv",
+resultados <- read_delim("C:/Users/Jonny/Downloads/votacao_candidato_munzona_2016/votacao_candidato_munzona_2016_RR.csv",
                    delim=";",
                    locale=locale(encoding="latin1"))
 
@@ -47,27 +47,49 @@ candidatos <- read_delim("C:/Users/Jonny/Downloads/consulta_cand_2016/consulta_c
 
 2. Queremos analisar os resultados eleitorais baseado nas características dos candidatos, então precisamos juntar os dois bancos. 
 
-(a) Identifique a unidade de análise de cada banco de dados, e lista as variáveis que compõem os identificadores comuns para realizar a junção dos dois bancos. (Cuidado: o número do candidato (`NR_CANDIDATO`) não é único para cada candidato, use uma outra variável).
+(a) Identifique a unidade de análise de cada banco de dados - o que repesenta cada linha?
 
-(b) Use `anti_join` para identificador se há candidatos faltando no banco de dados de resultados. (Bonus: Investigando as colunas do resultado de `anti_join`, pode identificar porque eles não existem no banco de resultados?).
+(b) Liste as variáveis que compõem os identificadores comuns para realizar a junção dos dois bancos. Existe mais de uma possibilidade. (Cuidado: o número do candidato (`NR_CANDIDATO`) não é único para cada candidato).
+
+```{r}
+candidatos %>% distinct(SQ_CANDIDATO)
+candidatos %>% distinct(NR_CANDIDATO, SG_UE, NR_TURNO, CD_CARGO,
+                        DS_SITUACAO_CANDIDATURA)
+
+candidatos %>% group_by(NR_CANDIDATO, SG_UE, NR_TURNO, CD_CARGO,
+                        DS_SITUACAO_CANDIDATURA) %>% tally() %>%
+  filter(n>1)
+  
+candidatos %>% filter(NR_CANDIDATO==45 & SG_UE=="03093" & NR_TURNO==1 & CD_CARGO==12)
+
+#candidatos %>% distinct(NR_CANDIDATO, SG_UE, NR_TURNO, CD_CARGO, SQ_CANDIDATO) %>%
+#  group_by(SQ_CANDIDATO) %>% tally() %>% filter(n>1)
+```
+
+(c) Use `anti_join` para identificador se há candidatos faltando no banco de dados de resultados. (Bonus: Investigando as colunas do resultado de `anti_join`, pode identificar porque eles não existem no banco de resultados?).
 
 ```{r}
 candidatos %>% anti_join(resultados, by=c("SQ_CANDIDATO","CD_CARGO","NR_TURNO"))
-
-resultados %>% distinct(SQ_CANDIDATO, CD_CARGO, NR_TURNO)
-
-candidatos %>% distinct(SQ_CANDIDATO, CD_CARGO, NR_TURNO)
-
-candidatos %>% distinct(SQ_CANDIDATO)
-
-candidatos %>% group_by(SQ_CANDIDATO) %>% tally() %>% arrange(-n)
-
 ```
 
-(c) Execute um join do tipo apropriado para uma análise comparando as caractéristicas dos candidatos e os resultados eleitorais. 
+(d) Não precisamos trabalhar com todas as colunas para a análise então para limpar os dados e deixar mais fácil entender-los, selecionar apenas as próximas colunas:
 
 ```{r}
-combinado <- resultados %>% left_join(candidatos, by=c("SQ_CANDIDATO","CD_CARGO","NR_TURNO"))
+candidatos <- candidatos %>% select(NR_TURNO, NM_UE, DS_CARGO, SQ_CANDIDATO, 
+                                    NM_CANDIDATO, SG_PARTIDO, NR_IDADE_DATA_POSSE, 
+                                    DS_GENERO, DS_GRAU_INSTRUCAO, DS_COR_RACA)
+
+resultados <- resultados %>% select(NR_TURNO, NM_MUNICIPIO, DS_CARGO,
+                                    SQ_CANDIDATO, DS_SIT_TOT_TURNO, QT_VOTOS_NOMINAIS)
+```
+
+
+(e) Execute um join do tipo apropriado para uma análise comparando as caractéristicas dos candidatos e os resultados eleitorais. 
+
+```{r}
+combinado <- resultados %>% left_join(candidatos, by=c("SQ_CANDIDATO","DS_CARGO","NR_TURNO"))
+
+combinado <- resultados %>% left_join(candidatos, by=c("SQ_CANDIDATO"))
 
 #candidatos %>% left_join(resultados, by=c("SQ_CANDIDATO","CD_CARGO","NR_TURNO")) #Includes useless candidates
 ```

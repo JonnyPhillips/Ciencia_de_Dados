@@ -37,23 +37,23 @@ library("kableExtra")
 
 # Unidades de Análise
 
-A maioria de projetos exigem a combinação de dados de fontes diversos. É assim que criamos a nossa própria contribuição para a pesquisa. Por exemplo, para estudar o efeito de um programa de governo sobre a votação, preciseramos pelo menos dois bancos de dados, um com os dados da localização do programa e outro sobre os resultados eleitorais. Como podemos juntar estes dois bancos para facilitar a nossa análise?
+A maioria de projetos exigem a combinação de dados de fontes diversas. É assim que criamos a nossa própria contribuição para a pesquisa. Por exemplo, para estudar o efeito de um programa de governo sobre a votação, preciseramos de pelo menos dois bancos de dados, um com os dados da localização do programa e outro sobre os resultados eleitorais. Como podemos juntar estes dois bancos para facilitar a nossa análise?
 
 Primeiro, temos que entender os dois bancos: (i) qual é a unidade de análise de cada observaçao? e (ii) quais são as variáveis chaves que identificam unicamente cada observação (evitando duplicações)? 
 
 No exemplo acima, pode ser que o programa do governo foi executado em alguns municípios e não em outros, então o nosso banco varia por município, identificado unicamente com a variável do código municipal do IBGE. Por outro lado, imagine que temos os dados eleitorais apenas dos prefeitos e queremos avaliar a margem de vitória, então a unidade de análise é cada município, identificado pelo código municipal do IBGE.
 
-Quando os nossos dois bancos têm a mesma unidade de análise e as mesmas variáveis, a junção dos bancos é mais ou menos fácil. Usamos as variáveis de identificador único e identical para adicionar as colunas de um banco para o outro.
+Quando os nossos dois bancos têm a mesma unidade de análise e as mesmas variáveis, a junção dos bancos é mais ou menos fácil. Usamos as variáveis de identificador único e identico para adicionar as colunas de um banco para o outro.
 
 ![](Merge_Eg_1.png)
 
-Imagine agora que o banco de dados do programa do governo varia por estado, então ele tem apenas 27 observações, identificado por sigla do estado ("AC" etc.). Neste caso em que a unidade de análise e as variáveis variam entre bancos, como é possível juntar os bancos? Primeiro, temos que decidir a unidade de análise desejada do banco de dados final - por estado ou por município? Se quissemos uma tabela por estado, temos que *agregar* os dados eleitorais do nível municipal para o nível estadual com as ferramentas já conhecidas (`%>% group_by() %>% summarize()`).
+Imagine agora que o banco de dados do programa do governo varia por estado, então ele tem apenas 27 observações, identificadas por sigla do estado ("AC" etc.). Neste caso em que a unidade de análise e as variáveis variam entre bancos, como é possível juntar os bancos? Primeiro, temos que decidir a unidade de análise desejada do banco de dados final - por estado ou por município? Se quissemos uma tabela por estado, temos que *agregar* os dados eleitorais do nível municipal para o nível estadual com as ferramentas já conhecidas (`%>% group_by() %>% summarize()`).
 
 ![](Merge_Eg_2.png)
 
 Se quissemos uma tabela final por município, não precisa muita preparação mas temos que reconhecer que juntando os dois bancos vai *duplicar* os dados estaduais para cada município no estado. Por exemplo, a presença do programa indicado por código '1' em "RS" será reptido para cada município de RS. Isto faz sentido neste contexto, mas é crucial entender o que está acontecendo.
 
-Porém, existe uma outra dificuldade com qualquer uma das duas junções - o identificador único de estados ("RS") não é ígual ao identificador único dos municípios ("4314902"). A informação é presente se conhecemos bem os nossos dados, mas o trabalho para tornar os identificadores identicais é o nosso: Temos que separar os primeiros dois dígitos que indicam o estado, e depois mapear os dígitos para a sigla. O resutlado será uma nova variável, a sigla do estado, para cada município que é compatível com o outro banco de dados. Apenas no final dessa preparação é possível juntar os dois bancos. 
+Porém, existe uma outra dificuldade com qualquer uma das duas junções - o identificador único de estados ("RS") não é ígual ao identificador único dos municípios ("4314902"). A informação do estado está presente no código de município, e podemos criar o identificador se conhecemos bem os nossos dados, mas o trabalho para tornar os identificadores identicos é o nosso: Temos que separar os primeiros dois dígitos que indicam o estado, e depois mapear os dígitos para a sigla. O resutlado será uma nova variável, a sigla do estado, para cada município que é compatível com o outro banco de dados. Apenas no final dessa preparação é possível juntar os dois bancos. 
 
 ![](Merge_Eg_3.png)
 
@@ -64,18 +64,19 @@ Até agora, só discutimos os passos preparatórios:
 (2) Agregar os bancos de dados para a unidade de análise desejado se necessário,
 (3) Transformar as variáveis para que temos um identificador comum entre os banco de dados.
 
-O próximo passo é juntar os dois bancos. Temos que definir três argumentos: Os nomes dos dois bancos de dados, e o conjunto de variáveis (o 'chave') que usaremos para realizar a junção. Sempre começamos com o banco de dados que já tem a unidade de análise desejado no banco de dados final, e encaminhamos este banco para a função `left_join()`. Dentro de `left_join` especificamos o segundo banco de dados, e as variáveis chave (num vetor se for mais que uma variável).
+O próximo passo é juntar os dois bancos. Temos que definir três argumentos: Os nomes dos dois bancos de dados, e o conjunto de variáveis (a 'chave') que usaremos para realizar a junção. Sempre começamos com o banco de dados que já tem a unidade de análise desejado no banco de dados final, e encaminhamos este banco para a função `left_join()`. Dentro de `left_join` especificamos o segundo banco de dados, e as variáveis chave (num vetor se for mais que uma variável).
 
 ```{r, eval=F}
 Banco_1 %>% left_join(Banco_2, c("Identificador Comum"))
 ```
 
-Para praticar, vamos abrir um outro banco do conjunto de dados no pacote `nycflights13`, sobre as aviões mesmas, `planes`. A unidade de `flights` é um voo (uma partida de Nova Iorque) e à unidade de `planes` é uma avião, repetida várias vezes em `flights`. A variável de identificar comum é `tailnum`. 
+Para praticar, vamos abrir um outro banco do conjunto de dados no pacote `nycflights13`, sobre os aviões mesmo, `planes`. A unidade de `flights` é um voo (uma partida de Nova Iorque) e à unidade de `planes` é um avião, repetida várias vezes em `flights`. A variável de identificar comum é `tailnum`. 
 
-Qual unidade de análise queremos na tabela final? Uma opção é por avião, resumindo pore exemplo o número de viagens de cada avião, que exige uma agregação de banco `flights` por `tailnum`:
+Qual unidade de análise queremos na tabela final? Uma opção é por avião, resumindo por exemplo o número de viagens de cada avião, que exige uma agregação de banco `flights` por `tailnum`:
 
 ```{r}
-flights_por_aviao <- flights %>% group_by(tailnum) %>%
+flights_por_aviao <- flights %>% 
+  group_by(tailnum) %>%
   tally()
 
 planes_com_num_viagens <- planes %>% left_join(flights_por_aviao, by=c("tailnum"))
@@ -110,7 +111,7 @@ flights_com_planes %>%
   paged_table()
 ```
 
-Observe que geramos um problema pequeno quando juntamos os dos bancos: ambos os bancos contém uma variável se chama 'year'. Dado que as variáveis têm que ter nomes únicos, o R renomeou as colunas 'year.x' e 'year.y'. Isto é um pouco chato porque realmente não distingue informação diferente: o ano da viagem (year.x) e o ano da fabricação do voo (year.y). É sempre melhor renomear as variáveis *antes* da junção para evitar conflitos.
+Observe que geramos um problema pequeno quando juntamos os dos bancos: ambos os bancos contém uma variável se chama 'year'. Dado que as variáveis têm que ter nomes únicos, o R renomeou as colunas 'year.x' e 'year.y'. Isto é um pouco chato porque realmente não distingue informação diferente: o ano da viagem (year.x) e o ano da fabricação do voo (year.y). É sempre melhor renomear as variáveis *antes* da junção para evitar conflitos, ou selecionar apenas as variáveis que você quer transportar de um banco de dados para o outro.
 
 ```{r}
 planes <- planes %>%
@@ -129,7 +130,7 @@ flights_com_planes %>%
   geom_col(aes(x=year_fabricação, y=n))
 ```
 
-Espero que você não estava num voo da década 50...
+Espero que você não estava num voo com avião da década 50...
 
 Até agora, assumimos que os dois bancos contém dados completos: que cada avião que existe no banco de dados `flights` existe no banco de dados `planes` (não estamos faltando dados), e que cada avião no banco de dados `planes` existe no banco de dados `flights` (não temos aviões adicionais que não voaram). Isso é importante para verificar se a junção deu certo.
 
@@ -159,11 +160,63 @@ planes %>% anti_join(flights, by=c("tailnum"))  %>%
 
 Boa notícia: todas as aviões de `planes` são presentes em `flights`. 
 
-## Juntando Bancos por Múltiplas Variáveis
+<div class = "green">
+# Exercício 1: Juntando dois bancos
+
+1. Crie dois tibbles pequenos (com a função `tibble()`) como eles abaixo e juntar eles pela coluna `ID`. 
+
+```{r, echo=F}
+t1 <- tibble(ID=c("A001","A002","A003"),
+             Valor=c(10,20,50)) %>% paged_table()
+t2 <- tibble(ID=c("A001","A002","A003"),
+             População=c(3000, 2500, 6000)) %>% paged_table()
+t1
+t2
+```
+
+```{r, echo=F, eval=F}
+t_combined <- t1 %>% left_join(t2, by="ID")
+```
+
+2. Execute um join dos bancos de dados `flights` e `planes` para apenas os voos de `carrier` United (UA) no dia 16 de setembro de 2013. Qual é o modelo `model` mais comum destes voos?
+
+```{r, echo=F, eval=F}
+flights_specific <- flights %>% 
+  filter(month==9 & day==16 & year==2013 & carrier=="UA")
+
+flights_specific_planes <- flights_specific %>% 
+  left_join(planes, by="tailnum")
+
+flights_specific_planes %>% group_by(model) %>% 
+  tally() %>% 
+  top_n(1, n)
+```
+
+3. Quantos assentos (`seats`) totais foram instalados nos voos de JFK para Atlanta (ATL) em cada mês?
+
+```{r, echo=F, eval=F}
+flights %>% left_join(planes, by="tailnum") %>%
+  filter(origin=="JFK" & dest=="ATL") %>%
+  group_by(month) %>%
+  summarize(total_assentos=sum(seats, na.rm=T))
+```
+
+4. Queremos um resumo do número de voos no ano de 2013 por companhia aérea. Mas o nosso banco de `flights` não contém o nome oficial das companhias. Execute um join entre o banco de dados `flights` e `airlines` para criar uma tabela resumida e clara.
+
+```{r, echo=F, eval=F}
+flights %>% group_by(carrier) %>% 
+  tally() %>%
+  left_join(airlines, by="carrier") %>%
+  select(name, n)
+```
+
+</div>
+
+# Juntando Bancos por Múltiplas Variáveis
 
 Considere um outro banco de dados no `nycflights13`, `weather`, que contém as condições climáticas em cada aeroporto por hora. Como sabemos o tempo para cada voo? Não é suficiente juntar por 'origin', obviamente porque o tempo varia por dia e hora e queremos as condições relevantes na hora da partida do voo. Então é necessário juntar com as variáveis que identificam a unidade de análise comum entre os dois bancos: localização e hora. 
 
-Localização é fácil: órigin'. Hora é mais complexo: para definir o momento exato temos que considerar 'year', 'month', 'day' e 'hour'. Idealmente queremos incluir 'minute' também que existe no banco `flights`,  mas está faltando no banco de `weather`. Para incluir todas essas variáveis como identificadores comuns, é só incluir eles no argumento do `left_join`:
+Localização é fácil: 'origin'. Hora é mais complexo: para definir o momento exato temos que considerar 'year', 'month', 'day' e 'hour'. Idealmente queremos incluir 'minute' também que existe no banco `flights`,  mas está faltando no banco de `weather`. Para incluir todas essas variáveis como identificadores comuns, é só incluir eles no argumento do `left_join`:
 
 ```{r}
 flights_weather <- flights %>% left_join(weather, c("origin", "year", "month", "day", "hour"))
@@ -225,15 +278,15 @@ flights %>% left_join(weather, c("year", "month", "day", "hour")) %>%
 ```
 
 
-## Bancos e Dados Faltandos (`right_join`, `inner_join`, `outer_join`, `anti_join`)
+# Bancos e Dados Faltantes (`right_join`, `inner_join`, `outer_join`, `anti_join`)
 
 Que tal se quisemos um banco de dados mais 'limpo' no resultado da junção dos dois tibbles, tirando as observações que não tem um par no outro banco? As vezes é útil e eficiente usar a função alternative `inner_join()`. Ela funciona identicalmente que `left_join()` exceto que o resultado falta as observações para quais o identificador comum não existe nos dois bancos:
 
 ```{r, eval=F}
-flights %>% inner_join(planes, by=c("tailnum")) 
+flights %>% inner_join(planes, by=c("tailnum"))
 ```
 
-Quantas observações existem no resultado? 284,170, a diferença entre o número de observações em `flights` (336,776) e os voos sem `tailnum` em `planes`, o resultado de `anti_join` (52,606); pode verificar. 
+Quantas observações existem no resultado? `r nrow(flights %>% inner_join(planes, by=c("tailnum")))`, a diferença entre o número de observações em `flights` (`r nrow(flights)`) e os voos sem `tailnum` em `planes`, o resultado de `anti_join` (`r nrow(flights %>% anti_join(planes, by=c("tailnum")))`); pode verificar. 
 
 Frequentemente, usando um `inner_join` gera um viés de seleção - não sabemos muito sobre as aviões faltandas, mas não podemos ignorar eles para uma análise quantitativa. Então sempre recomendamos um `left_join()` como a ferramenta padrão.
 
@@ -241,11 +294,18 @@ Para mostrar situações mais complexas, vamos trabalhar com um outro banco de d
 
 O identificador único do tibble `airports` é `faa`, que usa o mesmo código official que `dest`, que é ótimo. Porém, os nomes de colunas são diferentes nos dois bancos: `dest` e `faa`. Como resolvemos a diferença? Há várias possibilidades, mas sugerimos renomear a coluna de um banco antes de executar a junção para evitar problemas:
 
-```{r}
+```{r, eval=F}
 airports <- airports %>% 
   rename(dest=faa)
 
 flights %>% left_join(airports, by=c("dest"))
+```
+
+```{r, echo=F}
+airports <- airports %>% 
+  rename(dest=faa)
+
+flights %>% left_join(airports, by=c("dest")) %>% paged_table()
 ```
 
 Outro ponto é que adicionamos muitas novas colunas de `airports` ao `flights` que pode poluir a nossa análise/apresentação. As vezes é melhor selecionar as colunas no segundo banco antes de realizar a junção. Por exemplo, se apenas quisemos o nome completo do aeroporto:
@@ -275,7 +335,7 @@ flights %>% right_join(airports, by=c("dest")) %>%
   paged_table()
 ```
 
-Veja que o número de observações mudou - é menos do banco de dados de `flights`. Também note que o resultado contém muitos `NA` para as variáveis de `flights` - se você passa para as colunas finais na tabela você vai encontrar os dados dos aeroportos. Mas são aeroportos que não foram destinos dos voos da Nova Iorque, por exemple '04G', 'Lansdowne Airport'. Então eles foram preservadas no resultado (por causa de `right_join`) mas sem dados correspondentes de `flights`. Em contraste com o `left_join`, perdemos algumas observações de `flights` que voaram para aeroportos ausentes de banco de dados de `airports`. 
+Veja que o número de observações mudou - é menos do que banco de dados de `flights`. Também note que o resultado contém muitos `NA` para as variáveis de `flights` - se você passa para as colunas finais na tabela você vai encontrar os dados dos aeroportos. Mas são aeroportos que não foram destinos dos voos da Nova Iorque, por exemple '04G', 'Lansdowne Airport'. Então eles foram preservadas no resultado (por causa de `right_join`) mas sem dados correspondentes de `flights`. Em contraste com o `left_join`, perdemos algumas observações de `flights` que voaram para aeroportos ausentes de banco de dados de `airports`. 
 
 Finalmente, é possível realizar um tipo de junção que preserva as observações de *ambos* os bancos de dados. Isto sempre vai gerar o banco de dados maior, pois mantemos todas as observações do primeiro banco de dados, e também todas do segundo banco. A função se chama `full_join()`
 
@@ -298,19 +358,78 @@ tibble(Tipo=c("left_join","right_join","inner_join","outer_join","anti_join"),
   kable_styling(full_width=FALSE)
 ```
 
+<div class = "green">
+# Exercício 2: Joins com Dados Faltantes
+
+1. Crie dois tibbles pequenos (com a função `tibble()`) como eles abaixo e juntar eles pelos identificadores comuns. 
+
+```{r, echo=F}
+t1 <- tibble(ID=c("A001","A001","A002","A003","A003"),
+             Ano=c(2019, 2020, 2020, 2019, 2020),
+             Valor=c(10, 12, 17, 50, 64)) %>% paged_table()
+t2 <- tibble(ID=c("A001","A002","A002","A003"),
+             Ano=c(2019, 2019, 2020, 2019),
+             População=c(3000, 2500, 1900, 6000)) %>% paged_table()
+t1
+t2
+```
+
+```{r, echo=F, eval=F}
+t1 %>% left_join(t2, by=c("ID", "Ano"))
+```
+
+2. Queremos dois banco de dados: 
+
+(a) Um limpo que contém apenas as unidades com dados  completos para valor e população. Use um join apropriado para criar este banco de dados.
+
+(b) Um 'completo' que contém todas as unidades mesmo que não temos dados completos. Use um join apropriado para criar este banco de dados.
+
+```{r, echo=F, eval=F}
+t1 %>% inner_join(t2, by=c("ID", "Ano"))
+t1 %>% full_join(t2, by=c("ID", "Ano"))
+```
+
+3. Usando um join, identifique a precipitatação (`precip`) média no momento de partido dos voos de LGA em cada dia de dezembro.
+
+```{r, echo=F, eval=F}
+flights %>% left_join(weather, by=c("origin", "year", "month", "day", "hour")) %>%
+  filter(month==12 & origin=="LGA") %>%
+  group_by(day) %>%
+  summarize(precip_media=mean(precip, na.rm=T))
+```
+
+4. A visibilidade afeta o número de partidas por hora? 
+
+(a) Usando um join apropriado, gere um banco de dados com a visibilidade em cada hora do ano e o número de voos.
+
+(b) Resumo o seu banco de dados para estimar o número de voos por hora média por valor da variável visibilidade. Mostre os resultados num gráfico de pontos.
+
+gere um gráfico que mostre a correlação entre o número de partidas por hora, e a visibilidade (`visib`). 
+
+```{r, echo=F, eval=F}
+num_voos_per_hora <- flights %>% group_by(year, month, day, hour, origin) %>% tally()
+
+weather %>% left_join(num_voos_per_hora, by=c("origin", "year", "month", "day", "hour")) %>% group_by(visib) %>%
+  summarize(mean_n=mean(n,na.rm=T)) %>%
+  ggplot() +
+  geom_point(aes(x=visib, y=mean_n))
+```
+
+</div>
+
 # Nesting data (`nest`, `unnest`)
 
 Agora vamos mudar tópico e discutir um tópico menos 'essencial' mas bastante intuitivo e pedagógico que deve te ajudar entender e organizar os seus dados. Até agora, vejamos dois jeitos de 'agrupar' dados: (i) com variáveis discretas e o use de `group_by()` para definir o escopo da transformação/resumo de dados, e (ii) em tibbles diferentes (como `flights` e `airports`, usando `left_join` para juntar os dados). 
 
 Existe uma terceira opção que fica no meio do caminho entre os dois: Podemos colocar tibbles separados *dentro* de um tibble 'superior', e identificar cada tibble com uma variável discreta. Um pouco estranho, mas fará muito sentido em breve. O mais fácil é ver um exemplo.
 
-```{r, echo=F}
+```{r, eval=F}
 flights_nested <- flights %>% group_by(origin) %>%
   nest()
 flights_nested
 ```
 
-```{r test, eval=F}
+```{r test, echo=F}
 flights_nested <- flights %>% group_by(origin) %>%
   nest()
 flights_nested %>% paged_table()
@@ -318,7 +437,7 @@ flights_nested %>% paged_table()
 
 A lógica do código é usar a mesma linguagem de agrupamento, `group_by()`, para agrupar por aeroporto de origem, e depois usar a função `nest()` (sem argumentos) para 'colapsar' o resto do tibble *por aeroporto de origem*. Isso gera um tibble novo para cada aeroporto, que fica na linha apropriada e identificada pela coluna `origin` no novo tibble.
 
-Para acessar os dados apenas dw 'EWR' agora, é só filtrar para a coluna e linha apropriada:
+Para acessar os dados apenas dw 'EWR' agora, é só filtrar para a coluna e linha apropriada e vejamos que é uma tabela inteira:
 
 ```{r, eval=F}
 flights_nested %>% filter(origin=="EWR") %>%
@@ -348,14 +467,15 @@ flights_nested <- flights %>% group_by(origin, carrier) %>%
 flights_nested %>% paged_table()
 ```
 
-<br>
- 
-Agora temos um tibble com 35 observações em que a unidade de análise é cada aeroporto-companhia aérea, e a coluna 'data' contém um tibble dos voos de uma companhia aérea de um aeroporto de origem. Para voltar ao tibble original, é só aplicar `unnest()`. 
+--
+
+Agora temos um tibble com 35 observações em que a unidade de análise é cada aeroporto-companhia aérea, e a coluna 'data' contém um tibble dos voos de uma companhia aérea de um aeroporto de origem. Para voltar ao tibble original, é só aplicar `unnest`.
+
 ```{r, eval=F}
 flights_nested %>% unnest()
 ```
 
-Por que o 'nesting' é valioso? Nenhuma operação de programação exige nesting, mas o valor é deixar mais claro a estrutura e conteúdo dos nossos dados. Podemos trabalhar explicitamente com a unidade de análise relevante, e escondir a montanha de dados internais. No futuro vamos aprender como a aplicar funções para cada tibble na coluna de 'data', que facilita também a repetição de funções complexas por grupo.
+Por que o 'nesting' é valioso? Nenhuma operação de programação exige nesting, mas o valor é deixar mais claro a estrutura e conteúdo dos nossos dados. Podemos trabalhar explicitamente com a unidade de análise relevante, e esconder a montanha de dados internos. No futuro vamos aprender como a aplicar funções para cada tibble na coluna de 'data', que facilita também a repetição de funções complexas por grupo.
 
 Mais um exemplo, combinando `nest` com `left_join`, deixando claro a unidade de análise de cada avião, e colapsando as viagens de cada avião na sua própria mini-tibble numa coluna dedicada:
 
@@ -374,3 +494,33 @@ flights %>% group_by(tailnum) %>%
   paged_table()
 ```
 
+
+<div class = "green">
+# Exercício 3: Dados Nested
+
+1. Crie um tibble nested, com a unidade de análise cada origem-destino par, e a coluna de dados todos os detalhes dos voos entre aquele origem e destino.
+
+```{r, echo=F, eval=F}
+flights %>% group_by(origin, dest) %>% nest()
+```
+
+2. Crie um tibble nested por aeroporto de origem, hora, dia e mês. Use um join para juntar os dados de `weather`.
+
+```{r, echo=F, eval=F}
+flights %>% group_by(origin, month, day, hour) %>% 
+  nest() %>%
+  left_join(weather, by=c("origin", "month", "day", "hour"))
+```
+
+</div>
+
+<br>
+
+<div class = "orange">
+# Leitura para Tutorial 8
+
+Antes da próxima aula, por favor leia [R 4 Data Science, Capítulo ](https://r4ds.had.co.nz)
+
+</div>
+
+<br>
