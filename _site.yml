@@ -24,7 +24,7 @@ navbar:
           - text: "6. Visualizacao de Dados"
             href: Graficos.html
           - text: "7. Juntando Bancos de Dados"
-            href: Juntando_Bancos_v2.html
+            href: Juntando_Bancos.html
     - text: "Desafios"
       menu: 
           - text: "Desafio 1"
