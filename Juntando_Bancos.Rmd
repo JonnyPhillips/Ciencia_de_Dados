@@ -324,7 +324,7 @@ flights %>% left_join(weather, c("year", "month", "day", "hour")) %>%
 
 A conclusão é simples: sempre inclua todas as variáveis que são identificadores comuns nos dois bancos de dados. Se a `left_join()` aumenta o número de linhas entre o seu primeiro banco e o resultado, isto significa que existe mais de uma observação no segundo banco com os mesmos valores de variáveis identificadores. É possível que você deseja este resultado, mais incomum, então presta atenção. 
 
-# Bancos e Dados Faltantes (`right_join`, `inner_join`, `outer_join`, `anti_join`)
+# Bancos e Dados Faltantes (`right_join`, `inner_join`, `full_join`, `anti_join`)
 
 A característica mais importante da função `left_join()` é que ela tenta ao máximo possível para preservar a unidade de análise e número de linhas do primeiro banco (o banco que encaminhamos antes do pipe). Assim, não podemos 'perder' observações por causa da junção, e se especificamos os identificadores comuns corretamente, não devemos acrescentar observações também.
 
@@ -411,7 +411,7 @@ Quantas observações agora? 338,133, acima de 336,776 no `flights` pela quantid
 Resumindo, existem cinco tipos de joins que produzem resultados differentes:
 
 ```{r, echo=F}
-tibble(Tipo=c("left_join","right_join","inner_join","outer_join","anti_join"),
+tibble(Tipo=c("left_join","right_join","inner_join","full_join","anti_join"),
        Resultado=c("Preservando todas as observações de Banco 1 com as colunas adicionais de Banco 2",
                    "Preservando todas as observações de Banco 2 com as colunas adicionais de Banco 1",
                    "Preservando apenas as observações presentes em ambos os Bancos",
