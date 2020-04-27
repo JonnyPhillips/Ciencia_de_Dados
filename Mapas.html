@@ -1325,7 +1325,7 @@ Desafios
 <div class="nav-dropdown-content">
 <a href="Desafios/Desafio_1.html">Desafio 1</a>
 <a href="Desafios/Desafio_2.html">Desafio 2</a>
-<a href="Desafios/Desafio_3_v3.html">Desafio 3</a>
+<a href="Desafios/Desafio_3_v4.html">Desafio 3</a>
 <a href="desafio_4.html">Desafio 4</a>
 <a href="desafio_5.html">Desafio 5</a>
 </div>
@@ -1443,7 +1443,7 @@ airports_test %&gt;% ggplot() +
 <p>A beleza de trabalhar com dados espaciais em nosso formato padrão de um tibble é que podemos aplicar todas as nossas ferramentas normais para transformar e preparar os dados. Por exemplo, vamos limitar o escopo dos dados para os fusos horários dos Estados Unidos continental (e tirando alguns aeroportos específicos mal-codificados).</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-airports_test &lt;- airports_test %&gt;% filter(tz&lt;0 &amp; !faa %in% c(&quot;EEN&quot;, &quot;SYA&quot;)) 
+airports_test &lt;- airports_test %&gt;% filter(tz&lt;0 &amp; !(faa %in% c(&quot;EEN&quot;, &quot;SYA&quot;)))
 
 airports_test %&gt;% 
   ggplot() +
@@ -1554,7 +1554,7 @@ Units: [m]
 </div>
 <p>O resultado é um ‘matriz’ (um tibble com apenas números), com a unidade da mensuração especificada no início (‘Units: [m]’). Como lemos o resultado? Entre aeroporto um e dois há uma distância de 555.409,9 metros, 555km. (Se quiser, pode transformer o resultado em um tibble com <code>...%&gt;% as_tibble()</code>).</p>
 <h1 id="trabalhando-com-polígonos">Trabalhando com Polígonos</h1>
-<p>Áreas administrativas são geralmente representadas como polígonos em mapas. Em geral, obtemos esses polígonos como ‘shapefiles’ produzidos por uma agência oficial. Podemos abrir qualquer tipo de shapefile (pontos, linhas ou polígonos) com a função <em>st_read</em>. Vamos abrir um shapefile (simplificado) dos estados dos Estados Unidos, do link <a href="states_21basic/states.shp">aqui</a>. <strong>FIX LINK</strong></p>
+<p>Áreas administrativas são geralmente representadas como polígonos em mapas. Em geral, obtemos esses polígonos como ‘shapefiles’ produzidos por uma agência oficial. Podemos abrir qualquer tipo de shapefile (pontos, linhas ou polígonos) com a função <em>st_read</em>. Vamos abrir um shapefile (simplificado) dos estados dos Estados Unidos, do link <a href="https://www.arcgis.com/home/item.html?id=f7f805eb65eb4ab787a0a3e1116ca7e5">aqui</a>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 states &lt;- st_read(&quot;states.shp&quot;)</code></pre>

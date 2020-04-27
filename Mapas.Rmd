@@ -31,6 +31,7 @@ library("tidyverse")
 library("rmarkdown")
 library("knitr")
 library("kableExtra")
+filter <- dplyr::filter
 ```
 
 # Dados Espaciais
@@ -87,8 +88,8 @@ airports_test %>% ggplot() +
 
 A beleza de trabalhar com dados espaciais em nosso formato padrão de um tibble é que podemos aplicar todas as nossas ferramentas normais para transformar e preparar os dados. Por exemplo, vamos limitar o escopo dos dados para os fusos horários dos Estados Unidos continental (e tirando alguns aeroportos específicos mal-codificados). 
 
-```{r}
-airports_test <- airports_test %>% filter(tz<0 & !faa %in% c("EEN", "SYA")) 
+```{r, eval=F}
+airports_test <- airports_test %>% filter(tz<0 & !(faa %in% c("EEN", "SYA")))
 
 airports_test %>% 
   ggplot() +
@@ -112,7 +113,7 @@ Então deveríamos ter gerado o banco espacial de `airports` especificando o CRS
 ```{r}
 airports <- airports %>% st_as_sf(coords=c("lon","lat"), 
                                   crs=4326) %>% 
-  filter(tz<0 & !faa %in% c("EEN", "SYA")) 
+  filter(tz<0 & !(faa %in% c("EEN", "SYA")))
 ```
 
 Por que '4326'? Idealmente, devemos confirmar com o fornecedor dos dados o CRS em que eles foram salvos. Aqui, como o longitude e latitude parece que eles estão em graus (entre -180 e 180) é provável que devemos usar o sistema "WGS84" (um sistema de coordenadas geográficas (não projetadas)). Um atalho para especificar o WGS84 é usar o numero _4326_ no argumento 'crs'. Para outros atalhos para sistemas de coordenados que pode usar com dados salvados em outros sistemas de coordenados, pode aproveitar do site [http://epsg.io/](http://epsg.io/).
@@ -171,8 +172,7 @@ O resultado é um 'matriz' (um tibble com apenas números), com a unidade da men
 
 # Trabalhando com Polígonos
 
-Áreas administrativas são geralmente representadas como polígonos em mapas. Em geral, obtemos esses polígonos como 'shapefiles' produzidos por uma agência oficial. Podemos abrir qualquer tipo de shapefile (pontos, linhas ou polígonos) com a função _st_read_. Vamos abrir um shapefile (simplificado) dos estados dos Estados Unidos, do link [aqui](states_21basic/states.shp).
-**FIX LINK**
+Áreas administrativas são geralmente representadas como polígonos em mapas. Em geral, obtemos esses polígonos como 'shapefiles' produzidos por uma agência oficial. Podemos abrir qualquer tipo de shapefile (pontos, linhas ou polígonos) com a função _st_read_. Vamos abrir um shapefile (simplificado) dos estados dos Estados Unidos, do link [aqui](https://www.arcgis.com/home/item.html?id=f7f805eb65eb4ab787a0a3e1116ca7e5).
 
 ```{r, eval=F, warning=F, message=F}
 states <- st_read("states.shp")

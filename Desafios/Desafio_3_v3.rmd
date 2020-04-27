@@ -66,7 +66,7 @@ resultados %>% distinct(SQ_CANDIDATO, CD_MUNICIPIO, NR_ZONA, DS_CARGO, NR_TURNO)
 (d) Use `anti_join` para identificador se há resultados que faltam detalhes do seu candidato no banco de dados de candidatos. 
 
 ```{r}
-resultados %>% anti_join(candidatos, by=c("SQ_CANDIDATO"))
+resultados %>% anti_join(candidatos, by="SQ_CANDIDATO")
 ```
 
 (e) Use `anti_join` para identificador se há candidatos faltando no banco de dados de resultados. (Bonus: Investigando as colunas do resultado de `anti_join`, você pode identificar porque eles não existem no banco de resultados?).
