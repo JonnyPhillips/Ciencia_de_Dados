@@ -206,24 +206,32 @@ Boa notícia: todas as aviões de `planes` são presentes em `flights`.
 <div class = "green">
 # Exercício 1: Juntando dois bancos
 
+```{r codefolder1, echo=FALSE, results='asis'}
+codefolder::distill(init = "show")
+```
+
 1. Crie dois tibbles pequenos (com a função `tibble()`) como eles abaixo e juntar eles pela coluna `ID`. 
 
-```{r, echo=F}
+```{r, echo=T}
 t1 <- tibble(ID=c("A001","A002","A003"),
              Valor=c(10,20,50)) %>% paged_table()
 t2 <- tibble(ID=c("A001","A002","A003"),
              População=c(3000, 2500, 6000)) %>% paged_table()
+
+```
+
+```{r, echo=F}
 t1
 t2
 ```
 
-```{r, echo=F, eval=F}
+```{r, echo=T}
 t_combined <- t1 %>% left_join(t2, by="ID")
 ```
 
 2. Execute um join dos bancos de dados `flights` e `planes` para apenas os voos de `carrier` United (UA) no dia 16 de setembro de 2013. Qual é o modelo (`model`) de avião mais comum destes voos?
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F}
 flights_specific <- flights %>% 
   filter(month==9 & day==16 & year==2013 & carrier=="UA")
 
@@ -237,7 +245,7 @@ flights_specific_planes %>% group_by(model) %>%
 
 3. Quantos assentos (`seats`) totais foram instalados nos voos de JFK para Atlanta (ATL) em cada mês?
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F}
 flights %>% left_join(planes, by="tailnum") %>%
   filter(origin=="JFK" & dest=="ATL") %>%
   group_by(month) %>%
@@ -246,7 +254,7 @@ flights %>% left_join(planes, by="tailnum") %>%
 
 4. Queremos um resumo do número de voos no ano de 2013 por companhia aérea. Mas o nosso banco de `flights` não contém o nome oficial das companhias. Execute um join entre o banco de dados `flights` e `airlines` para criar uma tabela resumida e clara.
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F}
 flights %>% group_by(carrier) %>% 
   tally() %>%
   left_join(airlines, by="carrier") %>%
@@ -424,20 +432,29 @@ tibble(Tipo=c("left_join","right_join","inner_join","full_join","anti_join"),
 <div class = "green">
 # Exercício 2: Joins com Dados Faltantes
 
+```{r codefolder2, echo=FALSE, results='asis'}
+codefolder::distill(init = "show")
+```
+
 1. Crie dois tibbles pequenos (com a função `tibble()`) como eles abaixo e juntar eles pelos identificadores comuns usando `left_join()`. 
 
-```{r, echo=F}
+```{r, echo=T}
 t1 <- tibble(ID=c("A001","A001","A002","A003","A003"),
              Ano=c(2019, 2020, 2020, 2019, 2020),
              Valor=c(10, 12, 17, 50, 64))
 t2 <- tibble(ID=c("A001","A002","A002","A003"),
              Ano=c(2019, 2019, 2020, 2019),
              População=c(3000, 2500, 1900, 6000))
-t1 %>% paged_table()
-t2 %>% paged_table()
 ```
 
-```{r, echo=F, eval=F}
+```{r, echo=F}
+t1 %>% paged_table()
+t2 %>% paged_table()
+
+```
+
+
+```{r, echo=T, eval=F}
 t1 %>% left_join(t2, by=c("ID", "Ano"))
 ```
 
@@ -445,16 +462,19 @@ t1 %>% left_join(t2, by=c("ID", "Ano"))
 
 (a) Um limpo que contém apenas as unidades com dados completos para valor e população. Use um join apropriado para criar este banco de dados.
 
+```{r, echo=T, eval=F}
+t1 %>% inner_join(t2, by=c("ID", "Ano"))
+```
+
 (b) Um 'completo' que contém todas as unidades mesmo que não temos dados completos. Use um join apropriado para criar este banco de dados.
 
-```{r, echo=F, eval=F}
-t1 %>% inner_join(t2, by=c("ID", "Ano"))
+```{r, echo=T, eval=F}
 t1 %>% full_join(t2, by=c("ID", "Ano"))
 ```
 
 3. (a) Usando um join, identifique a precipitatação (`precip`) média no momento de partido dos voos de LGA em cada dia de dezembro.
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F}
 flights %>% left_join(weather, by=c("origin", "year", "month", "day", "hour")) %>%
   filter(month==12 & origin=="LGA") %>%
   group_by(day) %>%
@@ -463,7 +483,7 @@ flights %>% left_join(weather, by=c("origin", "year", "month", "day", "hour")) %
 
 (b) Para quantos voos em cada dia de dezembro em LGA faltamos dados de tempo?
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F}
 flights %>% filter(month==12 & origin=="LGA") %>%
 anti_join(weather, by=c("origin", "year", "month", "day", "hour")) %>% 
   group_by(day) %>%
@@ -472,7 +492,7 @@ anti_join(weather, by=c("origin", "year", "month", "day", "hour")) %>%
 
 (c) Para quantos horas em cada dia de dezembro em LGA temos dados sobre o tempo mas não temos nenhum voo?
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F}
 weather %>% filter(month==12 & origin=="LGA") %>%
 anti_join(flights, by=c("origin", "year", "month", "day", "hour"))%>% 
   group_by(day) %>%
@@ -483,7 +503,7 @@ anti_join(flights, by=c("origin", "year", "month", "day", "hour"))%>%
 
 (a) Usando um join apropriado, gere um banco de dados com a visibilidade em cada hora do ano e o número de voos que decolaram nesta hora.
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F}
 num_voos_per_hora <- flights %>% group_by(year, month, day, hour, origin) %>% tally()
 
 weather_num_voos_per_hora <- weather %>% left_join(num_voos_per_hora, 
@@ -493,7 +513,7 @@ weather_num_voos_per_hora <- weather %>% left_join(num_voos_per_hora,
 
 (b) Resumo o seu banco de dados para estimar a média do número de voos por hora por valor da variável visibilidade. Mostre os resultados num gráfico de pontos.
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F}
 weather_num_voos_per_hora %>% 
   group_by(visib) %>%
   summarize(mean_n=mean(n,na.rm=T)) %>%
@@ -583,15 +603,19 @@ flights %>% group_by(tailnum) %>%
 <div class = "green">
 # Exercício 3: Dados Nested
 
+```{r codefolder3, echo=FALSE, results='asis'}
+codefolder::distill(init = "show")
+```
+
 1. Crie um tibble nested, com a unidade de análise cada origem-destino par, e a coluna de `data` todos os detalhes dos voos entre aquele origem e destino.
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F}
 flights %>% group_by(origin, dest) %>% nest()
 ```
 
 2. Crie um tibble nested por aeroporto de origem, mês, dia e hora. Use um join para juntar os dados de `weather` para cada aeroporto e hora.
 
-```{r, echo=F, eval=F}
+```{r, echo=T, eval=F}
 flights %>% group_by(origin, month, day, hour) %>% 
   nest() %>%
   left_join(weather, by=c("origin", "month", "day", "hour"))
