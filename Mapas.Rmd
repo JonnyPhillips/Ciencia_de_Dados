@@ -393,7 +393,7 @@ Europe <- st_read("Europe.shp", quiet=T)
 ```
 
 
-1. Abre o shapefile dos países da Europa no link [aqui](https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Europe.shp). Mostre um mapa simples usanda a projeção 23035
+1. Abre o shapefile dos países da Europa no link [aqui](https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Europe.zip). Mostre um mapa simples usanda a projeção 23035
 
 ```{r, echo=F, eval=F}
 Europe %>% st_transform(23035) %>% ggplot() +
