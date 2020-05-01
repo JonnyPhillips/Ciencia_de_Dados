@@ -1521,6 +1521,9 @@ airports %&gt;% st_transform(54018) %&gt;%
 <p>O CRS é especialmente relevante quando precisamos calcular distâncias de observações espaciais. O CRS 4326 é geográfico (sem projeção, em três dimensões) então a unidade de distância segue a curvatura do mundo, e reflete o ‘Great Circle Distance’.</p>
 <p>Em contraste, quando usamos <code>st_transform()</code> e aponta um CRS diferente e projetado, os locais ficam num plano de duas dimensões e as medidas de distância são linhas retas, ‘Euclidean Distance’.</p>
 <p>Há muitas possibilidades para calular distâncias, mas vamos usar uma função simples para calcular a distância entre todos os aeroportos, <code>st_distance()</code>. Ela não precisa nenhum argumento, mas vamos pegar uma amostra aleatória de 10 aeroportos primeiramente para não sobrecarregar os nossos computadores e deixar o resultado mais simples de interpretar:</p>
+<aside>
+<p>Dependendo do seu sistema, pode ser necessário instalar o pacote <code>lwgeom</code> antes de usar <code>st_distance()</code>. Se o R reclame para rodar o código aqui, use <code>install.packages("lwgeom")</code> e <code>library("lwgeom")</code>.</p>
+</aside>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 airports %&gt;% sample_n(10) %&gt;% 
@@ -1714,7 +1717,7 @@ Germany
 
 </div>
 <ol start="4" type="1">
-<li>Quando criando o seu objeto sf, pode usar o argumento <code>remove=TRUE</code> para preservar as colunas de longitude e latitude explicitamente. Use essas duas colunas para adicionar mais uma camada de geometria que imprime os rótulos dos nomes das cidades ao seu mapa.</li>
+<li>Quando criando o seu objeto sf, pode usar o argumento <code>remove=FALSE</code> para preservar as colunas de longitude e latitude explicitamente. Use essas duas colunas para adicionar mais uma camada de geometria que imprime os rótulos dos nomes das cidades ao seu mapa.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 

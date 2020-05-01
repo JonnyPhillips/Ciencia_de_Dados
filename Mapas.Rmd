@@ -166,6 +166,12 @@ Em contraste, quando usamos `st_transform()` e aponta um CRS diferente e projeta
 
 Há muitas possibilidades para calular distâncias, mas vamos usar uma função simples para calcular a distância entre todos os aeroportos, `st_distance()`. Ela não precisa nenhum argumento, mas vamos pegar uma amostra aleatória de 10 aeroportos primeiramente para não sobrecarregar os nossos computadores e deixar o resultado mais simples de interpretar:
 
+<aside>
+
+Dependendo do seu sistema, pode ser necessário instalar o pacote `lwgeom` antes de usar `st_distance()`. Se o R reclame para rodar o código aqui, use `install.packages("lwgeom")` e `library("lwgeom")`.
+
+</aside> 
+
 ```{r, eval=F}
 airports %>% sample_n(10) %>% 
   st_distance()
@@ -227,7 +233,7 @@ cidades %>% ggplot() +
   theme_minimal()
 ```
 
-4. Quando criando o seu objeto sf, pode usar o argumento `remove=TRUE` para preservar as colunas de longitude e latitude explicitamente. Use essas duas colunas para adicionar mais uma camada de geometria que imprime os rótulos dos nomes das cidades ao seu mapa. 
+4. Quando criando o seu objeto sf, pode usar o argumento `remove=FALSE` para preservar as colunas de longitude e latitude explicitamente. Use essas duas colunas para adicionar mais uma camada de geometria que imprime os rótulos dos nomes das cidades ao seu mapa. 
 
 ```{r, echo=F, eval=F}
 cidades %>% 
