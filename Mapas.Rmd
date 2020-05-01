@@ -88,7 +88,7 @@ airports_test %>% ggplot() +
 
 A beleza de trabalhar com dados espaciais em nosso formato padrão de um tibble é que podemos aplicar todas as nossas ferramentas normais para transformar e preparar os dados. Por exemplo, vamos limitar o escopo dos dados para os fusos horários dos Estados Unidos continental (e tirando alguns aeroportos específicos mal-codificados). 
 
-```{r, eval=F}
+```{r pretest, eval=F}
 airports_test <- airports_test %>% filter(tz<0 & !(faa %in% c("EEN", "SYA")))
 
 airports_test %>% 
@@ -98,7 +98,7 @@ airports_test %>%
 
 Faz mais sentido agora, certo?
 
-# Sistemas de Coordenados
+## Sistemas de Coordenados
 
 O mapa que geramos acima é apenas um de milhares de formas de apresentar os mesmos lugares num mapa. E todos são igualmente corretos. *Não existe uma representação única e correta de dados espaciais na sua tela*. 
 
@@ -110,7 +110,13 @@ O CRS pode aparecer complicado, mas não se preocupe, não precisamos entender a
 
 Então deveríamos ter gerado o banco espacial de `airports` especificando o CRS dos dados no arquivo, com o argumento de `CRS`:
 
-```{r}
+```{r test, echo=F}
+airports <- airports %>% st_as_sf(coords=c("lon","lat"), 
+                                  crs=4326) %>% 
+  filter(tz<0 & name!="Dillant Hopkins Airport" & name!="Eareckson As")
+```
+
+```{r test2, eval=F}
 airports <- airports %>% st_as_sf(coords=c("lon","lat"), 
                                   crs=4326) %>% 
   filter(tz<0 & !(faa %in% c("EEN", "SYA")))
@@ -376,11 +382,14 @@ Europe2 %>% st_write("Europe.shp")
 Europe <- Europe2
 ```
 
+```{r, echo=F}
+Europe <- st_read("Europe.shp", quiet=T)
+```
+
+
 1. Abre o shapefile dos países da Europa no link [aqui](https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Europe.shp). Mostre um mapa simples usanda a projeção 23035
 
 ```{r, echo=F, eval=F}
-Europe2 <- st_read("Europe.shp")
-
 Europe %>% st_transform(23035) %>% ggplot() +
   geom_sf()
 ```
@@ -505,6 +514,19 @@ states_num_airports %>%
 
 Os joins espaciais ampliam a nossa criatividade, abrindo comparações novas. Há muitas possibilidades, mas os básicos são sempre os mesmos que descrevemos aqui.
 
+## Outras Operações Espaciais
+
+Existem diversas operações espaciais para facilitar análises específicas. O livro [aqui, sobretudo capítulos 4 e 5](https://geocompr.robinlovelace.net/) e o [cheatsheet de sf](https://github.com/rstudio/cheatsheets/raw/master/sf.pdf) mostram as possibilidades. Por enquanto, vamos ver apenas uma operação que transforma polígonos em pontos. Usamos uma função simples e dedicada, `st_centroid()`:
+
+```{r}
+states_centroid <- states %>% st_centroid()
+
+states_centroid %>% ggplot() +
+  geom_sf()
+```
+
+Observe na coluna 'geometry' que o nosso objeto sf de polígonos agora transformou em pontos, com um ponto central para cada país. 
+
 <div class = "green">
 ## Exercício 3: Joins para Mapas
 
@@ -557,8 +579,6 @@ pais_cidades_espacial %>%
 
 
 </div>
-
-
 
 # Rasters
 

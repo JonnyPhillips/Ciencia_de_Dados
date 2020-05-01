@@ -1314,6 +1314,7 @@ Tutoriais
 <a href="Tabelas.html">5. Construindo Tabelas</a>
 <a href="Graficos.html">6. Visualizacao de Dados</a>
 <a href="Juntando_Bancos.html">7. Juntando Bancos de Dados</a>
+<a href="Mapas.html">8. Mapas e Analises Espaciais</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1351,7 +1352,6 @@ Desafios
 <nav class="d-toc" id="TOC">
 <ul>
 <li><a href="#dados-espaciais">Dados Espaciais</a></li>
-<li><a href="#sistemas-de-coordenados">Sistemas de Coordenados</a></li>
 <li><a href="#trabalhando-com-polígonos">Trabalhando com Polígonos</a></li>
 <li><a href="#aperfecionando-a-visualização-dos-mapas">Aperfecionando a Visualização dos mapas</a></li>
 <li><a href="#georeferenciamento">Georeferenciamento</a></li>
@@ -1450,12 +1450,15 @@ airports_test %&gt;%
   geom_sf()</code></pre>
 </div>
 <p>Faz mais sentido agora, certo?</p>
-<h1 id="sistemas-de-coordenados">Sistemas de Coordenados</h1>
+<h2 id="sistemas-de-coordenados">Sistemas de Coordenados</h2>
 <p>O mapa que geramos acima é apenas um de milhares de formas de apresentar os mesmos lugares num mapa. E todos são igualmente corretos. <em>Não existe uma representação única e correta de dados espaciais na sua tela</em>.</p>
 <p>Por quê? Porque o mundo não é plano. E representar locais que existem numa esfera (na verdade, uma esferóide oblato) em papel ou na sua tela em duas dimensões não tem uma solução única. Existem milhares de possibilidades de como transformar um objeto de três dimensões para duas, e esse processo sempre gera algum tipo de distorção. Algumas das transformações têm nomes conhecidos, como ‘Mercator’ ou ‘Robinson’, cada um representando um ‘sistema de coordenados’ (CRS, Coordinate Reference System).</p>
 <p>O CRS pode aparecer complicado, mas não se preocupe, não precisamos entender as detalhes. Só temos que verificar três coisas:</p>
 <p><strong>1. Que nós saibamos o CRS dos nossos dados brutos.</strong> Mesmo que a padrão é salvar dados espaciais com longitude e latitude, às vezes eles venham em outro formato, e também há outros detalhes para especificar para interpretar o longiture e latitude, como quanto ‘esmagada’ é o mundo de uma esfera perfeito.</p>
 <p>Então deveríamos ter gerado o banco espacial de <code>airports</code> especificando o CRS dos dados no arquivo, com o argumento de <code>CRS</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 airports &lt;- airports %&gt;% st_as_sf(coords=c(&quot;lon&quot;,&quot;lat&quot;), 
@@ -1495,7 +1498,7 @@ CRS:            EPSG:4326
 airports %&gt;% st_transform(3857) %&gt;%
   ggplot() +
   geom_sf()</code></pre>
-<p><img src="Mapas_files/figure-html5/unnamed-chunk-11-1.png" width="624" /></p>
+<p><img src="Mapas_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
 </div>
 <p>Uma projeçõ focada nos Estados Unidos, 3751:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1503,7 +1506,7 @@ airports %&gt;% st_transform(3857) %&gt;%
 airports %&gt;% st_transform(3751) %&gt;%
   ggplot() +
   geom_sf()</code></pre>
-<p><img src="Mapas_files/figure-html5/unnamed-chunk-12-1.png" width="624" /></p>
+<p><img src="Mapas_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
 </div>
 <p>Mais uma, a projeção Winkel, 54018:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1511,7 +1514,7 @@ airports %&gt;% st_transform(3751) %&gt;%
 airports %&gt;% st_transform(54018) %&gt;%
   ggplot() +
   geom_sf()</code></pre>
-<p><img src="Mapas_files/figure-html5/unnamed-chunk-13-1.png" width="624" /></p>
+<p><img src="Mapas_files/figure-html5/unnamed-chunk-11-1.png" width="624" /></p>
 </div>
 <p><strong>3. Que todas as camadas da nossa análise/visualização usem a mesma projeção.</strong> Na mesma forma que não podemos comparar kilometros e milhas direitamente, seria errado comparar dados em CRS diferentes. O mesmo local vai aparece em posições diferentes. Temos que usar <code>st_transform()</code> para padronizar as camadas antes da visualização.</p>
 <h2 id="calculando-distâncias">Calculando Distâncias</h2>
@@ -1778,7 +1781,7 @@ First 10 features:
 <pre class="r"><code>
 states %&gt;% ggplot() +
   geom_sf()</code></pre>
-<p><img src="Mapas_files/figure-html5/unnamed-chunk-28-1.png" width="624" /></p>
+<p><img src="Mapas_files/figure-html5/unnamed-chunk-26-1.png" width="624" /></p>
 </div>
 <p>E se quisemos visualizar ambos os polígonos e os pontos dos aeroportos no mesmo mapa, juntos? Resepitando a nossa regre (3) da lista acima, é essencial padronizar os CRS para que estamos trabalhando com a mesma projeção para todos as camadas, então vamos transformar a projeção de <code>states</code> para o CRS 4326, o mesmo de <code>airports</code>. Sempre que você for trabalhar com diversos dados geográficos a primeira coisa a fazer é padronizar o CRS, para que seja possível visualizar as duas camadas no mesmo mapa e para fazer operações espaciais, como o cálculo da distância.</p>
 <p>Para adicionar a camada de aeroportos, é só especificar mais uma camada de <code>geom_sf()</code> com o argumento opcional de <code>data=airports</code> no início. (Isto é uma estratégia geral para adicionar camadas de mais de um banco de dados num gráfico).</p>
@@ -1788,7 +1791,7 @@ states %&gt;% st_transform(4326) %&gt;%
   ggplot() +
   geom_sf() +
   geom_sf(data=airports)</code></pre>
-<p><img src="Mapas_files/figure-html5/unnamed-chunk-29-1.png" width="624" /></p>
+<p><img src="Mapas_files/figure-html5/unnamed-chunk-27-1.png" width="624" /></p>
 </div>
 <p>Perfeito! Todos os pontos cabem dentro das bordas do país.</p>
 <h1 id="aperfecionando-a-visualização-dos-mapas">Aperfecionando a Visualização dos mapas</h1>
@@ -1800,7 +1803,7 @@ states %&gt;% st_transform(4326) %&gt;%
   geom_sf(colour=&quot;#756bb1&quot;) +
   geom_sf(data=airports, size=0.5) +
   ggtitle(&quot;Mapa de Aeroportos e Estados nos EUA&quot;)</code></pre>
-<p><img src="Mapas_files/figure-html5/unnamed-chunk-30-1.png" width="624" /></p>
+<p><img src="Mapas_files/figure-html5/unnamed-chunk-28-1.png" width="624" /></p>
 </div>
 <p>Podemos também alterar o cor da área dos estados dependendo do seu <code>SUB_REGION</code>, com uma escala apropriada, e o cor dos aeroportos dependendo do seu altitude, com uma escala apropriada.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1812,7 +1815,7 @@ states %&gt;% st_transform(4326) %&gt;%
   geom_sf(data=airports, aes(colour=alt), size=0.5) +
   scale_colour_gradient(low=&quot;#00441b&quot;, high=&quot;#ef3b2c&quot;) +
   ggtitle(&quot;Mapa de Aeroportos e Estados nos EUA&quot;)</code></pre>
-<p><img src="Mapas_files/figure-html5/unnamed-chunk-31-1.png" width="624" /></p>
+<p><img src="Mapas_files/figure-html5/unnamed-chunk-29-1.png" width="624" /></p>
 </div>
 <p>Com mapas, é frequentemente útil tirar o fundo, os eixos, e os rótulos com <code>theme_minimal()</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1825,7 +1828,7 @@ states %&gt;% st_transform(4326) %&gt;%
   scale_colour_gradient(low=&quot;#00441b&quot;, high=&quot;#ef3b2c&quot;) +
   ggtitle(&quot;Mapa de Aeroportos e Estados nos EUA&quot;) +
   theme_minimal()</code></pre>
-<p><img src="Mapas_files/figure-html5/unnamed-chunk-32-1.png" width="624" /></p>
+<p><img src="Mapas_files/figure-html5/unnamed-chunk-30-1.png" width="624" /></p>
 </div>
 <h1 id="georeferenciamento">Georeferenciamento</h1>
 <p>Até agora, os nossos dados espaciais já chegaram quase pronto para usar. O que podemos fazer se não tivermos dados espaciais? Temos que criar eles. Pode usar um aplicativo para capturar dados com GPS, ou pode ‘georeferenciar’ descrições de lugares, como endereços.</p>
@@ -1853,6 +1856,9 @@ Lugares %&gt;% mapview()</code></pre>
 </div>
 <div class="green">
 <h2 id="exercício-2-mapas-mais-completos">Exercício 2: Mapas mais Completos</h2>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
@@ -1900,7 +1906,7 @@ airports_flights &lt;- airports %&gt;% rename(dest=faa) %&gt;%
 <pre class="r"><code>
 airports_flights %&gt;% ggplot() +
   geom_sf(aes(colour=n))</code></pre>
-<p><img src="Mapas_files/figure-html5/unnamed-chunk-42-1.png" width="624" /></p>
+<p><img src="Mapas_files/figure-html5/unnamed-chunk-41-1.png" width="624" /></p>
 </div>
 <p>Só temos poucos dos aeroportos no banco de dados <code>flights</code>, então pode ser melhor usar um <code>inner_join()</code> para tirar os aeroportos ausentes:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1909,7 +1915,7 @@ airports %&gt;% rename(dest=faa) %&gt;%
   inner_join(flights_por_dest, by=&quot;dest&quot;) %&gt;% 
   ggplot() +
   geom_sf(aes(colour=n))</code></pre>
-<p><img src="Mapas_files/figure-html5/unnamed-chunk-43-1.png" width="624" /></p>
+<p><img src="Mapas_files/figure-html5/unnamed-chunk-42-1.png" width="624" /></p>
 </div>
 <h1 id="joins-espaciais">Joins Espaciais</h1>
 <p>O mundo espacial abre um novo tipo de join entre diversas bancos de dados - joins espaciais que são definidos pela localização semelhante e não por uma chave comum nas tabelas de dados. Existe diversas tipos de joins espaciais mas vamos focar sobre um join entre uma camada de polígonos e uma camada de pontos.</p>
@@ -1924,7 +1930,7 @@ airports_states &lt;- airports  %&gt;%
 <pre class="r"><code>
 airports_states %&gt;% ggplot() + 
   geom_sf(aes(colour=SUB_REGION))</code></pre>
-<p><img src="Mapas_files/figure-html5/unnamed-chunk-45-1.png" width="624" /></p>
+<p><img src="Mapas_files/figure-html5/unnamed-chunk-44-1.png" width="624" /></p>
 </div>
 <p>Qual tipo de unidade espacial é cada observação em <code>airports_states</code>? É um ponto, um aeroporto. Por que não um polígono, como os estados que usamos no <code>st_join</code>? Porque o <code>st_join</code> também faça por padrão um join a esquerda, como <code>left_join</code>, então ele preserve os atributos do objeto na esquerda, neste caso os pontos dos aeroportos.</p>
 <p>Se quisemos juntar os dados por estado e manter a geometria dos polígonos dos estados, apenas temos que invertir o ordem dos objetos no <code>st_join</code>:</p>
@@ -1943,9 +1949,20 @@ states_num_airports &lt;- states_airports %&gt;% group_by(STATE_NAME) %&gt;%
 states_num_airports %&gt;%
   ggplot() +
   geom_sf(aes(fill=n))</code></pre>
-<p><img src="Mapas_files/figure-html5/unnamed-chunk-47-1.png" width="624" /></p>
+<p><img src="Mapas_files/figure-html5/unnamed-chunk-46-1.png" width="624" /></p>
 </div>
 <p>Os joins espaciais ampliam a nossa criatividade, abrindo comparações novas. Há muitas possibilidades, mas os básicos são sempre os mesmos que descrevemos aqui.</p>
+<h2 id="outras-operações-espaciais">Outras Operações Espaciais</h2>
+<p>Existem diversas operações espaciais para facilitar análises específicas. O livro <a href="https://geocompr.robinlovelace.net/">aqui, sobretudo capítulos 4 e 5</a> e o <a href="https://github.com/rstudio/cheatsheets/raw/master/sf.pdf">cheatsheet de sf</a> mostram as possibilidades. Por enquanto, vamos ver apenas uma operação que transforma polígonos em pontos. Usamos uma função simples e dedicada, <code>st_centroid()</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+states_centroid &lt;- states %&gt;% st_centroid()
+
+states_centroid %&gt;% ggplot() +
+  geom_sf()</code></pre>
+<p><img src="Mapas_files/figure-html5/unnamed-chunk-47-1.png" width="624" /></p>
+</div>
+<p>Observe na coluna ‘geometry’ que o nosso objeto sf de polígonos agora transformou em pontos, com um ponto central para cada país.</p>
 <div class="green">
 <h2 id="exercício-3-joins-para-mapas">Exercício 3: Joins para Mapas</h2>
 <ol type="1">
