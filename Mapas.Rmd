@@ -38,7 +38,7 @@ filter <- dplyr::filter
 
 Dados espaciais são dados organizados por localização e permitem novos tipos de análise e visualização. Explorar mapas em R nos permite praticar e estender muitas das ferramentas que aprendemos nas últimas semanas - manipulação de dados, joins e gráficos.
 
-O que diferencia dados espaciais de outros tipos de dados? Dados espaciais contém variáveis que identificam a localização de cada ponto no mundo, como o latitude e longitude: 13$^\circ$26'22"N, 17$^\circ$8'21"E. Estes valores nos permitem localizar um ponto no mundo, comparar com outros pontos, e visualizar os pontos num mapa de duas dimensões. 
+O que diferencia dados espaciais de outros tipos de dados? Dados espaciais contém variáveis que identificam a localização de cada ponto no mundo, como o latitude e longitude: 13 $^\circ$ 26' 22" N, 17 $^\circ$ 8' 21" E. Estes valores nos permitem localizar um ponto no mundo, comparar com outros pontos, e visualizar os pontos num mapa de duas dimensões. 
 
 Lembre-se do nosso tibble de `airports` do tutorial passado? Ele contém a localização dos aeroportos nos Estados Unidos nas colunas 'lat' e 'lon'. Como podemos analisar estes dados espaciais? 
 
@@ -50,20 +50,20 @@ airports
 airports %>% paged_table()
 ```
 
-Para analisar estes dados como dados espaciais precisamos dizer a R quais são as variáveis de localização. Isto exige uma nova biblioteca: `sf`, o acrônimo para 'simple features'.
+Para analisar estes dados como dados espaciais precisamos dizer a R quais são as variáveis de localização. Isto exige uma nova biblioteca: `sf`, o acrônimo para 'simple features', o nosso objeto espacial.
 
 ```{r}
 #install.packages("sf")
-library(sf)
+library("sf")
 ```
 
-O `sf` traz mais poder para os nossos tibbles, permitindo eles entender dados espaciais. Para facilitar, todas as nossas operações com dados espaciais começam com `st_` (e não `sf`...absurdamente). Só temos que indicar para R quais variáveis do tibble original identificam o longitude e latitude das observações, usando a função `st_as_sf()`. O argumento `coords=` aceita um vetor com os nomes das duas colunas, o longitude e latitude (neste ordem).
+O `sf` traz mais poder para os nossos tibbles, permitindo ele entender dados espaciais. Para facilitar, todas as nossas operações com dados espaciais começam com `st_` (e não `sf`...absurdamente). Só temos que indicar para R quais variáveis do tibble original identificam o longitude e latitude das observações, usando a função `st_as_sf()`. O argumento `coords=` aceita um vetor com os nomes das duas colunas, longitude e latitude (neste ordem, pois longitude é o eixo X e latitude é o eixo Y - se pensarmos nas coordenadas como pontos cartesianos).
 
 ```{r}
 airports_test <- airports %>% st_as_sf(coords=c("lon","lat"))
 ```
 
-Como fica o nosso tibble `airports_test` agora? Abre o tibble para ver. Parece quase ígual...e isso é importante - dados espaciais não são muito diferentes de outros dados; eles ainda ficam num tibble. Cada observação tem várias colunas de dados não-espaciais ('faa', 'name' etc.). Mas agora há uma nova coluna também, `geometry`. Ela codifica os dados de longitude e latitude num formato mais complexo que facilita operações e visualizações espaciais. Veja que o valor de cada observação da `geometry` é "<S3: sfc_POINT>". Além de mostrar que o tipo de dado espacial é um ponto (vamos ver alternativas em breve), isto não significa muito, os valores de longitude e latitude são escondidos para simplificar o nosso tibble. 
+Como fica o nosso tibble `airports_test` agora? Abra o tibble para ver. Parece quase igual...e isso é importante - dados espaciais não são muito diferentes de outros dados; eles ainda ficam num tibble. Cada observação tem várias colunas de dados não-espaciais ('faa', 'name' etc.). Mas agora há uma nova coluna também, `geometry`. Ela codifica os dados de longitude e latitude num formato mais complexo que facilita operações e visualizações espaciais. Veja que o valor de cada observação da `geometry` é o longitude-latitude e o tipo de dado espacial é um ponto, `<POINT>`, (vamos ver alternativas em breve). 
 
 ```{r}
 airports_test
@@ -75,16 +75,16 @@ Verifique o tipo do objeto `airports_test`:
 class(airports_test)
 ```
 
-Temos vários resultados aqui - é um objeto 'simple features', mas também um _tbl_ (tibble) e _data.frame_! Isso significa que podemos aplicar todas as funções do _dplyr_ com dados espaciais também. 
+Temos vários resultados aqui - é um objeto 'simple features', mas também um _tbl_ (tibble) e _data.frame_! Isso significa que podemos aplicar todas as funções do `tidyverse` com dados espaciais também. 
 
-O que podemos fazer com o nosso tibble de `airports_test` extra-poderoso e espacialmente-habilitada? Muitas coisas, e vamos ver as possibilidades abaixo, mas por enquanto vamos visualizar os nossos dados num mapa simples. O nosso gramática de gráficos ggplot facilita a visualização de dados espaciais no formato bem conhecido, com uma geometria específica: `geom_sf()`, e graças a muito trabalho de pessoas desconhecidas, não precisamos especificar nenhum argumento:
+O que podemos fazer com o nosso tibble de `airports_test` extra-poderoso e espacialmente-habilitada? Muitas coisas, e vamos ver as possibilidades abaixo, mas por enquanto vamos visualizar os nossos dados num mapa simples. O nosso gramática de gráficos `ggplot()` facilita a visualização de dados espaciais no formato bem conhecido, com uma geometria específica: `geom_sf()`, e graças a muito trabalho de pessoas desconhecidas, não precisamos especificar nenhum argumento:
 
 ```{r}
 airports_test %>% ggplot() +
   geom_sf()
 ```
 
-É isso mesmo. Já criou a sua primeira mapa, parabéns! O que está acontecondo no seu gráfico, pode interpretar? Veja que o eixo x mostra os valores de longitude, e o eixo y os valores de latitude. Aperece um ponto (a geometria, e o conteúdo da coluna `geometry` em cada lugar apropriado). 
+É isso mesmo. Já criou o seu primeiro mapa, parabéns! O que está acontecendo no seu gráfico, você consegue interpretar? Veja que o eixo x mostra os valores de longitude, e o eixo y os valores de latitude. Aperece um ponto (a geometria) em cada lugar apropriado. 
 
 A beleza de trabalhar com dados espaciais em nosso formato padrão de um tibble é que podemos aplicar todas as nossas ferramentas normais para transformar e preparar os dados. Por exemplo, vamos limitar o escopo dos dados para os fusos horários dos Estados Unidos continental (e tirando alguns aeroportos específicos mal-codificados). 
 
@@ -96,17 +96,17 @@ airports_test %>%
   geom_sf()
 ```
 
-Faz mais sentido agora, sim?
+Faz mais sentido agora, certo?
 
 # Sistemas de Coordenados
 
-Mesmo que seja reconhecível, o mapa acima parece um pouco distorcido, né? Não é. É uma viés humana esperar um tipo de mapa específica que já conhecemos de experiência, mas *não existe uma representação única e correta de dados espaciais na sua tela*. 
+O mapa que geramos acima é apenas um de milhares de formas de apresentar os mesmos lugares num mapa. E todos são igualmente corretos. *Não existe uma representação única e correta de dados espaciais na sua tela*. 
 
-Por que? Porque o mundo não é plano. E representar locais que existem numa esfera (na verdade, uma esferóide oblato) em papel ou na sua tela em duas dimensões não tem uma solução única. Existem milhares de possibilidades para como transformar um local em três dimensões para duas, e sempre gera alguma tipa de distorção. Algumas das transformações têm nomes conhecidos, como 'Mercator' ou 'Robinson', cada um representando um 'sistema de coordenados' (CRS, Coordinate Reference System). 
+Por quê? Porque o mundo não é plano. E representar locais que existem numa esfera (na verdade, uma esferóide oblato) em papel ou na sua tela em duas dimensões não tem uma solução única. Existem milhares de possibilidades de como transformar um objeto de três dimensões para duas, e esse processo sempre gera algum tipo de distorção. Algumas das transformações têm nomes conhecidos, como 'Mercator' ou 'Robinson', cada um representando um 'sistema de coordenados' (CRS, Coordinate Reference System). 
 
 O CRS pode aparecer complicado, mas não se preocupe, não precisamos entender as detalhes. Só temos que verificar três coisas:
 
-**1. Que nós entendemos o CRS dos nossos dados brutos.** Mesmo que a padrão é salvar dados espaciais com longitude e latitude, às vezes eles venham em outro formato, e também há outros detalhes para especificar para interpretar o longiture e latitude, como quanto 'esmagada' é o mundo de uma esfera perfeito. 
+**1. Que nós saibamos o CRS dos nossos dados brutos.** Mesmo que a padrão é salvar dados espaciais com longitude e latitude, às vezes eles venham em outro formato, e também há outros detalhes para especificar para interpretar o longiture e latitude, como quanto 'esmagada' é o mundo de uma esfera perfeito. 
 
 Então deveríamos ter gerado o banco espacial de `airports` especificando o CRS dos dados no arquivo, com o argumento de `CRS`:
 
@@ -116,7 +116,7 @@ airports <- airports %>% st_as_sf(coords=c("lon","lat"),
   filter(tz<0 & !(faa %in% c("EEN", "SYA")))
 ```
 
-Por que '4326'? Idealmente, devemos confirmar com o fornecedor dos dados o CRS em que eles foram salvos. Aqui, como o longitude e latitude parece que eles estão em graus (entre -180 e 180) é provável que devemos usar o sistema "WGS84" (um sistema de coordenadas geográficas (não projetadas)). Um atalho para especificar o WGS84 é usar o numero _4326_ no argumento 'crs'. Para outros atalhos para sistemas de coordenados que pode usar com dados salvados em outros sistemas de coordenados, pode aproveitar do site [http://epsg.io/](http://epsg.io/).
+Por que '4326'? Idealmente, devemos confirmar com o fornecedor dos dados o CRS em que eles foram salvos. Aqui, como o longitude e latitude parece que eles estão em graus (entre -180 e 180) é provável que devemos usar o sistema "WGS84" (um sistema de coordenadas geográficas (não projetadas)). Um atalho para especificar o WGS84 é usar o numero _4326_ (tecnicamente, o número epsg) no argumento `crs`. Para outros atalhos para sistemas de coordenados que pode usar com dados salvados em outros sistemas de coordenados, pode aproveitar do site [http://epsg.io/](http://epsg.io/).
 
 Abre o `airports` e vai aparecer uma linha de `CRS` agora:
 
@@ -150,36 +150,117 @@ airports %>% st_transform(54018) %>%
   geom_sf()
 ```
 
-**3. Que todas as camadas da nossa análise/visualização usam a mesma projeção.** Na mesma forma que não podemos comparar kilometros e milhas direitamente, seria errado comparar dados em CRS diferentes. O mesmo local vai aparece em posições diferentes. Temos que usar `st_transform()` para padronizar as camadas. 
+**3. Que todas as camadas da nossa análise/visualização usem a mesma projeção.** Na mesma forma que não podemos comparar kilometros e milhas direitamente, seria errado comparar dados em CRS diferentes. O mesmo local vai aparece em posições diferentes. Temos que usar `st_transform()` para padronizar as camadas antes da visualização. 
 
 ## Calculando Distâncias
 
-O CRS (a projeção) é especialmente relevante quando precisamos calcular distâncias de observações espaciais. O CRS 4326 é geográfico (sem projeção) então a unidade de distância fica em graus, minutos e segundos, que não faz nenhum sentido para ninguém. Para cálculos em metros, temos que usar um CRS projetado (por exemplo, os outros mostrados acima). Então antes de calcular distância, use `st_transform()` para definir um CRS projetado. 
+O CRS é especialmente relevante quando precisamos calcular distâncias de observações espaciais. O CRS 4326 é geográfico (sem projeção, em três dimensões) então a unidade de distância segue a curvatura do mundo, e reflete o 'Great Circle Distance'. 
 
-Há muitas possibilidades para calular distâncias, mas vamos usar uma função simples para calcular a distância entre todos os aeroportos, `st_distance()`. Ela não precisa nenhum argumento, mas vamos pegar uma amostra aleatória de 10 aeroportos primeiramente para não sobrecarregar os nossos computadores e deixar o resultado mais simples interpretar:
+Em contraste, quando usamos `st_transform()` e aponta um CRS diferente e projetado, os locais ficam num plano de duas dimensões e as medidas de distância são linhas retas, 'Euclidean Distance'. 
+
+Há muitas possibilidades para calular distâncias, mas vamos usar uma função simples para calcular a distância entre todos os aeroportos, `st_distance()`. Ela não precisa nenhum argumento, mas vamos pegar uma amostra aleatória de 10 aeroportos primeiramente para não sobrecarregar os nossos computadores e deixar o resultado mais simples de interpretar:
 
 ```{r, eval=F}
-airports %>% sample_n(10) %>% st_distance()
+airports %>% sample_n(10) %>% 
+  st_distance()
 ```
 
-```{r}
+```{r, echo=F}
 set.seed(3)
-airports %>% sample_n(10) %>% 
+airports %>% 
+  sample_n(10) %>% 
   st_distance() 
 ```
 
-O resultado é um 'matriz' (um tibble com apenas números), com a unidade da mensuração especificada no início ('Units: [m]'). Como lemos o resultado? Entre aeroporto um e dois há uma distância de 555.409,9 metros, 555km. (Se quiser, pode transformer o resultado em um tibble com `...%>% as_tibble()`).
+O resultado é uma 'matriz' (um tibble com apenas números), com a unidade da mensuração em metros, especificada no início ('Units: [m]'). Como lemos o resultado? Entre aeroporto um e dois há uma distância de 555.409,9 metros, 555km. (Se quiser, pode transformer o resultado em um tibble com `...%>% as_tibble()`).
+
+Observe que usando uma projeção diferente gera um resultado diferente, de 722.813,6 metros:
+
+```{r, eval=F}
+airports %>% st_transform(54018) %>% 
+  sample_n(10) %>% 
+  st_distance()
+```
+
+```{r, echo=F}
+set.seed(3)
+airports %>% st_transform(54018) %>% 
+  sample_n(10) %>% 
+  st_distance() 
+```
+
+<div class = "green">
+## Exercício 1: Mapas de Pontos
+
+1. Crie um objeto de `simple features` com os seguintes dados. Os valores de longitude e latitude são brutos em CRS 4326.
+
+```{r, echo=F}
+cidades <- tibble(Cidade=c("Paris", "London", "Istanbul", "Madrid", "Berlin"),
+                  Pais=c("France", "United Kingdom", "Turkey", "Spain", "Germany"),
+                   População=c(12006868, 11984435, 11400000, 6633278, 5142247),
+                   Long=c(2.352552, -0.128285, 28.976636, -3.708597, 13.402067),
+                   Lat=c(48.857708, 51.507237, 41.007992, 40.411673, 52.520133))
+```
+
+```{r, echo=F}
+cidades %>% kable()
+```
+
+```{r, echo=F, eval=F}
+cidades <- cidades %>% st_as_sf(coords=c("Long","Lat"), 
+                                  crs=4326, 
+                                  remove=F)
+```
+
+
+2. Visualize um mapa simples dos seus dados com `ggplot()`, com um cor diferente para cada ponto baseado na variável População.
+
+```{r, echo=F, eval=F}
+cidades %>% ggplot() +
+  geom_sf(aes(colour=População)) +
+  theme_minimal()
+```
+
+4. Quando criando o seu objeto sf, pode usar o argumento `remove=TRUE` para preservar as colunas de longitude e latitude explicitamente. Use essas duas colunas para adicionar mais uma camada de geometria que imprime os rótulos dos nomes das cidades ao seu mapa. 
+
+```{r, echo=F, eval=F}
+cidades %>% 
+  ggplot() +
+  geom_sf(aes(colour=População)) +
+  geom_text(aes(x=Long, y=(Lat-0.5), label=Cidade))
+  theme_minimal()
+```
+
+5. Tirar os rótulos dos nomes das cidades e transforme os seus dados par a projeção com CRS 23035, e apresente um novo mapa.
+
+```{r, echo=F, eval=F}
+cidades %>% st_transform(23035) %>% 
+  ggplot() +
+  geom_sf(aes(colour=População)) +
+  theme_minimal()
+```
+
+6. Calcule o matriz da distância euclidiana entre os pontos.
+
+```{r, echo=F, eval=F}
+cidades %>% st_transform(23035) %>% 
+  st_distance() %>% 
+  as_tibble()
+```
+
+
+</div>
 
 # Trabalhando com Polígonos
 
-Áreas administrativas são geralmente representadas como polígonos em mapas. Em geral, obtemos esses polígonos como 'shapefiles' produzidos por uma agência oficial. Podemos abrir qualquer tipo de shapefile (pontos, linhas ou polígonos) com a função _st_read_. Vamos abrir um shapefile (simplificado) dos estados dos Estados Unidos, do link [aqui](https://www.arcgis.com/home/item.html?id=f7f805eb65eb4ab787a0a3e1116ca7e5).
+Áreas administrativas são geralmente representadas como polígonos em mapas. Em geral, obtemos esses polígonos como 'shapefiles' produzidos por uma agência oficial. Podemos abrir qualquer tipo de shapefile (pontos, linhas ou polígonos) com a função `st_read`. Vamos abrir um shapefile (simplificado) dos estados dos Estados Unidos, do link [aqui](https://www.arcgis.com/home/item.html?id=f7f805eb65eb4ab787a0a3e1116ca7e5). Baixe o arquivo e abre com `st_read`:
 
 ```{r, eval=F, warning=F, message=F}
 states <- st_read("states.shp")
 ```
 
 ```{r, echo=F, warning=F, message=F}
-states <- st_read("states_21basic/states.shp")
+states <- st_read("states_21basic/states.shp", quiet=T)
 ```
 
 Abre o nosso objeto `states` para ver o conteúdo:
@@ -197,7 +278,7 @@ states %>% ggplot() +
   geom_sf()
 ```
 
-E se quisemos visualizar ambos os polígonos e os pontos dos aeroportos? É essencial padronizar os CRS para que estamos trabalhando com a mesma projeção para todos as camadas, então vamos transformar a projeção de `states` para o CRS 4326, o mesmo de `airports`. 
+E se quisemos visualizar ambos os polígonos e os pontos dos aeroportos no mesmo mapa, juntos? Resepitando a nossa regre (3) da lista acima, é essencial padronizar os CRS para que estamos trabalhando com a mesma projeção para todos as camadas, então vamos transformar a projeção de `states` para o CRS 4326, o mesmo de `airports`. Sempre que você for trabalhar com diversos dados geográficos a primeira coisa a fazer é padronizar o CRS, para que seja possível visualizar as duas camadas no mesmo mapa e para fazer operações espaciais, como o cálculo da distância. 
 
 Para adicionar a camada de aeroportos, é só especificar mais uma camada de `geom_sf()` com o argumento opcional de `data=airports` no início. (Isto é uma estratégia geral para adicionar camadas de mais de um banco de dados num gráfico). 
 
@@ -212,7 +293,7 @@ Perfeito! Todos os pontos cabem dentro das bordas do país.
 
 # Aperfecionando a Visualização dos mapas
 
-Alterando a apresentação dos nossos mapas depende nas mesmas habilidades com todos os outros gráficos de ggplot. Vamos adicionar um título, alterar o tamanho dos pontos, e o cor das bordas:
+Alterando a apresentação dos nossos mapas depende nas mesmas habilidades como todos os outros gráficos de ggplot. Vamos adicionar um título, alterar o tamanho dos pontos, e o cor das bordas:
 
 ```{r}
 states %>% st_transform(4326) %>%
@@ -234,7 +315,7 @@ states %>% st_transform(4326) %>%
   ggtitle("Mapa de Aeroportos e Estados nos EUA")
 ```
 
-Com mapas, é frequentemente útil tirar o fundo, as linhas, e os eixos com `theme_void()`:
+Com mapas, é frequentemente útil tirar o fundo, os eixos, e os rótulos com `theme_minimal()`:
 
 ```{r}
 states %>% st_transform(4326) %>%
@@ -244,14 +325,14 @@ states %>% st_transform(4326) %>%
   geom_sf(data=airports, aes(colour=alt), size=0.5) +
   scale_colour_gradient(low="#00441b", high="#ef3b2c") +
   ggtitle("Mapa de Aeroportos e Estados nos EUA") +
-  theme_void()
+  theme_minimal()
 ```
 
 # Georeferenciamento
 
 Até agora, os nossos dados espaciais já chegaram quase pronto para usar. O que podemos fazer se não tivermos dados espaciais? Temos que criar eles. Pode usar um aplicativo para capturar dados com GPS, ou pode 'georeferenciar' descrições de lugares, como endereços. 
 
-Por exemplo, vamos criar um tibble simples com alguns endereços, e usar a função `geocode_OSM` do pacote `tmaptools` para converter o endereço em coordenados de longitude e latitude. A função usa o banco de dados de Open Street Maps. 
+Por exemplo, vamos criar um tibble simples com alguns endereços, e usar a função `geocode_OSM` do pacote `tmaptools` para converter o endereço em coordenados de longitude e latitude. A função usa o banco de dados de Open Street Maps. (Note que a função exige que usamos o `$` de R base para especificar a coluna relevante).
 
 ```{r}
 library(tmaptools)
@@ -274,6 +355,77 @@ library(mapview)
 
 Lugares %>% mapview()
 ```
+
+<div class = "green">
+## Exercício 2: Mapas mais Completos
+
+```{r, echo=F, eval=F}
+Europe <- st_read("C:/Users/Jonny/Downloads/ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp") %>% filter((CONTINENT=="Europe" & NAME!="Russia") | NAME=="Turkey")
+
+France_0 <- Europe %>% filter(NAME=="France") %>% st_drop_geometry()
+
+France <- Europe %>% filter(NAME=="France") %>% st_cast("POLYGON") %>% slice(-1) %>% st_combine() %>% st_sf() %>% bind_cols(France_0)
+
+Europe <- Europe %>% filter(NAME!="France")
+
+Europe2 <- rbind(Europe, France)
+
+
+Europe2 %>% st_write("Europe.shp")
+
+Europe <- Europe2
+```
+
+1. Abre o shapefile dos países da Europa no link [aqui](https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Europe.shp). Mostre um mapa simples usanda a projeção 23035
+
+```{r, echo=F, eval=F}
+Europe2 <- st_read("Europe.shp")
+
+Europe %>% st_transform(23035) %>% ggplot() +
+  geom_sf()
+```
+
+2. Adicione os dados das cidades do Exercício 1 ao seu mapa de Europa de Questão 1 e formate o mapa com um tema, título etc. apropriado.
+
+```{r, echo=F, eval=F}
+Europe  %>% st_transform(23035) %>% ggplot() +
+  geom_sf() +
+  geom_sf(data=cidades  %>% st_transform(23035), 
+          colour="blue", size=2) +
+  ggtitle("Cidades Maiores da Europe") +
+  theme_minimal()
+```
+
+3. Desenvolvendo o mesmo mapa, para cada país da Europa, visualize a população nacional (variável `POP_EST`) no mapa, com uma escala e legenda apropriada.
+
+```{r, echo=F, eval=F}
+Europe  %>% st_transform(23035) %>% ggplot() +
+  geom_sf(aes(fill=POP_EST)) +
+  geom_sf(data=cidades  %>% st_transform(23035), 
+          colour="blue", size=2) +
+  ggtitle("Cidades Maiores da Europe") +
+  theme_minimal() +
+  scale_fill_gradient(low="#e5f5f9", high="#00441b")
+```
+
+4. Queremos adicionar a próxima cidade na lista, Milão, mas não sabemos o longitude e latitude da cidade. Georeferencie o endereço de "Piazza del Duomo, 20122 Milano, Italy", e (em vez de juntar com o banco de dados de `cidades`), adicione os resultados como mais uma camada do seu mapa de Questão 43 com a mesma formatação da camada do resto das `cidades`.
+
+```{r, echo=F, eval=F}
+Milan <- geocode_OSM("Piazza del Duomo, 20122 Milano, Italy", projection=4326, as.sf=T)
+
+Europe  %>% st_transform(23035) %>% ggplot() +
+  geom_sf(aes(fill=POP_EST)) +
+  geom_sf(data=cidades  %>% st_transform(23035), 
+          colour="blue", size=2) +
+  geom_sf(data=Milan %>% st_transform(23035), colour="blue", size=2) +
+  ggtitle("Cidades Maiores da Europe") +
+  theme_minimal() +
+  scale_fill_gradient(low="#e5f5f9", high="#00441b")
+```
+
+
+</div>
+
 
 # Joins Não Espaciais
 
@@ -322,7 +474,7 @@ airports_states <- airports  %>%
   st_join(states %>% st_transform(4326))
 ```
 
-Agora, o objeto `airports_states` contém todos as aeroportos, com colunas adicionais para os detalhes do estado em que o aeroporto fica (geograficamente). Não tivemos estes dados anteriormente então vamos visualizar os aeroportos por 'SUB_REGION', como exemplo:
+Agora, o objeto `airports_states` contém todos as aeroportos, com colunas adicionais para os detalhes do estado em que o aeroporto fica (geograficamente). Não tivemos estes dados anteriormente então vamos visualizar os aeroportos por 'SUB_REGION', uma variável que apenas existia no banco de `states`, como exemplo:
 
 ```{r}
 airports_states %>% ggplot() + 
@@ -353,18 +505,71 @@ states_num_airports %>%
 
 Os joins espaciais ampliam a nossa criatividade, abrindo comparações novas. Há muitas possibilidades, mas os básicos são sempre os mesmos que descrevemos aqui.
 
+<div class = "green">
+## Exercício 3: Joins para Mapas
+
+1. Juntar os dois bancos de Cidades e Países Europeus usando **o nome do país**. O resultado deve ser os **pontos** das cidades. (Uma das nossas tabelas tem que ser um tibble simples (não `sf`), então use a função `st_drop_geometry()` para voltar a uma tabela simples). Mostre num mapa a população dos países de cada cidade.
+
+```{r, echo=F, eval=F}
+cidades_pais <- cidades %>% left_join(Europe %>% rename(Pais=NAME) %>% st_drop_geometry(), by="Pais")
+
+cidades_pais %>%
+  ggplot() +
+  geom_sf(aes(fill=POP_EST)) +
+  theme_minimal()
+```
+
+2. Juntar os dois bancos de cidades e países Europeus usando **um join espacial**. O resultado deve ser os pontos das cidades. Reproduza o mapa de Questão 1.
+
+```{r, echo=F, eval=F}
+cidades_pais_espacial <- cidades %>%
+  st_join(Europe %>% st_transform(4326))
+
+cidades_pais_espacial %>%
+  ggplot() +
+  geom_sf(aes(fill=População)) +
+  theme_minimal()
+```
+
+3. Juntar os dois bancos de cidades e países Europeus usando **o nome do país**. O resultado deve ser os **polígonos** dos países. Mostre num mapa a população das cidades metropolitanas.
+
+```{r, echo=F, eval=F}
+pais_cidades <- Europe %>% rename(Pais=NAME) %>% 
+  left_join(cidades %>% st_drop_geometry(), by="Pais")
+
+pais_cidades %>%
+  ggplot() +
+  geom_sf(aes(fill=População)) +
+  theme_minimal()
+```
+
+4. Juntar os dois bancos de cidades e países Europeus usando **um join espacial**. Reproduza o mapa de Questão 3.
+
+```{r, echo=F, eval=F}
+pais_cidades_espacial <- Europe %>% st_transform(4326) %>%
+  st_join(cidades)
+
+pais_cidades_espacial %>%
+  ggplot() +
+  geom_sf(aes(fill=População)) +
+  theme_minimal()
+```
+
+
+</div>
+
+
+
 # Rasters
 
-Existe um outro formato para dados espaciais que não é baseado em formas geométricas (polígonos, pontos e linhas), mas em uma grade regular com valores específicos em cada célula x, y - isto é um 'raster' e para trabalhar com ele usamos o pacote 'raster'. Vamos usar o código debaixo para abrir um arquivo raster de densidade populacional no Camboja, que é simplesmente uma imagem com extensão _.tif_.
+Existe um outro formato para dados espaciais que não é baseado em formas geométricas (polígonos, pontos e linhas), mas em uma grade regular com valores específicos em cada célula x, y - isto é um 'raster' e para trabalhar com ele usamos o pacote 'raster'. Vamos usar o código debaixo para abrir um arquivo raster de densidade populacional no Camboja do [link aqui](https://github.com/JonnyPhillips/Curso_R/raw/master/khm_popdenr_landscan_2011.zip), que é simplesmente uma imagem com extensão _.tif_.
 
 ```{r}
 library(raster)
-download.file("https://github.com/JonnyPhillips/Curso_R/raw/master/khm_popdenr_landscan_2011.zip",destfile="khm_popdenr_landscan_2011.zip")
-unzip("khm_popdenr_landscan_2011.zip")
 cambodia <- raster("khm_popdenr_landscan_2011.tif")
 ```
 
-Para visualizar o nosso raster, precisamos transformar ele em um data.frame simples (não um tibble) e usar o ggplot com a geometria de _geom_tile_. Não se preocupe com os detalhes, mas experimente com o código abaixo:
+Para visualizar o nosso raster, precisamos transformar ele em um data.frame simples (não um tibble) e usar o ggplot com a geometria de _geom_tile_. Não se preocupe com as detalhes, mas experimente com o código abaixo:
 
 ```{r}
 cambodia %>% as("SpatialPixelsDataFrame") %>% 
@@ -380,15 +585,14 @@ cambodia %>% as("SpatialPixelsDataFrame") %>%
   as.data.frame() %>% 
   ggplot() + 
   geom_tile(aes(x=x,y=y,fill=khm_popdenr_landscan_2011)) +
-  coord_equal() +
-  theme_void() +
+  theme_minimal() +
   scale_fill_gradient(low="white",high="red",na.value="white", trans="log")
 ```
 
 Também podemos criar mapas de raster interativos com mapview. (Adicionamos uma pequena quantidade ao log para evitar valores infinitos e erros).
 
 ```{r}
-log(cambodia+0.00001) %>% 
+log(cambodia + 0.00001) %>%  
   brick() %>% 
   mapview(layer.name="khm_popdenr_landscan_2011")
 ```
