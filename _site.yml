@@ -38,7 +38,7 @@ navbar:
           - text: "Desafio 3"
             href: Desafios/Desafio_3_v4.html 
           - text: "Desafio 4"
-            href: desafio_4.html 
+            href: Desafios/Desafio_4_v1.html 
           - text: "Desafio 5"
             href: desafio_5.html 
     - text: "Recursos"

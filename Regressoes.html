@@ -1312,7 +1312,7 @@ Desafios
 <a href="Desafios/Desafio_1.html">Desafio 1</a>
 <a href="Desafios/Desafio_2.html">Desafio 2</a>
 <a href="Desafios/Desafio_3_v4.html">Desafio 3</a>
-<a href="desafio_4.html">Desafio 4</a>
+<a href="Desafios/Desafio_4_v1.html">Desafio 4</a>
 <a href="desafio_5.html">Desafio 5</a>
 </div>
 </div>
@@ -1371,6 +1371,9 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <p>As funções de testes estatísticos e regressões são mais diversas e menos padronizadas que as funções que já discutimos. Assim, é crucial entender o <em>classe/tipo de objeto</em> que a função espera, e o resultado que ele produz. A nossa tarefa é usar o nosso pipe para preparar os dados no classe/formato apropriado.</p>
 <h1 id="testes-de-normalidade">Testes de Normalidade</h1>
 <p>O nosso primeiro teste é um teste de como os nossos dados são distribuidos. Dados contínuos frequentemente formam uma distribuição ‘normal’ quando temos um número razoável de observações. Podemos avaliar o fato/hipótese nula que se os nossos dados fossem ‘normal’ com um teste que se chama o teste Shapiro-Wilk. Ele compara os nossos dados com uma distribuição normal perfeita e avalia quanto longe de normal são os nossos dados.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="Regressoes_files/figure-html5/unnamed-chunk-1-1.png" width="624" /></p>
+</div>
 <p>Usamos o teste Shapiro-Wilk através da função <code>shapiro.test()</code> e ela espera um <strong>vetor</strong> dos valores da variável que queremos testar. Então temos que isolar um vetor (não um tibble) para encaminhar usando a função ‘pull’. Vamos avaliar se os atrasos dos vôos são distribuidos normalmente:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1390,7 +1393,7 @@ teste_normalidade</code></pre>
     Shapiro-Wilk normality test
 
 data:  .
-W = 0.51275, p-value &lt; 0.00000000000000022</code></pre>
+W = 0.50308, p-value &lt; 0.00000000000000022</code></pre>
 </div>
 <p>Ótimo - veja o resultado do teste: Há um estatístico de teste ‘W’ e um valor ‘p’ para avaliar a significância do teste. O valor ‘p’ é bem pequeno aqui, indicando que tem pouco chance que os nossos dados são normais.</p>
 <div class="blue">
@@ -1412,7 +1415,7 @@ flights %&gt;%
   ggplot() +
   geom_density(aes(x=dep_delay)) +
   xlim(0,100)</code></pre>
-<p><img src="Regressoes_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
+<p><img src="Regressoes_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
 </div>
 <p>Qual foi o tipo de objeto criado pela <code>shapiro.test()</code>?</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1440,7 +1443,7 @@ teste_normalidade</code></pre>
 <div class="layout-chunk" data-layout="l-body">
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["statistic"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["method"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"0.4810007","2":"0.00000000000000000000000000000000000000000000000000000000000000000001603398","3":"Shapiro-Wilk normality test"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["statistic"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["method"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"0.5655997","2":"0.00000000000000000000000000000000000000000000000000000000000000006256149","3":"Shapiro-Wilk normality test"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -1475,7 +1478,7 @@ teste_media %&gt;% mutate(Variavel=&quot;Atraso na partida&quot;) %&gt;%
   ggplot() +
   geom_point(aes(x=Variavel, y=estimate)) +
   geom_hline(yintercept=13.4, lty=2, color=&quot;blue&quot;)</code></pre>
-<p><img src="Regressoes_files/figure-html5/unnamed-chunk-11-1.png" width="624" /></p>
+<p><img src="Regressoes_files/figure-html5/unnamed-chunk-12-1.png" width="624" /></p>
 </div>
 <p>Observe aqui que adicionamos uma coluna com o nome da variável em nosso tibble antes de visualizá-la para que podemos incorporar o nome daquela variável em nosso gráfico. O formato dos resultados num tibble facilita bastante a preparação do gráfico.</p>
 <p>Agora, vamos adicionar uma linha que mostra o intervalo de confiança (as variáveis ‘conf.low’ e ‘conf.high’), com a geometria <code>geom_errorbar()</code>, que exige três variáveis: <code>x</code>, <code>ymin</code> e <code>ymax</code> para definir os limites da linha baseado nos valores em nosso tibble:</p>
@@ -1486,7 +1489,7 @@ teste_media %&gt;% mutate(Variavel=&quot;Atraso na partida&quot;) %&gt;%
   geom_point(aes(x=Variavel, y=estimate)) +
   geom_hline(yintercept=13.4, lty=2, color=&quot;blue&quot;) +
   geom_errorbar(aes(x=Variavel, ymin=conf.low, ymax=conf.high), width=0.1)</code></pre>
-<p><img src="Regressoes_files/figure-html5/unnamed-chunk-12-1.png" width="624" /></p>
+<p><img src="Regressoes_files/figure-html5/unnamed-chunk-13-1.png" width="624" /></p>
 </div>
 <p>É fácil ver no gráfico que o intervalo de confiança de 95% não sobreposiciona o valor de 13.4, significando que o atraso subiu estatisticamente em 2013.</p>
 <h2 id="comparando-médias">Comparando Médias</h2>
@@ -1544,7 +1547,7 @@ flights %&gt;% sample_n(1000) %&gt;%
   ggplot() +
   geom_point(aes(x=dep_time, y=dep_delay)) +
   geom_smooth(aes(x=dep_time, y=dep_delay), method=&quot;lm&quot;)</code></pre>
-<p><img src="Regressoes_files/figure-html5/unnamed-chunk-17-1.png" width="624" /></p>
+<p><img src="Regressoes_files/figure-html5/unnamed-chunk-18-1.png" width="624" /></p>
 </div>
 <h2 id="testes-de-correlação-de-variáveis-categóricas-chi-squared">Testes de Correlação de Variáveis Categóricas (Chi-squared)</h2>
 <p>Para completar a tipologia de testes, como podemos comparar duas variáveis categôricas? Por exemplo, queremos comparar as variáveis <code>dest</code> (destino) e <code>carrier</code> (companhia aérea) para saber - estatisticamente - se as mesmas companhias voam de cada aeroporto.</p>
@@ -1888,26 +1891,13 @@ flights %&gt;% lm(dep_delay ~ dep_time + origin, data=.) %&gt;%
             single.row = T, keep.stat = c(&quot;n&quot;),
             dep.var.labels=&quot;Atraso&quot;,
             covariate.labels=c(&quot;Horário&quot;, &quot;JFK&quot;, &quot;LGA&quot;),
-            header=F)</code></pre>
+            header=F, dep.var.caption=&quot;&quot;)</code></pre>
 <table style="text-align:center">
 <caption>
 <strong>Modelo de Atraso de Vôos</strong>
 </caption>
 <tr>
 <td colspan="2" style="border-bottom: 1px solid black">
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-<em>Dependent variable:</em>
-</td>
-</tr>
-<tr>
-<td>
-</td>
-<td colspan="1" style="border-bottom: 1px solid black">
 </td>
 </tr>
 <tr>
@@ -2221,7 +2211,7 @@ reg2 %&gt;% tidy() %&gt;%
   ggplot() +
   geom_point(aes(x=term, y=estimate)) +
   geom_errorbar(aes(x=term, y=estimate, ymin=conf.lo, ymax=conf.hi), width=0.1)</code></pre>
-<p><img src="Regressoes_files/figure-html5/unnamed-chunk-37-1.png" width="624" /></p>
+<p><img src="Regressoes_files/figure-html5/unnamed-chunk-38-1.png" width="624" /></p>
 </div>
 <h1 id="modelos-alternativos">Modelos Alternativos</h1>
 <p>Uma regressão linear é apenas uma das possibilidades. O tipo de regressão reflete o tipo de dado em nossa variável dependente. Usamos uma regressão linear apenas quando a nossa variável dependente é contínua. Por exemplo, variáveis dependentes binárias (0/1) exigem um modelo de regressão de tipo ‘logit’ (ou ‘probit’).</p>
@@ -2272,15 +2262,6 @@ Number of Fisher Scoring iterations: 4
 Next step: Use &#39;setx&#39; method</code></pre>
 </div>
 <p>A tabela abaixo mostra o modelo sugerido (existem muitos) para cada tipo de dado usando <code>zelig()</code>:</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-tibble(`Tipo de Variável Dependente`=c(&quot;Contínuo&quot;, &quot;Binário&quot;,
-                                       &quot;&gt;2 Categorias&quot;, &quot;Categorias Ordenadas&quot;,
-                                       &quot;Contagem (número de eventos)&quot;),
-                     `Model em Zelig`=c(&quot;`ls`&quot;, &quot;`logit`&quot;,
-                                        &quot;`mlogit`&quot;, &quot;`ologit`&quot;,
-                                        &quot;`poisson`&quot;))</code></pre>
-</div>
 <div class="layout-chunk" data-layout="l-body">
 <table>
 <thead>
@@ -2549,10 +2530,10 @@ flights  %&gt;%
  -----
 ev
        mean        sd       50%      2.5%     97.5%
-1 -5.548141 0.1334324 -5.550685 -5.808185 -5.279962
+1 -5.554096 0.1374694 -5.552973 -5.816669 -5.280309
 pv
           mean       sd       50%      2.5%    97.5%
-[1,] -6.353409 38.27426 -6.853138 -76.14377 68.33232</code></pre>
+[1,] -4.306131 39.53559 -4.689806 -85.39364 70.92373</code></pre>
 <pre><code>
 Call:
 lm(formula = dep_delay ~ dep_time, data = .)
@@ -2575,11 +2556,11 @@ flights  %&gt;%
  sim x :
  -----
 ev
-      mean         sd      50%     2.5%    97.5%
-1 20.15686 0.08203733 20.15477 19.99212 20.31892
+      mean         sd      50%    2.5%    97.5%
+1 20.15619 0.08287173 20.15704 19.9925 20.32219
 pv
-         mean       sd      50%     2.5%    97.5%
-[1,] 18.77494 37.88638 18.62231 -58.6246 95.31107</code></pre>
+        mean       sd      50%      2.5%    97.5%
+[1,] 19.2833 39.01794 18.78197 -57.79337 98.36425</code></pre>
 </div>
 <p>Finalmente, podemos avaliar a diferença em atraso entre os dois horários, com a adição da função <code>setx1()</code> para especificar o ponto de comparação com <code>setx()</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2596,22 +2577,22 @@ flights  %&gt;%
  -----
 ev
        mean        sd       50%      2.5%     97.5%
-1 -5.559875 0.1332144 -5.557034 -5.816028 -5.297433
+1 -5.555326 0.1310708 -5.555612 -5.808561 -5.306429
 pv
           mean       sd       50%      2.5%    97.5%
-[1,] -6.349425 37.59115 -6.675951 -79.76185 65.81756
+[1,] -7.751035 37.13392 -8.827568 -78.79152 71.56377
 
  sim x1 :
  -----
 ev
-      mean         sd      50%     2.5%    97.5%
-1 20.15918 0.08685319 20.15828 19.99859 20.32944
+     mean         sd      50%     2.5%    97.5%
+1 20.1577 0.08197542 20.15792 19.99633 20.31598
 pv
          mean       sd      50%      2.5%    97.5%
-[1,] 19.48421 37.83034 19.45043 -55.44105 92.28389
+[1,] 20.85718 39.55475 22.37165 -52.71142 92.35827
 fd
       mean        sd      50%     2.5%    97.5%
-1 25.71905 0.1648178 25.72096 25.39409 26.02933</code></pre>
+1 25.71303 0.1614472 25.70702 25.40949 26.03394</code></pre>
 </div>
 <p>Agora, foca-se na linha <code>fd</code>, que mostra uma diferença de 25.7 minutos na média: muito melhor voar cedo!</p>
 <p>Como todas as nossas estimativas de regressões, nunca temos certeza sobre os relacionamentos, e o zelig deixe fácil mostrar isso com mais um passo no fluxo de funções. Com <code>get_qi()</code> podemos gerar uma distribuiçõ simulada - um vetor - de estimativas da diferença média, incorporando o desvío padrão de incerteza.</p>

@@ -52,6 +52,21 @@ As funções de testes estatísticos e regressões são mais diversas e menos pa
 
 O nosso primeiro teste é um teste de como os nossos dados são distribuidos. Dados contínuos frequentemente formam uma distribuição 'normal' quando temos um número razoável de observações. Podemos avaliar o fato/hipótese nula que se os nossos dados fossem 'normal' com um teste que se chama o teste Shapiro-Wilk. Ele compara os nossos dados com uma distribuição normal perfeita e avalia quanto longe de normal são os nossos dados. 
 
+```{r, echo=F}
+set.seed(11)
+other <- tibble(Variavel=rnorm(30, 0, 1)) 
+
+tibble(Variavel=rnorm(100000, 0, 1)) %>%
+  ggplot() +
+  geom_density(aes(x=Variavel)) +
+  geom_density(data=other, aes(x=Variavel), colour="blue") +
+  geom_vline(xintercept=0, lty=2) +
+  theme_classic() +
+  ylab("Densidade") +
+  ggtitle("Exemplo de Curva Normal com Média 0 e Desvio Padrão 1, \ne Curva Desconhecida")
+```
+
+
 Usamos o teste Shapiro-Wilk através da função `shapiro.test()` e ela espera um **vetor** dos valores da variável que queremos testar. Então temos que isolar um vetor (não um tibble) para encaminhar usando a função 'pull'. Vamos avaliar se os atrasos dos vôos são distribuidos normalmente:
 
 ```{r, eval=F}
@@ -436,7 +451,7 @@ flights %>% lm(dep_delay ~ dep_time + origin, data=.) %>%
             single.row = T, keep.stat = c("n"),
             dep.var.labels="Atraso",
             covariate.labels=c("Horário", "JFK", "LGA"),
-            header=F)
+            header=F, dep.var.caption="")
 ```
 
 Em caso que você querer comparar dois modelos parecidos *na mesma tabela*, é só salvar as duas regressões como objetos, e encaminhar eles juntos na forma de uma `list()` para `stargazer`:
@@ -497,15 +512,6 @@ flights %>% mutate(atraso=case_when(dep_delay>0~1,
 ```
 
 A tabela abaixo mostra o modelo sugerido (existem muitos) para cada tipo de dado usando `zelig()`:
-
-```{r, eval=F}
-tibble(`Tipo de Variável Dependente`=c("Contínuo", "Binário",
-                                       ">2 Categorias", "Categorias Ordenadas",
-                                       "Contagem (número de eventos)"),
-                     `Model em Zelig`=c("`ls`", "`logit`",
-                                        "`mlogit`", "`ologit`",
-                                        "`poisson`"))
-```
 
 ```{r, echo=F}
 tibble(`Tipo de Variável Dependente`=c("Contínuo", "Binário", ">2 Categorias", "Categorias Ordenadas", "Contagem (número de eventos em um periódo fixo)"),
