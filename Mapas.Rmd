@@ -623,3 +623,11 @@ log(cambodia + 0.00001) %>%
   mapview(layer.name="khm_popdenr_landscan_2011")
 ```
 
+<!-- Add to code for next year - st_distance as column from single point -->
+<!-- airports <- airports %>% st_as_sf(coords=c("lon", "lat"), -->
+<!--                       crs=4326) %>% -->
+<!--   st_transform(54018) -->
+
+<!-- JFK <- airports %>% filter(faa=="JFK") -->
+
+<!-- airports %>% mutate(distance_to_JFK=st_distance(., JFK)) -->

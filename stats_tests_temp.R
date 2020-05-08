@@ -49,7 +49,8 @@ flights %>% group_by(origin, dest) %>%
   tidy()
 
 #https://infer.netlify.app/
-
+#http://r-statistics.co/Statistical-Tests-in-R.html
+#https://stats.idre.ucla.edu/r/whatstat/what-statistical-analysis-should-i-usestatistical-analyses-using-r/
 #glm
 
 library(zeligverse)
