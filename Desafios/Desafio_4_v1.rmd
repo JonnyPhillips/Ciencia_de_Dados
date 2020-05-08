@@ -13,7 +13,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </style>
 
 <div class = "purple">
-O prazo para entregar Desafio 4 por email com título “[FLS6397] - D4” à minha conta é **14h, xx/xx/2020**, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
+O prazo para entregar Desafio 4 por email com título “[FLS6397] - D4” à minha conta é **14h, 22/05/2020**, antes da aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
 </div>
 
 <br>
@@ -26,15 +26,15 @@ Eu vou mandar o .rmd de outro aluno *anonomizado* para o seu email e você deve 
 
 ## Roteiro
 
-1. Primeiro, baixe o .rmd e compile ele com 'knit'. Observe e anote em comentários se existe algum impedimento para compilar o documento, ou alguma mudança que precisa ser feito no código. Isto é um teste importante de reprodutibilidade.
+1. Primeiro, baixe o .rmd e compile ele com 'knit'. Lembre-se de verificar que os bancos de dados externos são presentes na pasta apropriada. Observe e anote em comentários se existe algum impedimento para compilar o documento, ou alguma mudança que precisa ser feito no código. Isto é um teste importante de reprodutibilidade.
 
 2. Leia o código e avalia se tudo faz sentido, se tenha funções ou código desconhecido para você. Roda o çodigo interativamente para entender cada passo, e anote com comentários se tenha alguma linha que não é claro ou devia ser explicado melhor com comentários pelo autor original.
 
 3. Compare *a sua submissão* de Desafio 3 com o arquivo recebido, identificado as diferenças, e se elas afetam os resultados. Sugira melhorias que podem aproveitar do seu código, e documente eles com comentários.
 
-4. Compare *as respostas sugeridas* no site da disciplina com o arquivo recebido, identificando com cuidado as diferenças e os erros. Onde existe divergência (e não é erro meu!) resolva o problema, melhore o código, e adicione um comentário (com #) descrevendo o fonte do erro e a sua solução.
+4. (Apenas depois de item 3:) Compare *as respostas sugeridas* no site da disciplina com o arquivo recebido, identificando com cuidado as diferenças e os erros. Onde existe divergência (e não é erro meu!) resolva o problema, melhore o código, e adicione um comentário (com #) descrevendo o fonte do erro e a sua solução.
 
-5. Avalie o HTML gerado pelo arquivo recebido e sugira melhorias para deixar ele mais claro, bonito e simples. Por exemplo, a divisão entre questões e respostas fica claro? As tabelas são bem formatadas ou em código bruto? É necessário ajustar as opcões de chunks para tirar mensagens ou código desnecessário?
+5. Avalie o HTML gerado pelo arquivo recebido e sugira melhorias para deixar ele mais claro, bonito e simples. Por exemplo, a divisão entre questões e respostas fica claro? As tabelas são bem formatadas ou em código bruto? Pode tirar tabelas desnecessárias, ou limite o número de linhas/colunas? É necessário ajustar as opcões de chunks para tirar mensagens ou código desnecessário?
 
 6. Finalmente, foi um Desafio sobre gráficos, então avalie se cada gráfico contenha toda a informação necessária para entender-lo, e mostra um resultado clara e bonita. Sugira melhorias nos gráficos como títulos nos eixos, escalas de cores mais apropriados, temas apropriados, etc.
 
