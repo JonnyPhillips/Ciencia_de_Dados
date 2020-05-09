@@ -4,7 +4,10 @@ output: distill::distill_article
 ---
 
 ```{r, echo=F}
-knitr::opts_chunk$set(echo = F, eval=F, highlight=T)
+knitr::opts_chunk$set(echo = T, eval=T, highlight=T)
+library(tidyverse)
+library(knitr)
+library(rmarkdown)
 ```
 
 
@@ -20,7 +23,7 @@ O prazo para entregar Desafio 3 por email com título “[FLS6397] - D3” à mi
 
 **[Atualizada no dia 27/04/20 para inserir Q4(b) com código fornecido, resolvendo o problema de duplicação de vereadores por zona nas questões de número de candidatos]**
 
-[Respostas Sugeridas para Desafio 3 aqui](Desafio_3_v4_Suggested_Responses.html)
+<!-- [Respostas Sugeridas para Desafio 3 aqui](Desafio_3_Suggested_Responses.html) -->
 
 ## Instruções
 
@@ -37,7 +40,6 @@ Siga as instruções abaixo. Documente *todos* os seus passos em um script. Come
 (c) Dos arquivos descompactados, abre os dois bancos para Roraima (RR) em R com os parâmetros apropriados (note que o formato é um pouco diferente dos arquivos no desafio 1). Para detalhes sobre as colunas, veja o parte apropriado do documento leiame.pdf nos arquivos.
 
 ```{r}
-library(tidyverse)
 resultados <- read_delim("C:/Users/Jonny/Downloads/votacao_candidato_munzona_2016/votacao_candidato_munzona_2016_RR.csv",
                    delim=";",
                    locale=locale(encoding="latin1"))
@@ -53,10 +55,10 @@ candidatos <- read_delim("C:/Users/Jonny/Downloads/consulta_cand_2016/consulta_c
 
 (b) Identifique a unidade de análise do banco de resultados - o que repesenta cada observação/linha? Quais variáveis identificam cada linha exclusivamente?
 
-```{r}
+```{r, eval=F}
 candidatos %>% distinct(SQ_CANDIDATO)
 
-resultados %>% distinct(SQ_CANDIDATO, CD_MUNICIPIO, NR_ZONA, DS_CARGO, NR_TURNO) #CD_CARGO e NR_TURNO são opcionais
+resultados %>% distinct(SQ_CANDIDATO, CD_MUNICIPIO, NR_ZONA) #CD_CARGO e NR_TURNO são opcionais
 ```
 
 (c) Liste as variáveis que compõem os identificadores comuns para realizar a junção dos dois bancos.   
@@ -67,14 +69,19 @@ resultados %>% distinct(SQ_CANDIDATO, CD_MUNICIPIO, NR_ZONA, DS_CARGO, NR_TURNO)
 
 (d) Use `anti_join` para identificador se há resultados que faltam detalhes do seu candidato no banco de dados de candidatos. 
 
-```{r}
+```{r, eval=F}
 resultados %>% anti_join(candidatos, by="SQ_CANDIDATO")
 ```
 
 (e) Use `anti_join` para identificador se há candidatos faltando no banco de dados de resultados. (Bonus: Investigando as colunas do resultado de `anti_join`, você pode identificar porque eles não existem no banco de resultados?).
 
-```{r}
+```{r, eval=F}
 candidatos %>% anti_join(resultados, by=c("SQ_CANDIDATO"))
+```
+
+```{r, echo=F}
+candidatos %>% anti_join(resultados, by=c("SQ_CANDIDATO")) %>%
+  paged_table()
 ```
 
 (f) Não precisamos trabalhar com todas as colunas para a análise então para limpar os dados e deixar mais fácil entende-los, selecionar apenas as próximas colunas:
@@ -99,11 +106,19 @@ resultados <- resultados %>% select(SQ_CANDIDATO, NM_MUNICIPIO, NR_ZONA, DS_CARG
 
 (b) Execute um join do tipo apropriado para criar uma tabela de todos os candidatos que se inscreveram para a eleição com os seus dados pessoais, incluindo o número de votos total calculado em (a).
 
-```{r}
+```{r, eval=F}
 resultados_cand <- resultados %>% group_by(SQ_CANDIDATO) %>% 
   summarize(Tot_Votos=sum(QT_VOTOS_NOMINAIS, na.rm=T))
 
 candidatos %>% left_join(resultados_cand, by="SQ_CANDIDATO")
+```
+
+```{r, echo=F}
+resultados_cand <- resultados %>% group_by(SQ_CANDIDATO) %>% 
+  summarize(Tot_Votos=sum(QT_VOTOS_NOMINAIS, na.rm=T))
+
+candidatos %>% left_join(resultados_cand, by="SQ_CANDIDATO") %>%
+  paged_table()
 ```
 
 3. Execute um join do tipo apropriado para uma análise comparando as caractéristicas dos candidatos que correram e os seus resultados eleitorais. 
@@ -178,12 +193,17 @@ combinado_vereador %>% group_by(NM_MUNICIPIO, DS_GENERO) %>%
 7. (a) Gere uma variável binário para os vereadores eleitos (da variável `DS_SIT_TOT_TURNO`), e calcule a taxa de sucesso (% eleito) de candidatos por município e gênero.
 
 ```{r}
-combinado_vereador_sucesso <- combinado_vereador %>% mutate(Eleito=case_when(DS_SIT_TOT_TURNO %in% c("ELEITO POR QP","ELEITO POR MÉDIA", "ELEITO")~1,
+combinado_vereador_sucesso <- combinado_vereador %>% 
+  mutate(Eleito=case_when(DS_SIT_TOT_TURNO %in% 
+                            c("ELEITO POR QP","ELEITO POR MÉDIA", "ELEITO")~1,
                                       TRUE~0))  %>%
   group_by(NM_MUNICIPIO, DS_GENERO, Eleito) %>%
   tally() %>%
+  ungroup() %>% 
+  complete(NM_MUNICIPIO, DS_GENERO, Eleito, fill=list(n=0)) %>%
   group_by(NM_MUNICIPIO, DS_GENERO) %>%
   mutate(Pct_eleito=100*(n/sum(n,na.rm=T)))
+
 ```
 
 (b) Mostre um gráfico de barras da taxa de sucesso (% eleito) dos candidatos femininos por município, com formatação apropriada. 
@@ -193,9 +213,9 @@ combinado_vereador_sucesso %>%
   filter(DS_GENERO=="FEMININO" & Eleito==1) %>%
   ggplot() +
   geom_col(aes(x=NM_MUNICIPIO, y=Pct_eleito)) +
-  ggtitle("O Porcentagem de Candidatos por Município e Gênero") +
+  ggtitle("O Porcentagem de Candidatos Eleitos por Município e Gênero") +
   xlab("Município") +
-  ylab("Porcentagem de Candidatos") + 
+  ylab("% de Candidatos Eleitos") + 
   theme_classic() +
   theme(axis.text.x = element_text(angle = 90))
 ```
@@ -207,9 +227,9 @@ combinado_vereador_sucesso %>%
   filter(Eleito==1) %>%
   ggplot() +
   geom_col(aes(x=NM_MUNICIPIO, y=Pct_eleito, fill=DS_GENERO), position="dodge") +
-  ggtitle("O Porcentagem de Candidatos por Município e Gênero") +
+  ggtitle("O Porcentagem de Candidatos Eleitos por Município e Gênero") +
   xlab("Município") +
-  ylab("Porcentagem de Candidatos") + 
+  ylab("% de Candidatos Eleitos") + 
   theme_classic() +
   theme(axis.text.x = element_text(angle = 90))
 ```
@@ -224,6 +244,8 @@ mun_sucesso_feminino <- combinado_vereador_sucesso %>% filter(Eleito==1) %>%
   filter(FEMININO>MASCULINO) %>%
   pull(NM_MUNICIPIO)
 ```
+
+O município em que as mulheres têm uma maior taxa de sucesso que os homens é `r mun_sucesso_feminino`.
 
 8. Gere um gráfico de 'tile', que mostra o número de candidatos por município e gênero. Aplique uma escala de cores apropriado da sua escolha. Formate o seu gráfico.
 
@@ -260,7 +282,8 @@ combinado_vereador %>%
   mutate(NR_IDADE_DATA_POSSE=case_when(NR_IDADE_DATA_POSSE==999~NA_real_,
                                        TRUE~NR_IDADE_DATA_POSSE)) %>%
   ggplot() +
-  geom_histogram(aes(x=NR_IDADE_DATA_POSSE, fill=DS_GENERO)) +
+  geom_histogram(aes(x=NR_IDADE_DATA_POSSE, fill=DS_GENERO), 
+                 position="dodge") +
   ggtitle("Histograma de Candidatos por Idade") +
   xlab("Idade") +
   ylab("Número de Candidatos") + 
@@ -328,11 +351,19 @@ combinado_vereador_votos_idade_genero %>%
 
 (e) Em qual idade os homens e as mulheres tem a maior chance para ganhar a eleição?
 
-```{r}
+```{r, eval=F}
 combinado_vereador_votos_idade_genero_maior <- combinado_vereador_votos_idade_genero %>%
   group_by(DS_GENERO) %>%
   arrange(DS_GENERO, -Media_Pct_Votos) %>%
   top_n(1, Media_Pct_Votos)
+```
+
+```{r, echo=F}
+combinado_vereador_votos_idade_genero_maior <- combinado_vereador_votos_idade_genero %>%
+  group_by(DS_GENERO) %>%
+  arrange(DS_GENERO, -Media_Pct_Votos) %>%
+  top_n(1, Media_Pct_Votos) %>%
+  paged_table()
 ```
 
 11. (a) Calcule o voto total de cada *partido* (não candidato) em cada município nas eleições para vereador em 2016. Depois, calcular o porcentagem do voto de cada partido em cada município.
@@ -357,16 +388,24 @@ IDH <- tibble(NM_MUNICIPIO=c("ALTO ALEGRE", "AMAJARI", "BOAVISTA", "BONFIM",
 
 (c) Juntar os dados de voto por partido de questão (a) com a tabela de HDI de questão (b). Verifique que o join deu certo para todas as observações, identifique o motivo pelos erros, e corrija os erros. 
 
-```{r}
+```{r, eval=F}
 combinado_vereador_mun_partido %>% anti_join(IDH, by="NM_MUNICIPIO") %>%
   distinct(NM_MUNICIPIO) #Boa Vista e Roraionopolis não cruzados
+```
 
+```{r, echo=F}
+combinado_vereador_mun_partido %>% anti_join(IDH, by="NM_MUNICIPIO") %>%
+  distinct(NM_MUNICIPIO) %>%
+  paged_table()
+```
+
+```{r}
 IDH <- IDH %>% mutate(NM_MUNICIPIO=case_when(NM_MUNICIPIO=="BOAVISTA"~"BOA VISTA",
                              NM_MUNICIPIO=="RORAINOPOLIS"~"RORAINÓPOLIS",
                              TRUE~NM_MUNICIPIO))
+```
 
-combinado_vereador_mun_partido %>% anti_join(IDH, by="NM_MUNICIPIO")
-
+```{r}
 combinado_vereador_mun_partido_IDH <- combinado_vereador_mun_partido %>% 
   left_join(IDH, by="NM_MUNICIPIO")
 ```

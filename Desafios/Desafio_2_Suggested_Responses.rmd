@@ -95,6 +95,16 @@ educ_RO_profs` ``.
 
 O número de professores em Roraima é `r educ_RO_profs`. 
 
+```{r}
+educ_RO_profs <- educ_RO %>% group_by(CODMUNIC,MUNIC) %>% 
+  summarize(PROFESS=sum(PROFESS,na.rm=T)) %>%
+  ungroup() %>%
+  select(-CODMUNIC) %>%
+  kable(caption="Professores por Município",
+        col.names=c("Município","Professores"),
+        digits=1, format.args=list(big.mark=".", decimal.mark=","))
+```
+
   (b) Qual é o porcentagem de professores entre todos os empregados (professores e funcionários) em cada município (inclua uma tabela)?
 
 ```{r}
@@ -154,6 +164,15 @@ pct_escolas_labinfo <- educ_RO %>% group_by(CODMUNIC,MUNIC) %>%
   summarize(Pct_LAB_INFO=100*sum(LAB_INFO, na.rm=T)/n()) %>%
   ungroup() %>%
   select(-CODMUNIC)
+
+escol_inform_mun <- educ_RO %>% group_by(CODMUNIC, MUNIC) %>%
+  summarise(LAB_INFO = sum(LAB_INFO, na.rm = T)) %>%
+  ungroup() %>%
+  select(-CODMUNIC) %>%
+  mutate(pct_laborat = 100 * LAB_INFO / sum(LAB_INFO)) %>%
+  kable(caption = "Escolas com Laboratório de Informática por Município",
+        col.names = c("Município", "Número de Laboratórios", "% Laboratórios"),
+        digits = 1, format.args = list(big.mark = ".", decimal.mark = ","))
 
 pct_escolas_labinfo %>%
   kable(caption="% de Escolas com Laboratório de Informático por Município",

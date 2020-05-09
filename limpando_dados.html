@@ -1955,7 +1955,7 @@ flights &lt;- flights %&gt;% mutate(origin = factor(origin))</code></pre>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights %&gt;% mutate(origin = case_when(month == &quot;EWR&quot; ~ &quot;Newark&quot;, TRUE ~ 
+flights %&gt;% mutate(origin = case_when(origin == &quot;EWR&quot; ~ &quot;Newark&quot;, TRUE ~ 
     origin))</code></pre>
 </div>
 <ol start="3" type="1">

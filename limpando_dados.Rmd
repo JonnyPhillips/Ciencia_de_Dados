@@ -615,7 +615,7 @@ flights <- flights %>% mutate(origin=factor(origin))
 2. Salve o resultado de (1) e tente-se usar o novo banco de dados para recodificar o aeroporto de origem "EWR" para "Newark" usando `case_when` dentro de `mutate`. É possível? 
 
 ```{r, echo=T, eval=F, tidy=TRUE}
-flights %>% mutate(origin=case_when(month=="EWR"~"Newark",
+flights %>% mutate(origin=case_when(origin=="EWR"~"Newark",
                                     TRUE~origin))
 ```
 

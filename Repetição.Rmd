@@ -1,0 +1,58 @@
+---
+title: "Funções e Repetição"
+output:
+  distill::distill_article:
+    toc: true
+    toc_float: true
+    toc_depth: 1
+---
+
+<style>
+div.green { background-color:#e5f5e0; border-radius: 5px; padding: 20px;}
+</style>
+
+<style>
+div.orange { background-color:#fee6ce; border-radius: 5px; padding: 20px;}
+</style>
+
+<style>
+div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
+</style>
+
+<style>
+div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
+</style>
+
+
+```{r setup, include=FALSE, echo=F}
+knitr::opts_chunk$set(echo = T, eval=T, highlight=T)
+library("nycflights13")
+library("tidyverse")
+library("rmarkdown")
+library("knitr")
+library("kableExtra")
+library("broom")
+filter <- dplyr::filter
+```
+
+# Introdução
+
+Usando scripts de programação para a análise de dados tem várias vantagens: transparência, reprodutibilidade, etc., mas uma vantagem fundamental é a capacidade para escalar e repetir as nossas análises várias vezes sem repetir o código. A ideia é que podemos preparar uma análise para produzir uma estatística, uma tabela, um gráfico, um teste estatístico ou uma regressão para variáveis e valores específicos, e indicar para R refazer a análise várias vezes, deixando alguns elementos da análise fixos e permitindo outros a variar. 
+
+O uso de repetição exige uma separação claro dos dois elementos fundamentais de programação em R: **Objetos** (bancos de dados, valores únicos), e **Funções** (que recebem insumos e geram produtos). Com repetição, normalmente fixamos umas funções e ajustamos os objetos, para que os insumos às funções variam e avaliamos a variação nos produtos finais. 
+
+Por exemplo, imagine que nos queremos 
+
+```{r}
+flights  %>% 
+```
+
+
+# Funções Customizadas
+
+
+
+<div class = "blue">
+**Habilidade Básica de Programação: For Loops**
+
+</div>

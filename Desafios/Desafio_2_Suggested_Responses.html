@@ -24,8 +24,8 @@
   
   
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2020-04-17" />
-  <meta property="article:created" itemprop="dateCreated" content="2020-04-17" />
+  <meta property="article:published" itemprop="datePublished" content="2020-05-08" />
+  <meta property="article:created" itemprop="dateCreated" content="2020-05-08" />
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Desafio 2: Resumindo um Banco de Dados" />
@@ -40,7 +40,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output","date"]}},"value":[{"type":"character","attributes":{},"value":["Desafio 2: Resumindo um Banco de Dados"]},{"type":"character","attributes":{},"value":["distill::distill_article"]},{"type":"character","attributes":{},"value":["04-17-2020"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output","date"]}},"value":[{"type":"character","attributes":{},"value":["Desafio 2: Resumindo um Banco de Dados"]},{"type":"character","attributes":{},"value":["distill::distill_article"]},{"type":"character","attributes":{},"value":["05-08-2020"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1928,7 +1928,7 @@ distill-header .nav a {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Desafio 2: Resumindo um Banco de Dados","authors":[],"publishedDate":"2020-04-17T00:00:00.000-03:00"}
+{"title":"Desafio 2: Resumindo um Banco de Dados","authors":[],"publishedDate":"2020-05-08T00:00:00.000-03:00"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2090,6 +2090,16 @@ educ_RO_profs &lt;- educ_RO %&gt;% summarize(PROFESS=sum(PROFESS,na.rm=T))</code
 </div>
 <p>O número de professores em Roraima é <code>`r educ_RO_profs`</code>.</p>
 <p>O número de professores em Roraima é 7669.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+educ_RO_profs &lt;- educ_RO %&gt;% group_by(CODMUNIC,MUNIC) %&gt;% 
+  summarize(PROFESS=sum(PROFESS,na.rm=T)) %&gt;%
+  ungroup() %&gt;%
+  select(-CODMUNIC) %&gt;%
+  kable(caption=&quot;Professores por Município&quot;,
+        col.names=c(&quot;Município&quot;,&quot;Professores&quot;),
+        digits=1, format.args=list(big.mark=&quot;.&quot;, decimal.mark=&quot;,&quot;))</code></pre>
+</div>
 <ol start="2" type="a">
 <li>Qual é o porcentagem de professores entre todos os empregados (professores e funcionários) em cada município (inclua uma tabela)?</li>
 </ol>
@@ -2105,7 +2115,7 @@ educ_RO %&gt;% group_by(CODMUNIC,MUNIC) %&gt;%
         col.names=c(&quot;Município&quot;,&quot;Professores&quot;, &quot;Funcionários&quot;, &quot;% Professores&quot;),
         digits=1, format.args=list(big.mark=&quot;.&quot;, decimal.mark=&quot;,&quot;))</code></pre>
 <table>
-<caption><span id="tab:unnamed-chunk-7">Table 2: </span>Professores e Funcionários por Município</caption>
+<caption><span id="tab:unnamed-chunk-8">Table 2: </span>Professores e Funcionários por Município</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Município</th>
@@ -2224,7 +2234,7 @@ educ_RO_profs_por_escola_mun %&gt;%
         col.names=c(&quot;Município&quot;,&quot;Média de Professores&quot;, &quot;Desvio padrão de Professores&quot;),
         digits=1, format.args=list(big.mark=&quot;.&quot;, decimal.mark=&quot;,&quot;))</code></pre>
 <table>
-<caption><span id="tab:unnamed-chunk-8">Table 3: </span>Estatísticas de Professores por Escola por Município</caption>
+<caption><span id="tab:unnamed-chunk-9">Table 3: </span>Estatísticas de Professores por Escola por Município</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Município</th>
@@ -2331,7 +2341,7 @@ educ_RO %&gt;% group_by(DEP) %&gt;%
         col.names=c(&quot;Município&quot;,&quot;Número de Professores&quot;, &quot;% de Professores&quot;),
         digits=1, format.args=list(big.mark=&quot;.&quot;, decimal.mark=&quot;,&quot;))</code></pre>
 <table>
-<caption><span id="tab:unnamed-chunk-9">Table 4: </span>Professores por Rede</caption>
+<caption><span id="tab:unnamed-chunk-10">Table 4: </span>Professores por Rede</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Município</th>
@@ -2373,12 +2383,21 @@ pct_escolas_labinfo &lt;- educ_RO %&gt;% group_by(CODMUNIC,MUNIC) %&gt;%
   ungroup() %&gt;%
   select(-CODMUNIC)
 
+escol_inform_mun &lt;- educ_RO %&gt;% group_by(CODMUNIC, MUNIC) %&gt;%
+  summarise(LAB_INFO = sum(LAB_INFO, na.rm = T)) %&gt;%
+  ungroup() %&gt;%
+  select(-CODMUNIC) %&gt;%
+  mutate(pct_laborat = 100 * LAB_INFO / sum(LAB_INFO)) %&gt;%
+  kable(caption = &quot;Escolas com Laboratório de Informática por Município&quot;,
+        col.names = c(&quot;Município&quot;, &quot;Número de Laboratórios&quot;, &quot;% Laboratórios&quot;),
+        digits = 1, format.args = list(big.mark = &quot;.&quot;, decimal.mark = &quot;,&quot;))
+
 pct_escolas_labinfo %&gt;%
   kable(caption=&quot;% de Escolas com Laboratório de Informático por Município&quot;,
         col.names=c(&quot;Município&quot;, &quot;% de Escolas&quot;),
         digits=1, format.args=list(big.mark=&quot;.&quot;, decimal.mark=&quot;,&quot;))</code></pre>
 <table>
-<caption><span id="tab:unnamed-chunk-10">Table 5: </span>% de Escolas com Laboratório de Informático por Município</caption>
+<caption><span id="tab:unnamed-chunk-11">Table 5: </span>% de Escolas com Laboratório de Informático por Município</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Município</th>
@@ -2480,7 +2499,7 @@ educ_RO_long %&gt;% group_by(Nível_Professor) %&gt;%
         col.names=c(&quot;Nível&quot;, &quot;Número de Professores&quot;),
         digits=1, format.args=list(big.mark=&quot;.&quot;, decimal.mark=&quot;,&quot;))</code></pre>
 <table>
-<caption><span id="tab:unnamed-chunk-11">Table 6: </span>Número de Professores por Nível de Ensinamento</caption>
+<caption><span id="tab:unnamed-chunk-12">Table 6: </span>Número de Professores por Nível de Ensinamento</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Nível</th>
@@ -2526,7 +2545,7 @@ educ_RO_long_mun_nivel %&gt;%
         col.names=c(&quot;Município&quot;, &quot;Nível&quot;, &quot;Média de Professores&quot;, &quot;Número de Professores&quot;),
         digits=1, format.args=list(big.mark=&quot;.&quot;, decimal.mark=&quot;,&quot;))</code></pre>
 <table>
-<caption><span id="tab:unnamed-chunk-12">Table 7: </span>Média e Total de Professores por Nível de Ensinamento e Município</caption>
+<caption><span id="tab:unnamed-chunk-13">Table 7: </span>Média e Total de Professores por Nível de Ensinamento e Município</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Município</th>
@@ -2914,7 +2933,7 @@ educ_RO_long_por_mun %&gt;%
         col.names=c(&quot;Município&quot;, &quot;Nível&quot;, &quot;% de Professores&quot;),
         digits=1, format.args=list(big.mark=&quot;.&quot;, decimal.mark=&quot;,&quot;))</code></pre>
 <table>
-<caption><span id="tab:unnamed-chunk-13">Table 8: </span>% de Professores em cada Nível de Ensinamento, por Município</caption>
+<caption><span id="tab:unnamed-chunk-14">Table 8: </span>% de Professores em cada Nível de Ensinamento, por Município</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Município</th>
@@ -3249,7 +3268,7 @@ educ_RO_long_por_nivel %&gt;%
         col.names=c(&quot;Município&quot;, &quot;Nível&quot;, &quot;% de Professores&quot;),
         digits=1, format.args=list(big.mark=&quot;.&quot;, decimal.mark=&quot;,&quot;))</code></pre>
 <table>
-<caption><span id="tab:unnamed-chunk-14">Table 9: </span>% de Professores em cada Nível de Ensinamento, por Município</caption>
+<caption><span id="tab:unnamed-chunk-15">Table 9: </span>% de Professores em cada Nível de Ensinamento, por Município</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Município</th>
@@ -3583,7 +3602,7 @@ educ_RO %&gt;% filter(DEP==&quot;Estadual&quot;) %&gt;%
         col.names=c(&quot;Código de Escola&quot;, &quot;Município&quot;,&quot;Lab de Info&quot;, &quot;Professores&quot;, &quot;Funcionários&quot;),
         digits=1, format.args=list(big.mark=&quot;.&quot;, decimal.mark=&quot;,&quot;))</code></pre>
 <table>
-<caption><span id="tab:unnamed-chunk-15">Table 10: </span>Duas escolas estaduais aleatórios de cada Município de RO</caption>
+<caption><span id="tab:unnamed-chunk-16">Table 10: </span>Duas escolas estaduais aleatórios de cada Município de RO</caption>
 <thead>
 <tr class="header">
 <th style="text-align: right;">Código de Escola</th>
@@ -3595,214 +3614,214 @@ educ_RO %&gt;% filter(DEP==&quot;Estadual&quot;) %&gt;%
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">25.384.754</td>
+<td style="text-align: right;">25.384.784</td>
+<td style="text-align: left;">AMAJARI</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">25.384.772</td>
 <td style="text-align: left;">AMAJARI</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">9</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">25.602.375</td>
-<td style="text-align: left;">AMAJARI</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">25.384.644</td>
+<td style="text-align: right;">25.384.671</td>
 <td style="text-align: left;">ALTO ALEGRE</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">25.602.634</td>
+<td style="text-align: right;">25.602.602</td>
 <td style="text-align: left;">ALTO ALEGRE</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">25.601.912</td>
+<td style="text-align: right;">25.602.493</td>
 <td style="text-align: left;">BOA VISTA</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">25</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">31</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">25.602.355</td>
+<td style="text-align: right;">25.385.062</td>
 <td style="text-align: left;">BOA VISTA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">32</td>
-<td style="text-align: right;">70</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">51</td>
+<td style="text-align: right;">81</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">25.602.508</td>
+<td style="text-align: right;">25.602.490</td>
+<td style="text-align: left;">PACARAIMA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">53</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">25.384.786</td>
 <td style="text-align: left;">PACARAIMA</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 </tr>
-<tr class="even">
-<td style="text-align: right;">25.384.707</td>
-<td style="text-align: left;">PACARAIMA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">7</td>
-</tr>
 <tr class="odd">
-<td style="text-align: right;">25.602.402</td>
+<td style="text-align: right;">25.385.051</td>
 <td style="text-align: left;">BONFIM</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">25.602.341</td>
+<td style="text-align: right;">25.602.451</td>
 <td style="text-align: left;">BONFIM</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">25.602.472</td>
+<td style="text-align: right;">25.384.845</td>
 <td style="text-align: left;">CANTA</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">27</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">25.384.821</td>
+<td style="text-align: right;">25.385.048</td>
 <td style="text-align: left;">CANTA</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">25.384.866</td>
+<td style="text-align: right;">25.602.379</td>
 <td style="text-align: left;">NORMANDIA</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">25.385.059</td>
+<td style="text-align: right;">25.384.857</td>
 <td style="text-align: left;">NORMANDIA</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">25.384.863</td>
+<td style="text-align: right;">25.384.759</td>
 <td style="text-align: left;">UIRAMUTA</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">25.602.381</td>
+<td style="text-align: right;">25.602.640</td>
 <td style="text-align: left;">UIRAMUTA</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">25.602.343</td>
+<td style="text-align: right;">25.602.624</td>
 <td style="text-align: left;">CARACARAI</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">15</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">25.384.912</td>
+<td style="text-align: right;">25.602.621</td>
 <td style="text-align: left;">CARACARAI</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">17</td>
-<td style="text-align: right;">25</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">25.602.606</td>
+<td style="text-align: right;">25.601.916</td>
+<td style="text-align: left;">IRACEMA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">26</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">25.602.597</td>
 <td style="text-align: left;">IRACEMA</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 </tr>
-<tr class="even">
-<td style="text-align: right;">25.385.080</td>
-<td style="text-align: left;">IRACEMA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">24</td>
-<td style="text-align: right;">35</td>
-</tr>
 <tr class="odd">
-<td style="text-align: right;">25.602.412</td>
+<td style="text-align: right;">25.384.949</td>
 <td style="text-align: left;">MUCAJAI</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">25.602.674</td>
+<td style="text-align: right;">25.602.473</td>
 <td style="text-align: left;">MUCAJAI</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">25.384.962</td>
-<td style="text-align: left;">CAROEBE</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">25</td>
-<td style="text-align: right;">39</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">25.602.549</td>
+<td style="text-align: right;">25.384.984</td>
 <td style="text-align: left;">CAROEBE</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 </tr>
+<tr class="even">
+<td style="text-align: right;">25.602.659</td>
+<td style="text-align: left;">CAROEBE</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
 <tr class="odd">
-<td style="text-align: right;">25.385.092</td>
+<td style="text-align: right;">25.385.036</td>
 <td style="text-align: left;">RORAINOPOLIS</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">45</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">25.601.926</td>
+<td style="text-align: left;">RORAINOPOLIS</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">25.384.952</td>
+<td style="text-align: left;">SAO JOAO DA BALIZA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">38</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">25.384.973</td>
+<td style="text-align: left;">SAO JOAO DA BALIZA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">25.602.335</td>
+<td style="text-align: left;">SAO LUIZ</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">25.602.423</td>
-<td style="text-align: left;">RORAINOPOLIS</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">25.602.329</td>
-<td style="text-align: left;">SAO JOAO DA BALIZA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">28</td>
-<td style="text-align: right;">34</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">25.384.970</td>
-<td style="text-align: left;">SAO JOAO DA BALIZA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">12</td>
-</tr>
-<tr class="odd">
 <td style="text-align: right;">25.602.437</td>
 <td style="text-align: left;">SAO LUIZ</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">19</td>
 <td style="text-align: right;">38</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">25.385.017</td>
-<td style="text-align: left;">SAO LUIZ</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
 </tr>
 </tbody>
 </table>
@@ -3828,7 +3847,7 @@ educ_RO %&gt;% group_by(MUNIC, DEP) %&gt;% tally() %&gt;%
   pivot_wider(names_from=DEP, values_from=n) %&gt;%
   kable(caption=&quot;Número de Escolas por Município e Rede&quot;)</code></pre>
 <table>
-<caption><span id="tab:unnamed-chunk-16">Table 11: </span>Número de Escolas por Município e Rede</caption>
+<caption><span id="tab:unnamed-chunk-17">Table 11: </span>Número de Escolas por Município e Rede</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">MUNIC</th>

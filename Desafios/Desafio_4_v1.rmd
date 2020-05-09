@@ -34,7 +34,7 @@ Eu vou mandar o .rmd de outro aluno *anonomizado* para o seu email e você deve 
 
 4. (Apenas depois de item 3:) Compare *as respostas sugeridas* no site da disciplina com o arquivo recebido, identificando com cuidado as diferenças e os erros. Onde existe divergência (e não é erro meu!) resolva o problema, melhore o código, e adicione um comentário (com #) descrevendo o fonte do erro e a sua solução.
 
-5. Avalie o HTML gerado pelo arquivo recebido e sugira melhorias para deixar ele mais claro, bonito e simples. Por exemplo, a divisão entre questões e respostas fica claro? As tabelas são bem formatadas ou em código bruto? Pode tirar tabelas desnecessárias, ou limite o número de linhas/colunas? É necessário ajustar as opcões de chunks para tirar mensagens ou código desnecessário?
+5. Avalie o HTML gerado pelo arquivo recebido e sugira melhorias para deixar ele mais claro, bonito e simples. Por exemplo, a divisão entre questões e respostas fica claro? As tabelas são bem formatadas ou em código bruto? Pode tirar tabelas desnecessárias, ou limite o número de linhas/colunas? É necessário ajustar as opcões de chunks para tirar mensagens ou código desnecessário? As respostas calculadas são inseridas como in-line código?
 
 6. Finalmente, foi um Desafio sobre gráficos, então avalie se cada gráfico contenha toda a informação necessária para entender-lo, e mostra um resultado clara e bonita. Sugira melhorias nos gráficos como títulos nos eixos, escalas de cores mais apropriados, temas apropriados, etc.
 
