@@ -44,7 +44,7 @@ O uso de repetição exige uma separação claro dos dois elementos fundamentais
 Por exemplo, imagine que nos queremos 
 
 ```{r}
-flights  %>% 
+
 ```
 
 

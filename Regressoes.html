@@ -1300,6 +1300,7 @@ Tutoriais
 <a href="Juntando_Bancos.html">7. Juntando Bancos de Dados</a>
 <a href="Mapas.html">8. Mapas e Analises Espaciais</a>
 <a href="Regressoes.html">9. Testes Estatisticos e Regressoes</a>
+<a href="Reprodutibilidade.html">10. Relatorios Reproduziveis</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1587,35 +1588,82 @@ flights %&gt;% select(origin, carrier) %&gt;%
 <p>O valor ‘p’ de zero indica que realmente existe uma diferença nas companhias que voam de cada aeroport.</p>
 <div class="green">
 <h2 id="exercício-1-testes-estatísticos">Exercício 1: Testes Estatísticos</h2>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
+<script>
+  function codefolder(query) {
+
+    var x = document.querySelectorAll(query);
+    if (x.length === 0) return;
+
+    function toggle_vis(o) {
+      var d = o.style.display;
+      o.style.display = (d === 'block' || d === '') ? 'none':'block';
+    }
+
+    for (i = 0; i < x.length; i++) {
+      var y = x[i];
+      toggle_vis(y);
+    }
+
+    var elem = document.getElementById("codefolder-button");
+    if (elem.value === "Hide Code") elem.value = "Show Code";
+    else elem.value = "Hide Code";
+  }
+</script>
+</div>
+</aside>
 <ol type="1">
 <li>Use a função <code>rnorm(1000, 0, 1)</code> para gerar um vetor de 1000 observações aleatoriamente da distribuição normal. Avalie se os valores gerados sejam realmente distribuido normal com um teste Shapiro-Wilk.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+rnorm(1000, 0, 1) %&gt;% 
+  shapiro.test() %&gt;%
+  tidy()</code></pre>
 </div>
 <ol start="2" type="1">
 <li>No banco de dados <code>planes</code>, teste se o ano de fabricação dos voos de fabricador Boeing seja diferente de 2000.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+planes %&gt;% filter(manufacturer==&quot;BOEING&quot;) %&gt;% 
+  pull(year) %&gt;%
+  t.test(mu=2000)</code></pre>
 </div>
 <ol start="3" type="1">
 <li>Avalie com um teste apropriado se a velocidade média de voos de Newark (EWR) seja igual a velocidade de vôos de LaGuardia (LGA). (Lembre-se que tem que calcular velocidade).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+flights %&gt;% filter(origin!=&quot;JFK&quot;) %&gt;%
+  mutate(velocidade=distance/air_time) %&gt;%
+  t.test(velocidade~origin, data=.) %&gt;%
+  tidy()</code></pre>
 </div>
 <ol start="4" type="1">
 <li>Usando o banco de dados <code>weather</code>, qual é a correlação entre temperatura e pressão?</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+weather %&gt;% filter(origin!=&quot;EWR&quot;) %&gt;%
+  cor.test(~temp + pressure, data=.) %&gt;%
+  tidy()</code></pre>
 </div>
 <ol start="5" type="1">
 <li>Crie um gráfico usando <code>geom_errorbar()</code> para comunicar o intervalo de confiança da estimativa de correlação em questão 4. Adicione uma linha horizontal para comparar com uma correlação de zero.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+weather %&gt;% filter(origin!=&quot;EWR&quot;) %&gt;%
+  cor.test(~temp + pressure, data=.) %&gt;%
+  tidy() %&gt;%
+  mutate(Variavel=&quot;Correlação entre temperatura e pressão&quot;) %&gt;%
+  ggplot() +
+  geom_point(aes(x=Variavel, y=estimate)) +
+  geom_hline(yintercept=0, lty=2, color=&quot;blue&quot;) +
+  geom_errorbar(aes(x=Variavel, ymin=conf.low, ymax=conf.high), width=0.1)</code></pre>
 </div>
 </div>
 <h1 id="regressões-simples">Regressões Simples</h1>
@@ -2621,35 +2669,89 @@ diff_simulacoes %&gt;% as_tibble() %&gt;%
 </div>
 <div class="green">
 <h2 id="exercício-2-regressões">Exercício 2: Regressões</h2>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
+<script>
+  function codefolder(query) {
+
+    var x = document.querySelectorAll(query);
+    if (x.length === 0) return;
+
+    function toggle_vis(o) {
+      var d = o.style.display;
+      o.style.display = (d === 'block' || d === '') ? 'none':'block';
+    }
+
+    for (i = 0; i < x.length; i++) {
+      var y = x[i];
+      toggle_vis(y);
+    }
+
+    var elem = document.getElementById("codefolder-button");
+    if (elem.value === "Hide Code") elem.value = "Show Code";
+    else elem.value = "Hide Code";
+  }
+</script>
+</div>
+</aside>
 <ol type="1">
 <li>Usando uma regressão linear, qual é a associação entre precipitação (variável dependente) e as três variáveis pressão, temperatura e humidade no banco de dados <code>weather</code>? Qual dessas três variáveis tem relacionamente positivo com a variável dependente, e qual um relationamento negativo?</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+model1 &lt;- weather %&gt;% lm(precip ~ pressure + temp + humid, data=.) 
 
+model1 %&gt;% tidy()</code></pre>
 </div>
 <ol start="2" type="1">
 <li>Rode mais um modelo de regressão adicionando mais uma variável explicativa para o aeroporto de <code>origin</code> ao modelo de questão 1. Mostre os seus dois modelos juntos numa tabela apropriada.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+model2 &lt;- weather %&gt;% lm(precip ~ pressure + temp + humid + origin, data=.) 
 
+list(model1, model2) %&gt;% stargazer(title=&quot;Modelo de Precipitação, Q2&quot;, 
+                                   type=&quot;html&quot;)</code></pre>
 </div>
 <ol start="3" type="1">
 <li>Crie um gráfico de efeitos marginais para a sua regressão na questão 2.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+model2 %&gt;% tidy() %&gt;%
+  mutate(conf.lo=estimate-1.96*std.error,
+         conf.hi=estimate+1.96*std.error) %&gt;%
+  filter(term!=&quot;(Intercept)&quot;) %&gt;%
+  ggplot() +
+  geom_point(aes(x=term, y=estimate)) +
+  geom_errorbar(aes(x=term, y=estimate, ymin=conf.lo, ymax=conf.hi), width=0.1)</code></pre>
 </div>
 <ol start="4" type="1">
 <li>Execute uma regressão do tipo ‘logit’ que explica se um vôo dure mais de três horas ou não (gere esta variável) baseado nas variáveis ‘dep_time’, ‘distance’ e ‘origin’.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+flights %&gt;% mutate(mais_de_tres_horas=case_when(air_time&gt;180 ~ 1,
+                                    TRUE ~0)) %&gt;%
+  zelig(mais_de_tres_horas ~ dep_time + distance + origin, data=., model=&quot;logit&quot;) %&gt;%
+  from_zelig_model() %&gt;%
+  stargazer(title=&quot;Modelo de Duração, Q3&quot;, 
+                                   type=&quot;html&quot;)</code></pre>
 </div>
 <ol start="5" type="1">
 <li>Use a sua regressão de questão 4 e as funções de <code>Zelig</code> para prever quanto mais provável é que um vôo seja mais de três horas de duração quando a distância aumenta de 700 para 1300 kilometros.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+modelo_tres_horas &lt;- flights %&gt;% mutate(mais_de_tres_horas=case_when(air_time&gt;180 ~ 1,
+                                    TRUE ~0)) %&gt;%
+  zelig(mais_de_tres_horas ~ dep_time + distance + origin, data=., model=&quot;logit&quot;)
 
+modelo_tres_horas %&gt;%
+  setx(distance=700) %&gt;%
+  setx1(distance=1300) %&gt;%
+  sim()</code></pre>
 </div>
 </div>
 <p><br></p>

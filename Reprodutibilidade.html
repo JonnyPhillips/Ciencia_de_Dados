@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Analise de Dados para as Ciencias Sociais: Relatórios Reproduzíveis</title>
+  
+  
+  
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Analise de Dados para as Ciencias Sociais: Relatórios Reproduzíveis"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:site_name" content="Analise de Dados para as Ciencias Sociais"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Analise de Dados para as Ciencias Sociais: Relatórios Reproduzíveis"/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Relatórios Reproduzíveis"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_float","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[1]}]}]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  <!--radix_placeholder_navigation_in_header-->
+  
+  <script type="application/javascript">
+  
+    window.headroom_prevent_pin = false;
+  
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+  
+      // initialize headroom for banner
+      var header = $('header').get(0);
+      var headerHeight = header.offsetHeight;
+      var headroom = new Headroom(header, {
+        onPin : function() {
+          if (window.headroom_prevent_pin) {
+            window.headroom_prevent_pin = false;
+            headroom.unpin();
+          }
+        }
+      });
+      headroom.init();
+      if(window.location.hash)
+        headroom.unpin();
+      $(header).addClass('headroom--transition');
+  
+      // offset scroll location for banner on hash change
+      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+      window.addEventListener("hashchange", function(event) {
+        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+      });
+  
+      // responsive menu
+      $('.distill-site-header').each(function(i, val) {
+        var topnav = $(this);
+        var toggle = topnav.find('.nav-toggle');
+        toggle.on('click', function() {
+          topnav.toggleClass('responsive');
+        });
+      });
+  
+      // nav dropdowns
+      $('.nav-dropbtn').click(function(e) {
+        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+        $(this).parent().siblings('.nav-dropdown')
+           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $("body").click(function(e){
+        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $(".nav-dropdown").click(function(e){
+        e.stopPropagation();
+      });
+    });
+  </script>
+  
+  <style type="text/css">
+  
+  /* Theme (user-documented overrideables for nav appearance) */
+  
+  .distill-site-nav {
+    color: rgba(255, 255, 255, 0.8);
+    background-color: #455a64;
+    font-size: 15px;
+    font-weight: 300;
+  }
+  
+  .distill-site-nav a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .distill-site-nav a:hover {
+    color: white;
+  }
+  
+  @media print {
+    .distill-site-nav {
+      display: none;
+    }
+  }
+  
+  .distill-site-header {
+  
+  }
+  
+  .distill-site-footer {
+  
+  }
+  
+  
+  /* Site Header */
+  
+  .distill-site-header {
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 3;
+  }
+  
+  .distill-site-header .nav-left {
+    display: inline-block;
+    margin-left: 8px;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header .nav-left {
+      margin-left: 0;
+    }
+  }
+  
+  
+  .distill-site-header .nav-right {
+    float: right;
+    margin-right: 8px;
+  }
+  
+  .distill-site-header a,
+  .distill-site-header .title {
+    display: inline-block;
+    text-align: center;
+    padding: 14px 10px 14px 10px;
+  }
+  
+  .distill-site-header .title {
+    font-size: 18px;
+  }
+  
+  .distill-site-header .logo {
+    padding: 0;
+  }
+  
+  .distill-site-header .logo img {
+    display: none;
+    max-height: 20px;
+    width: auto;
+    margin-bottom: -4px;
+  }
+  
+  .distill-site-header .nav-image img {
+    max-height: 18px;
+    width: auto;
+    display: inline-block;
+    margin-bottom: -3px;
+  }
+  
+  
+  
+  @media screen and (min-width: 1000px) {
+    .distill-site-header .logo img {
+      display: inline-block;
+    }
+    .distill-site-header .nav-left {
+      margin-left: 20px;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 20px;
+    }
+    .distill-site-header .title {
+      padding-left: 12px;
+    }
+  }
+  
+  
+  .distill-site-header .nav-toggle {
+    display: none;
+  }
+  
+  .nav-dropdown {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .nav-dropdown .nav-dropbtn {
+    border: none;
+    outline: none;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 16px 10px;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+    margin-top: 1px;
+    z-index: 2;
+  }
+  
+  .nav-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 4px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    z-index: 1;
+    margin-top: 2px;
+    white-space: nowrap;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  
+  .nav-dropdown-content hr {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-dropdown-active {
+    display: block;
+  }
+  
+  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+    color: black;
+    padding: 6px 24px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+  
+  .nav-dropdown-content .nav-dropdown-header {
+    display: block;
+    padding: 5px 24px;
+    padding-bottom: 0;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #999999;
+    white-space: nowrap;
+  }
+  
+  .nav-dropdown:hover .nav-dropbtn {
+    color: white;
+  }
+  
+  .nav-dropdown-content a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  .nav-right .nav-dropdown-content {
+    margin-left: -45%;
+    right: 0;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+    .distill-site-header a.nav-toggle {
+      float: right;
+      display: block;
+    }
+    .distill-site-header .title {
+      margin-left: 0;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 0;
+    }
+    .distill-site-header {
+      overflow: hidden;
+    }
+    .nav-right .nav-dropdown-content {
+      margin-left: 0;
+    }
+  }
+  
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header.responsive {position: relative;}
+    .distill-site-header.responsive a.nav-toggle {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    .distill-site-header.responsive a,
+    .distill-site-header.responsive .nav-dropdown {
+      display: block;
+      text-align: left;
+    }
+    .distill-site-header.responsive .nav-left,
+    .distill-site-header.responsive .nav-right {
+      width: 100%;
+    }
+    .distill-site-header.responsive .nav-dropdown {float: none;}
+    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+      display: block;
+      width: 100%;
+      text-align: left;
+    }
+  }
+  
+  /* Site Footer */
+  
+  .distill-site-footer {
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    z-index: 3;
+    margin-top: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+  }
+  
+  /* Headroom */
+  
+  d-title {
+    padding-top: 6rem;
+  }
+  
+  @media print {
+    d-title {
+      padding-top: 4rem;
+    }
+  }
+  
+  .headroom {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  .headroom--transition {
+    transition: all .4s ease-in-out;
+  }
+  
+  .headroom--unpinned {
+    top: -100px;
+  }
+  
+  .headroom--pinned {
+    top: 0;
+  }
+  
+  </style>
+  
+  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Relatórios Reproduzíveis","authors":[]}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="index.html" class="title">Analise de Dados para as Ciencias Sociais</a>
+</div>
+<div class="nav-right">
+<a href="index.html">Introducao</a>
+<a href="syllabus.html">Syllabus</a>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Tutoriais
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="introducao.html">1. Introducao</a>
+<a href="abrindo_manipulando.html">2. Abrindo e Manipulando Dados</a>
+<a href="limpando_dados.html">3. Organizando e Limpando Dados</a>
+<a href="Estatisticas_Resumidas.html">4. Calculando Estatisticas Resumidas</a>
+<a href="Tabelas.html">5. Construindo Tabelas</a>
+<a href="Graficos.html">6. Visualizacao de Dados</a>
+<a href="Juntando_Bancos.html">7. Juntando Bancos de Dados</a>
+<a href="Mapas.html">8. Mapas e Analises Espaciais</a>
+<a href="Regressoes.html">9. Testes Estatisticos e Regressoes</a>
+<a href="Reprodutibilidade.html">10. Relatorios Reproduziveis</a>
+</div>
+</div>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Desafios
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="Desafios/Desafio_1.html">Desafio 1</a>
+<a href="Desafios/Desafio_2.html">Desafio 2</a>
+<a href="Desafios/Desafio_3_v4.html">Desafio 3</a>
+<a href="Desafios/Desafio_4_v1.html">Desafio 4</a>
+<a href="desafio_5.html">Desafio 5</a>
+</div>
+</div>
+<a href="recursos.html">Recursos</a>
+<a href="projeto.html">Projeto Final</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Relatórios Reproduzíveis</h1>
+
+</div>
+
+
+<div class="d-article">
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#introdução">Introdução</a></li>
+<li><a href="#compilando-scripts-de-r-markdown-para-pdf">Compilando Scripts de R Markdown para PDF</a></li>
+<li><a href="#relatórios-escritos-em-latex-e-compilados-para-pdf">Relatórios escritos em Latex e compilados para PDF</a></li>
+<li><a href="#controle-de-versões-com-git">Controle de Versões com Git</a></li>
+<li><a href="#checkpoint">Checkpoint</a></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<style>
+div.green { background-color:#e5f5e0; border-radius: 5px; padding: 20px;}
+</style>
+<style>
+div.orange { background-color:#fee6ce; border-radius: 5px; padding: 20px;}
+</style>
+<style>
+div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
+</style>
+<style>
+div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
+</style>
+<h1 id="introdução">Introdução</h1>
+<p>Nesse tutorial, vamos ampliar o nosso conhecimento das ferramentas que funcionam com R para facilitar relatórios reproduzíveis. Tudo fica no mundo de programas abertos (‘open-source’) então podemos aproveitar sem custo do mesmo ambiente como milhões de outros pesquisadores.</p>
+<p>A primeira ferramenta é Latex, um programa que compila scripts para o formato bem conhecido de PDF. A maior vantagem é a profissionalização dos nossos relatórios - PDF é um formato comum para compartilhar relatórios finais porque eles não podem ser fácilmente editados, e - em contraste com HTML - têm páginas distintas.</p>
+<p>Para instalar Latex no seu computador, o jeito mais fácil é rodar o seguinte código em R (existem muitas versões/distribuições; não precisa instalar se já tinha instalado):</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+install.packages(&#39;tinytex&#39;)
+tinytex::install_tinytex()</code></pre>
+</div>
+<p>Segue as instruções - por exemplo, vai aparecer alguns ‘erros’ mas não são problemáticos, então pode continuar sem problema. Depois da instalação, feche o seu R e abra de novo.</p>
+<h1 id="compilando-scripts-de-r-markdown-para-pdf">Compilando Scripts de R Markdown para PDF</h1>
+<p>A nossa primeira tarefa não exige nenhuma programação adicional. Na mesma forma que compilamos os nossos documentos com ‘Knit para HTML’ ou ‘Knit para Doc’, a instalação de Latex automaticamente habilita uma nova opção ‘Knit para PDF’.</p>
+<p>Pegue um script anterior seu que compila bem para HTML e Knit para PDF. Fácil, sim? Como aparece o novo documento? Mais profissional, eu espero.</p>
+<p>No futuro, você fica em controle: pode compilar para qualquer formato é o mais apropriado para o seu relatório.</p>
+<h1 id="relatórios-escritos-em-latex-e-compilados-para-pdf">Relatórios escritos em Latex e compilados para PDF</h1>
+<p>O que acontece quando compilamos o nosso R Markdown para PDF? O R traduz o nosso script de R Markdown para a <em>linguagem</em> de Latex - literalmente ele gera um arquivo com extensão “.tex” - e depois o programa de Latex interpreta e compila este .tex para PDF.</p>
+<p>Isso funciona bem, mas nós estamos constrangidos para preparar os nossos documentos na linguagem de R Markdown, que é bom e muito fácil de aprender, mas limitado. Por exemplo, se quiser controlar em detalhe a formatação ou a paginação, não é possível em R Markdown. Então existe uma segunda forma de usar Latex: preparando o nosso script direitamente na linguagem de Latex, e pulando a etapa de R Markdown. O custo é a necessidade de aprender a linguagem de Latex. Dado o uso frequente de Latex no mundo acadêmico para a preparação de manuscritos, artigos e slides, oferecemos aqui uma guia preliminar.</p>
+<p>O nome para a combinação de R + Latex é ‘Knitr’. Há quatro diferenças fundamentais em usar Knitr em vez de R Markdown.</p>
+<h3 id="o-tipo-de-arquivo">1. O Tipo de Arquivo</h3>
+<p>Os nossos scripts de R Markdown tem extensão “.Rmd” e um cabeçalho simples. Quando preparamos um script direitamente em Latex, ele precisa uma extensão “.Rnw”. É sempre melhor começar com um modelo, então começa com “File -&gt; New File -&gt; R Sweave” (ignore o significativo de ‘Sweave’, é um nome velho).</p>
+<p>O documento abre com três linhas de texto; os mínimos necesários para um documento de Latex:</p>
+<p><strong>\documentclass{article}</strong> - O tipo de documento que queremos gerar, o mais comum é um article (artigo). Vamos ver embaixo como a gerar apresentações.</p>
+<p><strong>\begin{document}</strong> - um indicador da começa do conteúdo a ser inserido no documento final. Antes disso podemos inserir pacotes e parâmetros. Depois, digite direitamento o seu texto na gramática de latex.</p>
+<p><strong>\end{document}</strong> - um indicador do fim do documento. Texto depois será ignorado.</p>
+<h3 id="compilando-o-documento-pdf">2. Compilando o Documento PDF</h3>
+<p>Escreve algo simples (eg. Hello World!) depois de <code>\begin{document}</code>. Já é um script de Latex/Knitr válido. Como criamos o nosso PDF final à partir desse script? Observe que quando abrimos um arquivo “.Rnw” não há a opção ‘Knit’ em Rstudio. O equivalente é “Compile PDF”. Experimente! Pode demorar para compilar a primeira vez, mas deve produzir um PDF, salvo na pasta do seu projeto.</p>
+<h3 id="formatação-de-chunks-de-código">3. Formatação de Chunks de Código</h3>
+<p>O valor de Knitr é que os nossos relatórios contém os produtos de nosso análise de dados, igual como R Markdown. Mas um ponto chato é que os ‘chunks’ que guardam o nosso código de R têm uma definição diferente.</p>
+<p>Para inserir um novo chunk, use a opção ‘+ C’ (ao lado de ‘Run’) em Rstudio. Ele aparece um pouco diferente:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+&lt;&lt;&gt;&gt;=
+x &lt;- 1+1
+x
+@</code></pre>
+</div>
+<p>Mas significa exatamente o mesmo que o seguinte em Rmarkdown:</p>
+<pre class="clike"><code>
+```{r}
+x &lt;- 1 + 1
+x
+```</code></pre>
+<p>Como em Rmarkdown, podemos especificar os mesmos parâmetros dos chunks entre &lt;&lt;&gt;&gt;.</p>
+<p>&lt;&lt;echo=F, warning=F, message=F&gt;&gt;</p>
+<p>Finalmente, lembre o nosso in-line código? Também é um pouco diferente em Latex/Knitr - precisamos inserir o nome do objeto desejado dentro de \Sexpr{ }.</p>
+<h3 id="linguagem-de-formatação-de-texto-simples">4. Linguagem de Formatação de Texto Simples</h3>
+<p>Os três primeiros passos são ajustes simples que podemos aprender e realizar em alguns minutos. A quarta diferença é a mais complexa, mas também a mais poderosa. É o uso da linguagem de Latex fora dos chunks para formatar o nosso texto.</p>
+<p>Latex é mais preciso e controlado do que Rmarkdown. O padrão para formatar é \comando{texto}, onde o ‘texto’ é imprimido no documento, e ‘comando’ significa o tipo de formatação desejado.</p>
+<ul>
+<li>\textbf{Bold} - <strong>Bold</strong></li>
+<li>\textit{italic} - <em>italic</em></li>
+<li>\underline{underline} - <u> underline</u></li>
+</ul>
+<p>Para gerar listas não ordenadas:</p>
+<p>\begin{itemize}<br />
+\item Texto 1<br />
+\item Texto 2<br />
+\end{itemize}</p>
+<p>Para gerar listas ordenadas:</p>
+<p>\begin{enumerate}<br />
+\item Texto 1<br />
+\item Texto 2<br />
+\end{enumerate}</p>
+<p>Títulos e Secões numerados:<br />
+\section{Titulo 1}<br />
+\subsection{Subtitulo 1}<br />
+\subsubsection{Subsubtitulo 1}</p>
+<p>Títulos e Secões não numerados:<br />
+\section*{Titulo 1}<br />
+\subsection*{Subtitulo 1}<br />
+\subsubsection*{Subsubtitulo 1}</p>
+<h4 id="equações-em-latex">Equações em Latex</h4>
+<p>O mesmo formato de Rmarkdown. Na verdade, o Rmarkdown usa o formato de Latex.</p>
+<p><code>$$\alpha^2 + \beta^2 = \chi^2$$</code> <span class="math display">\[\alpha^2 + \beta^2 = \chi^2\]</span><br />
+<code>$$\frac{\sqrt{1}}{2} * \frac{a}{2b} = \frac{a}{4b}$$</code> <span class="math display">\[\frac{\sqrt{1}}{2} * \frac{a}{2b} = \frac{a}{4b}\]</span> <code>$$\sum_0^{10} x = ...$$</code> <span class="math display">\[\sum_0^{10} x = ...\]</span></p>
+<p>Mais detalhes <a href="https://www.caam.rice.edu/~heinken/latex/symbols.pdf">aqui</a>.</p>
+<h4 id="acentos-em-latex">Acentos em Latex</h4>
+<p>Para inserir acentos, temos duas opções. Primeira opção, abrir um pacote antes de begin{document} e digitar como normal:</p>
+<p>\usepackage[latin1]{inputenc}</p>
+<p>Segunda opção é usar a formatação especifíca para cada acento, ex:</p>
+<ul>
+<li>\’{e} - é</li>
+<li>\`{a} - à</li>
+<li>\~{o} - õ</li>
+<li>\^{a} - â</li>
+<li>\c{c} - ç</li>
+</ul>
+<h4 id="página-inicial-do-documento">Página inicial do documento</h4>
+<p>O nosso típo de documento ‘article’ nos permitem especificar um título e várias outras características <em>antes</em> de \begin{document}.</p>
+<p>\title{Relatório}<br />
+\author{My Name}<br />
+\date{Maio 2019}</p>
+<p>Se compilar o seu PDF agora, não veja nenhuma diferença. Por que? Porque não tem nada diferente entre begin{document} e end{document}. Para estes característicos aparecem em nosso documento, precisamos inserir o seguinte depois de \begin{document}:</p>
+<p>\begin{document}</p>
+<p>\maketitle</p>
+<p>Agora, deve compilar um documento muito profissional.</p>
+<h4 id="tabelas-em-knitr">Tabelas em Knitr</h4>
+<p>Latex tem uma gramática de tabelas chato de preparar. Mas nunca precisamos digitar ele direitamente. Como em R Markdown, o jeito mais fácil de gerar uma tabela é criar um tibble em R e passar para a função <em>kable</em>. Insere-lo dentro de um chunk no seu documento <em>.Rnw</em> e precisamos fazer apenas mais uma coisa para que ele aperece bonito: adicione o parâmetro <em>results=‘asis’</em> no header do chunk, como já fizemos com as tabelas de regressão com <code>stargazer</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+&lt;&lt;results=&#39;asis&#39;&gt;&gt;=
+library(&quot;tidyverse&quot;)
+library(&quot;nycflights13&quot;)
+
+flights %&gt;% group_by(origin) %&gt;%
+  summarize(atraso_media=mean(dep_delay, na.rm=T)) %&gt;% 
+  kable()
+@</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+origin
+</th>
+<th style="text-align:right;">
+atraso_media
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+EWR
+</td>
+<td style="text-align:right;">
+15.10795
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JFK
+</td>
+<td style="text-align:right;">
+12.11216
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LGA
+</td>
+<td style="text-align:right;">
+10.34688
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="figuras-em-knitr">Figuras em Knitr</h4>
+<p>Para inserir gráficos gerados por seu código, é a mesma lógica de R Markdown. Crie o gráfico em <em>ggplot</em> dentro de um chunk em seu documento de <em>.Rnw</em>. Não precisamos ajustar nenhum parâmetro do chunk, mas existem várias opções úteis para figuras para controlar o título e tamanho para integrar com Latex.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+&lt;&lt;fig.cap=&quot;Titulo de Figura&quot;, fig.height=4, fig.width=4&gt;&gt;=
+flights %&gt;% group_by(origin) %&gt;%
+  summarize(atraso_media=mean(dep_delay, na.rm=T)) %&gt;% 
+  ggplot() +
+  geom_col(aes(x=origin, y=atraso_media))
+@</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure"><span id="fig:unnamed-chunk-6"></span>
+<img src="Reprodutibilidade_files/figure-html5/unnamed-chunk-6-1.png" alt="Titulo de Figura" width="384" />
+<p class="caption">
+Figure 1: Titulo de Figura
+</p>
+</div>
+</div>
+<p>Para aprender mais sobre Latex, pode explorar as guias <a href="https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes">aqui</a>, <a href="https://tobi.oetiker.ch/lshort/lshort.pdf">aqui</a> e <a href="http://www.docs.is.ed.ac.uk/skills/documents/3722/3722-2014.pdf">aqui</a>.</p>
+<h4 id="apresentações">Apresentações</h4>
+<p>Latex é muito útil para apresentações (slides) profissionais. Há várias opções, mas o mais comum é o estilo ‘beamer’. Comece no início com:</p>
+<p>\documentclass{beamer}</p>
+<p>Para definir cada ‘slide’ de nossa apresentação, use o seguinte formato:</p>
+<p>\begin{frame}<br />
+\frametitle{Título do Slide}<br />
+Texto, conteúdo normal<br />
+Mais texto<br />
+\end{frame}</p>
+<p>Temos que repetir esta estrutura para cada slide, então 10 slides vão precisar de 10 <code>\begin{frame}</code>. Se quiser inserir uma pausa, aguardando o usuário para avançar, é só inserir <code>\\pause</code> no local apropriado no slide.</p>
+<p>Para incluir imagens de um arquivo local na mesma pasta do seu script <em>.Rnw</em> coloque:</p>
+<p>\usepackage{graphicx} - <em>antes de \begin{document}</em></p>
+<p>\includegraphics[width=\linewidth]{image.png} - <em>na página/slide onde o imagem deve aparecer</em></p>
+<div class="green">
+<h2 id="exercício-1-praticando-latex">Exercício 1: Praticando Latex</h2>
+<ol type="1">
+<li><p>Usando o formato “.Rnw”, crie um PDF com texto simples usando pelo menos cinco das formatações acima.</p></li>
+<li><p>Adicione a famosa equação de Pythagoras.</p></li>
+<li><p>Adicione uma tabela simples usando o banco de dados de <code>weather</code> que mostra o total de precipitação por mês:</p></li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="4" type="1">
+<li>Adicione um gráfico simples usando o banco de dados <code>weather</code> que mostra a temperatura média por aeroporto.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="5" type="1">
+<li><p>Verifique que o seu documento compila bem para PDF.</p></li>
+<li><p>Ajuste o seu script “.Rnw” acima para gerar uma apresentão do class ‘beamer’ e coloca o texto, a equação, a tabela, e o gráfico em slides diferentes. Compile para PDF de novo.</p></li>
+</ol>
+</div>
+<h1 id="controle-de-versões-com-git">Controle de Versões com Git</h1>
+<p>Você já criou um arquivo com nome ‘Final_v23_depois_edits_4b_final_final_v2.doc’? Dois anos depois, você poderia identificar a versão do documento que você enviou para uma colega? Rastreando mudanças em nossos scripts é desafiador, sobretudo com análises complexos. Felizmente, programadores desenvolveram várias ferramentas para ajudar: Vamos usar ‘Git’ em conjunto com Github, o parceiro online de Git.</p>
+<p>Git/Github é um sistema de controle de versões com três objetivos:</p>
+<ol type="1">
+<li>Um backup online dos seus arquivos;</li>
+<li>Controlando as versões dos scripts e rastreando mudanças;</li>
+<li>Divulgação/colaboração com outros.</li>
+</ol>
+<p>Em preparação:<br />
+1. <a href="https://git-scm.com/downloads">Instale git</a> no seu computador.<br />
+2. Crie uma conta no site <a href="https://github.com/">github</a>.</p>
+<h2 id="a-lógica-de-git">A Lógica de Git</h2>
+<p>Git é poderoso e complexo, mas podemos usar apenas as capabilidades relevantes para nos. A ideia pode ser separada em dois fluxos de trabalho:</p>
+<ol type="1">
+<li><p><strong>Controle de Versões:</strong> Vamos organizar cada mudança substancial em nosso código em um pacote, e indica para Git uma descrição rápida das mudanças. Ex. “Criando gráfico de pontos dos vôos”. No futuro, podemos identificar o pacote relevente pela sua descrição e ver linha por linha as mudanças feitas em cada pacote. Definindo um pacote com Git se chama um <code>commit</code>.</p></li>
+<li><p><strong>Backup/Colaboraçao Online:</strong> Vamos enviar cada pacote para um servidor online (um ‘repositório’) de Github, que podemos compartilhar com colegas, ou acessar de um outro computador. Enviando código ao repositório em Git se chame um <code>push</code>.</p></li>
+</ol>
+<p>Quando temos mais de uma pessoa trabalhando no mesmo script, o nosso repositório serve como a versão ‘atual’ do script. Isso exige um pouco mais de esforço - temos que baixar a versão atual do repositório antes de trabalher nele - fazer um <code>pull</code> em Git - e subir as nossas mudanças - com <code>push</code> - quando terminado para disponibilizar para outros.</p>
+<p>O gráfico abaixo mostra como funciona o fluxo de código com as várias comandas:</p>
+<p><img src="git_diag.jpg" /></p>
+<p>Antes de descrever o que fazer em RStudio, recomendamos o seguinte fluxo de trabalho simples para trabalhar com Git. Cada vez que querer trabalhar no seu projeto:</p>
+<ol type="1">
+<li>Abre o projeto (Git apenas funciona dentro de um projeto)</li>
+<li><code>Pull</code> a versão mais atual do repositório do Github</li>
+<li>Faça as suas mudanças no código/relatório</li>
+<li>Quando complete uma tarefa discreta, <code>Commit</code> o pacote de mudanças com uma descrição</li>
+<li><code>Push</code> o seu pacote/commit para o repositório online</li>
+<li>Feche o projeto</li>
+</ol>
+<h2 id="preparando-gitgithub-em-rstudio">Preparando Git/Github em RStudio</h2>
+<p>Existe um pequeno custo fixo para configurar um projeto para trabalhar com Git/Github. O primeiro passo é criar um repositório online no Github. Pode criar o seu próprio repositório com a opção ‘New Repository’ no site e copiar o link (URL) do repositório listada na botão verde ‘Clone or Download’. (Ou se dê problema, pode usar o link <a href="https://github.com/JonnyPhillips/repositorio_clone.git">https://github.com/JonnyPhillips/repositorio_clone.git</a>.)</p>
+<p>Agora, vamos usar o link para conectar o Github com RStudio. Abre RStudio e vamos ‘clonar’ este repositório para um projeto local no seu computador: File -&gt; New Project -&gt; Version Control -&gt; Git. Agora, colar o link do repositório de Github como ‘Repository URL’, e escolha o nome e a pasta onde o repositório/projeto será baixado no seu computador.</p>
+<p>Agora, temos um projeto ligado com o nosso repositório de Github. Na aba ‘files’ em RStudio agora aparece a lista de arquivos no repositório/projeto. Crie um novo script de Rmd. Neste arquivo, coloca o código seguinte para produzir um gráfico. Salve com nome “teste.Rmd” na mesma pasta do seu projeto/repositório (deve ser a pasta padrão).</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(&quot;tidyverse&quot;)
+library(&quot;nycflights13&quot;)
+
+flights %&gt;% ggplot() + 
+  geom_density(aes(dep_delay)) +
+  xlim(0, 100)</code></pre>
+<p><img src="Reprodutibilidade_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
+</div>
+<p>Vá para o repositório na sua conta no github - veja que o arquivo ‘teste.Rmd’ não está presente e só fica no seu computador local. Para sincronizar e ‘atualizar’ o repositório do github com as nossa mudanças locais, temos que fazer o seguinte:</p>
+<ul>
+<li>Abre a aba ‘Git’ em Rstudio (normalmente na mesma região de ‘Environment’)</li>
+<li>Clique o checkbox ao lado de cada arquivo que você quer atualizar, incluindo ‘teste.Rmd’. O ‘Status’ vai mudar para “A” (que significa ‘Adicionado’), ou se você esteja atualizando um arquivo já existente, “M” (que significan ‘Modificado’). Cada vez que você ajuste e salva um arquivo no projeto local, o arquivo vai aparecer na lista nessa aba de Git.</li>
+<li>Clique ‘Commit’ na aba de Git e vai abrir uma caixa que mostra todas as diferenças entre o nosso código local e o código do arquivo no github online: aditivos em verde e remoções em vermelha. A única coisa que temos que fazer nessa caixa é adicionar uma mensagem que descreve o conteúdo da mudança feita, ex. “Adicionar gráfico de atrasos”, e clique em <code>Commit</code>. Quando terminado, feche as caixas. Deve ver que a aba de Git está vazia agora, com a notícia de “Your branch is ahead of ‘origin/master’ by 1 commit”. Isso significa que o seu novo script foi cadastrado no fluxo de trabalho do projeto (o controle de versão), mas ainda não foi sincronizado online.</li>
+<li>O passo final é clicar <code>Push</code> na aba ‘Git’ em RStudio (a seta verde). Isso sincroniza as mudançãs contidas no <code>commit</code> com a versão dos arquivos online, disponibilizando elas para as suas colegas.</li>
+</ul>
+<p>Agora vá para o repositório na sua conta no Github online, atualize a página, e confirme que o novo arquivo ‘teste.Rmd’ aparece. (É possível que tem que aguardar alguns minutos para ele aparecer, mas normalmente é imediato). Se entrar no link de ‘1 commit’ na página do seu relatório, pode ver todos os commits anteriores, e os detalhes de mudanças de código em cada um.</p>
+<p>Parabéns, agora o seu trabalho está seguro com um backup online, documentado com a história de versões rastreável, e accessível por suas colegas!</p>
+<p><br></p>
+<div class="blue">
+<p><strong>Habilidade Básica de Programação: Privacidade</strong></p>
+<p>O default para Github é que os repositórios ficam abertos para todo o mundo acessar, encorajando transparência e reprodutibilidade. Mas tome cuidado que o seu projeto não contém dados confidenciais ou informação pessoal.</p>
+<p>Se você tenha uma conta paga, ou uma <a href="https://education.github.com/pack">conta estudantil</a>, pode tornar a sua conta privada e adicionar apenas os colaboradores desejados - em Github vai para Settings -&gt; Make Private.</p>
+</div>
+<p><br></p>
+<div class="green">
+<h2 id="exercício-2-usando-git">Exercício 2: Usando Git</h2>
+<ol type="1">
+<li><p>Crie um novo repositório na sua conta de Github e conectar (‘clonar’) com um novo projeto no seu RStudio.</p></li>
+<li><p>Copiar o seu script de Exercício 1 (o .Rnw) para a pasta local do seu projeto novo criado no passo anterior.</p></li>
+<li><p>Adicione mais um gráfico ao seu script, mostrando a humidade média por mês.</p></li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="4" type="1">
+<li><p><code>Commit</code> a versão atualizada com uma descrição apropriada.</p></li>
+<li><p><code>Push</code> as mudanças para o seu repositório de Github. Verifique que o novo arquivo está atualizado no repositório da sua conta de Github.</p></li>
+</ol>
+</div>
+<h1 id="checkpoint">Checkpoint</h1>
+<p>A última ferramanta listada aqui é menos usada, mas atende um problema que já é familiar para vocês - complexidades e conflitos de pacotes de R. Essa seção é optativa porque não é essencial para o seu trabalho pessoal mas pode ser útil para projetos maiores e colaborativos.</p>
+<p>O que vai acontecer se mandamos o nosso script de R Markdown para uma colega? Vai funcionar? Será reprodutível? Frequentemente não. Mesmo que eles tem exatamente os mesmos arquivos e usa a mesma versão de R e RStudio, não podemos garantir que eles terão acesso às mesmas funções que usamos para fazer nosso script. Lembre-se que tivemos que instalar cada um dos nossos pacotes (<code>install.packages()</code>) - se o receptor não tiver feito o mesmo ou tiver uma versão diferente de um pacote, nosso código vai quebrar.</p>
+<p>Para resolver isso, podemos usar o pacote <code>checkpoint</code> para garantir reprodutibilidade de pacotes. Num site online, o checkpoint salva cada dia todos os pacotes disponíveis em R (de CRAN). Nós só precisamos escolher uma data para o nosso código para que ele usa o conjunto consistente de pacotes salvos nessa data sempre que o código seja executado. Como aproveitamos? Apenas coloque o seguinte código (com sua data preferida) no início do seu código:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+#install.packages(&quot;checkpoint&quot;)
+library(checkpoint)
+checkpoint(&quot;2020-05-10&quot;)</code></pre>
+</div>
+<p>Desde que o checkpoint vai salvar uma copia dos pacotes localmente, funciona melhor dentro de um projeto de R.</p>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
