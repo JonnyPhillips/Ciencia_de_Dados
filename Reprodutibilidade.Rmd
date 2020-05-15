@@ -261,13 +261,13 @@ Um elemento central da pesquisa é a citação dos nossos fontes. Uma citação 
 
 Felizmente, existe um formato meia-padrão para o armazenamento das citações - num arquivo com extensão '.bib'. Várias programas (Zotero, Mendeley, EndNote etc.) podem te ajudar gestar as citações e geram arquivos '.bib' então não precisamos nos preocupar com o conteúdo deles, mas para referência eles contém conteúdo tipo:
 
-@article{Arrow1961,
-   author={Arrow, Kenneth J. and Leonid Hurwicz and Hirofumi Uzawa},
-   title={Constraint qualifications in maximization problems},
-   journal={Naval Research Logistics Quarterly},
-   volume={8},
-   year=1961,
-   pages={175-191}
+\@article{Arrow1961,  
+   author={Arrow, Kenneth J. and Leonid Hurwicz and Hirofumi Uzawa},  
+   title={Constraint qualifications in maximization problems},  
+   journal={Naval Research Logistics Quarterly},  
+   volume={8},  
+   year=1961,  
+   pages={175-191}  
 }
 
 O elemento crucial aqui é a primeira entrada depois de `{`, 'Arrow1961' - isso é o atalho que vamos usar para citar este artigo para não repetir toda essa informação cada vez que queremos citar o mesmo artigo.
@@ -288,12 +288,19 @@ bibliography: nome_do_arquivo.bib
 * No lugar apropriado no seu texto simples, quando quiser fazer referência à citação, insera `[@Arrow1961]`, com o atalho apropriado para a citação desejada.
 * As referências vão aparecer no final do documento, então pode ser útil inserir um título, como `## Referências` no final do documento.
 
-Em **Knitr (com Latex)** o uso de bibliografias é: [EM MANUTENÇÃO]
+Em **Knitr (com Latex)** o uso de bibliografias é um pouco mais complexo infelizmente: 
 
-<!-- * Salve o arquivo ".bib" na pasta do seu projeto. -->
-<!-- * Antes de '\begin{document}' coloque `\usepackage{natbib}`.  -->
-<!-- * No lugar apropriado no seu texto simples, quando quiser fazer referência à citação, insera `\cite{Arrow1961}`,  ou `\citep{Arrow1961}` se quiser parênteses, com o atalho apropriado para a citação desejada. -->
-<!-- * No final do seu documento (imediatamente antes de '\end{document}'), coloque '\bibliography{nome_do_arquivo}' para o seu arquivo '.bib', (sem incluir '.bib').  -->
+* Salve o arquivo ".bib" na pasta do seu projeto. 
+* Antes de '\begin{document}' coloque o segunite código:
+
+`\usepackage[backend = biber, style=alphabetic, citestyle=authoryear]{biblatex}`
+`\bibliography{nome_do_arquivo}` (sem ".bib")
+
+* No lugar apropriado no seu texto simples, quando quiser fazer referência à citação, insera `\cite{Arrow1961}`,  ou `\citep{Arrow1961}` se quiser a citação em parênteses, com o atalho apropriado para a citação desejada.
+* No final do seu documento (imediatamente antes de '\end{document}'), coloque `\printbibliography`.
+* Uma restrição chata: Não podemos usar a botão de 'Compile in PDF'; temos que chamar a compilação em código no console (não no script), como no código abaixo, onde 'script.Rnw' é o nome do seu script (e não o arquivo da bibliografio):
+
+`knitr::knit2pdf("script.Rnw", bib_engine = "biber")`
 
 <div class = "green">
 ## Exercício 1: Praticando Latex

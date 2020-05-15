@@ -1,0 +1,14 @@
+\documentclass{article}
+
+\usepackage[backend = biber, style=alphabetic, citestyle=authoryear]{biblatex}
+\bibliography{bib_file}
+
+%\addbibresource{bib_file.bib}
+
+\begin{document}
+
+teste em pasta do projeto  \cite{Arrow1961}
+
+
+\printbibliography
+\end{document}

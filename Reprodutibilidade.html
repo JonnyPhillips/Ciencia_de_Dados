@@ -1541,7 +1541,14 @@ Mais texto<br />
 <h4 id="bibliografias">Bibliografias</h4>
 <p>Um elemento central da pesquisa é a citação dos nossos fontes. Uma citação é simplesmente um conjunto de dados sobre um livro/artigo ou outro fonte que colocamos numa nota de rodapé ou apêndice, e um atalho para a citação no texto (frequentemente autor-ano, ex. ‘(Arrow 1961)’).</p>
 <p>Felizmente, existe um formato meia-padrão para o armazenamento das citações - num arquivo com extensão ‘.bib’. Várias programas (Zotero, Mendeley, EndNote etc.) podem te ajudar gestar as citações e geram arquivos ‘.bib’ então não precisamos nos preocupar com o conteúdo deles, mas para referência eles contém conteúdo tipo:</p>
-<p><span class="citation" data-cites="article">@article</span>{Arrow1961, author={Arrow, Kenneth J. and Leonid Hurwicz and Hirofumi Uzawa}, title={Constraint qualifications in maximization problems}, journal={Naval Research Logistics Quarterly}, volume={8}, year=1961, pages={175-191} }</p>
+<p>@article{Arrow1961,<br />
+author={Arrow, Kenneth J. and Leonid Hurwicz and Hirofumi Uzawa},<br />
+title={Constraint qualifications in maximization problems},<br />
+journal={Naval Research Logistics Quarterly},<br />
+volume={8},<br />
+year=1961,<br />
+pages={175-191}<br />
+}</p>
 <p>O elemento crucial aqui é a primeira entrada depois de <code>{</code>, ‘Arrow1961’ - isso é o atalho que vamos usar para citar este artigo para não repetir toda essa informação cada vez que queremos citar o mesmo artigo.</p>
 <p>Em <strong>R Markdown</strong>, o uso de bibliografias é assim:</p>
 <ul>
@@ -1560,11 +1567,18 @@ bibliography: nome_do_arquivo.bib
 <li>No lugar apropriado no seu texto simples, quando quiser fazer referência à citação, insera <code>[@Arrow1961]</code>, com o atalho apropriado para a citação desejada.</li>
 <li>As referências vão aparecer no final do documento, então pode ser útil inserir um título, como <code>## Referências</code> no final do documento.</li>
 </ul>
-<p>Em <strong>Knitr (com Latex)</strong> o uso de bibliografias é: [EM MANUTENÇÃO]</p>
-<!-- * Salve o arquivo ".bib" na pasta do seu projeto. -->
-<!-- * Antes de '\begin{document}' coloque `\usepackage{natbib}`.  -->
-<!-- * No lugar apropriado no seu texto simples, quando quiser fazer referência à citação, insera `\cite{Arrow1961}`,  ou `\citep{Arrow1961}` se quiser parênteses, com o atalho apropriado para a citação desejada. -->
-<!-- * No final do seu documento (imediatamente antes de '\end{document}'), coloque '\bibliography{nome_do_arquivo}' para o seu arquivo '.bib', (sem incluir '.bib').  -->
+<p>Em <strong>Knitr (com Latex)</strong> o uso de bibliografias é um pouco mais complexo infelizmente:</p>
+<ul>
+<li>Salve o arquivo “.bib” na pasta do seu projeto.</li>
+<li>Antes de ‘\begin{document}’ coloque o segunite código:</li>
+</ul>
+<p><code>\usepackage[backend = biber, style=alphabetic, citestyle=authoryear]{biblatex}</code> <code>\bibliography{nome_do_arquivo}</code> (sem “.bib”)</p>
+<ul>
+<li>No lugar apropriado no seu texto simples, quando quiser fazer referência à citação, insera <code>\cite{Arrow1961}</code>, ou <code>\citep{Arrow1961}</code> se quiser a citação em parênteses, com o atalho apropriado para a citação desejada.</li>
+<li>No final do seu documento (imediatamente antes de ‘\end{document}’), coloque <code>\printbibliography</code>.</li>
+<li>Uma restrição chata: Não podemos usar a botão de ‘Compile in PDF’; temos que chamar a compilação em código no console (não no script), como no código abaixo, onde ‘script.Rnw’ é o nome do seu script (e não o arquivo da bibliografio):</li>
+</ul>
+<p><code>knitr::knit2pdf("script.Rnw", bib_engine = "biber")</code></p>
 <div class="green">
 <h2 id="exercício-1-praticando-latex">Exercício 1: Praticando Latex</h2>
 <ol type="1">
