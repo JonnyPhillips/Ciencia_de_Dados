@@ -50,6 +50,8 @@ tinytex::install_tinytex()
 
 Segue as instruções - por exemplo, vai aparecer alguns 'erros' mas não são problemáticos, então pode continuar sem problema. Depois da instalação, feche o seu R e abra de novo. 
 
+Um passo adicional para verificar que tudo esteja configurado bem é accessar em RStudio Tools -> Global Options -> Sweave -> 'Weave Rnw files using:' e escolhe 'knitr'. 
+
 # Compilando Scripts de R Markdown para PDF
 
 A nossa primeira tarefa não exige nenhuma programação adicional. Na mesma forma que compilamos os nossos documentos com 'Knit para HTML' ou 'Knit para Doc', a instalação de Latex automaticamente habilita uma nova opção 'Knit para PDF'. 
@@ -252,6 +254,46 @@ Para incluir imagens de um arquivo local na mesma pasta do seu script _.Rnw_ col
 \\usepackage{graphicx} - *antes de \\begin{document}*
 
 \\includegraphics[width=\\linewidth]{image.png} - *na página/slide onde o imagem deve aparecer*
+
+#### Bibliografias
+
+Um elemento central da pesquisa é a citação dos nossos fontes. Uma citação é simplesmente um conjunto de dados sobre um livro/artigo ou outro fonte que colocamos numa nota de rodapé ou apêndice, e um atalho para a citação no texto (frequentemente autor-ano, ex. '(Arrow 1961)'). 
+
+Felizmente, existe um formato meia-padrão para o armazenamento das citações - num arquivo com extensão '.bib'. Várias programas (Zotero, Mendeley, EndNote etc.) podem te ajudar gestar as citações e geram arquivos '.bib' então não precisamos nos preocupar com o conteúdo deles, mas para referência eles contém conteúdo tipo:
+
+@article{Arrow1961,
+   author={Arrow, Kenneth J. and Leonid Hurwicz and Hirofumi Uzawa},
+   title={Constraint qualifications in maximization problems},
+   journal={Naval Research Logistics Quarterly},
+   volume={8},
+   year=1961,
+   pages={175-191}
+}
+
+O elemento crucial aqui é a primeira entrada depois de `{`, 'Arrow1961' - isso é o atalho que vamos usar para citar este artigo para não repetir toda essa informação cada vez que queremos citar o mesmo artigo.
+
+Em **R Markdown**, o uso de bibliografias é assim:
+
+* Salve o arquivo ".bib" na pasta do seu projeto.
+* No cabeçalho, coloque uma linha "bibliography: nome_do_arquivo.bib" para conectar com o arquivo que contém as citações:
+
+```{r, eval=F, echo=T}
+---
+title: "Exemplo"
+output: html_document
+bibliography: nome_do_arquivo.bib
+---
+```
+
+* No lugar apropriado no seu texto simples, quando quiser fazer referência à citação, insera `[@Arrow1961]`, com o atalho apropriado para a citação desejada.
+* As referências vão aparecer no final do documento, então pode ser útil inserir um título, como `## Referências` no final do documento.
+
+Em **Knitr (com Latex)** o uso de bibliografias é: [EM MANUTENÇÃO]
+
+<!-- * Salve o arquivo ".bib" na pasta do seu projeto. -->
+<!-- * Antes de '\begin{document}' coloque `\usepackage{natbib}`.  -->
+<!-- * No lugar apropriado no seu texto simples, quando quiser fazer referência à citação, insera `\cite{Arrow1961}`,  ou `\citep{Arrow1961}` se quiser parênteses, com o atalho apropriado para a citação desejada. -->
+<!-- * No final do seu documento (imediatamente antes de '\end{document}'), coloque '\bibliography{nome_do_arquivo}' para o seu arquivo '.bib', (sem incluir '.bib').  -->
 
 <div class = "green">
 ## Exercício 1: Praticando Latex

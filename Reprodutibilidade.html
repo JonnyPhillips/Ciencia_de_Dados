@@ -1365,6 +1365,7 @@ install.packages(&#39;tinytex&#39;)
 tinytex::install_tinytex()</code></pre>
 </div>
 <p>Segue as instruções - por exemplo, vai aparecer alguns ‘erros’ mas não são problemáticos, então pode continuar sem problema. Depois da instalação, feche o seu R e abra de novo.</p>
+<p>Um passo adicional para verificar que tudo esteja configurado bem é accessar em RStudio Tools -&gt; Global Options -&gt; Sweave -&gt; ‘Weave Rnw files using:’ e escolhe ‘knitr’.</p>
 <h1 id="compilando-scripts-de-r-markdown-para-pdf">Compilando Scripts de R Markdown para PDF</h1>
 <p>A nossa primeira tarefa não exige nenhuma programação adicional. Na mesma forma que compilamos os nossos documentos com ‘Knit para HTML’ ou ‘Knit para Doc’, a instalação de Latex automaticamente habilita uma nova opção ‘Knit para PDF’.</p>
 <p>Pegue um script anterior seu que compila bem para HTML e Knit para PDF. Fácil, sim? Como aparece o novo documento? Mais profissional, eu espero.</p>
@@ -1537,6 +1538,33 @@ Mais texto<br />
 <p>Para incluir imagens de um arquivo local na mesma pasta do seu script <em>.Rnw</em> coloque:</p>
 <p>\usepackage{graphicx} - <em>antes de \begin{document}</em></p>
 <p>\includegraphics[width=\linewidth]{image.png} - <em>na página/slide onde o imagem deve aparecer</em></p>
+<h4 id="bibliografias">Bibliografias</h4>
+<p>Um elemento central da pesquisa é a citação dos nossos fontes. Uma citação é simplesmente um conjunto de dados sobre um livro/artigo ou outro fonte que colocamos numa nota de rodapé ou apêndice, e um atalho para a citação no texto (frequentemente autor-ano, ex. ‘(Arrow 1961)’).</p>
+<p>Felizmente, existe um formato meia-padrão para o armazenamento das citações - num arquivo com extensão ‘.bib’. Várias programas (Zotero, Mendeley, EndNote etc.) podem te ajudar gestar as citações e geram arquivos ‘.bib’ então não precisamos nos preocupar com o conteúdo deles, mas para referência eles contém conteúdo tipo:</p>
+<p><span class="citation" data-cites="article">@article</span>{Arrow1961, author={Arrow, Kenneth J. and Leonid Hurwicz and Hirofumi Uzawa}, title={Constraint qualifications in maximization problems}, journal={Naval Research Logistics Quarterly}, volume={8}, year=1961, pages={175-191} }</p>
+<p>O elemento crucial aqui é a primeira entrada depois de <code>{</code>, ‘Arrow1961’ - isso é o atalho que vamos usar para citar este artigo para não repetir toda essa informação cada vez que queremos citar o mesmo artigo.</p>
+<p>Em <strong>R Markdown</strong>, o uso de bibliografias é assim:</p>
+<ul>
+<li>Salve o arquivo “.bib” na pasta do seu projeto.</li>
+<li>No cabeçalho, coloque uma linha “bibliography: nome_do_arquivo.bib” para conectar com o arquivo que contém as citações:</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+---
+title: &quot;Exemplo&quot;
+output: html_document
+bibliography: nome_do_arquivo.bib
+---</code></pre>
+</div>
+<ul>
+<li>No lugar apropriado no seu texto simples, quando quiser fazer referência à citação, insera <code>[@Arrow1961]</code>, com o atalho apropriado para a citação desejada.</li>
+<li>As referências vão aparecer no final do documento, então pode ser útil inserir um título, como <code>## Referências</code> no final do documento.</li>
+</ul>
+<p>Em <strong>Knitr (com Latex)</strong> o uso de bibliografias é: [EM MANUTENÇÃO]</p>
+<!-- * Salve o arquivo ".bib" na pasta do seu projeto. -->
+<!-- * Antes de '\begin{document}' coloque `\usepackage{natbib}`.  -->
+<!-- * No lugar apropriado no seu texto simples, quando quiser fazer referência à citação, insera `\cite{Arrow1961}`,  ou `\citep{Arrow1961}` se quiser parênteses, com o atalho apropriado para a citação desejada. -->
+<!-- * No final do seu documento (imediatamente antes de '\end{document}'), coloque '\bibliography{nome_do_arquivo}' para o seu arquivo '.bib', (sem incluir '.bib').  -->
 <div class="green">
 <h2 id="exercício-1-praticando-latex">Exercício 1: Praticando Latex</h2>
 <ol type="1">
@@ -1599,7 +1627,7 @@ library(&quot;nycflights13&quot;)
 flights %&gt;% ggplot() + 
   geom_density(aes(dep_delay)) +
   xlim(0, 100)</code></pre>
-<p><img src="Reprodutibilidade_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
+<p><img src="Reprodutibilidade_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
 </div>
 <p>Vá para o repositório na sua conta no github - veja que o arquivo ‘teste.Rmd’ não está presente e só fica no seu computador local. Para sincronizar e ‘atualizar’ o repositório do github com as nossa mudanças locais, temos que fazer o seguinte:</p>
 <ul>

@@ -1,0 +1,17 @@
+\documentclass{article}
+
+\usepackage[backend = biber]{biblatex}
+\bibliography{bib_file}
+
+\begin{document}
+
+teste em pasta do projeto  \cite{Arrow1961}
+
+\end{document}
+
+<<>>=
+system(paste(
+  "biber", knitr:::sans_ext(knitr::current_input()), "--isbn-normalise"
+))
+@
+

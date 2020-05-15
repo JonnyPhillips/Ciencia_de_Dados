@@ -1,0 +1,17 @@
+\documentclass{article}
+\usepackage{filecontents}
+\begin{filecontents}{\jobname.bib}
+@misc{Doe,author={John Doe},title={Title}}
+\end{filecontents}
+\usepackage[backend=biber]{biblatex}
+\addbibresource{\jobname.bib}
+\begin{document}
+
+Test \cite{Doe}
+
+\printbibliography
+\end{document}
+
+<<biber>>=
+system(paste("biber", sub("\\.Rnw$", "", current_input())))
+@

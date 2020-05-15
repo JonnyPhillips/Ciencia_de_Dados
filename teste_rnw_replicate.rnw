@@ -1,0 +1,40 @@
+\documentclass{article}
+\usepackage{hyperref}
+\usepackage[backend=bibtex, sorting=none]{biblatex}
+\bibliography{references}
+ 
+\begin{filecontents*}{references.bib}
+@Manual{knitr2013,
+    title = {knitr: A general-purpose package for dynamic report
+      generation in R},
+    author = {Yihui Xie},
+    year = {2013},
+    note = {R package version 1.4.1},
+    url = {http://yihui.name/knitr/},
+  }
+\end{filecontents*}
+ 
+\begin{document}
+ 
+\section*{Automatic biblatex bibliography generation in RStudio using knitr}
+ 
+<<setup, include=FALSE, cache=FALSE, echo=FALSE>>=
+setwd("C:/Users/jonny/Google Drive/Academic/USP/Teaching/FLS6397 - Intro to Programming/2020/Ciencia_de_Dados")
+opts_chunk$set(fig.path='figures/plots-', fig.align='center', fig.show='hold', eval=TRUE, echo=TRUE)
+options(replace.assign=TRUE,width=80)
+Sys.setenv(TEXINPUTS=getwd(),
+           BIBINPUTS=getwd(),
+           BSTINPUTS=getwd())
+@
+ 
+<<sample-data-hist-and-box, out.width='0.48\\textwidth'>>=
+sampleData <- rnorm(1000, 0,1)
+hist(sampleData)
+boxplot(sampleData)
+@
+ 
+This document was produced in RStudio using the knitr package \cite{knitr2013} by \url{http://texblog.org}.
+ 
+\printbibliography
+ 
+\end{document}

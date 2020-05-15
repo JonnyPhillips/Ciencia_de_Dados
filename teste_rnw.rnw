@@ -1,0 +1,20 @@
+\documentclass{article}
+
+\usepackage[backend = biber]{biblatex}
+\bibliography{bib_file}
+
+
+%\addbibresource{bib_file.bib}
+
+\begin{document}
+
+<<>>=
+Sys.setenv(TEXINPUTS=getwd(),
+           BIBINPUTS=getwd(),
+           BSTINPUTS=getwd())
+@
+
+
+teste em pasta do projeto  \cite{Arrow1961}
+
+\end{document}
