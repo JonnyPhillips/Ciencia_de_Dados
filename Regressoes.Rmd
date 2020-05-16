@@ -725,6 +725,7 @@ flights %>% mutate(mais_de_tres_horas=case_when(air_time>180 ~ 1,
 ```{r, eval=F, echo=T}
 modelo_tres_horas <- flights %>% mutate(mais_de_tres_horas=case_when(air_time>180 ~ 1,
                                     TRUE ~0)) %>%
+  mutate(origin=factor(origin)) %>%
   zelig(mais_de_tres_horas ~ dep_time + distance + origin, data=., model="logit")
 
 modelo_tres_horas %>%

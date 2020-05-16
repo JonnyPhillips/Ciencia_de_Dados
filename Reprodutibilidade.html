@@ -1362,8 +1362,11 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 install.packages(&#39;tinytex&#39;)
-tinytex::install_tinytex()</code></pre>
+tinytex::install_tinytex(repos = &#39;http://ctan.mirrors.hoobly.com/systems/texlive/tlnet&#39;)</code></pre>
 </div>
+<aside>
+(Normalmente não precisamos especificar o repositório, mas parece que existe um problema temporário com um servidor).
+</aside>
 <p>Segue as instruções - por exemplo, vai aparecer alguns ‘erros’ mas não são problemáticos, então pode continuar sem problema. Depois da instalação, feche o seu R e abra de novo.</p>
 <p>Um passo adicional para verificar que tudo esteja configurado bem é accessar em RStudio Tools -&gt; Global Options -&gt; Sweave -&gt; ‘Weave Rnw files using:’ e escolhe ‘knitr’.</p>
 <h1 id="compilando-scripts-de-r-markdown-para-pdf">Compilando Scripts de R Markdown para PDF</h1>
@@ -1576,7 +1579,7 @@ bibliography: nome_do_arquivo.bib
 <ul>
 <li>No lugar apropriado no seu texto simples, quando quiser fazer referência à citação, insera <code>\cite{Arrow1961}</code>, ou <code>\citep{Arrow1961}</code> se quiser a citação em parênteses, com o atalho apropriado para a citação desejada.</li>
 <li>No final do seu documento (imediatamente antes de ‘\end{document}’), coloque <code>\printbibliography</code>.</li>
-<li>Uma restrição chata: Não podemos usar a botão de ‘Compile in PDF’; temos que chamar a compilação em código no console (não no script), como no código abaixo, onde ‘script.Rnw’ é o nome do seu script (e não o arquivo da bibliografio):</li>
+<li>Uma restrição chata: Não podemos usar a botão de ‘Compile in PDF’; temos que chamar a compilação do código pelo console (na aba embaixo de RStudio) (e não no seu script), como no código abaixo, onde ‘script.Rnw’ é o nome do seu script (e não o arquivo da bibliografio):</li>
 </ul>
 <p><code>knitr::knit2pdf("script.Rnw", bib_engine = "biber")</code></p>
 <div class="green">
@@ -1610,7 +1613,10 @@ bibliography: nome_do_arquivo.bib
 </ol>
 <p>Em preparação:<br />
 1. <a href="https://git-scm.com/downloads">Instale git</a> no seu computador.<br />
-2. Crie uma conta no site <a href="https://github.com/">github</a>.</p>
+2. Crie uma conta no site <a href="https://github.com/">github</a>.<br />
+3. Em R, encontre a aba de ‘Terminal’ ao lado de ‘Console’ e ‘R Markdown’. No terminal, digite o seguinte (duas linhas separadas), substituindo os valores de usuário e email com eles que você usou para abrir a conta de Github online:</p>
+<p><code>git config --global user.name 'yourGitHubUsername'</code><br />
+<code>git config --global user.email 'name@provider.com'</code></p>
 <h2 id="a-lógica-de-git">A Lógica de Git</h2>
 <p>Git é poderoso e complexo, mas podemos usar apenas as capabilidades relevantes para nos. A ideia pode ser separada em dois fluxos de trabalho:</p>
 <ol type="1">

@@ -45,8 +45,12 @@ Para instalar Latex no seu computador, o jeito mais fácil é rodar o seguinte c
 
 ```{r, echo=T, eval=F}
 install.packages('tinytex')
-tinytex::install_tinytex()
+tinytex::install_tinytex(repos = 'http://ctan.mirrors.hoobly.com/systems/texlive/tlnet')
 ```
+
+<aside>
+(Normalmente não precisamos especificar o repositório, mas parece que existe um problema temporário com um servidor).
+</aside>
 
 Segue as instruções - por exemplo, vai aparecer alguns 'erros' mas não são problemáticos, então pode continuar sem problema. Depois da instalação, feche o seu R e abra de novo. 
 
@@ -298,7 +302,7 @@ Em **Knitr (com Latex)** o uso de bibliografias é um pouco mais complexo infeli
 
 * No lugar apropriado no seu texto simples, quando quiser fazer referência à citação, insera `\cite{Arrow1961}`,  ou `\citep{Arrow1961}` se quiser a citação em parênteses, com o atalho apropriado para a citação desejada.
 * No final do seu documento (imediatamente antes de '\end{document}'), coloque `\printbibliography`.
-* Uma restrição chata: Não podemos usar a botão de 'Compile in PDF'; temos que chamar a compilação em código no console (não no script), como no código abaixo, onde 'script.Rnw' é o nome do seu script (e não o arquivo da bibliografio):
+* Uma restrição chata: Não podemos usar a botão de 'Compile in PDF'; temos que chamar a compilação do código pelo console (na aba embaixo de RStudio) (e não no seu script), como no código abaixo, onde 'script.Rnw' é o nome do seu script (e não o arquivo da bibliografio):
 
 `knitr::knit2pdf("script.Rnw", bib_engine = "biber")`
 
@@ -345,6 +349,10 @@ Git/Github é um sistema de controle de versões com três objetivos:
 Em preparação:  
 1. [Instale git](https://git-scm.com/downloads) no seu computador.  
 2. Crie uma conta no site [github](https://github.com/).  
+3. Em R, encontre a aba de 'Terminal' ao lado de 'Console' e 'R Markdown'. No terminal, digite o seguinte (duas linhas separadas), substituindo os valores de usuário e email com eles que você usou para abrir a conta de Github online:
+
+`git config --global user.name 'yourGitHubUsername'`  
+`git config --global user.email 'name@provider.com'`
 
 ## A Lógica de Git
 
