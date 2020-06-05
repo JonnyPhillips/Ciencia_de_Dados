@@ -42,6 +42,9 @@ Usar scripts de programação para a análise de dados tem várias vantagens: tr
 Por exemplo, imagine que nos queremos calcular a amplitude de uma variável: o máximo menos o mínimo. E queremos rodar a análise para três variáveis:
 
 ```{r, eval=F}
+library("nycflights13")
+library("tidyverse")
+
 max_dep_delay <- flights %>% pull(dep_delay) %>% max(na.rm=T)
 min_dep_delay <- flights %>% pull(dep_delay) %>% min(na.rm=T)
 max_dep_delay - min_dep_delay

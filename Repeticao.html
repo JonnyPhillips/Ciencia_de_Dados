@@ -1362,6 +1362,9 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <p>Por exemplo, imagine que nos queremos calcular a amplitude de uma variável: o máximo menos o mínimo. E queremos rodar a análise para três variáveis:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
+library(&quot;nycflights13&quot;)
+library(&quot;tidyverse&quot;)
+
 max_dep_delay &lt;- flights %&gt;% pull(dep_delay) %&gt;% max(na.rm=T)
 min_dep_delay &lt;- flights %&gt;% pull(dep_delay) %&gt;% min(na.rm=T)
 max_dep_delay - min_dep_delay
