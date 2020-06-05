@@ -292,29 +292,42 @@ while (condição) {
 <div class = "green">
 ## Exercício 1: Repetição
 
-1. Use o código `flights %>% split(.$origin)` para gerar uma lista dos vôos dos três aeroprtos de origem em três tibbles separados. Use `map` para calcular o número de linhas (vôos) em cada tibble.
+1. Gere três tibbles seperados derivados do banco de dados `flights`, um para cada aeroporto de origem. Em seguida, coloque os três tibbles em uma lista (`list()`), com o nome de cada elemento da lista a sigla do aeroporto. 
 
 ```{r, eval=F, echo=F}
-flights_por_origem <- flights %>% split(.$origin)
+EWR <- flights %>% filter(origin=="EWR")
+JFK <- flights %>% filter(origin=="JFK")
+LGA <- flights %>% filter(origin=="LGA")
 
+flights_por_origem <- list(EWR=EWR,
+                           JFK=JFK,
+                           LGA=LGA)
+
+#Ou, mais eficiente: flights_por_origem <- flights %>% split(.$origin)
+```
+
+
+2. Use `map` para calcular o número de linhas (vôos) em cada tibble.
+
+```{r, eval=F, echo=F}
 flights_por_origem %>% map(nrow)
 ```
 
-2. Filtre os três bancos de questão 1 para o destino de 'SFO' (San Francisco) usando `map`. Quantos vôos (linhas) têm cada aeroporto de Nova Iorque para SFO?
+3. Filtre os três bancos de questão 1 para vôos com destino 'SFO' (San Francisco) usando `map`. Quantos vôos (linhas) têm cada aeroporto de Nova Iorque para SFO?
 
 ```{r, eval=F, echo=F}
 flights_por_origem %>% map(filter, dest=="SFO") %>% 
   map(nrow)
 ```
 
-3. Para cada um dos três banco de dados, calcule a velocidade de cada vôo usando `map`.
+4. Para cada um dos três bancos de dados, calcule a velocidade de cada vôo usando `map`.
 
 ```{r, eval=F, echo=F}
 flights_por_origem <- flights_por_origem %>% 
   map(mutate, velocidade=distance/air_time)
 ```
 
-4. Resume cada um dos três bancos para calcular a média da velocidade dos vôos usando uma função da família `map`. O resultado deve ser um tibble com todos os detalhes apropriados.
+5. Resume cada um dos três bancos para calcular a média da velocidade dos vôos usando uma função da família `map`. O resultado deve ser um tibble com todos os detalhes apropriados.
 
 ```{r, eval=F, echo=F}
 flights_por_origem %>% map_df(summarize, dep_delay=mean(velocidade, na.rm=T),
@@ -323,30 +336,42 @@ flights_por_origem %>% map_df(summarize, dep_delay=mean(velocidade, na.rm=T),
 
 </div>
 
-## Gerando Novas Colunas com `map`
+# Gerando Novas Colunas com `map` e `mutate`
 
-Uma forma muito útil de usar `map` é *dentro* de `mutate`. Isso permite inserir os resultados do cálculo repitido em uma nova coluna em nosso tibble. Veja uma forma interessante de abrir os arquivos .csv - podemos gerar um tibble com a primeira coluna documentando os nomes dos arquivos, e vamos usar `map` para inserir os dados de cada arquivo em uma nova coluna. Note que agora temos que indicar para `map` para qual coluna queremos aplicar a função `read_csv` - o ordem é `map(coluna, função)`. Cada linha reflete um arquivo, e os dados ficam numa lista-coluna (como descobrimos no tutorial 7).
+Todas as aplicações de `map` acima produzem *novos* tibbles ou listas. Mas quando os resultados da aplicação da função cabe com o tamanho do nosso tibble original - por exemplo, cada linha do tibble é um estado e temos um resultado por cada estado - é desejável manter os resultados dentro do tibble original. 
 
-```{r}
+Nesse caso, uma forma muito útil de usar `map` é *dentro* de `mutate`. Isso permite inserir os resultados do cálculo repitido em uma nova coluna em nosso tibble. Veja uma forma interessante de abrir os arquivos .csv - podemos gerar um tibble com a primeira coluna documentando os *nomes dos arquivos*, e depois usar `map` conjunto com `read_csv` para inserir os *dados* de cada arquivo em uma nova coluna. O nosso tibble agora é mais parecido com um armário de arquivos, com cada gaveta bem marcado.  
+
+Note que agora temos que indicar para `map` para qual coluna queremos aplicar a função `read_csv` - o ordem é `map(coluna, função)`. Cada linha reflete um arquivo, e os dados ficam 'nested' numa lista-coluna (como descobrimos no tutorial 7).
+
+```{r, echo=F}
 dados_nested <- tibble(dia=c(1, 2),
                        file=c("test1.csv", "test2.csv")) %>% 
   mutate(conteudo=map(file, read_csv))
 ```
 
-Este procedimento pode ajudar para organizar bases de dados grandes, pois podemos trabalhar com uma tabela simples de resumo, e não as tabelas inteiras. 
+```{r, eval=F}
+dados_nested <- tibble(dia=c(1, 2),
+                       file=c("test1.csv", "test2.csv")) %>% 
+  mutate(conteudo=map(file, read_csv))
 
-# Repetindo Funções com Tibbles Nested
+dados_nested
+```
 
-Qual é o classe da coluna de `conteudo` no tibble `dados_nested`? É uma lista, uma lista de tibbles. Então o nosso fluxo de análise não precisa parar aqui. Podemos continuar usando `map` para aplicar uma função para cada banco de dados separadamente. 
+Este procedimento pode ajudar para organizar bases de dados grandes, pois podemos trabalhar com uma tabela simples de resumo, e não múltiplas tabelas inteiras. 
 
-Por exemplo, vamos adicionar uma nova coluna com o número de vôos em cada linha.
+## Repetindo Funções com Tibbles Nested
+
+Qual é o classe da coluna de `conteudo` no tibble `dados_nested`? É uma lista, uma lista de tibbles. Então o nosso fluxo de análise não precisa parar aqui. Podemos continuar usando `map` para aplicar uma função para cada banco de dados no tibble separadamente. 
+
+Por exemplo, vamos adicionar uma nova coluna com o número de vôos (o número de observações) em cada banco/linha.
 
 ```{r}
 dados_nested <- dados_nested %>% 
   mutate(num_voos=map(conteudo, nrow))
 ```
 
-Pare, como aparece `dados_nested` agora? Na coluna `num_voos` temos uma coisa estranha `<int [1]>` - isso significa que existe um número dentro da lista, mas não está sendo apresentado. Isso acontece porque `map` produz uma lista por padrão. É melhor usar uma variadade de `map` para valores únicos numéricos: `map_dbl`.
+Pare, como aparece `dados_nested` agora? Na coluna `num_voos` temos uma coisa estranha `<int [1]>` - isso significa que existe um número dentro da lista, mas não está sendo apresentado. Isso acontece porque `map` produz uma lista-coluna por padrão. É melhor usar uma variadade de `map` para resultados que são valores únicos numéricos: `map_dbl`.
 
 ```{r}
 dados_nested <- dados_nested %>% 
@@ -365,7 +390,7 @@ dados_nested <- dados_nested %>%
   mutate(corr=map(conteudo, corr_function))
 ```
 
-Agora temos rodos os resultados do teste de correlação na coluna `corr`. Para deixar apenas a estimativa central de correlação visível, podemos adatar a função para extrair o valor desejado.
+Agora temos todos os resultados do teste de correlação na coluna `corr`. Para deixar apenas a estimativa central de correlação visível, podemos adatar a função para extrair o valor específico desejado.
 
 ```{r}
 corr_function <- function(tibble) {
@@ -380,7 +405,7 @@ dados_nested <- dados_nested %>%
 
 ## Repetindo Análises
 
-É comum em análises empíricas para executar várias estimativas. Por exemplo, com regressões podemos ajustar o banco de dados para estimar resultados em amostras diversas. Vamos usar este exemplo para aprender como a executar múltiplas regressões em uma linha única de código.
+É comum em análises empíricas executar várias estimativas. Por exemplo, com regressões podemos ajustar o banco de dados para estimar resultados em amostras diversas. Vamos usar este exemplo para aprender como a executar múltiplas regressões em uma linha única de código.
 
 Começamos com uma regressão simples:
 
@@ -397,7 +422,7 @@ dados_nested <- dados_nested %>%
   mutate(regressão=map(conteudo, ~lm(dep_delay ~ dep_time, data=.)))
 ```
 
-Agora temos o resultado básico da regressão em nosso tibble. Provavalmente queremos limpar isso para tornar mais accessível. Por exemplo, podemos aplicar `tidy` com mais uma chamada de `mutate` para gerar um tibble dos resultados:
+Agora temos o resultado básico da regressão em nosso tibble. Provavalmente queremos limpar isso para tornar o tresultado principal mais accessível. Por exemplo, podemos aplicar `tidy` com mais uma chamada de `mutate` e `map` para gerar um tibble dos resultados:
 
 ```{r}
 dados_nested <- dados_nested %>% 
@@ -409,12 +434,12 @@ E se quisemos extrair um coeficiente de interesse para o tibble de resumo:
 ```{r}
 dados_nested <- dados_nested %>% 
   mutate(coef=map(regressão, filter, term=="dep_time"),
-         coef=map_dbl(coef, pull,estimate))
+         coef=map_dbl(coef, pull, estimate))
 ```
 
 Observe um ponto importante aqui - quando aplicamos uma função com `map` sem o uso de `~`, os argumentos adicionais à função não ficam em paranteses, mas depois de uma vírgula.
 
-Na situação em que começamos com um banco de dados inteiro e quer aplicar uma regressão por grupo, em que o grupo é definido por uma variável, é só usar `group_by` e `nest` para preparar o tibble apropriado. Por exemplo, por aeroporto de origem:
+Na situação em que começamos com um banco de dados inteiro e quer aplicar uma regressão por grupo, em que o grupo é definido por uma variável, é só usar `group_by` e `nest` para preparar o tibble apropriado. Por exemplo, aplicado regresões distintas por aeroporto de origem:
 
 ```{r}
 flights_reg_por_origem <- flights %>% 
@@ -426,13 +451,13 @@ flights_reg_por_origem <- flights %>%
          coef=map_dbl(coef, pull,estimate))
 ```
 
-Preparando, executando, e resumindo três regressões em uma única linha de código.
+Preparando, executando, e resumindo três regressões em uma única linha de código., parabéns!
 
 ### Mapeando argumentos múltiplos
 
-Não é apenas o banco de dados que é possível ajustar numa regressão - o `lm` aceita vários argumentos, 'data' mas também 'formula', o modelo da regressão. Isso é comum - funções aceitam vários argumentos e queremos variar mais que um argumento ao longa da nossa repitição. Por exemplo, eu queria rodar modelos A e B para banco de dados X e Y, modelo C para banco de dados Y e Z, e modelo D para banco de dados Z. 
+Não é apenas o banco de dados que é possível ajustar numa regressão - o `lm` aceita vários argumentos; 'data', mas também 'formula', o modelo da regressão. Isso é comum - funções aceitam vários argumentos e às vezes queremos variar mais que um argumento ao longa da nossa repitição. Por exemplo, eu queria rodar modelos A e B para banco de dados X e Y, modelo C para banco de dados Y e Z, e modelo D para banco de dados Z. 
 
-Operações dessa forma exigem que indicamos para `map` *duas* colunas para encaminhar a nossa função. É simples: verificamos que as duas colunas com os argumentos desejados existem no tibble, usamos `map2` em vez de `map`, e indicamos os nomes das duas colunas no `map2`, no ordem em que eles são esperados pela função.
+Operações dessa forma exigem que indicamos para `map` *duas* colunas para encaminhar a nossa função, uma para cada argumento. É simples: verificamos que as duas colunas com os argumentos desejados existem no tibble, usamos `map2` em vez de `map`, e indicamos os nomes das duas colunas no `map2`, no ordem em que eles são esperados pela função que vamos aplicar.
 
 ```{r}
 dados_nested <- dados_nested %>% mutate(formula=c("dep_delay ~ dep_time",
@@ -441,12 +466,14 @@ dados_nested <- dados_nested %>% mutate(formula=c("dep_delay ~ dep_time",
 dados_nested <- dados_nested %>% mutate(resultados=map2(formula, conteudo, lm))
 ```
 
-Agora, os dois resultados refletam ambos uma amostra e uma fórmula diferente,
+Agora, os dois resultados refletam ambos uma amostra e uma fórmula diferente para cada linha do tibble original.
+
+Com as funções de tidyverse básico e a família de `map`, agora você consegue executar quase qualquer tarefa da ciência de dados - são um conjunto de ferramentas muito poderoso. As possibilidades são infinitas- para mais informação e operações mais complexas, veja [o cheatsheet aqui](https://github.com/rstudio/cheatsheets/blob/master/purrr.pdf).
 
 <div class = "green">
 ## Exercício 2: Programação Funcional
 
-1. Gere um tibble 'nested' para cada mês do banco de dados `weather`. 
+1. Gere um tibble 'nested' com uma linha para cada mês usando o banco de dados `weather`. 
 
 ```{r, eval=F, echo=F}
 weather_month <- weather %>% group_by(month) %>% nest()
@@ -458,7 +485,7 @@ weather_month <- weather %>% group_by(month) %>% nest()
 weather_month <- weather_month %>% mutate(obs=map_dbl(data, nrow))
 ```
 
-3. Execute uma regressão para cada mês separadamente, com 'precip' (chuva) na variável dependente e 'temp' (temperatura) na variável independente. Salve o coeficiente de temperatura numa coluna nova.
+3. Usando o seu banco de dados nested, execute uma regressão para cada mês separadamente, com 'precip' (chuva) na variável dependente e 'temp' (temperatura) na variável independente. Salve o coeficiente da variável temperatura numa coluna nova.
 
 ```{r, eval=F, echo=F}
 weather_month %>% mutate(regressão=map(data, ~lm(precip ~ temp, data=.)),
@@ -467,7 +494,7 @@ weather_month %>% mutate(regressão=map(data, ~lm(precip ~ temp, data=.)),
                          coef=map_dbl(coef, pull, estimate))
 ```
 
-4. Separe a coluna de temperatura de cada mês em uma nova coluna nested, e aplique um teste shapiro (veja tutorial 9, `shapiro.test`) de normalidade para cada mês, processando o resultado para que ele seja visível no tibble de resumo por mês.
+4. Separe a coluna de temperatura de cada mês em uma nova coluna nested como um vetor para cada mês, e aplique um teste shapiro (veja tutorial 9, `shapiro.test`) de normalidade para a temperatura de cada mês, processando o resultado para que o valor 'p' seja visível no tibble de resumo por mês.
 
 ```{r, eval=F, echo=F}
 weather_month <- weather_month %>% 
