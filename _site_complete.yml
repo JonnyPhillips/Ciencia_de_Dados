@@ -30,7 +30,7 @@ navbar:
           - text: "10. Relatorios Reproduziveis"
             href: reproduziveis.html
           - text: "11. Funcoes e Repeticao"
-            href: repeticao.html
+            href: Repeticao.html
           - text: "12. Mineracao de Textos"
             href: textos.html
             

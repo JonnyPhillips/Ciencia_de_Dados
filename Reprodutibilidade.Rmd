@@ -455,3 +455,10 @@ checkpoint("2020-05-10")
 ```
 
 Desde que o checkpoint vai salvar uma copia dos pacotes localmente, funciona melhor dentro de um projeto de R.
+
+<div class = "orange">
+# Leitura para Tutorial 11
+
+Antes da próxima aula, por favor leia [R 4 Data Science, Capítulos 20 r 21 sobre Vetores e Iteração](https://r4ds.had.co.nz/vectors.html)
+
+</div>

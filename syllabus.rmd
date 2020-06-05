@@ -63,4 +63,4 @@ Estudantes do DCP-USP que podem se matricular regularmente não serão aceitas c
 9. Testes estatísticos e modelos de regressão (08/05/20)
 10. Produzindo relatórios reproduzíveis com Git e Latex (15/05/20)
 11. Funções e repetição (22/05/20)
-12. Mineração de Textos (29/05/20)
+12. Análise de Texto (29/05/20)
