@@ -59,20 +59,22 @@ Veja quanto do código aqui é repetido! Nove linhas e a única coisa que varia 
 
 # Funções Customizadas
 
-O uso de repetição exige uma separação clara dos dois elementos fundamentais de programação em R: **Objetos** (bancos de dados, valores únicos), e **Funções** (que recebem insumos e geram produtos). Com repetição, normalmente fixamos as funções e ajustamos os objetos, para que os insumos às funções variem e avaliamos a variação nos produtos finais. A função só percisa ser escrita uma vez, evitando a repetição manual do cálculo.
+O uso de repetição exige uma separação clara dos dois elementos fundamentais de programação em R: **Objetos** (tibbles, vetores, valores únicos), e **Funções** (ações que recebem insumos e geram produtos). Com repetição, normalmente fixamos as funções e ajustamos os objetos, para que os insumos às funções variem, e avaliamos a variação nos produtos finais. A função só percisa ser escrita uma vez, evitando a repetição manual do cálculo.
 
-Podemos gerar uma função que aceita um vetor (uma coluna de nosso tibble), e encaminhar várias colunas. Com o exemplo de amplitude:
+Podemos gerar uma função que aceita um vetor (uma coluna de nosso tibble), e encaminhar várias colunas para a nossa função. (Revise a introduçao a funções em [Tutorial 4](https://jonnyphillips.github.io/Ciencia_de_Dados/Estatisticas_Resumidas.html) se ajudar). Com o exemplo de calcular amplitude:
 
 ```{r, echo=F}
 amplitude <- function(x) {
-  return(max(x, na.rm=T) - min(x, na.rm=T))
+  resultado <- max(x, na.rm=T) - min(x, na.rm=T)
+  return(resultado)
 }
 ```
 
 
 ```{r, eval=F}
 amplitude <- function(x) {
-  return(max(x, na.rm=T) - min(x, na.rm=T))
+  resultado <- max(x, na.rm=T) - min(x, na.rm=T)
+  return(resultado)
 }
 
 flights %>% pull(dep_delay) %>% amplitude()
@@ -80,12 +82,12 @@ flights %>% pull(arr_delay) %>% amplitude()
 flights %>% pull(distance) %>% amplitude()
 ```
 
-O uso da função já acelera a análise bastante! E também deixa fácil ajustar o cálculo no futuro. Por exemplo, pata arredondar os resultados, é só incoporar uma vez na função, e vai afetar todos os cálculos:
+O uso da função já acelera a análise bastante! E também deixa fácil ajustar o cálculo no futuro. Por exemplo, pata arredondar os resultados, é só incoporar uma vez na função, e vai afetar todos os cálculos seguintes:
 
 ```{r, eval=F}
 amplitude <- function(x) {
-  amplitude <- max(x, na.rm=T) - min(x, na.rm=T)
-  return(round(amplitude, 0))
+  resultado <- max(x, na.rm=T) - min(x, na.rm=T)
+  return(round(resultado, 0))
 }
 
 flights %>% pull(dep_delay) %>% amplitude()
@@ -97,33 +99,37 @@ flights %>% pull(distance) %>% amplitude()
 
 O parte chato do código acima é que não salvamos tantas linhas de código - temos 6 linhas - e ainda precisamos repetir as linhas finais para aplicar a função à cada variável, abrindo oportunidades para erros. 
 
-É possível automatizar a aplicação da função? Sim! A função `map` é bem flexível e permite a aplicação de uma função à uma série de variáveis (vetores, ou listas), por exemplo às colunas do nosso tibble. O argumento de `map` é o nome da função.
+É possível automatizar a *aplicação* da função? Sim! A função `map` é bem flexível e permite a aplicação de uma função à uma série de objetos. Os objetos podem ser listas - vamos ver exemplos disso em breve - ou vetores, por exemplo as colunas do nosso tibble. O argumento de `map` é o nome da função que queremos aplicar.
 
 Em nosso exemplo de amplitude, podemos `select` as colunas para as quais queremos calcular o amplitude, e `map` a função amplitude para cada coluna:
 
 ```{r, eval=F}
 amplitude <- function(x) {
-  return(max(x, na.rm=T) - min(x, na.rm=T))
+  resultado <- max(x, na.rm=T) - min(x, na.rm=T)
+  return(resultado)
 }
 
 resultado_lista <- flights %>% select(dep_delay, arr_delay, distance) %>% 
   map(amplitude)
+
 resultado_lista
 ```
 
-Muito mais simples! Agora em mais ou menos três linhas. Note quanto fácil seja ampliar para mais variáveis - é só incluir elas dentro de `select`. 
+Muito mais simples! Agora em mais ou menos três linhas. E note quanto fácil seja ampliar para mais variáveis - é só incluir elas dentro de `select`:
 
-```{r, eval=F}
+```{r, eval=T}
 resultado_lista <- flights %>% select(dep_delay, arr_delay, distance, air_time) %>% 
   map(amplitude)
+
 resultado_lista
 ```
 
-Qual o formato do resultado de `map`? É uma lista, um formato genérico e flexível, mas sempre preferimos trabalhar com tibbles. Felizmente, existe uma variadade de `map` que padroniza o resultado para um tibble, `map_df`:
+Qual o formato do resultado de `map`? Inspecione ele com `class()`. É uma lista, um formato genérico e flexível que vamos discutir em breve, mas em geral nesse curso sempre preferimos trabalhar com tibbles. Felizmente, existe uma variadade de `map` que padroniza o resultado da aplicação repetida da função para um tibble, `map_df`:
 
 ```{r, eval=F}
 resultado_tibble <- flights %>% select(dep_delay, arr_delay, distance, air_time) %>% 
   map_df(amplitude)
+
 resultado_tibble
 ```
 
@@ -133,34 +139,42 @@ flights %>% select(dep_delay, arr_delay, distance, air_time) %>%
   kable()
 ```
 
-Observe que a funcionalidade aqui é bem parecida de `summarize_at()`. O `map` é mais geral e pode ser usado fora do contexto de `mutate` e `summarize`. Por exemplo, imagine que temos uma lista de centenas de arquivos .csv para abrir em R na pasta do nosso projeto - `map` permite aplicar a função de `read_csv` para todos os arquivos em uma linha só (gerando dois arquivos de csv primeiramente para ilustrar):
+# Repitindo a aplicação de funções para vetores fora de um tibble
+
+Observe que a funcionalidade aqui é bem parecida de `summarize_at()`, permitindo a aplicação de uma função à várias colunas. É verdade, mais o ganho de `map` é que ela é mais geral e pode ser usado fora do contexto de `mutate` e `summarize`, e fora de um tibble único. Por exemplo, imagine que temos um vetor de centenas de arquivos .csv para abrir em R na pasta do nosso projeto - `map` permite aplicar a função de `read_csv` para *todos* os arquivos em uma linha só (gerando dois arquivos de csv primeiramente para ilustrar):
 
 ```{r}
 flights %>% filter(month==1 & day==1) %>% write_csv("test1.csv")
 flights %>% filter(month==1 & day==2) %>% write_csv("test2.csv")
 
-dados <- c("test1.csv", "test2.csv") %>% map(read_csv)
+arquivos <- c("test1.csv", "test2.csv")
+
+dados <- arquivos %>% map(read_csv)
 ```
 
-O resultado `dados` é uma lista. Dentro da lista existem, separadamente, dois tibbles. Temos duas opções para juntar os dois tibbles em um. Podemos substituir `map_df` para `map`. Ou podemos manter `map` e seguir com `bind_rows()` que junta tibbles verticalmente:
+A iteração aqui não é sobre mútliplas colunas, mas sobre cada elemento do vetor 'arquivos'. O resultado `dados` é uma lista. Dentro da lista existem, separadamente, dois tibbles. Temos duas opções para juntar os dois tibbles em um. Podemos substituir `map_df` para `map`, como já aprendemos acima. Ou podemos manter `map` e seguir com `bind_rows()` que junta tibbles verticalmente:
 
 ```{r}
-dados <- c("test1.csv", "test2.csv") %>% map_df(read_csv)
+dados <- arquivos %>% map_df(read_csv)
 
-dados <- c("test1.csv", "test2.csv") %>% map(read_csv) %>%
+dados <- arquivos %>% map(read_csv) %>%
   bind_rows()
 ```
 
-Outra aplicação muito útil de `map` é para executar funções iguais em tibbles diferentes. `map` funciona com vetores ou listas, aplicando a função a cada elemento do vetor/lista. Listas são úteis porque eles podem conter uma variedade de outros objetos - valores únicos, vetores, tibbles, outra listas. Se tivermos vários tibbles, podemos organizar eles em uma lista. 
+# Repitindo a aplicação de funções para uma lista
+
+Até agora, utilizamos `map` para transformar um vetor (fora de um tibble como vetor mesmo, ou como uma coluna dentro de um tibble) em uma lista ou um tibble. Existe mais uma combinação possível - usar uma lista como o *insumo* de `map`. O grande valor aqui é quando queremos trabalhar com **múltiplos tibbles**. 
+
+`map` funciona com vetores ou listas, aplicando a função a cada elemento do vetor/lista. Listas são úteis porque eles podem conter uma variedade de outros objetos - valores únicos, vetores, tibbles, outra listas. Se tivermos vários tibbles, podemos organizar eles em uma lista. 
 
 <div class = "blue">
 **Habilidade Básica de Programação: Listas**
 
-Uma lista é um conjunto de objetos diversos organizada verticalmente. Não é um tibble com linhas e colunas, listas só tem 'elementos', caixas vazias para guardar qualquer tipo de objeto - valores únicos, tibbles ou outra listas.
+Uma lista é um conjunto de objetos diversos organizado verticalmente. Não é um tibble com linhas e colunas, listas só tem 'elementos', caixas vazias para guardar qualquer tipo de objeto - valores únicos, tibbles ou outra listas.
 
 Em R, listas são fáceis a construir com `list(objeto1, objeto2, ...)`. Vamos ver como aparece uma lista de uma mistura de objetos:
 
-```{r, eval=F}
+```{r, eval=T}
 objeto1 <- flights %>% filter(month==1 & day==1)
 objeto2 <- 3.14
 objeto3 <- flights %>% filter(month==1 & day==2)
@@ -197,30 +211,44 @@ Note que as ações do tidyverse (`select`, `filter`, `slice` etc.) não funcion
 
 <br>
 
-Para entender o use de `map` com listas, e especificamente com diversos tibbles, vamos separar o banco de dados de `flights` em dois meses, organizar eles em uma lista (com a função `list()`), e aplicar uma função a cada um. Como exemplo, vamos calcular o atraso média por aeroporto com `summarize()`. 
+Para entender o use de `map` com listas, e especificamente com diversos tibbles, vamos separar o banco de dados de `flights` em dois meses, organizar eles em uma lista (com a função `list()`), e aplicar uma função a cada banco (cada tibble). Como exemplo, vamos calcular o atraso média por aeroporto com `summarize()`. 
 
 ```{r, eval=F}
 flights_jan <- flights %>% filter(month==1)
 flights_fev <- flights %>% filter(month==2)
 
-flights_jan_feb <- list(janeiro=flights_jan, 
+flights_jan_fev <- list(janeiro=flights_jan, 
                         fevereiro=flights_fev)
 
-flights_jan_feb %>% map(summarize, dep_delay=mean(dep_delay, na.rm=T))
+flights_jan_fev %>% map(summarize, dep_delay=mean(dep_delay, na.rm=T))
 ```
 
-O resultado seria mais claro e accessível se forçamos a produção de um tibble:
+Fácil, sim? Não tem tanta diferença entre `list()`, criando uma lista, e `c()`, criando um vetor: a diferença é simplesmente que cada elemento de `c()` tem que ser um valor único, enquanto `list()` é mais flexível, aceitando qualquer tipo e tamanho de objeto, incluindo tibbles. O resultado seria mais claro e accessível se forçamos a produção de um tibble:
 
 ```{r, eval=F}
-flights_jan_feb %>% map_df(summarize, dep_delay=mean(dep_delay, na.rm=T))
+flights_jan_fev %>% map_df(summarize, dep_delay=mean(dep_delay, na.rm=T))
 ```
 
-Há apenas um problema com o resultado aqui - não sabemos qual valor descreve qual aeroporto! É importante manter a identificação dos nossos resultados, e seria útil ter uma coluna com o nome do aeroporto dentro do tibble. Isso é possível a partir de um argumento adicional em `map_df`: especificando o nome da coluna no argumento `.id=""`
+Há apenas um problema com o resultado aqui - não sabemos qual valor descreve qual aeroporto! É importante manter a identificação dos nossos resultados, e seria útil ter uma coluna com o nome do aeroporto dentro do tibble. Isso é possível a partir de um argumento adicional em `map_df`: especificando o nome da coluna no argumento `.id="nome_de_coluna"`
 
 ```{r, eval=F}
-flights_jan_feb %>% map_df(summarize, dep_delay=mean(dep_delay, na.rm=T),
+flights_jan_fev %>% map_df(summarize, dep_delay=mean(dep_delay, na.rm=T),
                            .id="Aeroporto")
 ```
+
+Agora, vale a pena resumir os usos de `map`, porque estamos trabalhando num nível mais abstrato e mais flexível, com uma variadade grande de opções:
+
+```{r, echo=F}
+tibble(Função=c('map', 'map', 'map', 'map_df', 'map_df', 'map_df'),
+       Insumo=c("Múltiplas Colunas de um Tibble (com select)","Um Vetor", "Uma Lista",
+                "Múltiplas Colunas de um Tibble (com select)","Um Vetor", "Uma Lista"),
+       Produto=c("Lista","Lista", "Lista", "Tibble", "Tibble", "Tibble")) %>%
+  kable(caption="Usos possíveis de `map`")
+```
+
+Tanta flexibilidade exige cuidado por nosso lado - temos que entender bem qual é o tipo de objeto que contém os itens sobre os quais queremos repetir a função, e qual é o produto desejado.
+
+A família de funções de `map` ajudam bastante na repetição porque eles automatizam o processo de substiuição de cada insumo na função, e a organização do resultado. Porém, é uma família nova, e historicamente repetição foi realizada com uma ferramenta mais manual, o `for` loop. Recemendamos trabalhar com `map` quando possível para simplicidade, mas é útil e pedagogicamente interessante entender os `for` loops, então incluimos uma introdução rápida na caixa abaixo. 
 
 <div class = "blue">
 **Habilidade Básica de Programação: For Loops**
@@ -229,9 +257,9 @@ Uma forma alternativa para repetir ações em R é o uso de 'for' loops. Eles s�
 Um 'for' loop literalmente repete uma ação várias vezes, substituindo um valor novo cada vez. Há quatro elementos num 'for' loop:
 
 1. **A função para repetir** - `flights %>% pull(i) %>% amplitude()`. o `i` significa o valor/a variável que queremos ajustar cada iteração.
-2. **Uma definição dos valores para substituir na função num vetor** - `elementos <- c("dep_delay", "arr_delay", "distance")`. 
-3. **A definição do loop mesmo** - `for (i in elementos) { }`. Isso significa que a função dentro das chaves repete para cada valor de elementos, cada vez substituindo `i` na função com o valor de `elementos` atual. 
-4. **Um objeto final para guardar os resultados** - Devido que vamos repetir a função várias vezes, precisamos de um objeto que aceita múltiplos valores, ou seja um vetor. Podemos criar anteriormente um vetor vazio com `resultado <- c()`, e dentro da função salva a amplitude calculado com nome do elemento atual `i`. 
+2. **Uma definição num vetor dos valores para substituir na função no lugar de 'i'** - `elementos <- c("dep_delay", "arr_delay", "distance")`. 
+3. **A definição do loop mesmo** - `for (i in elementos) { }`. Isso significa que a função dentro das chaves repete para cada valor do vetor elementos, cada vez substituindo `i` na função com o valor de `elementos` atual. 
+4. **Um objeto final para guardar os resultados** - Devido que vamos repetir a função várias vezes, precisamos de um objeto que aceita múltiplos valores, ou seja, um vetor. Podemos criar anteriormente um vetor vazio com `resultado <- c()`, e dentro da função salva a amplitude calculado com nome do elemento atual `i`. 
 
 ```{r}
 elementos <- c("dep_delay", "arr_delay", "distance")
@@ -243,7 +271,7 @@ for (i in elementos) {
 }
 ```
 
-Veja de novo a lógica do 'for' loop: a linha de função contém duas instâncias de 'i': o indíce de destino no resultado e a variável para analisar dentro de`pull()`. A  questão é simplesmente quais variáveis para substituir para 'i'. Elas são definidas pela linha anterior: `i in elementos` - todas definidas no vetor elementos.
+Veja de novo a lógica do 'for' loop: a linha de função contém duas instâncias de 'i': o indíce de destino no resultado e a variável para analisar dentro de `pull()`. A  questão é simplesmente quais variáveis para substituir para 'i'. Elas são definidas pela linha anterior: `i in elementos` - todas as variáveis definidas no vetor 'elementos' .
 
 </div>
 

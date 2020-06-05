@@ -1339,6 +1339,8 @@ Desafios
 <li><a href="#introdução">Introdução</a></li>
 <li><a href="#funções-customizadas">Funções Customizadas</a></li>
 <li><a href="#repitindo-a-aplicação-de-funções-map-map_df">Repitindo a aplicação de funções (<code>map</code>, <code>map_df</code>)</a></li>
+<li><a href="#repitindo-a-aplicação-de-funções-para-vetores-fora-de-um-tibble">Repitindo a aplicação de funções para vetores fora de um tibble</a></li>
+<li><a href="#repitindo-a-aplicação-de-funções-para-uma-lista">Repitindo a aplicação de funções para uma lista</a></li>
 <li><a href="#repetindo-funções-com-tibbles-nested">Repetindo Funções com Tibbles Nested</a></li>
 </ul>
 </nav>
@@ -1374,27 +1376,28 @@ max_distance - min_arr_delay</code></pre>
 </div>
 <p>Veja quanto do código aqui é repetido! Nove linhas e a única coisa que varia é o nome de variável… Não é simplesmente o esforço de digitação que é problemático aqui - mesmo que copiamos e colamos, temos que lembrar quais elementos a atualizar. Se esqueçamos apenas uma mudança, a nossa análise fica errada. Isso é responsável para uma grande parcela de erros na análise de dados. Vocês já identificaram o erro no código acima??</p>
 <h1 id="funções-customizadas">Funções Customizadas</h1>
-<p>O uso de repetição exige uma separação clara dos dois elementos fundamentais de programação em R: <strong>Objetos</strong> (bancos de dados, valores únicos), e <strong>Funções</strong> (que recebem insumos e geram produtos). Com repetição, normalmente fixamos as funções e ajustamos os objetos, para que os insumos às funções variem e avaliamos a variação nos produtos finais. A função só percisa ser escrita uma vez, evitando a repetição manual do cálculo.</p>
-<p>Podemos gerar uma função que aceita um vetor (uma coluna de nosso tibble), e encaminhar várias colunas. Com o exemplo de amplitude:</p>
+<p>O uso de repetição exige uma separação clara dos dois elementos fundamentais de programação em R: <strong>Objetos</strong> (tibbles, vetores, valores únicos), e <strong>Funções</strong> (ações que recebem insumos e geram produtos). Com repetição, normalmente fixamos as funções e ajustamos os objetos, para que os insumos às funções variem, e avaliamos a variação nos produtos finais. A função só percisa ser escrita uma vez, evitando a repetição manual do cálculo.</p>
+<p>Podemos gerar uma função que aceita um vetor (uma coluna de nosso tibble), e encaminhar várias colunas para a nossa função. (Revise a introduçao a funções em <a href="https://jonnyphillips.github.io/Ciencia_de_Dados/Estatisticas_Resumidas.html">Tutorial 4</a> se ajudar). Com o exemplo de calcular amplitude:</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 amplitude &lt;- function(x) {
-  return(max(x, na.rm=T) - min(x, na.rm=T))
+  resultado &lt;- max(x, na.rm=T) - min(x, na.rm=T)
+  return(resultado)
 }
 
 flights %&gt;% pull(dep_delay) %&gt;% amplitude()
 flights %&gt;% pull(arr_delay) %&gt;% amplitude()
 flights %&gt;% pull(distance) %&gt;% amplitude()</code></pre>
 </div>
-<p>O uso da função já acelera a análise bastante! E também deixa fácil ajustar o cálculo no futuro. Por exemplo, pata arredondar os resultados, é só incoporar uma vez na função, e vai afetar todos os cálculos:</p>
+<p>O uso da função já acelera a análise bastante! E também deixa fácil ajustar o cálculo no futuro. Por exemplo, pata arredondar os resultados, é só incoporar uma vez na função, e vai afetar todos os cálculos seguintes:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 amplitude &lt;- function(x) {
-  amplitude &lt;- max(x, na.rm=T) - min(x, na.rm=T)
-  return(round(amplitude, 0))
+  resultado &lt;- max(x, na.rm=T) - min(x, na.rm=T)
+  return(round(resultado, 0))
 }
 
 flights %&gt;% pull(dep_delay) %&gt;% amplitude()
@@ -1403,30 +1406,46 @@ flights %&gt;% pull(distance) %&gt;% amplitude()</code></pre>
 </div>
 <h1 id="repitindo-a-aplicação-de-funções-map-map_df">Repitindo a aplicação de funções (<code>map</code>, <code>map_df</code>)</h1>
 <p>O parte chato do código acima é que não salvamos tantas linhas de código - temos 6 linhas - e ainda precisamos repetir as linhas finais para aplicar a função à cada variável, abrindo oportunidades para erros.</p>
-<p>É possível automatizar a aplicação da função? Sim! A função <code>map</code> é bem flexível e permite a aplicação de uma função à uma série de variáveis (vetores, ou listas), por exemplo às colunas do nosso tibble. O argumento de <code>map</code> é o nome da função.</p>
+<p>É possível automatizar a <em>aplicação</em> da função? Sim! A função <code>map</code> é bem flexível e permite a aplicação de uma função à uma série de objetos. Os objetos podem ser listas - vamos ver exemplos disso em breve - ou vetores, por exemplo as colunas do nosso tibble. O argumento de <code>map</code> é o nome da função que queremos aplicar.</p>
 <p>Em nosso exemplo de amplitude, podemos <code>select</code> as colunas para as quais queremos calcular o amplitude, e <code>map</code> a função amplitude para cada coluna:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 amplitude &lt;- function(x) {
-  return(max(x, na.rm=T) - min(x, na.rm=T))
+  resultado &lt;- max(x, na.rm=T) - min(x, na.rm=T)
+  return(resultado)
 }
 
 resultado_lista &lt;- flights %&gt;% select(dep_delay, arr_delay, distance) %&gt;% 
   map(amplitude)
+
 resultado_lista</code></pre>
 </div>
-<p>Muito mais simples! Agora em mais ou menos três linhas. Note quanto fácil seja ampliar para mais variáveis - é só incluir elas dentro de <code>select</code>.</p>
+<p>Muito mais simples! Agora em mais ou menos três linhas. E note quanto fácil seja ampliar para mais variáveis - é só incluir elas dentro de <code>select</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 resultado_lista &lt;- flights %&gt;% select(dep_delay, arr_delay, distance, air_time) %&gt;% 
   map(amplitude)
+
 resultado_lista</code></pre>
+<pre><code>
+$dep_delay
+[1] 1344
+
+$arr_delay
+[1] 1358
+
+$distance
+[1] 4966
+
+$air_time
+[1] 675</code></pre>
 </div>
-<p>Qual o formato do resultado de <code>map</code>? É uma lista, um formato genérico e flexível, mas sempre preferimos trabalhar com tibbles. Felizmente, existe uma variadade de <code>map</code> que padroniza o resultado para um tibble, <code>map_df</code>:</p>
+<p>Qual o formato do resultado de <code>map</code>? Inspecione ele com <code>class()</code>. É uma lista, um formato genérico e flexível que vamos discutir em breve, mas em geral nesse curso sempre preferimos trabalhar com tibbles. Felizmente, existe uma variadade de <code>map</code> que padroniza o resultado da aplicação repetida da função para um tibble, <code>map_df</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 resultado_tibble &lt;- flights %&gt;% select(dep_delay, arr_delay, distance, air_time) %&gt;% 
   map_df(amplitude)
+
 resultado_tibble</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
@@ -1465,26 +1484,31 @@ air_time
 </tbody>
 </table>
 </div>
-<p>Observe que a funcionalidade aqui é bem parecida de <code>summarize_at()</code>. O <code>map</code> é mais geral e pode ser usado fora do contexto de <code>mutate</code> e <code>summarize</code>. Por exemplo, imagine que temos uma lista de centenas de arquivos .csv para abrir em R na pasta do nosso projeto - <code>map</code> permite aplicar a função de <code>read_csv</code> para todos os arquivos em uma linha só (gerando dois arquivos de csv primeiramente para ilustrar):</p>
+<h1 id="repitindo-a-aplicação-de-funções-para-vetores-fora-de-um-tibble">Repitindo a aplicação de funções para vetores fora de um tibble</h1>
+<p>Observe que a funcionalidade aqui é bem parecida de <code>summarize_at()</code>, permitindo a aplicação de uma função à várias colunas. É verdade, mais o ganho de <code>map</code> é que ela é mais geral e pode ser usado fora do contexto de <code>mutate</code> e <code>summarize</code>, e fora de um tibble único. Por exemplo, imagine que temos um vetor de centenas de arquivos .csv para abrir em R na pasta do nosso projeto - <code>map</code> permite aplicar a função de <code>read_csv</code> para <em>todos</em> os arquivos em uma linha só (gerando dois arquivos de csv primeiramente para ilustrar):</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights %&gt;% filter(month==1 &amp; day==1) %&gt;% write_csv(&quot;test1.csv&quot;)
 flights %&gt;% filter(month==1 &amp; day==2) %&gt;% write_csv(&quot;test2.csv&quot;)
 
-dados &lt;- c(&quot;test1.csv&quot;, &quot;test2.csv&quot;) %&gt;% map(read_csv)</code></pre>
+arquivos &lt;- c(&quot;test1.csv&quot;, &quot;test2.csv&quot;)
+
+dados &lt;- arquivos %&gt;% map(read_csv)</code></pre>
 </div>
-<p>O resultado <code>dados</code> é uma lista. Dentro da lista existem, separadamente, dois tibbles. Temos duas opções para juntar os dois tibbles em um. Podemos substituir <code>map_df</code> para <code>map</code>. Ou podemos manter <code>map</code> e seguir com <code>bind_rows()</code> que junta tibbles verticalmente:</p>
+<p>A iteração aqui não é sobre mútliplas colunas, mas sobre cada elemento do vetor ‘arquivos’. O resultado <code>dados</code> é uma lista. Dentro da lista existem, separadamente, dois tibbles. Temos duas opções para juntar os dois tibbles em um. Podemos substituir <code>map_df</code> para <code>map</code>, como já aprendemos acima. Ou podemos manter <code>map</code> e seguir com <code>bind_rows()</code> que junta tibbles verticalmente:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-dados &lt;- c(&quot;test1.csv&quot;, &quot;test2.csv&quot;) %&gt;% map_df(read_csv)
+dados &lt;- arquivos %&gt;% map_df(read_csv)
 
-dados &lt;- c(&quot;test1.csv&quot;, &quot;test2.csv&quot;) %&gt;% map(read_csv) %&gt;%
+dados &lt;- arquivos %&gt;% map(read_csv) %&gt;%
   bind_rows()</code></pre>
 </div>
-<p>Outra aplicação muito útil de <code>map</code> é para executar funções iguais em tibbles diferentes. <code>map</code> funciona com vetores ou listas, aplicando a função a cada elemento do vetor/lista. Listas são úteis porque eles podem conter uma variedade de outros objetos - valores únicos, vetores, tibbles, outra listas. Se tivermos vários tibbles, podemos organizar eles em uma lista.</p>
+<h1 id="repitindo-a-aplicação-de-funções-para-uma-lista">Repitindo a aplicação de funções para uma lista</h1>
+<p>Até agora, utilizamos <code>map</code> para transformar um vetor (fora de um tibble como vetor mesmo, ou como uma coluna dentro de um tibble) em uma lista ou um tibble. Existe mais uma combinação possível - usar uma lista como o <em>insumo</em> de <code>map</code>. O grande valor aqui é quando queremos trabalhar com <strong>múltiplos tibbles</strong>.</p>
+<p><code>map</code> funciona com vetores ou listas, aplicando a função a cada elemento do vetor/lista. Listas são úteis porque eles podem conter uma variedade de outros objetos - valores únicos, vetores, tibbles, outra listas. Se tivermos vários tibbles, podemos organizar eles em uma lista.</p>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Listas</strong></p>
-<p>Uma lista é um conjunto de objetos diversos organizada verticalmente. Não é um tibble com linhas e colunas, listas só tem ‘elementos’, caixas vazias para guardar qualquer tipo de objeto - valores únicos, tibbles ou outra listas.</p>
+<p>Uma lista é um conjunto de objetos diversos organizado verticalmente. Não é um tibble com linhas e colunas, listas só tem ‘elementos’, caixas vazias para guardar qualquer tipo de objeto - valores únicos, tibbles ou outra listas.</p>
 <p>Em R, listas são fáceis a construir com <code>list(objeto1, objeto2, ...)</code>. Vamos ver como aparece uma lista de uma mistura de objetos:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1495,6 +1519,52 @@ objeto4 &lt;- &quot;teste&quot;
 
 lista_exemplo &lt;- list(objeto1, objeto2, objeto3, objeto4)
 lista_exemplo</code></pre>
+<pre><code>
+[[1]]
+# A tibble: 842 x 19
+    year month   day dep_time sched_dep_time dep_delay arr_time
+   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+ 1  2013     1     1      517            515         2      830
+ 2  2013     1     1      533            529         4      850
+ 3  2013     1     1      542            540         2      923
+ 4  2013     1     1      544            545        -1     1004
+ 5  2013     1     1      554            600        -6      812
+ 6  2013     1     1      554            558        -4      740
+ 7  2013     1     1      555            600        -5      913
+ 8  2013     1     1      557            600        -3      709
+ 9  2013     1     1      557            600        -3      838
+10  2013     1     1      558            600        -2      753
+# ... with 832 more rows, and 12 more variables:
+#   sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
+#   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
+#   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,
+#   time_hour &lt;dttm&gt;
+
+[[2]]
+[1] 3.14
+
+[[3]]
+# A tibble: 943 x 19
+    year month   day dep_time sched_dep_time dep_delay arr_time
+   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+ 1  2013     1     2       42           2359        43      518
+ 2  2013     1     2      126           2250       156      233
+ 3  2013     1     2      458            500        -2      703
+ 4  2013     1     2      512            515        -3      809
+ 5  2013     1     2      535            540        -5      831
+ 6  2013     1     2      536            529         7      840
+ 7  2013     1     2      539            545        -6      959
+ 8  2013     1     2      554            600        -6      845
+ 9  2013     1     2      554            600        -6      841
+10  2013     1     2      554            600        -6      909
+# ... with 933 more rows, and 12 more variables:
+#   sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
+#   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
+#   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,
+#   time_hour &lt;dttm&gt;
+
+[[4]]
+[1] &quot;teste&quot;</code></pre>
 </div>
 <p><code>lista_exemplo</code> mostra o seu conteúdo com quatro elementos, designado com o sintáxe: <code>[[1]]</code>, <code>[[2]]</code> etc. Os colchetes duplos indicam um elemento de uma lista.</p>
 <p>Para acessar um elemento único de uma lista, é só indicar qual elemento deseja com os colchetes:</p>
@@ -1517,36 +1587,127 @@ lista_exemplo_nomes[[&quot;string&quot;]]</code></pre>
 <p>Note que as ações do tidyverse (<code>select</code>, <code>filter</code>, <code>slice</code> etc.) não funcionam com listas. Temos que trabalhar com as ferramentas básicas de R, ou aplicar funções com <code>map</code> como ilustrado no tutorial.</p>
 </div>
 <p><br></p>
-<p>Para entender o use de <code>map</code> com listas, e especificamente com diversos tibbles, vamos separar o banco de dados de <code>flights</code> em dois meses, organizar eles em uma lista (com a função <code>list()</code>), e aplicar uma função a cada um. Como exemplo, vamos calcular o atraso média por aeroporto com <code>summarize()</code>.</p>
+<p>Para entender o use de <code>map</code> com listas, e especificamente com diversos tibbles, vamos separar o banco de dados de <code>flights</code> em dois meses, organizar eles em uma lista (com a função <code>list()</code>), e aplicar uma função a cada banco (cada tibble). Como exemplo, vamos calcular o atraso média por aeroporto com <code>summarize()</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights_jan &lt;- flights %&gt;% filter(month==1)
 flights_fev &lt;- flights %&gt;% filter(month==2)
 
-flights_jan_feb &lt;- list(janeiro=flights_jan, 
+flights_jan_fev &lt;- list(janeiro=flights_jan, 
                         fevereiro=flights_fev)
 
-flights_jan_feb %&gt;% map(summarize, dep_delay=mean(dep_delay, na.rm=T))</code></pre>
+flights_jan_fev %&gt;% map(summarize, dep_delay=mean(dep_delay, na.rm=T))</code></pre>
 </div>
-<p>O resultado seria mais claro e accessível se forçamos a produção de um tibble:</p>
+<p>Fácil, sim? Não tem tanta diferença entre <code>list()</code>, criando uma lista, e <code>c()</code>, criando um vetor: a diferença é simplesmente que cada elemento de <code>c()</code> tem que ser um valor único, enquanto <code>list()</code> é mais flexível, aceitando qualquer tipo e tamanho de objeto, incluindo tibbles. O resultado seria mais claro e accessível se forçamos a produção de um tibble:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights_jan_feb %&gt;% map_df(summarize, dep_delay=mean(dep_delay, na.rm=T))</code></pre>
+flights_jan_fev %&gt;% map_df(summarize, dep_delay=mean(dep_delay, na.rm=T))</code></pre>
 </div>
-<p>Há apenas um problema com o resultado aqui - não sabemos qual valor descreve qual aeroporto! É importante manter a identificação dos nossos resultados, e seria útil ter uma coluna com o nome do aeroporto dentro do tibble. Isso é possível a partir de um argumento adicional em <code>map_df</code>: especificando o nome da coluna no argumento <code>.id=""</code></p>
+<p>Há apenas um problema com o resultado aqui - não sabemos qual valor descreve qual aeroporto! É importante manter a identificação dos nossos resultados, e seria útil ter uma coluna com o nome do aeroporto dentro do tibble. Isso é possível a partir de um argumento adicional em <code>map_df</code>: especificando o nome da coluna no argumento <code>.id="nome_de_coluna"</code></p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-flights_jan_feb %&gt;% map_df(summarize, dep_delay=mean(dep_delay, na.rm=T),
+flights_jan_fev %&gt;% map_df(summarize, dep_delay=mean(dep_delay, na.rm=T),
                            .id=&quot;Aeroporto&quot;)</code></pre>
 </div>
+<p>Agora, vale a pena resumir os usos de <code>map</code>, porque estamos trabalhando num nível mais abstrato e mais flexível, com uma variadade grande de opções:</p>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<caption>
+<span id="tab:unnamed-chunk-17">Table 1: </span>Usos possíveis de <code>map</code>
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Função
+</th>
+<th style="text-align:left;">
+Insumo
+</th>
+<th style="text-align:left;">
+Produto
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+map
+</td>
+<td style="text-align:left;">
+Múltiplas Colunas de um Tibble (com select)
+</td>
+<td style="text-align:left;">
+Lista
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+map
+</td>
+<td style="text-align:left;">
+Um Vetor
+</td>
+<td style="text-align:left;">
+Lista
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+map
+</td>
+<td style="text-align:left;">
+Uma Lista
+</td>
+<td style="text-align:left;">
+Lista
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+map_df
+</td>
+<td style="text-align:left;">
+Múltiplas Colunas de um Tibble (com select)
+</td>
+<td style="text-align:left;">
+Tibble
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+map_df
+</td>
+<td style="text-align:left;">
+Um Vetor
+</td>
+<td style="text-align:left;">
+Tibble
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+map_df
+</td>
+<td style="text-align:left;">
+Uma Lista
+</td>
+<td style="text-align:left;">
+Tibble
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Tanta flexibilidade exige cuidado por nosso lado - temos que entender bem qual é o tipo de objeto que contém os itens sobre os quais queremos repetir a função, e qual é o produto desejado.</p>
+<p>A família de funções de <code>map</code> ajudam bastante na repetição porque eles automatizam o processo de substiuição de cada insumo na função, e a organização do resultado. Porém, é uma família nova, e historicamente repetição foi realizada com uma ferramenta mais manual, o <code>for</code> loop. Recemendamos trabalhar com <code>map</code> quando possível para simplicidade, mas é útil e pedagogicamente interessante entender os <code>for</code> loops, então incluimos uma introdução rápida na caixa abaixo.</p>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: For Loops</strong> Uma forma alternativa para repetir ações em R é o uso de ‘for’ loops. Eles são muito comum em programação, então é bom conhecer, mas se você consiga usar <code>map</code>, é normalmente mais eficiente.</p>
 <p>Um ‘for’ loop literalmente repete uma ação várias vezes, substituindo um valor novo cada vez. Há quatro elementos num ‘for’ loop:</p>
 <ol type="1">
 <li><strong>A função para repetir</strong> - <code>flights %&gt;% pull(i) %&gt;% amplitude()</code>. o <code>i</code> significa o valor/a variável que queremos ajustar cada iteração.</li>
-<li><strong>Uma definição dos valores para substituir na função num vetor</strong> - <code>elementos &lt;- c("dep_delay", "arr_delay", "distance")</code>.</li>
-<li><strong>A definição do loop mesmo</strong> - <code>for (i in elementos) { }</code>. Isso significa que a função dentro das chaves repete para cada valor de elementos, cada vez substituindo <code>i</code> na função com o valor de <code>elementos</code> atual.</li>
-<li><strong>Um objeto final para guardar os resultados</strong> - Devido que vamos repetir a função várias vezes, precisamos de um objeto que aceita múltiplos valores, ou seja um vetor. Podemos criar anteriormente um vetor vazio com <code>resultado &lt;- c()</code>, e dentro da função salva a amplitude calculado com nome do elemento atual <code>i</code>.</li>
+<li><strong>Uma definição num vetor dos valores para substituir na função no lugar de ‘i’</strong> - <code>elementos &lt;- c("dep_delay", "arr_delay", "distance")</code>.</li>
+<li><strong>A definição do loop mesmo</strong> - <code>for (i in elementos) { }</code>. Isso significa que a função dentro das chaves repete para cada valor do vetor elementos, cada vez substituindo <code>i</code> na função com o valor de <code>elementos</code> atual.</li>
+<li><strong>Um objeto final para guardar os resultados</strong> - Devido que vamos repetir a função várias vezes, precisamos de um objeto que aceita múltiplos valores, ou seja, um vetor. Podemos criar anteriormente um vetor vazio com <code>resultado &lt;- c()</code>, e dentro da função salva a amplitude calculado com nome do elemento atual <code>i</code>.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1558,7 +1719,7 @@ for (i in elementos) {
   resultado[i] &lt;- flights %&gt;% pull(i) %&gt;% amplitude()
 }</code></pre>
 </div>
-<p>Veja de novo a lógica do ‘for’ loop: a linha de função contém duas instâncias de ‘i’: o indíce de destino no resultado e a variável para analisar dentro de<code>pull()</code>. A questão é simplesmente quais variáveis para substituir para ‘i’. Elas são definidas pela linha anterior: <code>i in elementos</code> - todas definidas no vetor elementos.</p>
+<p>Veja de novo a lógica do ‘for’ loop: a linha de função contém duas instâncias de ‘i’: o indíce de destino no resultado e a variável para analisar dentro de <code>pull()</code>. A questão é simplesmente quais variáveis para substituir para ‘i’. Elas são definidas pela linha anterior: <code>i in elementos</code> - todas as variáveis definidas no vetor ‘elementos’ .</p>
 </div>
 <aside>
 <p>Mais uma alternativa: Se você não saiba o número de repetições necessários, pode repetir até que uma condição seja atendida com um <code>while</code> loop, por exemplo:</p>
