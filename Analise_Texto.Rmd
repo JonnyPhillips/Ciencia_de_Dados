@@ -193,7 +193,7 @@ Vale a pena pensar bem se `str_split()` (dentro de `mutate()`), ou `separate()` 
 
 Em algumas situações, é difícil identificar ou dividir por um caractere quando esse caractere é usado no código de programação mesmo. Por exemplo, definimos o string para dividir entre aspas: `""`, mas é possível querer dividir um string *por aspas*, por exemplo para dividir uma citação do autor. 
 
-Como faremos? Temos que usar um indicador específico - um Caractere de 'Escape' para informar R que queremos tratar o caractere como parte do string e não como parte do código de programação. O Caractere de 'Escape' em R é '\\'. Então precisamos indicar "\\"" para dividir por aspas. E se queremos dividir pela barra em si "\\"?? Usamos duas! "\\\\". 
+Como faremos? Temos que usar um indicador específico - um Caractere de 'Escape' para informar R que queremos tratar o caractere como parte do string e não como parte do código de programação. O Caractere de 'Escape' em R é '\\'. Então precisamos indicar "\\"" para dividir por aspas. E se queremos dividir pela barra em si "\\"?? Usamos quatro! "\\\\\\\\". 
 
 </div>
 
