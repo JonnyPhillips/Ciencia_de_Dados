@@ -233,11 +233,13 @@ airlines %>% mutate(airlines=str_detect(name, "Airways")) %>%
   mutate(Pct=100*(n/sum(n)))
 ```
 
-2. No mesmo banco, Substitua os nomes das companhias aéreas que contém 'Inc.' com 'Incorporated', e eles que contém 'Co.' com 'Company'. 
+2. No mesmo banco, Substitua os nomes das companhias aéreas que contém 'Inc.' com 'Incorporated', e eles que contém 'Co.' com 'Company'. (Observe que '.' é um caracter especial, então tem que buscar ele com '\\\\.').
 
 ```{r, echo=F, eval=F}
+rm(list=ls())
+airlines
 airlines <- airlines %>% mutate(name=str_replace(name, "Inc.", "Incorporated"),
-                    name=str_replace(name, "Co.", "Company"))
+                    name=str_replace(name, "Co\\.", "Company"))
 ```
 
 3. Gere um nome curto para cada companhia aérea, refletindo apenas a primeira palavra do nome.

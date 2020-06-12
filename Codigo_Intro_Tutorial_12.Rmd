@@ -1,0 +1,112 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library("nycflights13")
+library("tidyverse")
+
+library("wordcloud")
+library("tidytext")
+library("textstem")
+```
+
+```{r}
+airports %>% pull(name)
+```
+
+```{r}
+airports %>% mutate(Lake=str_detect(name, "Lake"))
+
+airports %>% mutate(name=str_replace(name, "Lake", "Pond"))
+
+airports2 <- airports %>% mutate(name_split=str_split(name, " Air"),
+                    name_split=map_chr(name_split, 1)) %>%
+  select(name, name_split)
+
+airports2 %>% pull(name_split)
+```
+
+```{r}
+airports %>% pull(name) %>% wordcloud()
+```
+
+```{r}
+texto <- tibble(text="State authorities in the north-western US state of Washington have hit back after President Donald Trump threatened to 'take back'a police-free district controlled by protesters in Seattle. Governor Jay Inslee said Mr Trump should stay out of the state's business, and Seattle's mayor said any invasion of the city would be illegal. Police abandoned a precinct there on Monday after days of clashes. Mr Trump said the area had been overtaken by 'domestic terrorists'. Since police withdrew, demonstrations in the area have been largely peaceful. It has been called Chaz, an abbreviation of Capitol Hill Autonomous Zone. Hundreds of people have been gathering there to demonstrate, hear speeches and attend events.")
+
+palavras <- texto %>% unnest_tokens(palavra, text)
+
+palavras %>% group_by(palavra) %>%
+  tally() %>%
+  arrange(-n)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+airports %>% pull(name)
+```
+
+```{r}
+airports %>% mutate(Lake=str_detect(name, "Lake"))
+```
+
+```{r}
+airports %>% mutate(name=str_replace(name, "Lake", "Pond"))
+```
+
+```{r}
+airports %>% mutate(name_split=str_split(name, " ")) %>%
+  mutate(name_split_1=map_chr(name_split, 1))
+```
+
+```{r}
+
+airports %>% pull(name) %>% wordcloud()
+```
+
+```{r}
+texto <- tibble(text="State authorities in the north-western US state of Washington have hit back after President Donald Trump threatened to 'take back'a police-free district controlled by protesters in Seattle. Governor Jay Inslee said Mr Trump should stay out of the state's business, and Seattle's mayor said any invasion of the city would be illegal. Police abandoned a precinct there on Monday after days of clashes. Mr Trump said the area had been overtaken by 'domestic terrorists'. Since police withdrew, demonstrations in the area have been largely peaceful. It has been called Chaz, an abbreviation of Capitol Hill Autonomous Zone. Hundreds of people have been gathering there to demonstrate, hear speeches and attend events.")
+
+texto_palavras <- texto %>% unnest_tokens(palavra, text) 
+
+texto_palavras %>% group_by(palavra) %>%
+  tally()
+```
+

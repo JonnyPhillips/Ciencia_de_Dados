@@ -96,7 +96,7 @@ educ_RO_profs` ``.
 O número de professores em Roraima é `r educ_RO_profs`. 
 
 ```{r}
-educ_RO_profs <- educ_RO %>% group_by(CODMUNIC,MUNIC) %>% 
+educ_RO %>% group_by(CODMUNIC,MUNIC) %>% 
   summarize(PROFESS=sum(PROFESS,na.rm=T)) %>%
   ungroup() %>%
   select(-CODMUNIC) %>%
