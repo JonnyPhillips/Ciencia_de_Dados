@@ -1300,7 +1300,7 @@ Tutoriais
 <a href="Regressoes.html">9. Testes Estatisticos e Regressoes</a>
 <a href="Reprodutibilidade.html">10. Relatorios Reproduziveis</a>
 <a href="Repeticao.html">11. Funcoes e Repeticao</a>
-<a href="Analise_Texto.html">12. Mineracao de Textos</a>
+<a href="Analise_Texto.html">12. Analise de Texto</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1525,7 +1525,7 @@ lista_exemplo &lt;- list(objeto1, objeto2, objeto3, objeto4)
 lista_exemplo</code></pre>
 <pre><code>
 [[1]]
-# A tibble: 842 x 21
+# A tibble: 842 x 19
     year month   day dep_time sched_dep_time dep_delay arr_time
    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
  1  2013     1     1      517            515         2      830
@@ -1538,17 +1538,17 @@ lista_exemplo</code></pre>
  8  2013     1     1      557            600        -3      709
  9  2013     1     1      557            600        -3      838
 10  2013     1     1      558            600        -2      753
-# ... with 832 more rows, and 14 more variables:
+# ... with 832 more rows, and 12 more variables:
 #   sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
 #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
 #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,
-#   time_hour &lt;dttm&gt;, dep_delay_dobro &lt;dbl&gt;, velocidade &lt;dbl&gt;
+#   time_hour &lt;dttm&gt;
 
 [[2]]
 [1] 3.14
 
 [[3]]
-# A tibble: 943 x 21
+# A tibble: 943 x 19
     year month   day dep_time sched_dep_time dep_delay arr_time
    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
  1  2013     1     2       42           2359        43      518
@@ -1561,11 +1561,11 @@ lista_exemplo</code></pre>
  8  2013     1     2      554            600        -6      845
  9  2013     1     2      554            600        -6      841
 10  2013     1     2      554            600        -6      909
-# ... with 933 more rows, and 14 more variables:
+# ... with 933 more rows, and 12 more variables:
 #   sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
 #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
 #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,
-#   time_hour &lt;dttm&gt;, dep_delay_dobro &lt;dbl&gt;, velocidade &lt;dbl&gt;
+#   time_hour &lt;dttm&gt;
 
 [[4]]
 [1] &quot;teste&quot;</code></pre>
@@ -1741,31 +1741,47 @@ while (condição) {
 <li>Gere três tibbles seperados derivados do banco de dados <code>flights</code>, um para cada aeroporto de origem. Em seguida, coloque os três tibbles em uma lista (<code>list()</code>), com o nome de cada elemento da lista a sigla do aeroporto.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+EWR &lt;- flights %&gt;% filter(origin==&quot;EWR&quot;)
+JFK &lt;- flights %&gt;% filter(origin==&quot;JFK&quot;)
+LGA &lt;- flights %&gt;% filter(origin==&quot;LGA&quot;)
 
+flights_por_origem &lt;- list(EWR=EWR,
+                           JFK=JFK,
+                           LGA=LGA)
+
+#Ou, mais eficiente: flights_por_origem &lt;- flights %&gt;% split(.$origin)</code></pre>
 </div>
 <ol start="2" type="1">
 <li>Use <code>map</code> para calcular o número de linhas (vôos) em cada tibble.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+flights_por_origem %&gt;% map(nrow)</code></pre>
 </div>
 <ol start="3" type="1">
 <li>Filtre os três bancos de questão 1 para vôos com destino ‘SFO’ (San Francisco) usando <code>map</code>. Quantos vôos (linhas) têm cada aeroporto de Nova Iorque para SFO?</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+flights_por_origem %&gt;% map(filter, dest==&quot;SFO&quot;) %&gt;% 
+  map(nrow)</code></pre>
 </div>
 <ol start="4" type="1">
 <li>Para cada um dos três bancos de dados, calcule a velocidade de cada vôo usando <code>map</code>.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+flights_por_origem &lt;- flights_por_origem %&gt;% 
+  map(mutate, velocidade=distance/air_time)</code></pre>
 </div>
 <ol start="5" type="1">
 <li>Resume cada um dos três bancos para calcular a média da velocidade dos vôos usando uma função da família <code>map</code>. O resultado deve ser um tibble com todos os detalhes apropriados.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+flights_por_origem %&gt;% map_df(summarize, dep_delay=mean(velocidade, na.rm=T),
+                              .id=&quot;Aeroporto&quot;)</code></pre>
 </div>
 </div>
 <h1 id="gerando-novas-colunas-com-map-e-mutate">Gerando Novas Colunas com <code>map</code> e <code>mutate</code></h1>
@@ -1886,25 +1902,36 @@ dados_nested &lt;- dados_nested %&gt;% mutate(resultados=map2(formula, conteudo,
 <li>Gere um tibble ‘nested’ com uma linha para cada mês usando o banco de dados <code>weather</code>.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+weather_month &lt;- weather %&gt;% group_by(month) %&gt;% nest()</code></pre>
 </div>
 <ol start="2" type="1">
 <li>Adicione uma coluna ao tibble gerado em questão 1 que mostra o número de observações em cada mês.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+weather_month &lt;- weather_month %&gt;% mutate(obs=map_dbl(data, nrow))</code></pre>
 </div>
 <ol start="3" type="1">
 <li>Usando o seu banco de dados nested, execute uma regressão para cada mês separadamente, com ‘precip’ (chuva) na variável dependente e ‘temp’ (temperatura) na variável independente. Salve o coeficiente da variável temperatura numa coluna nova.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+weather_month %&gt;% mutate(regressão=map(data, ~lm(precip ~ temp, data=.)),
+                         coef=map(regressão, tidy),
+                         coef=map(coef, filter, term==&quot;temp&quot;),
+                         coef=map_dbl(coef, pull, estimate))</code></pre>
 </div>
 <ol start="4" type="1">
 <li>Separe a coluna de temperatura de cada mês em uma nova coluna nested como um vetor para cada mês, e aplique um teste shapiro (veja tutorial 9, <code>shapiro.test</code>) de normalidade para a temperatura de cada mês, processando o resultado para que o valor ‘p’ seja visível no tibble de resumo por mês.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+weather_month &lt;- weather_month %&gt;% 
+  mutate(temp=map(data, pull, temp),
+         normal_temp=map(temp, shapiro.test),
+         normal_temp=map(normal_temp, tidy),
+         normal_temp=map_dbl(normal_temp, pull, p.value))</code></pre>
 </div>
 </div>
 <p><br></p>

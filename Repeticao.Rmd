@@ -297,7 +297,7 @@ while (condição) {
 
 1. Gere três tibbles seperados derivados do banco de dados `flights`, um para cada aeroporto de origem. Em seguida, coloque os três tibbles em uma lista (`list()`), com o nome de cada elemento da lista a sigla do aeroporto. 
 
-```{r, eval=F, echo=F}
+```{r, eval=F}
 EWR <- flights %>% filter(origin=="EWR")
 JFK <- flights %>% filter(origin=="JFK")
 LGA <- flights %>% filter(origin=="LGA")
@@ -312,27 +312,27 @@ flights_por_origem <- list(EWR=EWR,
 
 2. Use `map` para calcular o número de linhas (vôos) em cada tibble.
 
-```{r, eval=F, echo=F}
+```{r, eval=F}
 flights_por_origem %>% map(nrow)
 ```
 
 3. Filtre os três bancos de questão 1 para vôos com destino 'SFO' (San Francisco) usando `map`. Quantos vôos (linhas) têm cada aeroporto de Nova Iorque para SFO?
 
-```{r, eval=F, echo=F}
+```{r, eval=F}
 flights_por_origem %>% map(filter, dest=="SFO") %>% 
   map(nrow)
 ```
 
 4. Para cada um dos três bancos de dados, calcule a velocidade de cada vôo usando `map`.
 
-```{r, eval=F, echo=F}
+```{r, eval=F}
 flights_por_origem <- flights_por_origem %>% 
   map(mutate, velocidade=distance/air_time)
 ```
 
 5. Resume cada um dos três bancos para calcular a média da velocidade dos vôos usando uma função da família `map`. O resultado deve ser um tibble com todos os detalhes apropriados.
 
-```{r, eval=F, echo=F}
+```{r, eval=F}
 flights_por_origem %>% map_df(summarize, dep_delay=mean(velocidade, na.rm=T),
                               .id="Aeroporto")
 ```
@@ -478,19 +478,19 @@ Com as funções de tidyverse básico e a família de `map`, agora você consegu
 
 1. Gere um tibble 'nested' com uma linha para cada mês usando o banco de dados `weather`. 
 
-```{r, eval=F, echo=F}
+```{r, eval=F}
 weather_month <- weather %>% group_by(month) %>% nest()
 ```
 
 2. Adicione uma coluna ao tibble gerado em questão 1 que mostra o número de observações em cada mês.
 
-```{r, eval=F, echo=F}
+```{r, eval=F}
 weather_month <- weather_month %>% mutate(obs=map_dbl(data, nrow))
 ```
 
 3. Usando o seu banco de dados nested, execute uma regressão para cada mês separadamente, com 'precip' (chuva) na variável dependente e 'temp' (temperatura) na variável independente. Salve o coeficiente da variável temperatura numa coluna nova.
 
-```{r, eval=F, echo=F}
+```{r, eval=F}
 weather_month %>% mutate(regressão=map(data, ~lm(precip ~ temp, data=.)),
                          coef=map(regressão, tidy),
                          coef=map(coef, filter, term=="temp"),
@@ -499,7 +499,7 @@ weather_month %>% mutate(regressão=map(data, ~lm(precip ~ temp, data=.)),
 
 4. Separe a coluna de temperatura de cada mês em uma nova coluna nested como um vetor para cada mês, e aplique um teste shapiro (veja tutorial 9, `shapiro.test`) de normalidade para a temperatura de cada mês, processando o resultado para que o valor 'p' seja visível no tibble de resumo por mês.
 
-```{r, eval=F, echo=F}
+```{r, eval=F}
 weather_month <- weather_month %>% 
   mutate(temp=map(data, pull, temp),
          normal_temp=map(temp, shapiro.test),

@@ -33,7 +33,7 @@ navbar:
             href: Reprodutibilidade.html
           - text: "11. Funcoes e Repeticao"
             href: Repeticao.html
-          - text: "12. Mineracao de Textos"
+          - text: "12. Analise de Texto"
             href: Analise_Texto.html            
     - text: "Desafios"
       menu: 
