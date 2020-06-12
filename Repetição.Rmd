@@ -328,6 +328,8 @@ dados_nested <- dados_nested %>%
 Bem melhor - agora podemos ver o número de linhas direitamente em nossa tabela. Também é possível aplicar uma função customizada para cada banco. Por exemplo, se quisemos resumir a correlação entre `dep_delay` e `dep_time` para cada banco, é só escrever uma função que executa esse cálculo para um tibble genérico, e aplicar a função dentro de `map` para a coluna apropriada:
 
 ```{r}
+library("broom")
+
 corr_function <- function(tibble) {
   tibble %>% cor.test(~ dep_delay + dep_time, data=.) %>%
     tidy()

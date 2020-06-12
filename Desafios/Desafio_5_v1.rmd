@@ -1,0 +1,248 @@
+---
+title: "Desafio 5: Análises Avançados de Tipos de Dados Diversos"
+output: distill::distill_article
+---
+
+```{r, echo=F}
+knitr::opts_chunk$set(echo = F, eval=F, highlight=T)
+```
+
+
+<style>
+div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
+</style>
+
+<div class = "purple">
+O prazo para entregar Desafio 5 por email com título “[FLS6397] - D5” à minha conta é **14h, 26/06/2020**, antes da aula. Por favor entregue (i) o arquivo .Rmd (ou .Rnw se preferir), e (ii) o arquivo .html ou .PDF.
+</div>
+
+<br>
+
+## Instruções
+
+Siga as instruções abaixo. Documente *todos* os seus passos em um script. Comente no seu script *todos* os seus passos e explique a si mesma(o) suas escolhas e estratégias. Se você se beneficiou da assistência de outra pessoa, sempre reconheça isso em comentários no código.
+
+## Roteiro
+
+1. Instale e abre [o pacote `geobr` do IBGE](https://github.com/ipeaGIT/geobr). Leia as instruções no site de github do pacote e use a função `read_municipality()` para acessar todos os municípios do estado de São Paulo em 2018. 
+
+```{r}
+# install.packages("geobr")
+library("tidyverse")
+library("sf")
+library("geobr")
+
+muns_SP <- read_municipality(code_muni="SP", year=2018)
+```
+
+2. Use a funcionalidade da família de `map` para aplicar a função `read_municipality` para cinco estados em uma linha única de código: SP, RJ, MT, RS e RN (todos para o ano de 2018). 
+
+```{r}
+estados <- c("SP", "RJ", "MT", "RS", "RN")
+
+muns_estados <- estados %>% map(read_municipality, year=2018)
+
+# outra possibilidade
+#muns_estados <- map(c("SP", "RJ", "MT", "RS", "RN"), read_municipality, year=2018)
+```
+
+3. Visualize um mapa simples usando `ggplot` dos municípios do estado de São Paulo. Formate o seu mapa e adicione um título. (Não precisa mostrar nenhum variável, só as fronteiras dos municípios).
+
+```{r}
+muns_SP %>% ggplot() +
+  geom_sf() +
+  theme_void() +
+  ggtitle("Municípios de São Paulo")
+```
+
+4. Baixe e abre o arquivo da população paulista em 2010 [do site do IBGE](https://www.ibge.gov.br/estatisticas/downloads-estatisticas.html), 'Censos' -> 'Censo_Demografico_2010' -> 'resultados' -> 'total_populacao_sao_paulo.zip'. 
+
+```{r}
+library("readxl")
+
+popn_sp <- read_excel("total_populacao_sao_paulo/total_populacao_sao_paulo.xls")
+
+# obs: se não limpar a planilhas as duas últimas linhas são dados "errados": total do estao e link
+# do site dod IBGE de onde a planilha foi tirada
+```
+
+5. Queremos mapear dados da população por município. Identifique o chave apropriado, e cruze o banco de população com o banco das fronteiras dos municípios de SP. 
+
+```{r}
+popn_sp <- popn_sp %>% mutate(code_muni=as.numeric(`Código do município`))
+
+muns_SP <- muns_SP %>% left_join(popn_sp, by="code_muni")
+```
+
+6. Usando o seu banco de dados de Questão 5, calcule a proporção da população urbana na população total em cada município e visualize um mapa bem-formatado dessa taxa por município em 2010. Aplique uma escala de cores desejada.
+
+```{r}
+muns_SP <- muns_SP %>% mutate(taxa_urbana=100*(`Total da população urbana`/`Total da população 2010`)) 
+
+muns_SP %>%
+  ggplot() +
+  geom_sf(aes(fill=taxa_urbana)) +
+  scale_fill_gradient2(name="% Urbana", low="dark green", mid="white", high="red", midpoint=50) +
+  theme_void()
+```
+
+7. Abre o arquivo [MCMV_new.shp](https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Desafios/MCMV_new.shp), que documenta a localização dos projetos de Minha Casa Minha Vida no Brasil, e o número de Unidades Habitacionais (UH) em cada um. 
+
+```{r}
+MCMV <- st_read("MCMV_new.shp")
+```
+
+8. Verifique se a projeção (o CRS) dos dois bancos de dados espaciais (municípios e MCMV) são iguais, e, se necessário, padroniza eles para um CRS da sua preferência. 
+
+```{r}
+MCMV <- MCMV %>% st_transform(4674)
+```
+
+9. Realize um spatial join para informar os dados de MCMV por município do estado de São Paulo, usando a localização dos projetos para juntar com os polígonos dos municípios. 
+
+```{r}
+muns_SP_MCMV <- muns_SP %>% st_join(MCMV)
+```
+
+10. Visualize um mapa do número de unidades habitacionais (UH) de MCMV por município de São Paulo (o polígono), e adicione uma segunda camada com a localização dos projetos de MCMV (os pontos). Formate o mapa e a escala de cores, e inclua um título.
+
+```{r}
+muns_SP_MCMV %>% ggplot() + 
+  geom_sf(aes(fill=UH)) +
+  geom_sf(data=MCMV %>% filter(UF=="SP"), size=0.5) +
+  scale_fill_gradient(low="#fcfbfd", high="#3f007d", trans="log", na.value="#fcfbfd") +
+  theme_void() +
+  ggtitle("MCMV no Estado de São Paulo")
+  
+```
+
+11. Imagine que os nossos dados são apenas uma amostra de todos os projetos de MCMV, e o governo de São Paulo se compremeteu a construir exatamente uma média de 600 unidades habitacionais por município. Avalie com a nossa amostra disponível se eles atingiram este objetivo com um t-test da média. 
+
+```{r}
+muns_SP_MCMV %>% pull(UH) %>% t.test(mu=600)
+```
+
+12. Queremos entender por que alguns municípios recebem mais unidades habitacionais (UH) do que outros. Execute uma regressão para avaliar se as seguintes variáveis são correlacionadas com o número de unidades habitacionais (UH): A taxa de população urbana e a população total em 2010. Mande o resultado para uma tabela bem-formatada,
+
+```{r, results='asis'}
+library("stargazer")
+
+muns_SP_MCMV %>% lm(UH ~ taxa_urbana + `Total da população 2010`, data=.)  %>% 
+  stargazer(type="html", title="Preditores do Número de Unidades Habitacionais de MCMV por Município")
+```
+
+13. Mostre um gráfico dos efeitos marginais da regressão em Questão 12 - o tamanho dos dois coefficientes e os seus intervalos de confiança.
+
+```{r}
+library("broom")
+muns_SP_MCMV %>% lm(UH ~ taxa_urbana + `Total da população 2010`, data=.) %>% 
+  tidy() %>%
+  mutate(conf.lo=estimate-1.96*std.error,
+         conf.hi=estimate+1.96*std.error) %>%
+  filter(term!="(Intercept)") %>%
+  ggplot() +
+  geom_point(aes(x=term, y=estimate)) +
+  geom_errorbar(aes(x=term, y=estimate, ymin=conf.lo, ymax=conf.hi), width=0.1) +
+  theme_classic() +
+  ggtitle("Efeitos Marginais de Coefficientes na Regressão de Questão 12")
+```
+
+14. Usando o banco de dados nacional de MCMV, use `nest()` para gerar um tibble 'nested' por estado. No seu tibble de resumo (com uma linha por estado) use a família de `map` para calcular o número de projetos em cada estado, e o número total de Unidades Habitacionais (UH) em cada estado como novas colunas. 
+
+```{r}
+MCMV_nested <- MCMV %>% group_by(UF) %>% nest() %>%
+  mutate(Num_Projetos=map_dbl(data, nrow)) %>%
+  mutate(Total_UH=map(data, summarize, sum(UH, na.rm=T)),
+         Total_UH=map_dbl(Total_UH, 1))
+```
+
+15. O 'Project_ID' é um indicador (um proxy) de quando o projeto foi iniciado. Vamos rodar uma regressão para avaliar se projetos mais recentes (com 'Project_ID' maior) contém mais Unidades Habitacionais (UH). Use a família `map` e o seu tibble nested de Questão 14 para aplicar *uma regressão por estado*, e guarda os coefficientes e os p-values das regressões em colunas novas do tibble de resumo. 
+
+```{r}
+MCMV_nested <- MCMV_nested %>% filter(Num_Projetos>1) %>% mutate(regressao=map(data, ~lm(UH ~ Project_ID, data=.)),
+                       regressao=map(regressao, tidy),
+                       regressao=map(regressao, filter, term=="Project_ID"),
+                       coef=map_dbl(regressao, pull, estimate),
+                       p.value=map_dbl(regressao, pull, p.value))
+```
+
+16. Use [o link aqui](https://escriba.camara.leg.br/escriba-servicosweb/pdf/59638) para acessar um PDF da discussão na Camara dos Deputados no dia 21 de Maio de 2020. 
+
+```{r}
+library("pdftools")
+
+text <- tibble(páginas=pdf_text("https://escriba.camara.leg.br/escriba-servicosweb/pdf/59638"))
+```
+
+17. Precisamos processar e preparar o texto para a análise. Segue os seguintes passos:
+    a. Insera o texto num tibble
+    b. No PDF é possível ver que as falas dos deputados distintos sempre começam com 'O SR.' ou 'A SRA.' então vamos usar estes strings para divide o texto para cada Deputado. Use `str_split` para divide o texto baseado nos strings 'O SR.' e 'A SRA.' e gera uma nova coluna. 
+    c. Em seguida, `unnest()` os dados para que cada fala de cada deputado é uma linha separado no tibble.
+    d. Use `separate` para divide a fala de cada deputado em duas colunas: O nome do Deputado, e o discurso, usando a seguinte string como divisor: `"\\) - "`
+    e. O resultado deve conter umas linhas em que a coluna 'Deputado' não é uma pessoa, mas começa com "Sessão". Use `filter` para tirar essas linhas que começam com "Sessão". 
+    f. Ainda, o nome do deputado fica desarrumado por causa de conteúdo em parenteses. Para identificar os deputados únicos, use `separate` para dividir a coluna do nome de Deputado em o nome e o conteúdo dos parenteses (que não importa para nos), usando a seguinte string como divisor: `" \\("`.
+    g. Tire as colunas desnecessários para que tenha apenas as duas colunas: Nome do Deputado, e Palavra
+    
+```{r}
+text2 <- text %>% mutate(split=str_split(páginas, "O SR.|A SRA.")) %>%
+  select(-páginas) %>%
+  unnest() %>%
+  separate(split, "\\) - ", into=c("Deputado", "Discurso")) %>%
+  filter(!(str_detect(Deputado, "^Sessão"))) %>%
+  separate(Deputado, " \\(", into=c("Deputado", "Ignorar")) %>%
+  select(-Ignorar)
+```
+    
+18. Agora, com o tibble de Questão 15, vamos desaggregar e padronizar os discursos:
+    a. 'Tokenizar' os discursos dos deputados em palavras únicos para que o seu tibble contém uma linha por palavra.
+    b. Tire os stopwords de português. Se quiser, pode incluir mais stopwords que você acha não relevante para a análise.
+    c. Transforme as palavras em seus raízes, os 'stems'.
+
+```{r}
+library("tidytext")
+library("textstem")
+library("lexiconPT")
+
+stopwords <- get_stopwords(language="pt") %>%
+  rename(palavra=word)
+
+text3 <- text2 %>% unnest_tokens(palavra, Discurso, strip_numeric=TRUE) %>%
+  anti_join(stopwords, by="palavra") %>%
+  mutate(stem=stem_words(palavra, language="pt"))
+```
+
+19. Gere um 'wordcloud' dos stems das palavras usados pelos Deputados
+
+```{r}
+library("wordcloud")
+text3 %>% pull(stem) %>% wordcloud()
+```
+
+20. Use uma análise de sentimento para identificar o Deputado que usa as palavras mais otimistas e o Deputado que usa as palavras mais pessimistas.
+
+```{r}
+data("oplexicon_v3.0") #Abrir o banco de dados de sentimentos
+
+sentimento <- oplexicon_v3.0 %>% select(term, polarity) %>%
+  rename(palavra=term)
+
+text3 <- text3 %>% left_join(sentimento, by="palavra")
+
+text3 %>% group_by(Deputado) %>% 
+  summarize(sentimento=mean(polarity, na.rm=T)) %>%
+  arrange(-sentimento) %>%
+  slice(1, n())
+```
+
+21. Gere um indicador binário da identidade do Deputado falando - se seja o Presidente da Câmara, ou um outro Deputado (tratando todos juntos). Identifique as cinco palavras mais distintas de cada group (Presidente vs. outros).
+
+```{r}
+text4 <- text3 %>% 
+  mutate(Presidente=ifelse(Deputado==" PRESIDENTE", 1, 0)) %>% 
+  group_by(Presidente, palavra) %>%
+  tally() %>%
+  bind_tf_idf(palavra, Presidente, n)
+
+text4 %>% group_by(Presidente) %>%
+  top_n(5, tf_idf)
+```

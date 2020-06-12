@@ -1,0 +1,3290 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Analise de Dados para as Ciencias Sociais: Análise de Texto</title>
+  
+  
+  
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Analise de Dados para as Ciencias Sociais: Análise de Texto"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:site_name" content="Analise de Dados para as Ciencias Sociais"/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Analise de Dados para as Ciencias Sociais: Análise de Texto"/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Análise de Texto"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_float","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[1]}]}]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  <!--radix_placeholder_navigation_in_header-->
+  
+  <script type="application/javascript">
+  
+    window.headroom_prevent_pin = false;
+  
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+  
+      // initialize headroom for banner
+      var header = $('header').get(0);
+      var headerHeight = header.offsetHeight;
+      var headroom = new Headroom(header, {
+        onPin : function() {
+          if (window.headroom_prevent_pin) {
+            window.headroom_prevent_pin = false;
+            headroom.unpin();
+          }
+        }
+      });
+      headroom.init();
+      if(window.location.hash)
+        headroom.unpin();
+      $(header).addClass('headroom--transition');
+  
+      // offset scroll location for banner on hash change
+      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+      window.addEventListener("hashchange", function(event) {
+        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+      });
+  
+      // responsive menu
+      $('.distill-site-header').each(function(i, val) {
+        var topnav = $(this);
+        var toggle = topnav.find('.nav-toggle');
+        toggle.on('click', function() {
+          topnav.toggleClass('responsive');
+        });
+      });
+  
+      // nav dropdowns
+      $('.nav-dropbtn').click(function(e) {
+        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+        $(this).parent().siblings('.nav-dropdown')
+           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $("body").click(function(e){
+        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $(".nav-dropdown").click(function(e){
+        e.stopPropagation();
+      });
+    });
+  </script>
+  
+  <style type="text/css">
+  
+  /* Theme (user-documented overrideables for nav appearance) */
+  
+  .distill-site-nav {
+    color: rgba(255, 255, 255, 0.8);
+    background-color: #455a64;
+    font-size: 15px;
+    font-weight: 300;
+  }
+  
+  .distill-site-nav a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .distill-site-nav a:hover {
+    color: white;
+  }
+  
+  @media print {
+    .distill-site-nav {
+      display: none;
+    }
+  }
+  
+  .distill-site-header {
+  
+  }
+  
+  .distill-site-footer {
+  
+  }
+  
+  
+  /* Site Header */
+  
+  .distill-site-header {
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 3;
+  }
+  
+  .distill-site-header .nav-left {
+    display: inline-block;
+    margin-left: 8px;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header .nav-left {
+      margin-left: 0;
+    }
+  }
+  
+  
+  .distill-site-header .nav-right {
+    float: right;
+    margin-right: 8px;
+  }
+  
+  .distill-site-header a,
+  .distill-site-header .title {
+    display: inline-block;
+    text-align: center;
+    padding: 14px 10px 14px 10px;
+  }
+  
+  .distill-site-header .title {
+    font-size: 18px;
+  }
+  
+  .distill-site-header .logo {
+    padding: 0;
+  }
+  
+  .distill-site-header .logo img {
+    display: none;
+    max-height: 20px;
+    width: auto;
+    margin-bottom: -4px;
+  }
+  
+  .distill-site-header .nav-image img {
+    max-height: 18px;
+    width: auto;
+    display: inline-block;
+    margin-bottom: -3px;
+  }
+  
+  
+  
+  @media screen and (min-width: 1000px) {
+    .distill-site-header .logo img {
+      display: inline-block;
+    }
+    .distill-site-header .nav-left {
+      margin-left: 20px;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 20px;
+    }
+    .distill-site-header .title {
+      padding-left: 12px;
+    }
+  }
+  
+  
+  .distill-site-header .nav-toggle {
+    display: none;
+  }
+  
+  .nav-dropdown {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .nav-dropdown .nav-dropbtn {
+    border: none;
+    outline: none;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 16px 10px;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+    margin-top: 1px;
+    z-index: 2;
+  }
+  
+  .nav-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 4px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    z-index: 1;
+    margin-top: 2px;
+    white-space: nowrap;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  
+  .nav-dropdown-content hr {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-dropdown-active {
+    display: block;
+  }
+  
+  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+    color: black;
+    padding: 6px 24px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+  
+  .nav-dropdown-content .nav-dropdown-header {
+    display: block;
+    padding: 5px 24px;
+    padding-bottom: 0;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #999999;
+    white-space: nowrap;
+  }
+  
+  .nav-dropdown:hover .nav-dropbtn {
+    color: white;
+  }
+  
+  .nav-dropdown-content a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  .nav-right .nav-dropdown-content {
+    margin-left: -45%;
+    right: 0;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+    .distill-site-header a.nav-toggle {
+      float: right;
+      display: block;
+    }
+    .distill-site-header .title {
+      margin-left: 0;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 0;
+    }
+    .distill-site-header {
+      overflow: hidden;
+    }
+    .nav-right .nav-dropdown-content {
+      margin-left: 0;
+    }
+  }
+  
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header.responsive {position: relative;}
+    .distill-site-header.responsive a.nav-toggle {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    .distill-site-header.responsive a,
+    .distill-site-header.responsive .nav-dropdown {
+      display: block;
+      text-align: left;
+    }
+    .distill-site-header.responsive .nav-left,
+    .distill-site-header.responsive .nav-right {
+      width: 100%;
+    }
+    .distill-site-header.responsive .nav-dropdown {float: none;}
+    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+      display: block;
+      width: 100%;
+      text-align: left;
+    }
+  }
+  
+  /* Site Footer */
+  
+  .distill-site-footer {
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    z-index: 3;
+    margin-top: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+  }
+  
+  /* Headroom */
+  
+  d-title {
+    padding-top: 6rem;
+  }
+  
+  @media print {
+    d-title {
+      padding-top: 4rem;
+    }
+  }
+  
+  .headroom {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  .headroom--transition {
+    transition: all .4s ease-in-out;
+  }
+  
+  .headroom--unpinned {
+    top: -100px;
+  }
+  
+  .headroom--pinned {
+    top: 0;
+  }
+  
+  </style>
+  
+  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Análise de Texto","authors":[]}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="index.html" class="title">Analise de Dados para as Ciencias Sociais</a>
+</div>
+<div class="nav-right">
+<a href="index.html">Introducao</a>
+<a href="syllabus.html">Syllabus</a>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Tutoriais
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="introducao.html">1. Introducao</a>
+<a href="abrindo_manipulando.html">2. Abrindo e Manipulando Dados</a>
+<a href="limpando_dados.html">3. Organizando e Limpando Dados</a>
+<a href="Estatisticas_Resumidas.html">4. Calculando Estatisticas Resumidas</a>
+<a href="Tabelas.html">5. Construindo Tabelas</a>
+<a href="Graficos.html">6. Visualizacao de Dados</a>
+<a href="Juntando_Bancos.html">7. Juntando Bancos de Dados</a>
+<a href="Mapas.html">8. Mapas e Analises Espaciais</a>
+<a href="Regressoes.html">9. Testes Estatisticos e Regressoes</a>
+<a href="Reprodutibilidade.html">10. Relatorios Reproduziveis</a>
+<a href="Repeticao.html">11. Funcoes e Repeticao</a>
+<a href="Analise_Texto.html">12. Mineracao de Textos</a>
+</div>
+</div>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Desafios
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="Desafios/Desafio_1.html">Desafio 1</a>
+<a href="Desafios/Desafio_2.html">Desafio 2</a>
+<a href="Desafios/Desafio_3_v4.html">Desafio 3</a>
+<a href="Desafios/Desafio_4_v1.html">Desafio 4</a>
+<a href="Desafios/Desafio_5_v1.html">Desafio 5</a>
+</div>
+</div>
+<a href="recursos.html">Recursos</a>
+<a href="projeto.html">Projeto Final</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Análise de Texto</h1>
+
+</div>
+
+
+<div class="d-article">
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#o-que-há-em-uma-palavra-str_length-str_detect">O que há em uma palavra? (<code>str_length</code>, <code>str_detect</code>)</a></li>
+<li><a href="#transformando-strings-str_replace-str_split">Transformando Strings (<code>str_replace</code>, <code>str_split</code>)</a></li>
+<li><a href="#tokenizer-e-padronizar-o-texto-unnest_tokens">Tokenizer e Padronizar o Texto (<code>unnest_tokens</code>)</a></li>
+<li><a href="#frequência-de-palavras">Frequência de Palavras</a></li>
+<li><a href="#análise-de-sentimento">Análise de Sentimento</a></li>
+<li><a href="#comparando-documentos">Comparando Documentos</a></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<style>
+div.green { background-color:#e5f5e0; border-radius: 5px; padding: 20px;}
+</style>
+<style>
+div.orange { background-color:#fee6ce; border-radius: 5px; padding: 20px;}
+</style>
+<style>
+div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
+</style>
+<style>
+div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
+</style>
+<h1 id="o-que-há-em-uma-palavra-str_length-str_detect">O que há em uma palavra? (<code>str_length</code>, <code>str_detect</code>)</h1>
+<p>Palavras e conjuntos de caracteres são coisas complexas que podemos manipular e transformar da mesma forma que processamos números. É importante entender que R trata todas os textos/as palavras como ‘strings’: conjuntos sequencias de caracteres específicas. Por exemplo, veja o string do nome do primeiro aeroporto no banco de dados <code>airports</code> de <code>nycflights13</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(&quot;nycflights13&quot;)
+library(&quot;tidyverse&quot;)
+
+airports %&gt;% slice(1) %&gt;% pull(name)</code></pre>
+<pre><code>
+[1] &quot;Lansdowne Airport&quot;</code></pre>
+</div>
+<p>O pacote <code>stringr</code> fornece uma variedade de funções para trabalhar com strings, todos começando com <code>str_</code>. O mais fácil é medir o número de caracteres com <code>str_length()</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+airports &lt;- airports %&gt;% mutate(caracteres=str_length(name))</code></pre>
+</div>
+<p>Uma tarefa comum é identificar a <em>presença</em> de um string com <code>str_detect()</code>. Por exemplo, queremos identificar os aeroportos que contém a palavra ‘field’ (a descrição de um aeroporto pequeno):</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+airports &lt;- airports %&gt;% mutate(string_field=str_detect(name, &quot;Field&quot;))</code></pre>
+</div>
+<p>Observe que o resultado aqui é verdade/falsa (<code>TRUE</code>/<code>FALSE</code>). Quantos “field”s temos nos Estados Unidos - podemos usar a nova coluna para contar.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+airports %&gt;% group_by(string_field) %&gt;%
+  tally()</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+string_field
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:right;">
+1386
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+72
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<aside>
+<p>Tome cuidado com letras minúsculas vs. maiúsculas - são tratados diferentemente!</p>
+</aside>
+<p>Identificando strings é um tema de programação enorme, pois não precisamos usar uma palavra exata e fixa; podemos usar um ‘modelo’ genérica para capturar uma variadade de possibilidades. Isso se chama um ‘regex’, uma ‘expressão regular’. Por exemplo, para capturar aeroportos que contém ‘Regional’ <em>ou</em> ‘Rgnl’, usamos o símbolo ‘|’ (como em <code>filter</code>).</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+airports %&gt;% mutate(string_regional=str_detect(name, &quot;Regional|Rgnl&quot;)) %&gt;%
+  filter(string_regional==TRUE) %&gt;%
+  select(name)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+name
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Schaumburg Regional
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Finger Lakes Regional Airport
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phoenix Regional Airport
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Apalachicola Regional Airport
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Abilene Rgnl
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Aberdeen Regional Airport
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Southwest Georgia Regional Airport
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Jimmy Carter Regional
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Waco Rgnl
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Augusta Rgnl At Bush Fld
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Que tal identificamos os nomes que <em>começam</em> com ‘Z’. Para detectar caracteres apenas no <em>início</em> do string, usamos ‘^’. Para detectar caracteres apenas no final do string, usamos ‘$’ depois do caracter.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+airports %&gt;% mutate(string_z=str_detect(name, &quot;^Z&quot;)) %&gt;%
+  filter(string_z==TRUE) %&gt;%
+  select(name)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+name
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Zachar Bay Seaplane Base
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Zamperini Field Airport
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>As possibilidades são complexas - por exemplo, é possível identificar os nomes que contém pelo menos dois ’f’s ou ’g’s juntos com o modelo abaixo:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+airports %&gt;% mutate(string_ffgg=str_detect(name, &quot;[fg]{2,}&quot;)) %&gt;%
+  filter(string_ffgg==TRUE) %&gt;%
+  select(name)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+name
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Jefferson County Intl
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Effingham Memorial Airport
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Jefferson County Airpark
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Griffin-Spalding County Airport
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Biggs Aaf
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Buffalo Niagara Intl
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Flagstaff Pulliam Airport
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+McDuffie County Airport
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Jefferson City Memorial Airport
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Coffman Cove Seaplane Base
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Não se preocupe com todos os detalhes do ‘regex’ de texto - são complexos e impossível de lembrar, mas se precisar no futuro, pode utilizar a referência <a href="http://edrub.in/CheatSheets/cheatSheetStringr.pdf">na segunda página do cheatsheet de <code>stringr</code> aqui</a>.</p>
+<div class="blue">
+<p><strong>Habilidade Básica de Programação: Transformando PDFs em Texto Editável</strong></p>
+<p>Um dos formatos mais comuns para a disponibilização de textos é o PDF, um formato não editável. Porém na maioria dos casos é fácil traduzir um PDF em texto simples que o R pode entender. Usamos o pacote <code>pfdtools</code> e a função <code>pdf_text()</code>.</p>
+<p>Por exemplo, vamos abrir um artigo recente da Revista Brasileira da Ciência Política.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+#install.packages(&quot;pdftools&quot;)
+library(pdftools)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+artigo &lt;- tibble(páginas=pdf_text(&quot;https://cutt.ly/Sy4vi7F&quot;))</code></pre>
+</div>
+<p>Qual é o resultado de <code>pdf_text()</code>? É um vetor de strings - um para cada página no PDF. E para conveniência nós já inserimos o vetor como uma coluna de um tibble.</p>
+</div>
+<h1 id="transformando-strings-str_replace-str_split">Transformando Strings (<code>str_replace</code>, <code>str_split</code>)</h1>
+<p>Quando recebemos um banco de dados com strings, existe uma variação incrível no uso de palavras, refletindo o estilo e contexto do documento. Mas queremos trabalhar apenas com strings que nos interessamos. Isso exige a manipulação e substituição de strings complexos ou sujos.</p>
+<p>Por exemplo, vamos substituir as instâncias de ‘Rgnl’ com ‘Regional’ com <code>str_replace</code> para deixar os strings mais consistente. Os argumentos são a coluna do tibble que contém os strings, o modelo (um regex) de caracteres para identificar, e, em seguida, o string para substituir.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+airports &lt;- airports %&gt;% mutate(name=str_replace(name, &quot;Rgnl&quot;, &quot;Regional&quot;))</code></pre>
+</div>
+<p>Ou, por exemplo, podemos substituir os hífens com um espaço para padronizar os strings, alguns que usam hífens e outros não:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+airports &lt;- airports %&gt;% mutate(name=str_replace(name, &quot;-&quot;, &quot; &quot;))</code></pre>
+</div>
+<p>Observe que os nomes dos aeroportos são geralmente compostos por várias palavras - se quisemos manter apenas a primeira palavra, temos que dividir o string único em vários partes. Nessa situação, usamos a função <code>str_split</code>, especificando um string (um regex) para o local da divisão. Por exemplo, para separar cada palavra temos que dividir por espaço:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+airports &lt;- airports %&gt;% mutate(nome_parcial=str_split(name, &quot; &quot;))</code></pre>
+</div>
+<p>Como fica o resultado? Cada linha tem um <em>vetor</em> com os palavras únicas separadas. Note que o cumprimento do vetor varia para cada linha - pode ter 1, 2, 3 ou mais elementos, dependendo do número de espaços no string original. Podemos selecionar, por exemplo, a primeira palavra, aproveitando da função <code>map</code> do tutorial passado, e usando ‘1’ para pedir o primeiro elemento do vetor, ou <code>tail</code> para pedir o último elemento:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+airports &lt;- airports %&gt;% mutate(nome_parcial_primeiro=map_chr(nome_parcial, 1))</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+airports &lt;- airports %&gt;% mutate(nome_parcial_final=map_chr(nome_parcial, tail, n=1))</code></pre>
+</div>
+<p>Lembre-se da função <code>separate()</code> do Tutorial 3? É bem parecida com <code>str_split()</code>. A diferença é que o produto de <code>separate</code> não é simplesmente um vetor - é <em>distribuido</em> em colunas novas dentro do nosso tibble. Isso é muito conveniente, mas exige que determinamos o número de parcelas em que dividimos o string em avanço. Por exemplo, com <code>separate()</code> fica mais difícil encontrar o último palavra do nome do aeroporto como calculamos acima.</p>
+<p><code>separate()</code> é mais útil quando temos um formato fixo com um número de parcelas previsível. Por exemplo, podemos dividir a coluna <code>tzone</code> entre os partes antes e depois do ‘/’:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+airports &lt;- airports %&gt;% separate(tzone, &quot;/&quot;, into=c(&quot;País&quot;, &quot;Região&quot;))</code></pre>
+</div>
+<p>Vale a pena pensar bem se <code>str_split()</code> (dentro de <code>mutate()</code>), ou <code>separate()</code> é mais apropriado em cada situação.</p>
+<div class="blue">
+<p><strong>Habilidade Básica de Programação: Caracteres de Escape</strong></p>
+<p>Em algumas situações, é difícil identificar ou dividir por um caractere quando esse caractere é usado no código de programação mesmo. Por exemplo, definimos o string para dividir entre aspas: <code>""</code>, mas é possível querer dividir um string <em>por aspas</em>, por exemplo para dividir uma citação do autor.</p>
+<p>Como faremos? Temos que usar um indicador específico - um Caractere de ‘Escape’ para informar R que queremos tratar o caractere como parte do string e não como parte do código de programação. O Caractere de ‘Escape’ em R é ‘\’. Então precisamos indicar “\”" para dividir por aspas. E se queremos dividir pela barra em si “\”?? Usamos duas! “\\”.</p>
+</div>
+<h2 id="visualizando-strings">Visualizando Strings</h2>
+<p>Um jeito comum de apresentar a frequência de strings é um nuvem de palavras - um ‘wordcloud’ - que exige os pacotes <code>wordcloud</code> e <code>tm</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+#install.packages(&quot;wordcloud&quot;)
+#install.packages(&quot;tm&quot;)
+library(&quot;wordcloud&quot;)
+library(&quot;tm&quot;)
+
+airports %&gt;% pull(name) %&gt;% wordcloud()</code></pre>
+<p><img src="Analise_Texto_files/figure-html5/unnamed-chunk-20-1.png" width="624" /></p>
+</div>
+<aside>
+<p>Para mais controle de apresentação, é possível criar o wordcloud em <code>ggplot</code> com um pouco mais de esforço: veja o pacote <code>ggwordcloud</code>.</p>
+</aside>
+<div class="green">
+<h2 id="exercício-1-trabalhando-com-strings">Exercício 1: Trabalhando com Strings</h2>
+<ol type="1">
+<li>No banco de dados <code>airlines</code> do pacote <code>nycflights13</code>, qual porcentagem dos nomes das companhias aéreas contém a palavra ‘Airlines’ e qual porcentagem contém a palavra ‘Airways’?</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="2" type="1">
+<li>No mesmo banco, Substitua os nomes das companhias aéreas que contém ‘Inc.’ com ‘Incorporated’, e eles que contém ‘Co.’ com ‘Company’.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="3" type="1">
+<li>Gere um nome curto para cada companhia aérea, refletindo apenas a primeira palavra do nome.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="4" type="1">
+<li>Crie um ‘wordcloud’ dos nomes das companhias aéreas.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+</div>
+<h1 id="tokenizer-e-padronizar-o-texto-unnest_tokens">Tokenizer e Padronizar o Texto (<code>unnest_tokens</code>)</h1>
+<!-- Por isso, é importante padronizar e  simplificar strings antes de realizar uma análise empírica.  -->
+<p>Para os fins de análise de texto queremos simplificar e padronizar as milhões de variedades que cada língua permite para que podemos reconhecer a presença das mesmas palavras/sentidos mesmo em contextos diferentes. Por exemplo, a mesma palavra pode aparecer em vários formatos: ‘Regional’, ‘regional’, ‘Rgnl’, ‘Region’, ‘region’, ‘Regionally’, ‘regionally’ etc. Mas todos representam o mesmo ‘conceito’ e queremos reconhecer que eles estão falando do mesmo conceito quando analisamos o texto.</p>
+<p>Para ilustrar as possibilidades com um texto mais completo, vamos acessar o texto inteiro do livro “Dom Casmurro” de Machado de Assis, disponível no site do <a href="http://www.gutenberg.org/">Project Gutenberg</a>. Podemos usar o pacote <code>gutenbergr</code> para acessar o texto em um formato bem conhecido - um tibble. O pacote permite baixar o texto por código numérico.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# install.packages(&quot;gutenbergr&quot;)
+# install.packages(&quot;urltools&quot;) #Se necessário; depende do sistema
+library(&quot;gutenbergr&quot;)
+library(&quot;urltools&quot;)
+
+#http://www.gutenberg.org/cache/epub/55752/pg55752.txt #Machado de Assis, Dom Casmurro
+
+Assis &lt;- gutenberg_download(55752)</code></pre>
+</div>
+<p>Temos que limpar e organizar o texto antes de usar. Por motivos chatos e técnicos, o próximo código converte o encoding para UTF-8, e depois tira manualmente as linhas do início e final que não foram parte do livro original. Aproveitamos para também adicionar uma nova coluna capturando o número da linha no livro, para facilitar restreando as linhas ao longo da análise.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis &lt;- Assis %&gt;% 
+  mutate(text=iconv(text, from = &quot;latin1&quot;, to = &quot;UTF-8&quot;)) %&gt;%
+  select(-gutenberg_id) %&gt;% 
+  slice(21:8549) %&gt;%
+  rownames_to_column(&quot;Linha&quot;) </code></pre>
+</div>
+<p>Agora observe que cada linha do tibble ‘Assis’ é uma linha do livro, enquanto a nossa unidade de análise normalmente é cada palavra. Então a nossa primeira tarefa é separar as linhas em palavras (‘tokenize’). As seguintes funções são dos pacotes <code>tidytext</code>, <code>textstem</code> e <code>lexiconPT</code>, então lembre-se de instalar eles uma vez e abrir as bibliotecas depois.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# install.packages(&quot;tidytext&quot;)
+# install.packages(&quot;textstem&quot;)
+# install.packages(&quot;lexiconPT&quot;)
+
+library(tidytext)
+library(textstem)
+library(lexiconPT)</code></pre>
+</div>
+<p>Desaggregar linhas em palavras exige a função <code>unnest_tokens()</code>, com dois argumentos: o nome da nova coluna que contém as palavras, ‘palavra’, e o nome da coluna que contém o texto por linha, ‘text’.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_palavras &lt;- Assis %&gt;% unnest_tokens(palavra, text)</code></pre>
+</div>
+<p>Agora, ‘Assis_palavras’ tem muito mais linhas, uma para cada palavra. Perfeito.</p>
+<p>A próxima tarefa é a simplificação e padronização dessas palavras, e isso involve vários passos:</p>
+<ol type="1">
+<li><strong>Tirar Pontuação:</strong> Frases contém pontuação, mas normalmente não importa se há uma vírgula ou não depois de uma palavra para identificar a presença do conceito no texto. A pontuação é tirada automaticamente por <code>unnest_tokens()</code>. Se quiser, pode desligar para manter a pontuação:</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis %&gt;% unnest_tokens(palavra, text, strip_punct=F)</code></pre>
+</div>
+<ol start="2" type="1">
+<li><strong>Tirar Maiúsculas:</strong> Também queremos ignorar se as palavras estejam em letras minúsculas ou maiúsculas, e padronizar, por exemplo, para minúsculas. De novo, isso é o padrão de <code>unnest_tokens()</code>, mas podemos desligar se quisemos:</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis %&gt;% unnest_tokens(palavra, text, to_lower=F)</code></pre>
+</div>
+<ol start="3" type="1">
+<li><strong>Tirar Números:</strong> O nosso texto contém vários números (anos, etc.) que não são relevante para uma análise de texto. Não é a opção padrão, mas podemos tirar os números facilmente:</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_palavras &lt;- Assis %&gt;% unnest_tokens(palavra, text, strip_numeric=TRUE)</code></pre>
+</div>
+<ol start="4" type="1">
+<li><strong>Tirar stopwords:</strong> É comum tirar palavras pequenas e genéricas como ‘o’, ‘a’, ‘e’ etc. que são universais e não diferenciam o conteúdo dos textos. Essas palavras se chamam ‘stopwords’. Tira-las exige mais um passo, aproveitando de um banco de dados de stopwords com a função <code>get_stopwords()</code> para a língua apropriada. Inspecione o conteúdo dela.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+stopwords &lt;- get_stopwords(language=&quot;pt&quot;) %&gt;%
+  rename(palavra=word)
+
+stopwords
+
+Assis_palavras &lt;- Assis_palavras %&gt;% anti_join(stopwords, by=&quot;palavra&quot;)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+palavra
+</th>
+<th style="text-align:left;">
+lexicon
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+de
+</td>
+<td style="text-align:left;">
+snowball
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+a
+</td>
+<td style="text-align:left;">
+snowball
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+o
+</td>
+<td style="text-align:left;">
+snowball
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+que
+</td>
+<td style="text-align:left;">
+snowball
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+e
+</td>
+<td style="text-align:left;">
+snowball
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+do
+</td>
+<td style="text-align:left;">
+snowball
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+da
+</td>
+<td style="text-align:left;">
+snowball
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+em
+</td>
+<td style="text-align:left;">
+snowball
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+um
+</td>
+<td style="text-align:left;">
+snowball
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+para
+</td>
+<td style="text-align:left;">
+snowball
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Lembrando que queremos manter as linhas em ‘Assis_palavras’ que não existem no banco de <code>get_stopwords()</code>, o jeito mais eficiente é usar um <code>anti_join()</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_palavras &lt;- Assis_palavras %&gt;% anti_join(stopwords, by=&quot;palavra&quot;)</code></pre>
+</div>
+<p>A lista de stopwords não é nada oficial; são apenas as palavras que não nos interessamos. Por exemplo, por algum motivo a lista de stopwords aqui falta a palavra ‘é’, que é muito comum e não acrescenta nada sobre o conteúdo do texto. Nós podemos manualmente estender a lista de stopwords, adicionando mais linhas no tibble <code>stopwords</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+stopwords &lt;- stopwords %&gt;% add_row(palavra=&quot;é&quot;, lexicon=&quot;pessoal&quot;)
+
+Assis_palavras &lt;- Assis_palavras %&gt;% anti_join(stopwords, by=&quot;palavra&quot;)</code></pre>
+</div>
+<ol start="5" type="1">
+<li><strong>‘Stem’ as palavras</strong> Mais um passo de processamento é a padronização de variedades da mesma palavra - uma técnica que se chama ‘stemming’. Por exemplo, português tem milhares de conjugações de cada verbo: ‘saber’, ‘sei’, ‘soube’ etc. que significam o mesmo conceito. O que nos interessamos é o raiz (o ‘stem’) consistente da palavra. Usamos a função <code>stem_words()</code> para adicionar mais uma coluna ao nosso tibble com a raiz das palavras, de novo especificando a língua apropriada.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_palavras &lt;- Assis_palavras %&gt;% mutate(stem=stem_words(palavra, language=&quot;pt&quot;))</code></pre>
+</div>
+<p>Agora veja a coluna ‘stem’ do tibble: observe o contraste entre ‘palavra’, e ‘stem’. Por exemplo, ambos ‘encontrei’ e ‘encontrou’ se tornam ‘encontr’. A padronização simplifica o base de dados bastante - de 8.728 a 4.824 palavras distintas.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_palavras %&gt;% distinct(palavra)
+Assis_palavras %&gt;% distinct(stem)</code></pre>
+</div>
+<h1 id="frequência-de-palavras">Frequência de Palavras</h1>
+<p>Agora que temos um banco de dados textuais padronizado, podemos começar a analisar o conteúdo das palavras de Machado de Assis. Primeiramente, vamos estimar a frequência de uso das palavras, ou mais especificamente as raizes.</p>
+<p>Podemos visualizar a frequência das raizes (stems) das palavras com um wordcloud, como mostramos acima. (Vamos pedir uma amostra das linhas para acelerar o processamento).</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_palavras %&gt;% sample_n(2000) %&gt;% 
+  pull(stem) %&gt;% 
+  wordcloud()</code></pre>
+<p><img src="Analise_Texto_files/figure-html5/unnamed-chunk-38-1.png" width="624" /></p>
+</div>
+<p>Também podemos identificar as palavras (os ‘stems’ na verdade) mais frequentes usando as nossas habilidades bem conhecidas do tidyverse.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_palavras %&gt;% group_by(stem) %&gt;%
+  tally() %&gt;%
+  arrange(-n)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+stem
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+outr
+</td>
+<td style="text-align:right;">
+372
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+capitú
+</td>
+<td style="text-align:right;">
+341
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mã
+</td>
+<td style="text-align:right;">
+329
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+cas
+</td>
+<td style="text-align:right;">
+269
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+á
+</td>
+<td style="text-align:right;">
+262
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+elle
+</td>
+<td style="text-align:right;">
+239
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+diss
+</td>
+<td style="text-align:right;">
+218
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+tod
+</td>
+<td style="text-align:right;">
+218
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+dias
+</td>
+<td style="text-align:right;">
+191
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+fal
+</td>
+<td style="text-align:right;">
+191
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Observe que alguns dessas palavras não são interessantes e não descreve bem o conteúdo do texto então podem ser bons candidatos para tirar na lista de stopwords, por exemplo ‘á’. E para visualizar os resultados num gráfico de barras:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_palavras %&gt;% group_by(stem) %&gt;%
+  tally() %&gt;%
+  top_n(10, n) %&gt;%
+  mutate(stem=fct_reorder(stem, n)) %&gt;%
+  ggplot() +
+  geom_col(aes(y=stem, x=n), fill=&quot;blue&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="Analise_Texto_files/figure-html5/unnamed-chunk-41-1.png" width="624" /></p>
+</div>
+<p>Finalmente, podemos interrogar o banco de texto para a presença de uma palavra específica, por exemplo o stem ‘govern’:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_palavras %&gt;% filter(stem==&quot;govern&quot;)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Linha
+</th>
+<th style="text-align:left;">
+palavra
+</th>
+<th style="text-align:left;">
+stem
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+183
+</td>
+<td style="text-align:left;">
+governou
+</td>
+<td style="text-align:left;">
+govern
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+185
+</td>
+<td style="text-align:left;">
+governou
+</td>
+<td style="text-align:left;">
+govern
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4986
+</td>
+<td style="text-align:left;">
+governo
+</td>
+<td style="text-align:left;">
+govern
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5162
+</td>
+<td style="text-align:left;">
+governasse
+</td>
+<td style="text-align:left;">
+govern
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Há quatro instâncias no texto, em três formas diferentes da palavra.</p>
+<h1 id="análise-de-sentimento">Análise de Sentimento</h1>
+<p>O ‘Dom Casmurro’ é um livro otimista ou pessimista? Cada palavra tem um significando complexo, sútil e contextual. Porém, existem bancos de dados que avaliam o ‘sentimento’ de cada palavra. O pacote <code>lexiconPT</code> fornece o banco <code>oplexicon_v3.0</code>. Nós precisamos apenas juntar o banco de dados de sentimentos com o nosso banco de palavras:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+sentimento &lt;- oplexicon_v3.0 %&gt;% select(term, polarity) %&gt;%
+  rename(palavra=term)
+
+Assis_palavras &lt;- Assis_palavras %&gt;% left_join(sentimento, by=&quot;palavra&quot;)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Linha
+</th>
+<th style="text-align:left;">
+palavra
+</th>
+<th style="text-align:left;">
+stem
+</th>
+<th style="text-align:right;">
+polarity
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+i
+</td>
+<td style="text-align:left;">
+i
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+titulo
+</td>
+<td style="text-align:left;">
+titul
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+noite
+</td>
+<td style="text-align:left;">
+noit
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+destas
+</td>
+<td style="text-align:left;">
+dest
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+vindo
+</td>
+<td style="text-align:left;">
+vind
+</td>
+<td style="text-align:right;">
+-1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+cidade
+</td>
+<td style="text-align:left;">
+cidad
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+engenho
+</td>
+<td style="text-align:left;">
+engenh
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+novo
+</td>
+<td style="text-align:left;">
+nov
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+encontrei
+</td>
+<td style="text-align:left;">
+encontr
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+trem
+</td>
+<td style="text-align:left;">
+trem
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Observe que muitas palavras - as palavras ‘neutras’ - não existem no banco de dados de sentimentos, então a coluna ‘polarity’ tem valor <code>NA</code>. Podemos avaliar o sentimento ‘média’ do livro com <code>summarize</code>. Um valor positivo significa um texto mais otimisto na média, e um valor negativo um texto mais pessimisto na média:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_palavras %&gt;% summarize(sentimento=mean(polarity, na.rm=T))</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+sentimento
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0.1157649
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>O resultado positivo sugere que o livro é mais otimisto do que pessimisto na média. A análise também permite identificar as linhas mais otimistas e pessimistas do livro inteiro se agrupamos por linha e calcula a soma dos sentimentos contidos na linha (palavras positivas menos palavras negativas):</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_palavras %&gt;% mutate(Linha=as.numeric(Linha)) %&gt;%
+  group_by(Linha) %&gt;%
+  summarize(polarity=sum(polarity, na.rm=T)) %&gt;%
+  arrange(-polarity) %&gt;%
+  slice(1, n())</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+Linha
+</th>
+<th style="text-align:right;">
+polarity
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+7500
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1403
+</td>
+<td style="text-align:right;">
+-4
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Ok, mas quais são as linhas 7500 e 1403? Temos que voltar ao banco de dados de linhas ‘Assis’ (não ‘Assis_palavras’) e filtrar por essas linhas:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis %&gt;% filter(Linha==7500) %&gt;% pull(text) #Linha mais otimista</code></pre>
+<pre><code>
+[1] &quot;activo, coração recto, amigo, bom amigo, digno da esposa amantissima&quot;</code></pre>
+<pre class="r"><code>
+Assis %&gt;% filter(Linha==1403) %&gt;% pull(text) #Linha mais pessimista</code></pre>
+<pre><code>
+[1] &quot;pouco, um intrigante, um bajulador, um especulador, e, apezar da casca&quot;</code></pre>
+</div>
+<p>Faz sentido, sim? Os nossos dados permitem responder a mais uma pergunta interessante: Como desenvolve o sentimento ao longo do livro? Podemos usar o nosso resumo por linha, completar as linhas faltandas (que faltam palavras em nosso banco de dados de sentimentos) com <code>complete</code>, e encaminhar para <code>ggplot</code> para criar um gráfico de linhas.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_palavras %&gt;% mutate(Linha=as.numeric(Linha)) %&gt;%
+  group_by(Linha) %&gt;%
+  summarize(polarity=sum(polarity, na.rm=T)) %&gt;%
+  complete(Linha=1:8527, fill=list(polarity=0)) %&gt;%
+  ggplot() +
+  geom_line(aes(x=Linha, y=polarity)) +
+  theme_classic() + 
+  ylab(&quot;Sentimento&quot;)</code></pre>
+<p><img src="Analise_Texto_files/figure-html5/unnamed-chunk-50-1.png" width="624" /></p>
+</div>
+<p>O gráfico não é fácil interpretar porque há tantas observações e variação página por página. Uma forma de melhorar a apresentação da linha é calcular uma ‘média móvel’, que ‘suavizar’ os dados de sentimento. O pacote <code>zoo</code> fornece a função <code>rollapply</code> que podemos aplicar dentro de um <code>mutate</code> para calcular a média móvel de cada janela de 1000 linhas.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(zoo)
+Assis_palavras %&gt;% mutate(Linha=as.numeric(Linha)) %&gt;%
+  group_by(Linha) %&gt;%
+  summarize(polarity=sum(polarity, na.rm=T)) %&gt;%
+  complete(Linha=1:8527, fill=list(polarity=0)) %&gt;%
+  mutate(polarity_rolling=rollapply(polarity, 1000, mean, align=&#39;right&#39;, fill=NA)) %&gt;%
+  ggplot() +
+  geom_line(aes(x=Linha, y=polarity_rolling)) +
+  theme_classic() + 
+  ylab(&quot;Sentimento&quot;)</code></pre>
+<p><img src="Analise_Texto_files/figure-html5/unnamed-chunk-51-1.png" width="624" /></p>
+</div>
+<p>O fluxo do livro é mais evidente agora - periódos otimistas antes de linha 5000 e depois de linha 6500, e periódos mais pessimistas cerca de linhas 6000 e 8000. Se você conheça o livro, pode nos ajudar a verificar se seja verdade!</p>
+<h2 id="ngrams">Ngrams</h2>
+<p>Por que estamos trabalhando com palavras únicas? Não é obrigatório - podemos dividir o texto em várias formas. Por exemplo, podemos identificar <em>pares</em> de palavras - cada vez que um par de palavras - ‘grande gato’ - aparecem juntos. Isso se chama um ‘bigram’. A lógica de processamento é bem parecida com a rotina para palavras únicas. É só especificar <code>token=ngrams</code> e <code>n=2</code> na função de <code>unnest_tokens()</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_bigrams &lt;- Assis %&gt;% unnest_tokens(bigram, text,
+                                       token=&quot;ngrams&quot;, n=2)</code></pre>
+</div>
+<p>Tirando os stopwords exige um pouco mais trabalho com bigrams - temos que separar eles em palavras distintas, tirar cada instância de um stopword, e juntar de novo:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_bigrams &lt;- Assis_bigrams %&gt;% 
+  separate(bigram, c(&quot;palavra1&quot;, &quot;palavra2&quot;), sep=&quot; &quot;) %&gt;% 
+  anti_join(stopwords, by=c(&quot;palavra1&quot;=&quot;palavra&quot;)) %&gt;%
+  anti_join(stopwords, by=c(&quot;palavra2&quot;=&quot;palavra&quot;)) %&gt;%
+  unite(&quot;bigram&quot;, c(palavra1, palavra2), sep=&quot; &quot;, remove=F)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_bigrams %&gt;%
+  group_by(bigram) %&gt;%
+  tally() %&gt;%
+  arrange(-n)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+bigram
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+NA NA
+</td>
+<td style="text-align:right;">
+2472
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+josé dias
+</td>
+<td style="text-align:right;">
+147
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+prima justina
+</td>
+<td style="text-align:right;">
+47
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+tio cosme
+</td>
+<td style="text-align:right;">
+45
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+outra vez
+</td>
+<td style="text-align:right;">
+28
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+póde ser
+</td>
+<td style="text-align:right;">
+27
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+á porta
+</td>
+<td style="text-align:right;">
+26
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+outra cousa
+</td>
+<td style="text-align:right;">
+26
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+padre cabral
+</td>
+<td style="text-align:right;">
+22
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+alguma cousa
+</td>
+<td style="text-align:right;">
+21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>O bigram mais comum (exceto ‘NA NA’ que devemos tirar) é “josé dias”, presumivalvmente um personagem, e, em seguida, “prima justina”.</p>
+<p>Trabalhando com bigrams ajuda identificar ao lado de quais outras palavras uma palavra aparece. Por exemplo, quais palavras aparecem ao lada da palavra ‘familia’?</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_bigrams %&gt;% filter(palavra1==&quot;familia&quot;) %&gt;% pull(palavra2)</code></pre>
+<pre><code>
+ [1] &quot;imitar&quot;    &quot;padua&quot;     &quot;saía&quot;      &quot;elle&quot;      &quot;certa&quot;    
+ [6] &quot;dizia&quot;     &quot;lembro&quot;    &quot;fernandes&quot; &quot;avisa&quot;     &quot;hoje&quot;     
+[11] &quot;pendura&quot;   &quot;tornar&quot;   </code></pre>
+<pre class="r"><code>
+Assis_bigrams %&gt;% filter(palavra2==&quot;familia&quot;) %&gt;% pull(palavra1)</code></pre>
+<pre><code>
+[1] &quot;mesma&quot;</code></pre>
+</div>
+<p>Parece que ‘familia’ aparece ao lado de ‘imitar’, ‘avisa’, ‘pendura’, etc., fornecendo um pouco de contexto.</p>
+<p><strong>Ngrams</strong> são bigrams com mais de duas palavras - vamos identificar o mais comum ‘trigram’ (com três palavras):</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_trigrams &lt;- Assis %&gt;% unnest_tokens(trigram, text,
+                                       token=&quot;ngrams&quot;, n=3)
+
+Assis_trigrams &lt;- Assis_trigrams %&gt;% 
+  separate(trigram, c(&quot;palavra1&quot;, &quot;palavra2&quot;, &quot;palavra3&quot;), sep=&quot; &quot;) %&gt;% 
+  anti_join(stopwords, by=c(&quot;palavra1&quot;=&quot;palavra&quot;)) %&gt;%
+  anti_join(stopwords, by=c(&quot;palavra2&quot;=&quot;palavra&quot;)) %&gt;%
+  anti_join(stopwords, by=c(&quot;palavra3&quot;=&quot;palavra&quot;)) %&gt;%
+  unite(&quot;trigram&quot;, c(palavra1, palavra2, palavra3), sep=&quot; &quot;, remove=F)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_trigrams %&gt;%
+  group_by(trigram) %&gt;%
+  tally() %&gt;%
+  arrange(-n)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+trigram
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+NA NA NA
+</td>
+<td style="text-align:right;">
+2696
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+josé dias achou
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+serás feliz bentinho
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1 070 000
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+aggregado josé dias
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+após alguns instantes
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ceu oh flòr
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+dez libras esterlinas
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+oh flòr candida
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+póde ser tambem
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Um dos trigrams mais comuns é “josé dias achou”.</p>
+<div class="green">
+<h2 id="exercício-2-analisando-um-documento">Exercício 2: Analisando um Documento</h2>
+<ol type="1">
+<li>Escolhe um livro da sua preferência <a href="https://www.gutenberg.org/browse/languages/pt">no site de Projeto Gutenberg</a>, e abre ele em R usando o código do projeto.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="2" type="1">
+<li>‘Tokenizar’ o seu livro em palavras, tirando a puntuação, os números, os stopwords, virando as caracteres em minúsculo, e as palavras em seus stems (raízes).</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="3" type="1">
+<li>Identifique os dez stems mais frequentes no seu livro.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="4" type="1">
+<li>Aplique uma análise de sentimento ao texto para identificar as linhas mais otimistas e mais pessimistas do texto.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+</div>
+<h1 id="comparando-documentos">Comparando Documentos</h1>
+<p>É possível trabalhar além de uma descrição de um livro único e <em>comparar</em> o conteúdo de documentos distintos. Para isso, precisamos distinguir <em>documentos</em> (livros ou artigos distintos) e <em>termos</em> (palavras ou ngrams em um documento). O jeito mais fácil de realizar isso é juntar vários documentos no mesmo tibble, com uma coluna adicional que indica com qual documento cada palavra é associada.</p>
+<p>Primeiramente, temos que abrir mais um documento para comparar com o livre de Machado de Assis. Vamos pegar o livro português de Jules Verne, ‘Da terra á lua’ de Projeto Gutenberg:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+#http://www.gutenberg.org/cache/epub/28341/pg28341.txt #Jules Verne, &#39;Da terra à lua&#39;
+
+Verne &lt;- gutenberg_download(28341) %&gt;% 
+  mutate(text=iconv(text, from = &quot;latin1&quot;, to = &quot;UTF-8&quot;)) %&gt;%
+  select(-gutenberg_id) %&gt;% 
+  slice(71:7229) %&gt;%
+  rownames_to_column(&quot;Linha&quot;)</code></pre>
+</div>
+<p>E vamos processar o banco de dados para padronizar o conteúdo e gerar os stems, para que o banco de dados fica no mesmo formato que o livro de Machado de Assi:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Verne_palavras &lt;- Verne %&gt;% unnest_tokens(palavra, text, strip_numeric=TRUE) %&gt;%
+  anti_join(stopwords, by=&quot;palavra&quot;) %&gt;%
+  mutate(stem=stem_words(palavra, language=&quot;pt&quot;))</code></pre>
+</div>
+<p>Agora precisamos juntar os dois bancos, ‘Assis_palavras’ e ‘Verne_palavras’ em um tibble único, adicionando uma coluna identificadora para preservar o livro relevante. Também precisamos contar a frequência de cada palavra, para que podemos comparar a frequência entre os dois livros. Para deixar os resultados mais fácil a interpretar, vamos trabalhar com as palavras mesmas em vez dos stems:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_prep &lt;- Assis_palavras %&gt;% 
+  group_by(palavra) %&gt;% 
+  tally() %&gt;%
+  mutate(document=&quot;Assis&quot;)
+
+Verne_prep &lt;- Verne_palavras %&gt;% 
+  group_by(palavra) %&gt;% 
+  tally() %&gt;%
+  mutate(document=&quot;Verne&quot;)</code></pre>
+</div>
+<p>Para juntar os dois bancos, usamos <code>bind_rows()</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_Verne &lt;- Assis_prep %&gt;% bind_rows(Verne_prep)</code></pre>
+</div>
+<h2 id="frequência-relativa-de-palavras-bind_tf_idf">Frequência Relativa de Palavras (<code>bind_tf_idf</code>)</h2>
+<p>Quais palavras distinguem o melhor os dois livros? Ou seja, há palavras frequentes que existem nos dois livros (palavras comuns, tipo ‘pessoa’, ‘rua’), e há palavras que são comuns e <em>específicas</em> para cada livro, que ajudam a caracterizar o conteúdo distinto do livro.</p>
+<p>A medida que é usada na análise de texto é a frequência do termo (‘tf’) multiplicado pelo frequência inversa do termo no documento (‘idf’) - o ‘tf-idf’. Os termos com os maiores valores da medida ‘tf-idf’ são os termos que são mais presentes em um documento <em>e não no outro</em>.</p>
+<p>Calculamos a medida com a função <code>bind_tf_idf()</code>, que exige três argumentos - a coluna que contém as palavras, a coluna que indica em qual documento aparece cada palavra, e a coluna que resuma a frequência de cada palavra no documento:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_Verne_idf &lt;- Assis_Verne %&gt;% bind_tf_idf(palavra, document, n)</code></pre>
+</div>
+<p>Em seguida, é fácil identificar as palavras mais distintas para cada livro:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_Verne_idf %&gt;%
+  group_by(document) %&gt;%
+  top_n(5, tf_idf)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+document
+</th>
+<th style="text-align:left;">
+palavra
+</th>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:right;">
+tf_idf
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Assis
+</td>
+<td style="text-align:left;">
+capitú
+</td>
+<td style="text-align:right;">
+341
+</td>
+<td style="text-align:right;">
+0.0065044
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Assis
+</td>
+<td style="text-align:left;">
+della
+</td>
+<td style="text-align:right;">
+82
+</td>
+<td style="text-align:right;">
+0.0015641
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Assis
+</td>
+<td style="text-align:left;">
+escobar
+</td>
+<td style="text-align:right;">
+110
+</td>
+<td style="text-align:right;">
+0.0020982
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Assis
+</td>
+<td style="text-align:left;">
+josé
+</td>
+<td style="text-align:right;">
+160
+</td>
+<td style="text-align:right;">
+0.0030519
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Assis
+</td>
+<td style="text-align:left;">
+seminario
+</td>
+<td style="text-align:right;">
+85
+</td>
+<td style="text-align:right;">
+0.0016213
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Verne
+</td>
+<td style="text-align:left;">
+ardan
+</td>
+<td style="text-align:right;">
+143
+</td>
+<td style="text-align:right;">
+0.0029992
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Verne
+</td>
+<td style="text-align:left;">
+barbicane
+</td>
+<td style="text-align:right;">
+256
+</td>
+<td style="text-align:right;">
+0.0053692
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Verne
+</td>
+<td style="text-align:left;">
+club
+</td>
+<td style="text-align:right;">
+123
+</td>
+<td style="text-align:right;">
+0.0025797
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Verne
+</td>
+<td style="text-align:left;">
+maston
+</td>
+<td style="text-align:right;">
+143
+</td>
+<td style="text-align:right;">
+0.0029992
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Verne
+</td>
+<td style="text-align:left;">
+projectil
+</td>
+<td style="text-align:right;">
+147
+</td>
+<td style="text-align:right;">
+0.0030831
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Os resultados indicam que no livro de Assis, as palavras mais distintas incluem ‘josé’, ‘escobar’, ‘capitú’ - os personagens centrais do livro. Na mesma forma, as palavras mais distantas do livro de Verne incluem ‘ardan’, ‘barbicane’, e ‘maston’, os personagens centrais. Isso é comum porque são essas nomes que são muito usados e distinguem os livros.</p>
+<h2 id="modelagem-de-tópicos">Modelagem de Tópicos</h2>
+<p>Uma alternativa para compara documentos é uma técnia de clusterização que divide <em>automaticamente</em> (sem supervisão) o conjunto de documentos em temas, ou ‘tópicos’. Os tópicos são definidos pelo uso de conjuntos de palavras distintas, e cada documento é uma mistura de tópicos (ex. 90% A e 10% B). Essa técnica é útil para dizer que alguns documentos são mais parecidas que outras.</p>
+<p>Primeiramante, precisamos transformar o nosso tibble dos dois livros em um ‘matriz de documento-termo’, uma ferramenta bem usada no mundo de análise de texto, com a função <code>cast_dtm()</code>, indicando como argumentos a coluna que identifica o documento, a coluna que contém as palavras (termos), e a coluna que conta a frequência de cada palavra.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_Verne_dtm &lt;- Assis_Verne %&gt;%
+  cast_dtm(document, palavra, n)</code></pre>
+</div>
+<p>Com o nosso matriz de documento-termos, usamos a função <code>LDA()</code> do pacote <code>topicmodels</code> para classificar o conteúdo textual automaticamente (usando o modelo de Latent Dirichlet Allocation - LDA). Vamos especificar que queremos classificar os livros em quatro tópicos por enquanto.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+#install.packages(&quot;topicmodels&quot;)
+library(topicmodels)
+
+Assis_Verne_LDA &lt;- LDA(Assis_Verne_dtm, 4)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>O resultado de <code>LDA()</code> pode ser transformado em nosso amigo, o tibble, com a função <code>tidy()</code> do pacote <code>broom()</code>, o mesmo que usamos com regressões, especificando o matriz ‘gamma’.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+library(broom)
+
+Assis_Verne_LDA_documentos &lt;- Assis_Verne_LDA %&gt;% tidy(matrix=&#39;gamma&#39;)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_Verne_LDA_documentos</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+document
+</th>
+<th style="text-align:right;">
+topic
+</th>
+<th style="text-align:right;">
+gamma
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Assis
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.4238592
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Verne
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.0000018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Assis
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.5761375
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Verne
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.0000018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Assis
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.0000016
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Verne
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.6557172
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Assis
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.0000016
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Verne
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.3442792
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>O resultado indica quanto cada tópico aparece em cada livro. O livre de Assis é 42% tópico 1, 58% tópico 2, 0% tópicos 3 e 4, enquanto o livro de Verne é 0% tópico 1 e 2, 66% tópico 3 e 34% tópico 4. Ou seja - cada livro contém dois tópicos e os tópicos não se sobrepõem aos livros.</p>
+<p>Mas o que representam esses tópicos? Não sabemos - eles não tem uma descrição fixa; são definidas pelo algoritmo e nós temos que <em>interpretar</em> o significado de cada tópico. Para facilitar isso, podemos inspecionar as palavras mais associadas com cada tópico. Pedimos o relacionamento entre os tópicos e as palavras (em vez dos documentos) com o matriz ‘beta’ em <code>tidy()</code>. O ‘beta’ reflete a probabilidade que a palavra é associado com o tópico.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_Verne_LDA_palavras &lt;- Assis_Verne_LDA %&gt;% tidy(matrix=&#39;beta&#39;)</code></pre>
+</div>
+<p>Agora, podemos identificar as palavras mais frequentes em cada tópico:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Assis_Verne_LDA_palavras %&gt;% group_by(topic) %&gt;%
+  top_n(5, beta) %&gt;%
+  arrange(topic, -beta)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+topic
+</th>
+<th style="text-align:left;">
+term
+</th>
+<th style="text-align:right;">
+beta
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+tudo
+</td>
+<td style="text-align:right;">
+0.0086138
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+á
+</td>
+<td style="text-align:right;">
+0.0085267
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+tambem
+</td>
+<td style="text-align:right;">
+0.0068205
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+ella
+</td>
+<td style="text-align:right;">
+0.0064950
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+agora
+</td>
+<td style="text-align:right;">
+0.0063633
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+capitú
+</td>
+<td style="text-align:right;">
+0.0118561
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+elle
+</td>
+<td style="text-align:right;">
+0.0084712
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+dias
+</td>
+<td style="text-align:right;">
+0.0078440
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+mãe
+</td>
+<td style="text-align:right;">
+0.0071768
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+ser
+</td>
+<td style="text-align:right;">
+0.0066741
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+á
+</td>
+<td style="text-align:right;">
+0.0087607
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+barbicane
+</td>
+<td style="text-align:right;">
+0.0079236
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+lua
+</td>
+<td style="text-align:right;">
+0.0076624
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+todos
+</td>
+<td style="text-align:right;">
+0.0048421
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+gun
+</td>
+<td style="text-align:right;">
+0.0048236
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+havia
+</td>
+<td style="text-align:right;">
+0.0089316
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+maston
+</td>
+<td style="text-align:right;">
+0.0086029
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+j
+</td>
+<td style="text-align:right;">
+0.0085580
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+barbicane
+</td>
+<td style="text-align:right;">
+0.0074075
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+ardan
+</td>
+<td style="text-align:right;">
+0.0071698
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>A nossa tarefa agora é resumir qual tópico é representada, por exemplo, pelo conjunto de palavras ‘capitú’, ‘elle’, ‘dias’, ‘mãe’, e ‘ser’ - pode ser que eles aparecem frequentemente em diálogo que envolvem o personagem ‘capitú’ e a sua mãe, por exemplo. Cada tópico não é óbvio, mas para o computador parece que eles formam tópicos coerentes presentes nos dois livros.</p>
+<p>Em outras aplicações o modelagem de tópicos é uma forma poderosa de identificar temas pareceidas em conjuntos grandes de documentos sem ter que ler todos os documentos.</p>
+<div class="green">
+<h2 id="exercício-3-comparando-documentos">Exercício 3: Comparando Documentos</h2>
+<ol type="1">
+<li>Copiar-colar um texto que você mesmo escreveu de pelo menos um parágrafo e salve ele dentro de um tibble em R.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="2" type="1">
+<li>‘Tokenizar’ o seu texto em palavras, tirando a puntuação, os números, os stopwords, virando as caracteres em minúsculo, e as palavras em seus raízes (stems).</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="3" type="1">
+<li>Junte dois textos tokenizados em um tibble com uma coluna que diferencia o documento e uma coluna que conta a frequência de cada palavra: (i) o texto seu que você identificou acima em questão 1, e (ii) o livro que você usou em exercício 2.</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol start="4" type="1">
+<li>Calcule a medida ‘tf_idf’ para identificar as 5 palavras mais distintas de cada documento. Em qual sentido o seu documento é diferente do livro?</li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+</div>
+<p><br></p>
+<div class="purple">
+<h1 id="desafio-5">Desafio 5</h1>
+<p>O <a href="Desafios/Desafio_5_v1.html">Desafio 5</a> teste a sua capacidade de juntar bancos de dados e e gerar gráficos apropriados e claros.</p>
+<p>O prazo para entregar Desafio 5 por email com título “[FLS6397] - D5” à minha conta é <strong>14h, 26/06/2020</strong>, antes da aula. Por favor entregue (i) o arquivo .Rmd (ou .Rnw se preferir), e (ii) o arquivo .html ou .PDF.</p>
+</div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
