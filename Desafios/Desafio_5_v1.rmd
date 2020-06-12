@@ -55,7 +55,7 @@ muns_SP %>% ggplot() +
   ggtitle("Municípios de São Paulo")
 ```
 
-4. Baixe e abre o arquivo da população paulista em 2010 [do site do IBGE](https://www.ibge.gov.br/estatisticas/downloads-estatisticas.html), 'Censos' -> 'Censo_Demografico_2010' -> 'resultados' -> 'total_populacao_sao_paulo.zip'. 
+4. Baixe, unzip e abre em R o arquivo da população paulista em 2010 [do site do IBGE](https://www.ibge.gov.br/estatisticas/downloads-estatisticas.html), 'Censos' -> 'Censo_Demografico_2010' -> 'resultados' -> 'total_populacao_sao_paulo.zip'. 
 
 ```{r}
 library("readxl")
@@ -86,13 +86,13 @@ muns_SP %>%
   theme_void()
 ```
 
-7. Abre o arquivo [MCMV_new.shp](https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Desafios/MCMV_new.shp), que documenta a localização dos projetos de Minha Casa Minha Vida no Brasil, e o número de Unidades Habitacionais (UH) em cada um. 
+7. Abre o shapeifle no arquivo [MCMV_new.shp](https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Desafios/MCMV_new.zip), que documenta a localização dos projetos de Minha Casa Minha Vida no Brasil, e o número de Unidades Habitacionais (UH) em cada projeto. 
 
 ```{r}
 MCMV <- st_read("MCMV_new.shp")
 ```
 
-8. Verifique se a projeção (o CRS) dos dois bancos de dados espaciais (municípios e MCMV) são iguais, e, se necessário, padroniza eles para um CRS da sua preferência. 
+8. Verifique se a projeção (o CRS) dos dois bancos de dados espaciais (municípios e MCMV) são iguais, e, se necessário, padronize eles para um CRS da sua preferência. 
 
 ```{r}
 MCMV <- MCMV %>% st_transform(4674)
@@ -104,7 +104,7 @@ MCMV <- MCMV %>% st_transform(4674)
 muns_SP_MCMV <- muns_SP %>% st_join(MCMV)
 ```
 
-10. Visualize um mapa do número de unidades habitacionais (UH) de MCMV por município de São Paulo (o polígono), e adicione uma segunda camada com a localização dos projetos de MCMV (os pontos). Formate o mapa e a escala de cores, e inclua um título.
+10. Visualize um mapa do número de unidades habitacionais (UH) de MCMV por município de São Paulo (por polígono), e adicione uma segunda camada com a localização dos projetos de MCMV (os pontos). Formate o mapa e a escala de cores, e inclua um título.
 
 ```{r}
 muns_SP_MCMV %>% ggplot() + 
@@ -156,7 +156,7 @@ MCMV_nested <- MCMV %>% group_by(UF) %>% nest() %>%
          Total_UH=map_dbl(Total_UH, 1))
 ```
 
-15. O 'Project_ID' é um indicador (um proxy) de quando o projeto foi iniciado. Vamos rodar uma regressão para avaliar se projetos mais recentes (com 'Project_ID' maior) contém mais Unidades Habitacionais (UH). Use a família `map` e o seu tibble nested de Questão 14 para aplicar *uma regressão por estado*, e guarda os coefficientes e os p-values das regressões em colunas novas do tibble de resumo. 
+15. O 'Project_ID' é um indicador (um proxy) de quando o projeto foi iniciado. Vamos rodar uma regressão para avaliar se projetos mais recentes (com 'Project_ID' maior) contém mais Unidades Habitacionais (UH). Use a família `map` e o seu tibble nested de Questão 14 para aplicar *uma regressão por estado*, e guarde os coefficientes e os p-values das regressões em colunas novas do tibble de resumo. 
 
 ```{r}
 MCMV_nested <- MCMV_nested %>% filter(Num_Projetos>1) %>% mutate(regressao=map(data, ~lm(UH ~ Project_ID, data=.)),
@@ -166,7 +166,7 @@ MCMV_nested <- MCMV_nested %>% filter(Num_Projetos>1) %>% mutate(regressao=map(d
                        p.value=map_dbl(regressao, pull, p.value))
 ```
 
-16. Use [o link aqui](https://escriba.camara.leg.br/escriba-servicosweb/pdf/59638) para acessar um PDF da discussão na Camara dos Deputados no dia 21 de Maio de 2020. 
+16. Use [o link aqui](https://escriba.camara.leg.br/escriba-servicosweb/pdf/59638) para acessar em R um PDF da discussão na Camara dos Deputados no dia 21 de Maio de 2020. Transforme o PDF em texto simples.
 
 ```{r}
 library("pdftools")
@@ -176,12 +176,12 @@ text <- tibble(páginas=pdf_text("https://escriba.camara.leg.br/escriba-servicos
 
 17. Precisamos processar e preparar o texto para a análise. Segue os seguintes passos:
     a. Insera o texto num tibble
-    b. No PDF é possível ver que as falas dos deputados distintos sempre começam com 'O SR.' ou 'A SRA.' então vamos usar estes strings para divide o texto para cada Deputado. Use `str_split` para divide o texto baseado nos strings 'O SR.' e 'A SRA.' e gera uma nova coluna. 
+    b. No PDF é possível ver que as falas dos deputados distintos sempre começam com 'O SR.' ou 'A SRA.' então vamos usar estes strings para dividir o texto por Deputado. Use `str_split` para dividir o texto baseado nos strings 'O SR.' ou 'A SRA.' e gera uma nova coluna. 
     c. Em seguida, `unnest()` os dados para que cada fala de cada deputado é uma linha separado no tibble.
-    d. Use `separate` para divide a fala de cada deputado em duas colunas: O nome do Deputado, e o discurso, usando a seguinte string como divisor: `"\\) - "`
-    e. O resultado deve conter umas linhas em que a coluna 'Deputado' não é uma pessoa, mas começa com "Sessão". Use `filter` para tirar essas linhas que começam com "Sessão". 
-    f. Ainda, o nome do deputado fica desarrumado por causa de conteúdo em parenteses. Para identificar os deputados únicos, use `separate` para dividir a coluna do nome de Deputado em o nome e o conteúdo dos parenteses (que não importa para nos), usando a seguinte string como divisor: `" \\("`.
-    g. Tire as colunas desnecessários para que tenha apenas as duas colunas: Nome do Deputado, e Palavra
+    d. Use `separate` para dividir a fala de cada deputado em duas colunas: O nome do Deputado, e o Discurso, usando o seguinte string como divisor: `"\\) - "`
+    e. O resultado deve conter umas linhas em que a coluna 'Deputado' não é uma pessoa, mas começa com "Sessão". Use `filter` para tirar essas linhas que começam com "Sessão" na coluna de 'Deputado'. 
+    f. Ainda, o nome do deputado fica desarrumado por causa de conteúdo em parenteses. Para identificar os deputados únicos, use `separate` para dividir a coluna do nome de Deputado em o nome e o conteúdo nos parenteses (que não importa para nos), usando o seguinte string como divisor: `" \\("`.
+    g. Tire as colunas desnecessárias para que temos apenas as duas colunas: Nome do Deputado, e Discurso.
     
 ```{r}
 text2 <- text %>% mutate(split=str_split(páginas, "O SR.|A SRA.")) %>%
@@ -193,10 +193,10 @@ text2 <- text %>% mutate(split=str_split(páginas, "O SR.|A SRA.")) %>%
   select(-Ignorar)
 ```
     
-18. Agora, com o tibble de Questão 15, vamos desaggregar e padronizar os discursos:
-    a. 'Tokenizar' os discursos dos deputados em palavras únicos para que o seu tibble contém uma linha por palavra.
+18. Agora, com o tibble de Questão 17, vamos desaggregar e padronizar os discursos:
+    a. 'Tokenizar' os discursos dos deputados em palavras únicas para que o seu tibble contém uma linha por palavra.
     b. Tire os stopwords de português. Se quiser, pode incluir mais stopwords que você acha não relevante para a análise.
-    c. Transforme as palavras em seus raízes, os 'stems'.
+    c. Transforme as palavras em suas raízes, os 'stems'.
 
 ```{r}
 library("tidytext")
@@ -211,14 +211,14 @@ text3 <- text2 %>% unnest_tokens(palavra, Discurso, strip_numeric=TRUE) %>%
   mutate(stem=stem_words(palavra, language="pt"))
 ```
 
-19. Gere um 'wordcloud' dos stems das palavras usados pelos Deputados
+19. Gere um 'wordcloud' dos stems das palavras usados pelos Deputados.
 
 ```{r}
 library("wordcloud")
 text3 %>% pull(stem) %>% wordcloud()
 ```
 
-20. Use uma análise de sentimento para identificar o Deputado que usa as palavras mais otimistas e o Deputado que usa as palavras mais pessimistas.
+20. Execute uma análise de sentimento para identificar no documento inteiro qual Deputado que usa as palavras mais otimistas e qual Deputado usa as palavras mais pessimistas.
 
 ```{r}
 data("oplexicon_v3.0") #Abrir o banco de dados de sentimentos
@@ -234,7 +234,7 @@ text3 %>% group_by(Deputado) %>%
   slice(1, n())
 ```
 
-21. Gere um indicador binário da identidade do Deputado falando - se seja o Presidente da Câmara, ou um outro Deputado (tratando todos juntos). Identifique as cinco palavras mais distintas de cada group (Presidente vs. outros).
+21. No seu tibble de palavras e Deputados, gere um indicador binário da identidade do Deputado falando - se seja o Presidente da Câmara, ou qualquer outro Deputado (tratando todos juntos). Identifique as cinco palavras mais distintas de cada group (Presidente vs. outros).
 
 ```{r}
 text4 <- text3 %>% 
