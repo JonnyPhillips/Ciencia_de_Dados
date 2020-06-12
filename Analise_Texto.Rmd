@@ -135,7 +135,7 @@ Por exemplo, vamos abrir um artigo recente da Revista Brasileira da Ciência Pol
 
 ```{r}
 #install.packages("pdftools")
-library(pdftools)
+library("pdftools")
 ```
 
 ```{r}
@@ -292,9 +292,9 @@ Agora observe que cada linha do tibble 'Assis' é uma linha do livro, enquanto a
 # install.packages("textstem")
 # install.packages("lexiconPT")
 
-library(tidytext)
-library(textstem)
-library(lexiconPT)
+library("tidytext")
+library("textstem")
+library("lexiconPT")
 ```
 
 Desaggregar linhas em palavras exige a função `unnest_tokens()`, com dois argumentos: o nome da nova coluna que contém as palavras, 'palavra', e o nome da coluna que contém o texto por linha, 'text'. 
@@ -492,7 +492,7 @@ Assis_palavras %>% mutate(Linha=as.numeric(Linha)) %>%
 O gráfico não é fácil interpretar porque há tantas observações e variação página por página. Uma forma de melhorar a apresentação da linha é calcular uma 'média móvel', que 'suavizar' os dados de sentimento. O pacote `zoo` fornece a função `rollapply` que podemos aplicar dentro de um `mutate` para calcular a média móvel de cada janela de 1000 linhas. 
 
 ```{r}
-library(zoo)
+library("zoo")
 Assis_palavras %>% mutate(Linha=as.numeric(Linha)) %>%
   group_by(Linha) %>%
   summarize(polarity=sum(polarity, na.rm=T)) %>%
@@ -725,14 +725,14 @@ Com o nosso matriz de documento-termos, usamos a função `LDA()` do pacote `top
 
 ```{r, eval=F}
 #install.packages("topicmodels")
-library(topicmodels)
+library("topicmodels")
 
 Assis_Verne_LDA <- LDA(Assis_Verne_dtm, 4)
 ```
 
 ```{r, echo=F}
 #install.packages("topicmodels")
-library(topicmodels)
+library("topicmodels")
 
 Assis_Verne_LDA <- LDA(Assis_Verne_dtm, 4, control=list(seed=123))
 ```
@@ -740,7 +740,7 @@ Assis_Verne_LDA <- LDA(Assis_Verne_dtm, 4, control=list(seed=123))
 O resultado de `LDA()` pode ser transformado em nosso amigo, o tibble, com a função `tidy()` do pacote `broom()`, o mesmo que usamos com regressões, especificando o matriz 'gamma'.
 
 ```{r}
-library(broom)
+library("broom")
 
 Assis_Verne_LDA_documentos <- Assis_Verne_LDA %>% tidy(matrix='gamma')
 ```

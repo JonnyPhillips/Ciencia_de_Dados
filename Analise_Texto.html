@@ -1598,7 +1598,7 @@ Coffman Cove Seaplane Base
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 #install.packages(&quot;pdftools&quot;)
-library(pdftools)</code></pre>
+library(&quot;pdftools&quot;)</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1717,9 +1717,9 @@ Assis &lt;- Assis %&gt;%
 # install.packages(&quot;textstem&quot;)
 # install.packages(&quot;lexiconPT&quot;)
 
-library(tidytext)
-library(textstem)
-library(lexiconPT)</code></pre>
+library(&quot;tidytext&quot;)
+library(&quot;textstem&quot;)
+library(&quot;lexiconPT&quot;)</code></pre>
 </div>
 <p>Desaggregar linhas em palavras exige a função <code>unnest_tokens()</code>, com dois argumentos: o nome da nova coluna que contém as palavras, ‘palavra’, e o nome da coluna que contém o texto por linha, ‘text’.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2338,7 +2338,7 @@ Assis_palavras %&gt;% mutate(Linha=as.numeric(Linha)) %&gt;%
 <p>O gráfico não é fácil interpretar porque há tantas observações e variação página por página. Uma forma de melhorar a apresentação da linha é calcular uma ‘média móvel’, que ‘suavizar’ os dados de sentimento. O pacote <code>zoo</code> fornece a função <code>rollapply</code> que podemos aplicar dentro de um <code>mutate</code> para calcular a média móvel de cada janela de 1000 linhas.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-library(zoo)
+library(&quot;zoo&quot;)
 Assis_palavras %&gt;% mutate(Linha=as.numeric(Linha)) %&gt;%
   group_by(Linha) %&gt;%
   summarize(polarity=sum(polarity, na.rm=T)) %&gt;%
@@ -2857,7 +2857,7 @@ Assis_Verne_dtm &lt;- Assis_Verne %&gt;%
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 #install.packages(&quot;topicmodels&quot;)
-library(topicmodels)
+library(&quot;topicmodels&quot;)
 
 Assis_Verne_LDA &lt;- LDA(Assis_Verne_dtm, 4)</code></pre>
 </div>
@@ -2867,7 +2867,7 @@ Assis_Verne_LDA &lt;- LDA(Assis_Verne_dtm, 4)</code></pre>
 <p>O resultado de <code>LDA()</code> pode ser transformado em nosso amigo, o tibble, com a função <code>tidy()</code> do pacote <code>broom()</code>, o mesmo que usamos com regressões, especificando o matriz ‘gamma’.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-library(broom)
+library(&quot;broom&quot;)
 
 Assis_Verne_LDA_documentos &lt;- Assis_Verne_LDA %&gt;% tidy(matrix=&#39;gamma&#39;)</code></pre>
 </div>
