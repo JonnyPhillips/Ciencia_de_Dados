@@ -1525,7 +1525,7 @@ lista_exemplo &lt;- list(objeto1, objeto2, objeto3, objeto4)
 lista_exemplo</code></pre>
 <pre><code>
 [[1]]
-# A tibble: 842 x 21
+# A tibble: 842 x 19
     year month   day dep_time sched_dep_time dep_delay arr_time
    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
  1  2013     1     1      517            515         2      830
@@ -1538,17 +1538,17 @@ lista_exemplo</code></pre>
  8  2013     1     1      557            600        -3      709
  9  2013     1     1      557            600        -3      838
 10  2013     1     1      558            600        -2      753
-# ... with 832 more rows, and 14 more variables:
+# ... with 832 more rows, and 12 more variables:
 #   sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
 #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
 #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,
-#   time_hour &lt;dttm&gt;, dep_delay_dobro &lt;dbl&gt;, velocidade &lt;dbl&gt;
+#   time_hour &lt;dttm&gt;
 
 [[2]]
 [1] 3.14
 
 [[3]]
-# A tibble: 943 x 21
+# A tibble: 943 x 19
     year month   day dep_time sched_dep_time dep_delay arr_time
    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
  1  2013     1     2       42           2359        43      518
@@ -1561,11 +1561,11 @@ lista_exemplo</code></pre>
  8  2013     1     2      554            600        -6      845
  9  2013     1     2      554            600        -6      841
 10  2013     1     2      554            600        -6      909
-# ... with 933 more rows, and 14 more variables:
+# ... with 933 more rows, and 12 more variables:
 #   sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
 #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
 #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,
-#   time_hour &lt;dttm&gt;, dep_delay_dobro &lt;dbl&gt;, velocidade &lt;dbl&gt;
+#   time_hour &lt;dttm&gt;
 
 [[4]]
 [1] &quot;teste&quot;</code></pre>
@@ -1737,6 +1737,32 @@ while (condição) {
 <p><br></p>
 <div class="green">
 <h2 id="exercício-1-repetição">Exercício 1: Repetição</h2>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
+<script>
+  function codefolder(query) {
+
+    var x = document.querySelectorAll(query);
+    if (x.length === 0) return;
+
+    function toggle_vis(o) {
+      var d = o.style.display;
+      o.style.display = (d === 'block' || d === '') ? 'none':'block';
+    }
+
+    for (i = 0; i < x.length; i++) {
+      var y = x[i];
+      toggle_vis(y);
+    }
+
+    var elem = document.getElementById("codefolder-button");
+    if (elem.value === "Hide Code") elem.value = "Show Code";
+    else elem.value = "Hide Code";
+  }
+</script>
+</div>
+</aside>
 <ol type="1">
 <li>Gere três tibbles seperados derivados do banco de dados <code>flights</code>, um para cada aeroporto de origem. Em seguida, coloque os três tibbles em uma lista (<code>list()</code>), com o nome de cada elemento da lista a sigla do aeroporto.</li>
 </ol>
@@ -1898,6 +1924,32 @@ dados_nested &lt;- dados_nested %&gt;% mutate(resultados=map2(formula, conteudo,
 <p>Com as funções de tidyverse básico e a família de <code>map</code>, agora você consegue executar quase qualquer tarefa da ciência de dados - são um conjunto de ferramentas muito poderoso. As possibilidades são infinitas- para mais informação e operações mais complexas, veja <a href="https://github.com/rstudio/cheatsheets/blob/master/purrr.pdf">o cheatsheet aqui</a>.</p>
 <div class="green">
 <h2 id="exercício-2-programação-funcional">Exercício 2: Programação Funcional</h2>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
+<script>
+  function codefolder(query) {
+
+    var x = document.querySelectorAll(query);
+    if (x.length === 0) return;
+
+    function toggle_vis(o) {
+      var d = o.style.display;
+      o.style.display = (d === 'block' || d === '') ? 'none':'block';
+    }
+
+    for (i = 0; i < x.length; i++) {
+      var y = x[i];
+      toggle_vis(y);
+    }
+
+    var elem = document.getElementById("codefolder-button");
+    if (elem.value === "Hide Code") elem.value = "Show Code";
+    else elem.value = "Hide Code";
+  }
+</script>
+</div>
+</aside>
 <ol type="1">
 <li>Gere um tibble ‘nested’ com uma linha para cada mês usando o banco de dados <code>weather</code>.</li>
 </ol>

@@ -295,6 +295,13 @@ while (condição) {
 <div class = "green">
 ## Exercício 1: Repetição
 
+<aside>
+```{r codefolder1, echo=FALSE, results='asis'}
+codefolder::distill(init = "show")
+```
+</aside>
+
+
 1. Gere três tibbles seperados derivados do banco de dados `flights`, um para cada aeroporto de origem. Em seguida, coloque os três tibbles em uma lista (`list()`), com o nome de cada elemento da lista a sigla do aeroporto. 
 
 ```{r, eval=F}
@@ -475,6 +482,12 @@ Com as funções de tidyverse básico e a família de `map`, agora você consegu
 
 <div class = "green">
 ## Exercício 2: Programação Funcional
+
+<aside>
+```{r codefolder2, echo=FALSE, results='asis'}
+codefolder::distill(init = "show")
+```
+</aside>
 
 1. Gere um tibble 'nested' com uma linha para cada mês usando o banco de dados `weather`. 
 

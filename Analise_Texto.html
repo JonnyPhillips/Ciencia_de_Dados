@@ -1661,29 +1661,71 @@ airports %&gt;% pull(name) %&gt;% wordcloud()</code></pre>
 </aside>
 <div class="green">
 <h2 id="exercício-1-trabalhando-com-strings">Exercício 1: Trabalhando com Strings</h2>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
+<script>
+  function codefolder(query) {
+
+    var x = document.querySelectorAll(query);
+    if (x.length === 0) return;
+
+    function toggle_vis(o) {
+      var d = o.style.display;
+      o.style.display = (d === 'block' || d === '') ? 'none':'block';
+    }
+
+    for (i = 0; i < x.length; i++) {
+      var y = x[i];
+      toggle_vis(y);
+    }
+
+    var elem = document.getElementById("codefolder-button");
+    if (elem.value === "Hide Code") elem.value = "Show Code";
+    else elem.value = "Hide Code";
+  }
+</script>
+</div>
+</aside>
 <ol type="1">
 <li>No banco de dados <code>airlines</code> do pacote <code>nycflights13</code>, qual porcentagem dos nomes das companhias aéreas contém a palavra ‘Airlines’ e qual porcentagem contém a palavra ‘Airways’?</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+airlines %&gt;% mutate(airlines=str_detect(name, &quot;Airlines&quot;)) %&gt;%
+  group_by(airlines) %&gt;%
+  tally() %&gt;%
+  mutate(Pct=100*(n/sum(n)))
 
+airlines %&gt;% mutate(airlines=str_detect(name, &quot;Airways&quot;)) %&gt;%
+  group_by(airlines) %&gt;%
+  tally() %&gt;%
+  mutate(Pct=100*(n/sum(n)))</code></pre>
 </div>
 <ol start="2" type="1">
 <li>No mesmo banco, Substitua os nomes das companhias aéreas que contém ‘Inc.’ com ‘Incorporated’, e eles que contém ‘Co.’ com ‘Company’. (Observe que ‘.’ é um caracter especial, então tem que buscar ele com ‘\\.’).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+rm(list=ls())
+airlines
+airlines &lt;- airlines %&gt;% mutate(name=str_replace(name, &quot;Inc.&quot;, &quot;Incorporated&quot;),
+                    name=str_replace(name, &quot;Co\\.&quot;, &quot;Company&quot;))</code></pre>
 </div>
 <ol start="3" type="1">
 <li>Gere um nome curto para cada companhia aérea, refletindo apenas a primeira palavra do nome.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+airlines &lt;- airlines %&gt;% mutate(nome_curto=str_split(name, &quot; &quot;),
+                                nome_curto=map_chr(nome_curto, 1))</code></pre>
 </div>
 <ol start="4" type="1">
 <li>Crie um ‘wordcloud’ dos nomes das companhias aéreas.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+airlines %&gt;% pull(name) %&gt;% wordcloud()</code></pre>
 </div>
 </div>
 <h1 id="tokenizer-e-padronizar-o-texto-unnest_tokens">Tokenizer e Padronizar o Texto (<code>unnest_tokens</code>)</h1>
@@ -2604,29 +2646,77 @@ póde ser tambem
 <p>Um dos trigrams mais comuns é “josé dias achou”.</p>
 <div class="green">
 <h2 id="exercício-2-analisando-um-documento">Exercício 2: Analisando um Documento</h2>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
+<script>
+  function codefolder(query) {
+
+    var x = document.querySelectorAll(query);
+    if (x.length === 0) return;
+
+    function toggle_vis(o) {
+      var d = o.style.display;
+      o.style.display = (d === 'block' || d === '') ? 'none':'block';
+    }
+
+    for (i = 0; i < x.length; i++) {
+      var y = x[i];
+      toggle_vis(y);
+    }
+
+    var elem = document.getElementById("codefolder-button");
+    if (elem.value === "Hide Code") elem.value = "Show Code";
+    else elem.value = "Hide Code";
+  }
+</script>
+</div>
+</aside>
 <ol type="1">
 <li>Escolhe um livro da sua preferência <a href="https://www.gutenberg.org/browse/languages/pt">no site de Projeto Gutenberg</a>, e abre ele em R usando o código do projeto.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+Branco &lt;- gutenberg_download(26913) %&gt;% 
+  mutate(text=iconv(text, from = &quot;latin1&quot;, to = &quot;UTF-8&quot;)) %&gt;%
+  select(-gutenberg_id) %&gt;% 
+  rownames_to_column(&quot;Linha&quot;) </code></pre>
 </div>
 <ol start="2" type="1">
 <li>‘Tokenizar’ o seu livro em palavras, tirando a puntuação, os números, os stopwords, virando as caracteres em minúsculo, e as palavras em seus stems (raízes).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+Branco_palavras &lt;- Branco %&gt;% unnest_tokens(palavra, text, strip_numeric=TRUE) %&gt;%
+  anti_join(stopwords, by=&quot;palavra&quot;) %&gt;%
+  mutate(stem=stem_words(palavra, language=&quot;pt&quot;))</code></pre>
 </div>
 <ol start="3" type="1">
 <li>Identifique os dez stems mais frequentes no seu livro.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+Branco_palavras %&gt;% group_by(stem) %&gt;%
+  tally() %&gt;%
+  top_n(10, n) %&gt;%
+  arrange(-n)</code></pre>
 </div>
 <ol start="4" type="1">
 <li>Aplique uma análise de sentimento ao texto para identificar as linhas mais otimistas e mais pessimistas do texto.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Branco_palavras &lt;- Branco_palavras %&gt;% left_join(sentimento, by=&quot;palavra&quot;)
 
+Branco_palavras %&gt;% mutate(Linha=as.numeric(Linha)) %&gt;%
+  group_by(Linha) %&gt;%
+  summarize(polarity=sum(polarity, na.rm=T)) %&gt;%
+  arrange(-polarity) %&gt;%
+  slice(1, n()) %&gt;%
+  kable()
+
+Branco %&gt;% filter(Linha==594) %&gt;% pull(text) #Linha mais otimista
+Branco %&gt;% filter(Linha==2881) %&gt;% pull(text) #Linha mais pessimista</code></pre>
 </div>
 </div>
 <h1 id="comparando-documentos">Comparando Documentos</h1>
@@ -3238,29 +3328,73 @@ ardan
 <p>Em outras aplicações o modelagem de tópicos é uma forma poderosa de identificar temas pareceidas em conjuntos grandes de documentos sem ter que ler todos os documentos.</p>
 <div class="green">
 <h2 id="exercício-3-comparando-documentos">Exercício 3: Comparando Documentos</h2>
+<aside>
+<div class="layout-chunk" data-layout="l-body">
+<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
+<script>
+  function codefolder(query) {
+
+    var x = document.querySelectorAll(query);
+    if (x.length === 0) return;
+
+    function toggle_vis(o) {
+      var d = o.style.display;
+      o.style.display = (d === 'block' || d === '') ? 'none':'block';
+    }
+
+    for (i = 0; i < x.length; i++) {
+      var y = x[i];
+      toggle_vis(y);
+    }
+
+    var elem = document.getElementById("codefolder-button");
+    if (elem.value === "Hide Code") elem.value = "Show Code";
+    else elem.value = "Hide Code";
+  }
+</script>
+</div>
+</aside>
 <ol type="1">
 <li>Copiar-colar um texto que você mesmo escreveu de pelo menos um parágrafo e salve ele dentro de um tibble em R.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+meu_texto &lt;- tibble(text = &quot;A Organização Mundial da Saúde (OMS) disse nesta terça-feira (9) que a &#39;transmissão por casos assintomáticos está ocorrendo, a questão é saber quanto&#39;. O esclarecimento da entidade internacional ocorre após comentário da chefe do programa de emergências da entidade, Maria van Kerkhove, de que a transmissão da Covid-19 por pacientes sem sintomas da doença parece ser &#39;rara&#39;.`Kerkhove também voltou a se pronunciar nesta terça e explicou que as pesquisas estão em andamento. Ela disse que recebeu &#39;muitas mensagens da noite para o dia&#39; e que achou importante esclarecer o mal-entendido. &#39;A maioria das transmissões que conhecemos ocorre por pessoas com sintomas que transmitem o vírus por meio de gotículas infectadas. Mas há um subconjunto de pessoas que não desenvolvem sintomas&#39;, explicou. &#39;Para realmente entender quantas pessoas não têm [os sintomas], pois ainda não temos essa resposta, existem algumas estimativas. Elas sugerem que entre 6% e 41% da população podem estar com o vírus, mas não apresentar os sintomas&#39;.&quot;)</code></pre>
 </div>
 <ol start="2" type="1">
 <li>‘Tokenizar’ o seu texto em palavras, tirando a puntuação, os números, os stopwords, virando as caracteres em minúsculo, e as palavras em seus raízes (stems).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+meu_texto_palavras &lt;- meu_texto %&gt;% unnest_tokens(palavra, text, strip_numeric=TRUE) %&gt;%
+  anti_join(stopwords, by=&quot;palavra&quot;) %&gt;%
+  mutate(stem=stem_words(palavra, language=&quot;pt&quot;))</code></pre>
 </div>
 <ol start="3" type="1">
 <li>Junte dois textos tokenizados em um tibble com uma coluna que diferencia o documento e uma coluna que conta a frequência de cada palavra: (i) o texto seu que você identificou acima em questão 1, e (ii) o livro que você usou em exercício 2.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Branco_prep &lt;- Branco_palavras %&gt;% 
+  group_by(palavra) %&gt;% 
+  tally() %&gt;%
+  mutate(document=&quot;Branco&quot;)
 
+meu_texto_prep &lt;- meu_texto_palavras %&gt;% 
+  group_by(palavra) %&gt;% 
+  tally() %&gt;%
+  mutate(document=&quot;Meu Texto&quot;)
+
+dois_textos &lt;- Branco_prep %&gt;% bind_rows(meu_texto_prep) </code></pre>
 </div>
 <ol start="4" type="1">
 <li>Calcule a medida ‘tf_idf’ para identificar as 5 palavras mais distintas de cada documento. Em qual sentido o seu documento é diferente do livro?</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+dois_textos %&gt;% bind_tf_idf(palavra, document, n) %&gt;%
+  group_by(document) %&gt;%
+  top_n(5, tf_idf)</code></pre>
 </div>
 </div>
 <p><br></p>

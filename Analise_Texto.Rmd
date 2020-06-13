@@ -219,9 +219,15 @@ Para mais controle de apresentação, é possível criar o wordcloud em `ggplot`
 <div class = "green">
 ## Exercício 1: Trabalhando com Strings
 
+<aside>
+```{r codefolder1, echo=FALSE, results='asis'}
+codefolder::distill(init = "show")
+```
+</aside>
+
 1. No banco de dados `airlines` do pacote `nycflights13`, qual porcentagem dos nomes das companhias aéreas contém a palavra 'Airlines' e qual porcentagem contém a palavra 'Airways'?
 
-```{r, echo=F, eval=F}
+```{r, eval=F}
 airlines %>% mutate(airlines=str_detect(name, "Airlines")) %>%
   group_by(airlines) %>%
   tally() %>%
@@ -235,7 +241,7 @@ airlines %>% mutate(airlines=str_detect(name, "Airways")) %>%
 
 2. No mesmo banco, Substitua os nomes das companhias aéreas que contém 'Inc.' com 'Incorporated', e eles que contém 'Co.' com 'Company'. (Observe que '.' é um caracter especial, então tem que buscar ele com '\\\\.').
 
-```{r, echo=F, eval=F}
+```{r, eval=F}
 rm(list=ls())
 airlines
 airlines <- airlines %>% mutate(name=str_replace(name, "Inc.", "Incorporated"),
@@ -244,14 +250,14 @@ airlines <- airlines %>% mutate(name=str_replace(name, "Inc.", "Incorporated"),
 
 3. Gere um nome curto para cada companhia aérea, refletindo apenas a primeira palavra do nome.
 
-```{r, echo=F, eval=F}
+```{r, eval=F}
 airlines <- airlines %>% mutate(nome_curto=str_split(name, " "),
                                 nome_curto=map_chr(nome_curto, 1))
 ```
 
 4. Crie um 'wordcloud' dos nomes das companhias aéreas.
 
-```{r, echo=F, eval=F}
+```{r, eval=F}
 airlines %>% pull(name) %>% wordcloud()
 ```
 
@@ -592,9 +598,15 @@ Um dos trigrams mais comuns é "josé dias achou".
 <div class = "green">
 ## Exercício 2: Analisando um Documento
 
+<aside>
+```{r codefolder2, echo=FALSE, results='asis'}
+codefolder::distill(init = "show")
+```
+</aside>
+
 1. Escolhe um livro da sua preferência [no site de Projeto Gutenberg](https://www.gutenberg.org/browse/languages/pt), e abre ele em R usando o código do projeto.
 
-```{r, echo=F, eval=F}
+```{r, eval=F}
 Branco <- gutenberg_download(26913) %>% 
   mutate(text=iconv(text, from = "latin1", to = "UTF-8")) %>%
   select(-gutenberg_id) %>% 
@@ -603,7 +615,7 @@ Branco <- gutenberg_download(26913) %>%
 
 2. 'Tokenizar' o seu livro em palavras, tirando a puntuação, os números, os stopwords, virando as caracteres em minúsculo, e as palavras em seus stems (raízes).
 
-```{r, echo=F, eval=F}
+```{r, eval=F}
 Branco_palavras <- Branco %>% unnest_tokens(palavra, text, strip_numeric=TRUE) %>%
   anti_join(stopwords, by="palavra") %>%
   mutate(stem=stem_words(palavra, language="pt"))
@@ -611,7 +623,7 @@ Branco_palavras <- Branco %>% unnest_tokens(palavra, text, strip_numeric=TRUE) %
 
 3. Identifique os dez stems mais frequentes no seu livro. 
 
-```{r, echo=F, eval=F}
+```{r, eval=F}
 Branco_palavras %>% group_by(stem) %>%
   tally() %>%
   top_n(10, n) %>%
@@ -620,7 +632,7 @@ Branco_palavras %>% group_by(stem) %>%
 
 4. Aplique uma análise de sentimento ao texto para identificar as linhas mais otimistas e mais pessimistas do texto.
 
-```{r, echo=F, eval=F}
+```{r, eval=F}
 Branco_palavras <- Branco_palavras %>% left_join(sentimento, by="palavra")
 
 Branco_palavras %>% mutate(Linha=as.numeric(Linha)) %>%
@@ -786,15 +798,21 @@ Em outras aplicações o modelagem de tópicos é uma forma poderosa de identifi
 <div class = "green">
 ## Exercício 3: Comparando Documentos
 
+<aside>
+```{r codefolder3, echo=FALSE, results='asis'}
+codefolder::distill(init = "show")
+```
+</aside>
+
 1. Copiar-colar um texto que você mesmo escreveu de pelo menos um parágrafo e salve ele dentro de um tibble em R. 
 
-```{r, tidy=T, echo=F, eval=F}
+```{r, tidy=T, eval=F}
 meu_texto <- tibble(text="A Organização Mundial da Saúde (OMS) disse nesta terça-feira (9) que a 'transmissão por casos assintomáticos está ocorrendo, a questão é saber quanto'. O esclarecimento da entidade internacional ocorre após comentário da chefe do programa de emergências da entidade, Maria van Kerkhove, de que a transmissão da Covid-19 por pacientes sem sintomas da doença parece ser 'rara'.`Kerkhove também voltou a se pronunciar nesta terça e explicou que as pesquisas estão em andamento. Ela disse que recebeu 'muitas mensagens da noite para o dia' e que achou importante esclarecer o mal-entendido. 'A maioria das transmissões que conhecemos ocorre por pessoas com sintomas que transmitem o vírus por meio de gotículas infectadas. Mas há um subconjunto de pessoas que não desenvolvem sintomas', explicou. 'Para realmente entender quantas pessoas não têm [os sintomas], pois ainda não temos essa resposta, existem algumas estimativas. Elas sugerem que entre 6% e 41% da população podem estar com o vírus, mas não apresentar os sintomas'.")
 ```
 
 2. 'Tokenizar' o seu texto em palavras, tirando a puntuação, os números, os stopwords, virando as caracteres em minúsculo, e as palavras em seus raízes (stems).
 
-```{r, echo=F, eval=F}
+```{r, eval=F}
 meu_texto_palavras <- meu_texto %>% unnest_tokens(palavra, text, strip_numeric=TRUE) %>%
   anti_join(stopwords, by="palavra") %>%
   mutate(stem=stem_words(palavra, language="pt"))
@@ -802,7 +820,7 @@ meu_texto_palavras <- meu_texto %>% unnest_tokens(palavra, text, strip_numeric=T
 
 3. Junte dois textos tokenizados em um tibble com uma coluna que diferencia o documento e uma coluna que conta a frequência de cada palavra: (i) o texto seu que você identificou acima em questão 1, e (ii) o livro que você usou em exercício 2.
 
-```{r, echo=F, eval=F}
+```{r, eval=F}
 Branco_prep <- Branco_palavras %>% 
   group_by(palavra) %>% 
   tally() %>%
@@ -818,7 +836,7 @@ dois_textos <- Branco_prep %>% bind_rows(meu_texto_prep)
 
 4. Calcule a medida 'tf_idf' para identificar as 5 palavras mais distintas de cada documento. Em qual sentido o seu documento é diferente do livro?
 
-```{r, echo=F, eval=F}
+```{r, eval=F}
 dois_textos %>% bind_tf_idf(palavra, document, n) %>%
   group_by(document) %>%
   top_n(5, tf_idf)
