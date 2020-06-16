@@ -1707,9 +1707,8 @@ airlines %&gt;% mutate(airlines=str_detect(name, &quot;Airways&quot;)) %&gt;%
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-rm(list=ls())
 airlines
-airlines &lt;- airlines %&gt;% mutate(name=str_replace(name, &quot;Inc.&quot;, &quot;Incorporated&quot;),
+airlines &lt;- airlines %&gt;% mutate(name=str_replace(name, &quot;Inc\\.&quot;, &quot;Incorporated&quot;),
                     name=str_replace(name, &quot;Co\\.&quot;, &quot;Company&quot;))</code></pre>
 </div>
 <ol start="3" type="1">
