@@ -16,9 +16,9 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```
 <h4 style="text-align: center;" markdown="1"> 
-Primeiro Semestre, 2020  
+Primeiro Semestre, 2021  
 DCP - FFLCH - USP  
-Sexta-feira, 14h - 18h   
+Sexta-feira, 14h - 18h, Online  
 Jonathan Phillips
 </h4>
 

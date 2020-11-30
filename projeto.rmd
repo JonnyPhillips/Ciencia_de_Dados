@@ -26,7 +26,7 @@ A tarefa é:
 
 O critério de avaliação será a aplicação dos princípios e técnicas discutidos na disciplina, priorizando a clareza e organização do script e as boas práticas da ciência de dados e a programação, e **não** a sofisticação da análise ou o argumento substantivo do relatório final. 
 
-**O prazo para submissão é o dia 24 de julho 2020 para o email do professor.**
+<!-- **O prazo para submissão é o dia 24 de julho 2020 para o email do professor.** -->
 
 ### Exemplos de Projetos Finais em anos anteriores
 

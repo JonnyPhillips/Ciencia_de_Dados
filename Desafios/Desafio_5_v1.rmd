@@ -16,6 +16,8 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 O prazo para entregar Desafio 5 por email com título “[FLS6397] - D5” à minha conta é **26/06/2020**. Por favor entregue (i) o arquivo .Rmd (ou .Rnw se preferir), e (ii) o arquivo .html ou .PDF.
 </div>
 
+[Respostas Sugeridas para Desafio 5 aqui](Desafio_5_Suggested_Responses.html)
+
 <br>
 
 ## Instruções
@@ -26,7 +28,7 @@ Siga as instruções abaixo. Documente *todos* os seus passos em um script. Come
 
 1. Instale e abre [o pacote `geobr` do IBGE](https://github.com/ipeaGIT/geobr). Leia as instruções no site de github do pacote e use a função `read_municipality()` para acessar todos os municípios do estado de São Paulo em 2018. 
 
-```{r}
+```{r, results='hide'}
 # install.packages("geobr")
 library("tidyverse")
 library("sf")

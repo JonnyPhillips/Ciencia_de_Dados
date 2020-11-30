@@ -36,17 +36,6 @@ navbar:
           - text: "12. Analise de Texto"
             href: Analise_Texto.html            
     - text: "Desafios"
-      menu: 
-          - text: "Desafio 1"
-            href: Desafios/Desafio_1.html
-          - text: "Desafio 2"
-            href: Desafios/Desafio_2.html
-          - text: "Desafio 3"
-            href: Desafios/Desafio_3_v4.html 
-          - text: "Desafio 4"
-            href: Desafios/Desafio_4_v1.html 
-          - text: "Desafio 5"
-            href: Desafios/Desafio_5_v1.html 
     - text: "Recursos"
       href: recursos.html
     - text: "Projeto Final"
