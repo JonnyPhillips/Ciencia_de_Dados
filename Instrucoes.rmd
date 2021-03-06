@@ -1,0 +1,14 @@
+---
+title: "FLS 6397 - Introdução à Análise de Dados, Programação e Visualização para as Ciências Sociais"
+output:
+  distill::distill_article:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+---
+
+## Instruções Preparatórias
+
+1. Para Baixar R para Windows: segue o link https://cran.r-project.org/bin/windows/base/, clique no primeiro link, e executar. Para outros sistemas, veja https://cran.r-project.org/bin/
+
+2. Baixar RStudio aqui no link apropriado para o seu sistema e executar: https://rstudio.com/products/rstudio/download/#download

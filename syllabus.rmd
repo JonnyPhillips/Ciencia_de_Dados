@@ -13,19 +13,19 @@ Primeiro Semestre, 2021
 
 DCP - FFLCH - USP
 
-Sexta-feira, 14h - 18h
+Sexta-feiras, 14h - 18h
 
 Jonathan Phillips
 
 ## 2. Apresentação
 
-Como passamos de um banco de dados bruto para um relatório ou artigo publicado com estatísticas precisas, tabelas claras e gráficos convincentes? Existem diversas ferramentas poderosas para facilitar o processo de análise de dados, a pesquisa e a publicação, mas elas podem parecer intimidadores e complexos. Este curso oferece aos estudantes de pós-graduação em ciências sociais uma iniciação accessível ao uso de software para a coleta, limpeza, análise, comparação e visualização de dados. 
+Como passamos de um banco de dados bruto para um relatório ou artigo publicado com estatísticas precisas, tabelas claras e gráficos convincentes? Existem diversas ferramentas poderosas para facilitar o processo de análise de dados, a pesquisa e a publicação, mas elas podem parecer intimidadoras e complexas. Este curso oferece aos estudantes de pós-graduação em ciências sociais uma iniciação accessível ao uso de software para a coleta, limpeza, análise, comparação e visualização de dados. 
 
-O foco do curso é o desenvolvimento da habilidade de programação para solução de problemas diversos relacionados ao manejo de dados com fins de pesquisa. Note-se que não é um curso de metodologia de pesquisa ou estatística. No final do curso alunos serão capazes de desenvolver um script que baixar os dados, organizar-los, calcular medidas relevantes, construir tabelas, gráficos e mapas, e gerar um relatório final para uso na sua dissertação/tese, tudo em uma forma verificável, reproduzível, transparente e documentado. 
+O foco do curso é o desenvolvimento da habilidade de programação para solução de problemas diversos relacionados ao manejo de dados com fins de pesquisa. Note-se que não é um curso de metodologia de pesquisa ou estatística. No final do curso alunos serão capazes de desenvolver um script que baixar os dados, organizá-los, calcular medidas relevantes, construir tabelas, gráficos e mapas, e gerar um relatório final para uso na sua dissertação/tese, tudo em uma forma verificável, reproduzível, transparente e documentada. 
 
 ## 3. Software
 
-Adotamos o uso de língua de R no curso como uma língua aberta, com muito suporte disponível online e uma ferramenta bem usado nas ciências sociais. Nota que o treinamento em R permite uma transição muito mais fácil para outras línguas no futuro, e as princípios de programação e tratamento de dados são bem transferíveis.
+Adotamos o uso da linguagem de R no curso por ser uma língua aberta, com muito suporte disponível online e uma ferramenta bastante usada nas ciências sociais. Note que o treinamento em R permite uma transição muito mais fácil para outras linguagens de programação no futuro, e os princípios de programação e tratamento de dados são bastante transferíveis.
 
 ## 4. Estrutura do curso
 
@@ -44,23 +44,31 @@ A avaliação é composta pela entrega dos desafios, do projeto final individual
 
 ## 5. Requisitos
 
-Não é necessário nenhum conhecimento prévio de programação, pacotes estatísticos ou manejo de conjuntos de dados. O curso é recomendado para tanto alunas e alunos que já têm alguma noção quanto para estudantes que morrem de medo de computadores. O objetivo é criar um ambiente confortável para o aprendizado de técnicas programação, independentemente da habilidade das inscritas, e seguindo todos os passos desde a preparação do ambiente de computação até a apresentação de resultados.
+Não é necessário nenhum conhecimento prévio de programação, pacotes estatísticos ou manejo de conjuntos de dados. O curso é recomendado tanto para alunas e alunos que já têm alguma noção quanto para estudantes que morrem de medo de computadores. O objetivo é criar um ambiente confortável para o aprendizado de técnicas de programação, independentemente da habilidade das inscritas, e seguindo todos os passos desde a preparação do ambiente de computação até a apresentação de resultados.
 
-É recomendado que as participantes já tenham concluído ou esteja cursando algum curso de métodos de pesquisa (de qualquer abordagem) ou de análise de dados, seja do programa ou da IPSA-USP Summer School. É um curso adequado para estudantes em qualquer etapa do mestrado ou doutorado, desde que tenham disponibilidade para realizar as atividades extra-classe.
+É recomendado que as participantes já tenham concluído ou estejam cursando algum curso de métodos de pesquisa (de qualquer abordagem) ou de análise de dados, seja do programa ou da IPSA-USP Summer School. É um curso adequado para estudantes em qualquer etapa do mestrado ou doutorado, desde que tenham disponibilidade para realizar as atividades extra-classe.
 
 Estudantes do DCP-USP que podem se matricular regularmente não serão aceitas como ouvintes.
 
 ## 6. Tópicos
 
-1. Introdução ao curso, R e Rmarkdown
-2. Abrindo e manipulando bancos de dados
-3. Organização e limpeza de dados
-4. Calculando estatísticas resumidas
-5. Construindo tabelas
-6. Visualização de dados e a gramática de gráficos
-7. Juntando bancos de dados
-8. Mapas e análises espaciais
-9. Testes estatísticos e modelos de regressão
-10. Produzindo relatórios reproduzíveis com Git e Latex
-11. Funções e repetição
-12. Análise de Texto
+1. Introdução ao curso, R e Rmarkdown (26/03/21)
+2. Abrindo e manipulando bancos de dados (02/04/21)
+3. Organização e limpeza de dados (09/04/21)
+4. Calculando estatísticas resumidas (16/04/21)
+5. Construindo tabelas (23/04/21)
+6. Visualização de dados e a gramática de gráficos (30/04/21)
+7. Juntando bancos de dados (07/05/21)
+8. Mapas e análises espaciais (14/05/21)
+9. Testes estatísticos e modelos de regressão (21/05/21)
+10. Produzindo relatórios reproduzíveis com Git e Latex (28/05/21)
+11. Funções e repetição (11/05/21)
+12. Mineração de Textos (18/06/21)
+
+## <a id="Instrucoes"></a>7. Instruções Preparatórias
+
+Antes de começar o curso, por favor instale segue os passos seguintes. Precisamos instalar duas ferramentas. Primeiro, a linguagem de programação: 'R'. E segundo, um programa/editor/interface que nos ajuda digitar e organizar a nossa análise: 'RStudio'.
+
+1. Para Baixar 'R' para Windows: segue o link https://cran.r-project.org/bin/windows/base/, clique no primeiro link, e executar. Para outros sistemas, veja https://cran.r-project.org/bin/
+
+2. Baixar 'RStudio' aqui no link apropriado para o seu sistema e executar: https://rstudio.com/products/rstudio/download/#download
