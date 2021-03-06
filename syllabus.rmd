@@ -65,7 +65,7 @@ Estudantes do DCP-USP que podem se matricular regularmente não serão aceitas c
 11. Funções e repetição (11/05/21)
 12. Mineração de Textos (18/06/21)
 
-## <a id="Instrucoes"></a>7. Instruções Preparatórias
+## 7. Instruções Preparatórias {#Instrucoes}
 
 Antes de começar o curso, por favor instale segue os passos seguintes. Precisamos instalar duas ferramentas. Primeiro, a linguagem de programação: 'R'. E segundo, um programa/editor/interface que nos ajuda digitar e organizar a nossa análise: 'RStudio'.
 
