@@ -1,12 +1,14 @@
 name: "Website_Distill"
-title: "Data Analysis for the Social Sciences"
+title: "Analise de Dados para as Ciencias Sociais"
 description: |
-  Data Analysis for the Social Sciences
+  Analise de Dados para as Ciencias Sociais
 output_dir: "."
 navbar:
   right:
     - text: "Introducao"
       href: index.html
+    - text: "Syllabus"
+      href: syllabus.html
     - text: "Tutoriais"
       menu:
           - text: "1. Introducao"
@@ -14,38 +16,26 @@ navbar:
           - text: "2. Abrindo e Manipulando Dados"
             href: abrindo_manipulando.html
           - text: "3. Organizando e Limpando Dados"
-            href: limpeza.html
+            href: limpando_dados.html
           - text: "4. Calculando Estatisticas Resumidas"
-            href: estatisticas.html
+            href: Estatisticas_Resumidas.html
           - text: "5. Construindo Tabelas"
-            href: tabelas.html
+            href: Tabelas.html
           - text: "6. Visualizacao de Dados"
-            href: visualizacao.html
+            href: Graficos.html
           - text: "7. Juntando Bancos de Dados"
-            href: juntando.html
+            href: Juntando_Bancos.html
           - text: "8. Mapas e Analises Espaciais"
-            href: mapas.html
+            href: Mapas.html
           - text: "9. Testes Estatisticos e Regressoes"
-            href: regressoes.html
+            href: Regressoes.html
           - text: "10. Relatorios Reproduziveis"
-            href: reproduziveis.html
+            href: Reprodutibilidade.html
           - text: "11. Funcoes e Repeticao"
             href: Repeticao.html
-          - text: "12. Mineracao de Textos"
-            href: textos.html
-            
+          - text: "12. Analise de Texto"
+            href: Analise_Texto.html            
     - text: "Desafios"
-      menu: 
-          - text: "Desafio 1"
-            href: desafio_1.html
-          - text: "Desafio 2"
-            href: desafio_2.html 
-          - text: "Desafio 3"
-            href: desafio_3.html 
-          - text: "Desafio 4"
-            href: desafio_4.html 
-          - text: "Desafio 5"
-            href: desafio_5.html 
     - text: "Recursos"
       href: recursos.html
     - text: "Projeto Final"

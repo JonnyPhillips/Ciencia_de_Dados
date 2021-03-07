@@ -8,6 +8,14 @@ description: |
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+**Livros**  
+1. [R for Data Science](https://r4ds.had.co.nz/)  
+2. [Hands-On Programming with R](https://rstudio-education.github.io/hopr/)  
+3. [ggplot2: Elegant graphics for data analysis](https://ggplot2-book.org/)  
+4. [Advanced R](http://adv-r.had.co.nz/Introduction.html)  
+5. [Wikibook R Programming](https://en.wikibooks.org/wiki/R_Programming)  
+6. [Lista de 150 livros online sobre R (!)](https://www.bigbookofr.com/index.html)
+
 **Cheat Sheets**  
 1. [Manípulo de Dados](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf)  
 2. [Importação de Dados](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf)  
@@ -18,11 +26,4 @@ knitr::opts_chunk$set(echo = FALSE)
 7. [Strings](https://github.com/rstudio/cheatsheets/raw/master/strings.pdf)  
 8. [Outros](https://rstudio.com/resources/cheatsheets/)
 
-**Livros**  
-1. [R for Data Science](https://r4ds.had.co.nz/)  
-2. [Hands-On Programming with R](https://rstudio-education.github.io/hopr/)  
-3. [ggplot2: Elegant graphics for data analysis](https://ggplot2-book.org/)  
-4. [Advanced R](http://adv-r.had.co.nz/Introduction.html)
-5. [Wikibook R Programming](https://en.wikibooks.org/wiki/R_Programming)
-6. [Lista de 150 livros online sobre R (!)](https://www.bigbookofr.com/index.html)
 
