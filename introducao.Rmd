@@ -444,7 +444,7 @@ nomes_aeroportos <- c("Newark","John F Kennedy","Laguardia")
 
 E agora? O R guardou os dois vetores, mas ele não sabe que o primeiro elemento `NWR` de `siglas_aeroportos` é ligado com o primeiro elemento de `nomes_aeroportos`, e o segundo com o segundo etc. A beleza de um data.frame/tibble é que ele associa os elementos de vários vetores como observações ligadas.
 
-A função que nos permite gerar um tibble, supreendentemente, se chame `tibble()`. Nos parenteses, colocamos os nomes das variáveis, separada por vírgulas, e depois o conteúdo do vetor relevante.
+A função que nos permite gerar um tibble, supreendentemente, se chame `tibble()`. Nos parênteses, colocamos os nomes das variáveis, separada por vírgulas, e depois o conteúdo do vetor relevante.
 
 ```{r, eval=F, echo=T}
 tabela_aeroportos <- tibble(Sigla=siglas_aeroportos,
@@ -593,173 +593,144 @@ Compare o seu script de Exercício 1 com o script do seu vizinho. Quais são as 
 <div class = "green">
 # Exercício 3: Encontre o erro em todos os códigos abaixo:
 
-Q1)
+<aside>
+```{r codefolder2, echo=FALSE, results='asis'}
+codefolder::distill(init = "show")
+```
+</aside>
 </div>
 <div class = "green">
-```{r, eval=F, echo=T}
+Q1)  
 nrow[flights]
+
+```{r, eval=F, echo=T, tidy=TRUE}
+nrow(flights)   
+# Funções exigem parênteses, não colchetes
 ```
 </div>
 
-<aside>
-```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
-nrow(flights)
-```
-</aside>
-
 <div class = "green">
-Q2)
-```{r, eval=F, echo=T}
+Q2)  
 nrou(flights)
+
+```{r, eval=F, echo=T}
+nrow(flights)   
+# R não tem verificador de texto. Erros impedirão o código de rodar
 ```
 </div>
 
-<aside>
-```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
-nrow(flights)
-```
-</aside>
-
 <div class = "green">
-Q3)
-```{r, eval=F, echo=T}
+Q3)  
 v1 <- ("pato", "cachorro",
        "minhoca", "lagarto")
+
+```{r, eval=F, echo=T, tidy=TRUE}
+v1 <- c("pato", "cachorro", "minhoca", "lagarto")  
+# Criar um vetor exige a função 'c()'
 ```
 </div>
-
-<aside>
-```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
-v1 <- c("pato", "cachorro", "minhoca", "lagarto")
-```
-</aside>
 
 <div class = "green">
-Q4) 
-```{r, eval=F, echo=T}
-v2 <- c("1", "2", "3", "4")
+Q4)  
+v2 <- c("1", "2", "3", "4")  
 v2 + 42
-```
-</div>
 
-<aside>
-```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+```{r, eval=F, echo=T, tidy=TRUE}
 v2 <- c(1, 2, 3, 4)
-v2 + 42
+v2 + 42   
+# Não podemos somar um número a um caractere. 
+# Se quisermos manter v2 como variável numérica, precisamos retirar as aspas.
 ```
-</aside>
+</div>
 
 <div class = "green">
-Q5)
-```{r, eval=F, echo=T}
+Q5)  
 v1 <- c("pato", "cachorro", "minhoca", "lagarto"
+
+```{r, eval=F, echo=T, tidy=TRUE}
+v1 <- c("pato", "cachorro", "minhoca", "lagarto")
+# Quando esquecemos de fechar os parênteses, o R entende que ainda faltam argumentos na função, então não roda.
 ```
 </div>
 
-<aside>
-```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
-v1 <- c("pato", "cachorro", "minhoca", "lagarto")
-```
-</aside>
-
 <div class = "green">
-Q6) 
-```{r, eval=F, echo=T}
+Q6)  
 v3 <- c(33 31 40 25 27 40)
+
+```{r, eval=F, echo=T, tidy=TRUE}
+v3 <- c(33, 31, 40, 25, 27, 40)  
+# Seperamos argumentos e dados com vírgula
 ```
 </div>
 
-<aside>
-```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
-v3 <- c(33, 31, 40, 25, 27, 40)
-```
-</aside>
-
 <div class = "green">
-Q7)
-```{r, eval=F, echo=T}
+Q7)  
 v1 <- c(pato, cachorro, minhoca, lagarto)
+
+```{r, eval=F, echo=T, tidy=TRUE}
+v1 <- c("pato", "cachorro", "minhoca", "lagarto")  
+# Para o R entender que estamos tratando de palavras, precisamos usar aspas. Do contrário, o programa irá procurar objetos nomeados de pato, cachorro, etc. Como eles não existem nesse caso, não é possível formar o vetor
 ```
 </div>
 
-<aside>
-```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
-v1 <- c("pato", "cachorro", "minhoca", "lagarto")
-```
-</aside>
-
 <div class = "green">
-Q8)
-```{r, eval=F, echo=T}
-v1 <- c("pato" "cachorro" "minhoca" "lagarto")
+Q8)  
+v1 -> c("pato", "cachorro", "minhoca", "lagarto")
+
+```{r, eval=F, echo=T, tidy=TRUE}
+v1 <- c("pato", "cachorro", "minhoca", "lagarto")  
+# A direção da seta indica onde queremos salvar os resultados
 ```
 </div>
 
-<aside>
-```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
-v1 <- c("pato", "cachorro", "minhoca", "lagarto")
-```
-</aside>
-
 <div class = "green">
-Q9)
-```{r, eval=F, echo=T}
+Q9)  
 v3 <- C(33, 31, 40, 25, 27, 40)
+
+```{r, eval=F, echo=T, tidy=TRUE}
+v3 <- c(33, 31, 40, 25, 27, 40)  
+# R é 'case sensitive'. maiúsculo ou minúsculo é uma distinção importante.
 ```
 </div>
 
-<aside>
-```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
-v3 <- c(33, 31, 40, 25, 27, 40)
-```
-</aside>
-
 <div class = "green">
-Q10)
-```{r, eval=F, echo=T}
+Q10)  
 v1 <- c("pato", "cachorro"", "minhoca", "lagarto")
+
+```{r, eval=F, echo=T, tidy=TRUE}
+v1 <- c("pato", "cachorro", "minhoca", "lagarto")  
+# Aspas andam sempre em pares. É preciso prestar atenção à ordem deles para não deixar o texto de interesse de fora
 ```
 </div>
-
-<aside>
-```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
-v1 <- c("pato", "cachorro", "minhoca", "lagarto")
-```
-</aside>
 
 <div class = "green">
-Q11)
-```{r, eval=F, echo=T}
-v1 <- c("pato", "cachorro", "minhoca", "lagarto")
-v4 <- c(33, 31, 40, 25, 27, 40)
+Q11)  
+v1 <- c("pato", "cachorro", "minhoca", "lagarto")  
+v4 <- c(33, 31, 40, 25, 27, 40)  
 myData <- tibble(v1, v4)
-```
-</div>
 
-<aside>
-```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+```{r, eval=F, echo=T, tidy=TRUE}
 v1 <- c("pato", "cachorro", "minhoca", "lagarto","","")
 v4 <- c(33, 31, 40, 25, 27, 40)
 myData <- tibble(v1, v4)
-```
-</aside>
-
-<div class = "green">
-Q12)
-```{r, eval=F, echo=T}
-v1 <- c("pato", "cachorro", "minhoca", "lagarto")
-v4 <- c(33, 31, 40, 25)
-myData <- tibble(v1 = animal, v4 = idade)
+# Tibbles precisam de vetores de tamanhos iguais. 
+# Se não tivermos os dados para alguma observação, precisamos avisar que este valor está faltando, por isso as aspas vazias
 ```
 </div>
 
-<aside>
-```{r, eval=F, echo=T, tidy=TRUE, tidy.opts=list(width.cutoff=30)}
+<div class = "green">
+Q12)  
+v1 <- c("pato", "cachorro", "minhoca", "lagarto")  
+v4 <- c(33, 31, 40, 25)  
+myData <- tibble(v1 = animal, v4 = idade)
+
+```{r, eval=F, echo=T, tidy=TRUE}
 v1 <- c("pato", "cachorro", "minhoca", "lagarto")
 v4 <- c(33, 31, 40, 25)
 myData <- tibble(animal = v1, idade = v4)
+# Ao criar o tibble, o nome de variável na tabela fica em primeira lugar, seguida por '=' e finalmente o nome do vetor que pretende inserir na tabela.
 ```
-</aside>
+</div>
 
 <br>
 

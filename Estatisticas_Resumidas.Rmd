@@ -38,7 +38,7 @@ library("rmarkdown")
 
 # Estatísticas Resumidas (`summarize`)
 
-Nos últimos tutoriais, não mexemos com a unidade de análise de nosso banco de dados - sempre avaliamos os voos individuais, por exemplo. Porém, mesmo depois de vários filtros e mutates, os seus dados provavalmente tem dezenas, centenas ou milhares de linhas - é difícil incluir toda esta informação no seu relatório, e impossível para o leitor entender tudo. É por isso que usamos estatísticas resumidas: médias, medianas etc.
+Nos últimos tutoriais, não mexemos com a unidade de análise de nosso banco de dados - sempre avaliamos os voos individuais, por exemplo. Porém, mesmo depois de vários filtros e mutates, os seus dados provavelmente tem dezenas, centenas ou milhares de linhas - é difícil incluir toda esta informação no seu relatório, e é impossível para o leitor entender tudo. É por isso que usamos estatísticas resumidas: médias, medianas etc.
 
 Para gerar um número único que descreve uma variável em nossa tabela, usamos o verbo `summarize()` que funciona perfeitamente dentro do fluxo da nossa análise com o pipe (`%>%`). O `summarize()` gera um novo tibble (tabela/data.frame) pequena para conter as estatísticas resumidas, abandonando o nosso tibble original. 
 
@@ -54,16 +54,16 @@ flights %>% summarize(media_distance=mean(distance))
 library("rmarkdown")
 ```
 
-Fácil, sim? Usando a variedade das funções estatísticas em R (ou qualquer pacote adicional), pode calcular qualquer estatística que te interesse. Experimente com os exemplos na tabela.
+Fácil, não? Usando a variedade das funções estatísticas em R (ou qualquer pacote adicional), você pode calcular qualquer estatística que te interesse. Experimente com os exemplos na tabela.
 
 | Estatística  |        Função em R          |
 |--------------|:---------------------------:|
-| Média        | `mean(variavel)`                    |
-| Mediana      |  `median(variavel)`                 |
-| Desvio padrão|  `sd(variavel)`                     |
-| Quantil (10%)     |  `quantile(variavel, probs=0.1)` |
-| Máximo        | `max(variavel)`                    |
-| Mínimo        | `min(variavel)`                    |
+| Média        | `mean(variável)`                    |
+| Mediana      |  `median(variável)`                 |
+| Desvio padrão|  `sd(variável)`                     |
+| Quantil (10%)     |  `quantile(variável, probs=0.1)` |
+| Máximo        | `max(variável)`                    |
+| Mínimo        | `min(variável)`                    |
 
 
 A nossa nova tabela agregada pode conter mais de uma estatística resumida, cada uma em uma coluna nova:
@@ -109,7 +109,7 @@ Vamos tentar mais uma estatística:
 flights %>% summarize(dep_delay=mean(dep_delay))
 ```
 
-Qual foi o resultado? `NA`? O que significa dados faltandos aqui? O padrão em R é reclamar quando tem um erro em potential, forçando você a investigar. Isso pode ser chato as vezes, mas no longo prazo é uma medida necessária para garantir que você entende o que você está calculando. Neste caso, na presença de *pelo menos um* valor `NA` na variável que estamos resumido, o R passa este `NA` para o resultado final, mesmo que existe milhares de outros valores prontos para ser resumidos. Isso é o nosso sinal que os nossos dados contém lacunas, e temos que deixar explícito para R como a tratar estes casos. Por enquanto vamos ignorar eles usando o argumento `na.rm=TRUE`, e calcular a estatística resumida apenas com os dados restantes:
+Qual foi o resultado? `NA`? O que significa dados faltantes aqui? O padrão em R é reclamar quando tem um erro em potencial, forçando você a investigar. Isso pode ser chato às vezes, mas no longo prazo é uma medida necessária para garantir que você entenda o que você está calculando. Neste caso, na presença de *pelo menos um* valor `NA` na variável que estamos resumido, o R passa este `NA` para o resultado final, mesmo que existem milhares de outros valores prontos para serem resumidos. Isso é o nosso sinal que os nossos dados contém lacunas, e temos que deixar explícito para R como a tratar estes casos. Por enquanto vamos ignorar eles usando o argumento `na.rm=TRUE`, e calcular a estatística resumida apenas com os dados restantes:
 
 ```{r, eval=F}
 flights %>% summarize(dep_delay=mean(dep_delay,na.rm=TRUE))
@@ -134,7 +134,7 @@ nome_funcao <- function(insumo1, insumo2){
 }
 ```
 
-Imagine-se que quissemos calcular a razão entre o percentil 90 e o percentil 10. Não existe uma função pronto para calcular isso, então vamos escrever nós mesmos.
+Imagine que queremos calcular a razão entre o percentil 90 e o percentil 10. Não existe uma função pronta para calcular isso, então vamos escrever nós mesmos.
 
 ```{r}
 percentile_90_10 <- function(variavel) {
@@ -148,7 +148,7 @@ percentile_90_10 <- function(variavel) {
 
 Usamos `variavel` aqui para fazer referência a qualquer vetor (coluna) que o usuário vai especificar como insumo no futuro, e cada vez que precisamos pegar este vetor dentro da função, usamos o mesmo nome, `variavel`.
 
-Note que esta função aceita um vetor (apenas uma coluna do nosso tibble), e devolve um valor único, indicado por `return(calculo)`. Vamos aplicar a nossa nova função:
+Note que esta função aceita um vetor (apenas uma coluna do nosso tibble), e devolve um valor único, indicado por `return(cálculo)`. Vamos aplicar a nossa nova função:
 
 ```{r, eval=F}
 flights %>% summarize(percentile_90_10_distance=percentile_90_10(distance),
@@ -161,7 +161,7 @@ flights %>% summarize(percentile_90_10_distance=percentile_90_10(distance),
   paged_table()
 ```
 
-Os resultados significam que há mais variáção na variável distance (o percentile 90 é 11 vezes maior que o percentile 10) que há na variável air_time (apenas 6.8 vezes maior).
+Os resultados significam que há mais variação na variável distance (o percentil 90 é 11 vezes maior que o percentil 10) do que na variável air_time (apenas 6.8 vezes maior).
 
 Isto é programação. Agora sabemos como trabalhar com os dois elementos fundamentais: objetos (data.frames/tibbles etc.) e funções. Tudo em R é uma combinação de objetos (substantivos) com funções (verbos) para criar a nossa receita de análise.
 
@@ -169,7 +169,7 @@ Isto é programação. Agora sabemos como trabalhar com os dois elementos fundam
 
 # Grupos (`group_by`)
 
-Quase sempre, os nossos dados estão organizados em grupos e sub-grupos, pode ser anos, meses e dias, aeroportos, ou países. Frequentemente, nos queremos as estatísticas resumidas *por ano*, ou *por país*. O poder de `summarize()` é ampliado exponentialmente quando os resumos/agregações são feitos no nível de grupos e não para o banco de dados inteiro. O que define os grupos? Uma outra variável em nossa tabela.
+Quase sempre, os nossos dados estão organizados em grupos e subgrupos, pode ser anos, meses e dias, aeroportos, ou países. Frequentemente, nós queremos as estatísticas resumidas *por ano*, ou *por país*. O poder de `summarize()` é ampliado exponencialmente quando os resumos/agregações são feitos no nível de grupos e não para o banco de dados inteiro. O que define os grupos? Uma outra variável em nossa tabela.
 
 Dado que podemos criar vários níveis/tipos de agrupamentos de nossos dados, temos que especificar quais nos queremos. Para definir os grupos relevantes, podemos criar um 'grouped tibble' usando o verbo `group_by()`:
 
@@ -177,7 +177,7 @@ Dado que podemos criar vários níveis/tipos de agrupamentos de nossos dados, te
 flights_por_aeroporto <- flights %>% group_by(origin)
 ```
 
-Qual o resultado, `flights_por_aeroporto`, e como difere do banco de dados original de `flights`? Parece ígual! O número de linhas e colunas é ígual, nada mudou...Se digitamos o nome do novo objeto `flights_por_aeroporto` no 'Console' no canto baixo do RStudio, podemos ver uma pequena diferença: existe uma linha `Groups:   origin [3]` que não existe no banco de dados original de `flights`. Este '3' siginfica os três aeroportos de origem nos dados que usamos para agrupamento.
+Qual o resultado, `flights_por_aeroporto`, e como difere do banco de dados original de `flights`? Parece igual! O número de linhas e colunas é igual, nada mudou...Se digitamos o nome do novo objeto `flights_por_aeroporto` no 'Console' no canto baixo do RStudio, podemos ver uma pequena diferença: existe uma linha `Groups:   origin [3]` que não existe no banco de dados original de `flights`. Este '3' significa os três aeroportos de origem nos dados que usamos para agrupamento.
 
 Na prática, `group_by()` sozinho não é útil para nada. Temos que combinar com mais uma função subsequente para gerar resultados interessantes. Por exemplo, vamos calcular a média da distância *por aeroporto*: 
 
@@ -192,7 +192,7 @@ flights %>% group_by(origin) %>%
   paged_table()
 ```
 
-Agora, a nova tabela de resumo tem três linhas, uma para cada aeroporto. Os três grupos correspondem aos três estatísticas resumidas. Note que não mudamos nada no `summarize()` do último vez - só temos mais um verbo em nosso pipe, o `group_by()`. 
+Agora, a nova tabela de resumo tem três linhas, uma para cada aeroporto. Os três grupos correspondem às três estatísticas resumidas. Note que não mudamos nada no `summarize()` do último comando - só temos mais um verbo em nosso pipe, o `group_by()`. 
 
 Os argumentos de `group_by()` são sempre as variáveis de agrupamento, e podem ser vários:
 
@@ -209,7 +209,7 @@ flights %>% group_by(origin, month) %>%
 
 Quantas linhas têm o resultado? Porque 36? Porque pedimos agrupamento por origem (3 possibilidades) **e** mês (12 possibilidades): $3*12=36$. A unidade de análise na tabela final é o aeroporto-mês. 
 
-Note que o resultado de `summarize()` é sempre um tibble, então ele não precisa terminar o nosso fluxo de análise - podemos continuar processando o resultado de `summarize()` com todas as funções que já acustamamos usar. Por exemplo, podemos filtrar ou mutate para criar uma tabela apropriado para incluir em nosso relatório:
+Note que o resultado de `summarize()` é sempre um tibble, então ele não precisa terminar o nosso fluxo de análise - podemos continuar processando o resultado de `summarize()` com todas as funções que já estamos acostumados a usar. Por exemplo, podemos combinar as funções filter e mutate para criar uma tabela apropriado para incluir em nosso relatório:
 
 ```{r, eval=F}
 flights %>% group_by(origin, month) %>% 
@@ -267,7 +267,7 @@ flights %>% group_by(carrier, month) %>%
   summarize(media_air_time=mean(air_time,na.rm=T))
 ```
 
-3. Calcule o atraso média por aeroporto de origem (`dep_delay`). Qual aeroporto tem o pior?
+3. Calcule o atraso média por aeroporto de origem (`dep_delay`). Qual aeroporto tem o pior atraso?
 
 ```{r, echo=T, eval=F}
 flights %>% group_by(origin) %>%
@@ -297,9 +297,9 @@ flights %>% filter(origin=="JFK") %>%
 </div>
 
 
-## Número do observações por Grupo (`tally`)
+## Número de observações por Grupo (`tally`)
 
-Uma aplicação enormamente útil de `group_by()` é para calcular o número de observações (linhas) em cada grupo do banco de dados. 
+Uma aplicação enormemente útil de `group_by()` é calcular o número de observações (linhas) em cada grupo do banco de dados. 
 
 ```{r, eval=F}
 flights %>% group_by(origin) %>% 
@@ -314,7 +314,7 @@ flights %>% group_by(origin) %>%
 
 Assim, é fácil comparar o número de voos em cada aeroporto. A função `tally` não precisa de argumentos. 
 
-Quantos voos decolaram de cada aeroporto origem para cada destino?
+Quantos voos decolaram de cada aeroporto de origem para cada destino?
 
 ```{r, eval=F}
 flights %>% group_by(origin, dest) %>% 
@@ -352,7 +352,7 @@ flights %>% group_by(month, carrier) %>%
   top_n(1,n)
 ```
 
-3. Qual é a média do número de voos que decolaram dos três aeroportos por mês?
+3. Qual é a média do número de voos que decolaram dos três aeroportos, em cada mês?
 
 ```{r, eval=F, echo=T}
 flights %>% group_by(origin, month) %>% 
@@ -361,7 +361,7 @@ flights %>% group_by(origin, month) %>%
   summarize(media_n=mean(n,na.rm=T))
 ```
 
-4. Qual é a média mensal do número de voos que decolaram de cada aeroporto?
+4. Qual é a média mensal do número de voos que decolaram em cada aeroporto?
 
 ```{r, eval=F, echo=T}
 flights %>% group_by(origin, month) %>% 
@@ -396,7 +396,7 @@ flights %>% group_by(origin) %>%
   paged_table()
 ```
 
-Confirme no tibble resultante que o número de linhas não mudou, e que a média distância é ígual para todos os voos do mesmo aeroporto, e varia entre aeroportos.
+Confirme no tibble resultante que o número de linhas não mudou, e que a média distância é igual para todos os voos do mesmo aeroporto, e varia entre aeroportos.
 
 Qual a diferença conceitual entre `summarize()` e `mutate()`? 
 
@@ -406,7 +406,7 @@ Qual a diferença conceitual entre `summarize()` e `mutate()`?
 
 ## Saindo de Agrupamentos (`ungroup`)
 
-Agrupamento é poderoso - ele permite organizar os nossos dados na forma que faz sentido para a nossa análise sem calcular os denominadores separadamente. Mas tome cuidado: O R lembra de tudo. Quando você usa `group_by()` ele é mantido para o resto da operação (os pipes seguintes), e também dentro de objetos salvos. Isso é útil se queremos continuar com o mesmo agrupamento, mas pode gerar resultados inesperados se esquecemos que já agrupamos os nossos dados. Para tirar o agrupamento, temos que usar a função `ungroup()`, sem argumento.
+Agrupamentos são poderosos - eles permitem organizar os nossos dados na forma que faz sentido para a nossa análise sem calcular os denominadores separadamente. Mas tome cuidado: O R lembra de tudo. Quando você usa `group_by()` ele é mantido para o resto da operação (os pipes seguintes), e também dentro de objetos salvos. Isso é útil se queremos continuar com o mesmo agrupamento, mas pode gerar resultados inesperados se esquecemos que já agrupamos os nossos dados. Para tirar o agrupamento, temos que usar a função `ungroup()`, sem argumento.
 
 Para demonstrar isso, veja a descrição do objeto salvo abaixo com a função de utilidade `groups` que imprime os grupos do tibble:
 
@@ -418,7 +418,7 @@ groups(flights)
 groups(flights_media)
 ```
 
-O que acontece se usarmos o tibble agrupado em uma nova operação? Imaginar que em mais três páginas de código queremos calcular a média de atrasos (`dep_delay`) com `summarize`?
+O que acontece se usarmos o tibble agrupado em uma nova operação? Imagine que em mais três páginas de código queremos calcular a média de atrasos (`dep_delay`) com `summarize`:
 
 ```{r, eval=F}
 flights_media %>% summarize(media_atraso=mean(dep_delay,na.rm=T))
@@ -429,7 +429,7 @@ flights_media %>% summarize(media_atraso=mean(dep_delay,na.rm=T)) %>%
   paged_table()
 ```
 
-Recebemos três linhas, mesmo que pedimos só uma média! O agrupamento ainda aplica para restringir o escopo do resumo de `summarize`, e o R gerou uma média por aeroporto (`origin`). Mais geralmente, se esquecemos do agrupamento, é fácil gerar o resultado inesperado.
+Recebemos três linhas, mesmo pedindo só uma média! O agrupamento ainda restringe o escopo do resumo de `summarize`, e o R gerou uma média por aeroporto (`origin`). Mais geralmente, se esquecemos do agrupamento, é fácil gerar o resultado inesperado.
 
 Para evitar esta situação chata, temos que sempre lembrar qual é a unidade de agrupamento. Para voltar analisar o banco de dados inteiro, temos que tirar o agrupamento com `ungroup()`:
 
@@ -449,11 +449,11 @@ Fácil de fazer, difícil de lembrar! Preste atenção!
 
 ## Porcentagens
 
-Um dos pedidos mais comuns é calcular porcentagens em R. Tome cuidado: já vi muitos cálculos errados, mesmo sendo porcentagem um cálculo simples. A chave para evitar erros está na definição do *denominador* da fórmula da porcentagem:
+Um dos pedidos mais comuns é calcular porcentagens em R. Tome cuidado: já vi muitos cálculos errados, mesmo sendo um cálculo simples de porcentagem. A chave para evitar erros está na definição do *denominador* da fórmula da porcentagem:
 
 $$\text{%} = \frac{\text{Valor}}{\text{Total do grupo relevante}}*100 $$
 
-Queremos uma porcentagem para cada observação no banco de dados, então isso exige um `mutate()` Por exemplo, se quisemos calcular a porcentagem da distância de cada voo na distância total de todos os voos, podemos calcular o total, e depois dividir cada valor pelo total:
+Queremos uma porcentagem para cada observação no banco de dados, então isso exige um `mutate()` Por exemplo, se quisermos calcular a porcentagem da distância de cada voo na distância total de todos os voos, podemos calcular o total, e depois dividir cada valor pelo total:
 
 ```{r, eval=F}
 flights %>% 
@@ -476,7 +476,7 @@ flights %>% mutate(Pct_distance=100*(distance/sum(distance,na.rm=TRUE))) %>%
 
 Note que o `sum()` aqui está somando a distância de *todas* as observações. Claro que cada voo é uma porcentagem pequena do total na última coluna. 
 
-Se quisermos a porcentagem da distância de cada voo no total de cada mês, temos que limitar o escopode `sum()` apenas para as outras observações no mesmo mês. O `group_by()` facilita isso:
+Se quisermos a porcentagem da distância de cada voo no total de cada mês, temos que limitar o escopode `sum()` apenas para as observações de um mesmo mês. O `group_by()` facilita isso:
 
 ```{r, eval=F}
 flights %>% group_by(month) %>% 
@@ -490,7 +490,7 @@ flights %>% group_by(month) %>%
   paged_table()
 ```
 
-Como interpretamos este código? Pega o banco de dados `flights`, divide ele em grupos , um para cada mes (`group_by(month)`), calcule a distância total voada em cada mes (`sum(distance,na.rm=TRUE)`), divide cada distância individual pelo total do mês apropriado (em que ele voou), multiplique ele por 100, e salve o resultado na coluna `Pct_distance_por_mes`.
+Como interpretamos este código? Pegue o banco de dados `flights`, divida ele em grupos, um para cada mês (`group_by(month)`), calcule a distância total voada em cada mês (`sum(distance,na.rm=TRUE)`), divida cada distância individual pelo total do mês apropriado (em que ele voou), multiplique ele por 100, e salve o resultado na coluna `Pct_distance_por_mes`.
 
 Agora a última coluna reflete a porcentagem de distância de cada voo no total de milhas de voos no mesmo mês. Podemos ser mais específico ainda, limitando o denominador e aumentado a porcentagem resultante:
 
@@ -506,9 +506,9 @@ flights %>% group_by(month, day, hour, origin) %>%
   paged_table()
 ```
 
-A variável nova agora mede: Entre todos os voos que decolaram no mesmo mês, mesmo dia e mesma hora, no mesmo aeroporto, qual porcentagem da distância voada contribuiu este voo específico?
+A variável nova agora mede: entre todos os voos que decolaram no mesmo mês, mesmo dia e mesma hora, no mesmo aeroporto, qual porcentagem da distância voada contribuiu este voo específico?
 
-Finalmente, é comum calcular a porcentagem do número de observações (linhas) em um grupo comparado com o total. Neste caso, calculamos a porcentagem não baseado em uma variável, mais baseado no número de linhas. O fluxo de trabalho recomendado é:
+Finalmente, é comum calcular a porcentagem do número de observações (linhas) em um grupo comparado com o total. Neste caso, calculamos a porcentagem não baseada em uma variável, mas baseada no número de linhas. O fluxo de trabalho recomendado é:
 
 ```{r, eval=F}
 flights %>% group_by(origin) %>% 
@@ -560,12 +560,12 @@ flights %>% group_by(origin, month) %>%
   paged_table()
 ```
 
-Agora, a porcentagem representa quanto cada aeroporto contribuiu para o número de voos em cada mês, então os valores são mais próximos a uma terça cada uma.
+Agora, a porcentagem representa quanto cada aeroporto contribuiu para o número de voos em cada mês, então os valores são mais próximos a um terço cada um.
 
 <div class = "blue">
 **Habilidade Básica de Programação: Filtros Avançados (`%in%`)**
 
-Filtros são úteis para limitar as nossas operações, mas as vezes é demorado construir condições complexas. Por exemplo, se quisermos calcular a porcentagem da distância de cada voo na distância total de todos os voos com destino de "ILM", "ACK", "GRR" ou "PSP"
+Filtros são úteis para limitar as nossas operações, mas às vezes é demorado construir condições complexas. Por exemplo, se quisermos calcular a porcentagem da distância de cada voo na distância total de todos os voos com destino de "ILM", "ACK", "GRR" ou "PSP"
 
 ```{r, eval=F}
 flights %>% filter(dest=="ILM"|dest=="ACK"|dest=="GRR"|dest=="PSP") %>%
@@ -607,7 +607,7 @@ flights %>% summarize_all(mean,na.rm=TRUE) %>%
   paged_table()
 ```
 
-Salvamos 18 linhas de código comparado com o uso de `summarize` para cada variável individualmente! O sintaxe de `summarize_all()` é um pouco diferente: nos parenteses, especificamos o nome da função/estatística *sem parenteses* (`mean`), e depois da vírgula qualquer outro argumento à função mean (aqui `na.rm=TRUE`). Não precisamos especificar as variáveis para resumir; estamos resumindo todas.
+Salvamos 18 linhas de código comparado com o uso de `summarize` para cada variável individualmente! O sintaxe de `summarize_all()` é um pouco diferente: nos parênteses, especificamos o nome da função/estatística *sem parênteses* (`mean`), e depois da vírgula qualquer outro argumento à função mean (aqui `na.rm=TRUE`). Não precisamos especificar as variáveis para resumir; estamos resumindo todas.
 
 Note que `mean` apenas funciona para variáveis numéricas; ele devolve `NA` para variáveis do tipo caractere ou factor.  
 
@@ -619,20 +619,20 @@ Podemos tentar o mesmo com `mutate` para manter a unidade de análise do banco d
 flights %>% mutate_all(scale)
 ```
 
-Não funcionou. Qual foi o erro? Aqui, a função `scale` apenas funciona com variáveis numéricas, e `mutate_all` não é suficientemente flexível para pular as colunas que contém caractares infelizmente. Agora temos três alternativas. Podemos usar `select()` para selecionar as colunas númericas manualmente antes de rodar `mutate_all()`:
+Não funcionou. Qual foi o erro? Aqui, a função `scale` apenas funciona com variáveis numéricas, e `mutate_all` não é suficientemente flexível para pular as colunas que contém caracteres infelizmente. Agora temos três alternativas. Podemos usar `select()` para selecionar as colunas numéricas manualmente antes de rodar `mutate_all()`:
 
 ```{r, eval=F, tidy=T}
 flights %>% select(year, month, day, dep_time, sched_dep_time, dep_delay, arr_time, sched_arr_time, arr_delay, flight, air_time, distance, hour, minute) %>% 
   mutate_all(scale)
 ```
 
-Deu certo, mas um pouco chato para digitar. A segunda opção usa uma outra variadade de `mutate` se chama `mutate_at()`, que permite especificar as variáveis que usamos em `select` dentro da função (e dentro de uma mini-função se chama `vars()`):
+Deu certo, mas um pouco chato para digitar. A segunda opção usa uma outra variedade de `mutate` se chama `mutate_at()`, que permite especificar as variáveis que usamos em `select` dentro da função (e dentro de uma mini-função se chama `vars()`):
 
 ```{r, tidy=T, eval=F}
 flights %>% mutate_at(vars(year, month, day, dep_time, sched_dep_time, dep_delay, arr_time, sched_arr_time, arr_delay, flight, air_time, distance, hour, minute), scale)
 ```
 
-A terceira opção é a mais eficiente e vai identificar automaticamente as colunas númericas - esta variedade final de `mutate`, `mutate_if()` aceita um 'teste' em vez de uma lista de variáveis para ser transformadas. O teste é uma função simples que devolve o resultado `TRUE` ou `FALSE` para cada coluna. Em nosso caso, queremos testar se a coluna é númerica, então vamos usar o teste (a função) `is.numeric()`:
+A terceira opção é a mais eficiente e vai identificar automaticamente as colunas numéricas - esta variedade final de `mutate`, `mutate_if()` aceita um 'teste' em vez de uma lista de variáveis para serem transformadas. O teste é uma função simples que devolve o resultado `TRUE` ou `FALSE` para cada coluna. Em nosso caso, queremos testar se a coluna é numérica, então vamos usar o teste (a função) `is.numeric()`:
 
 ```{r, eval=F}
 flights %>% mutate_if(is.numeric, scale)
@@ -645,7 +645,7 @@ flights %>% mutate_if(is.numeric, scale) %>%
 
 Veja a beleza de programação mais eficiente - o mesmo resultado com menos digitação! Como interpretamos o código? "Pegue o banco de dados de `flights`, depois aplica uma transformação às variáveis *se* a variável `is.numeric` (é númerica), e a transformação é `scale`."
 
-Existe também as versões equivalentes destas funcões para `summarize`: `summarize_all`, `summarize_at` e `summarize_if`. 
+Existem também as versões equivalentes destas funções para `summarize`: `summarize_all`, `summarize_at` e `summarize_if`. 
 
 <div class = "green">
 # Exercício 3: Resumos Avançados
@@ -657,13 +657,13 @@ codefolder::distill(init = "show")
 </aside>
 
 
-1. Calcule o total de distância dos voos que decoloram de cada aeroporto como uma coluna nova.
+1. Calcule o total de distância dos voos que decolaram de cada aeroporto como uma coluna nova.
 
 ```{r, echo=T, eval=F}
 flights %>% group_by(origin) %>% summarize(dist_total=sum(distance,na.rm=T))
 ```
 
-2. Calcule a média do atraso média de cada aeroporto de origem em cada mês 
+2. Calcule a média do atraso médio de cada aeroporto de origem em cada mês 
 
 ```{r, echo=T, eval=F}
 flights %>% group_by(origin,month) %>%
@@ -672,7 +672,7 @@ flights %>% group_by(origin,month) %>%
   summarize(media_media_dep_delay=mean(media_dep_delay,na.rm=T))
 ```
 
-3. Quão porcentagem dos voos voaram para cada destino? Qual destino é o mais comum?
+3. Qual a porcentagem dos voos em cada destino? Qual destino é o mais comum?
 
 ```{r, echo=T, eval=F}
 flights %>% group_by(dest) %>% 
@@ -681,7 +681,7 @@ flights %>% group_by(dest) %>%
   arrange(-Pct_dest)
 ```
 
-4. Quão porcentagem do tempo de atraso em cada aeroporto é a responsibilidade de cada companhia aérea? Qual é a companhia aérea responsável para o maior porcentagem de tempo atrasado no aeroporto de Newark (EWR)?
+4. Qual a porcentagem do tempo de atraso por companhia aérea em cada aeroporto? Qual é a companhia aérea responsável pelo maior tempo atrasado no aeroporto de Newark (EWR)?
 
 ```{r, echo=T, eval=F}
 flights %>% group_by(origin, carrier) %>%
@@ -691,7 +691,7 @@ flights %>% group_by(origin, carrier) %>%
   arrange(origin, -Pct_total_atraso)
 ```
 
-5. Transforme todas as variáveis `dep_delay`, `arr_delay` e `air_time` de mensuração em minutos para mensuração em horas. Escreve uma função nova para facilitar esta transformação.
+5. Transforme a ordem de grandeza de todas as variáveis `dep_delay`, `arr_delay` e `air_time` de minutos para horas. Escreva uma função nova para facilitar esta transformação.
 
 ```{r, echo=T, eval=F, tidy=T}
 mins_to_horas <- function(x){

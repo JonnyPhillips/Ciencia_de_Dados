@@ -1331,9 +1331,9 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </style>
 <h1 id="dividindo-e-unificando-variáveis">Dividindo e Unificando Variáveis</h1>
 <h2 id="dividir-variáveis-separate">Dividir Variáveis (<code>separate</code>)</h2>
-<p>Nós recebemos um banco de dados que combina dois pedaços de informação em uma variável único. Por exemplo, que junta mês e ano num formato combinado, ex. “jan2013” Para filtrar, manipular ou calcular baseado no mês ou ano individualmente, é sempre melhor organizar os dados em variáveis separadas para cada pedaço de informação. Isto é um princípio de análise dados: cada variável merece a sua própria coluna.</p>
-<p>Para dividir uma variável (coluna) em duas, usamos o verbo <code>separate()</code>. Os argumentos da função são: (i) o nome da coluna que quer dividir, (ii) os nomes das duas colunas novas, e (iii) como/onde queremos separar a coluna em duas. Pode verificar estes argumentos usando o help, <code>?separate</code>. O (i) é fácil. No (ii) temos que especificar dois nomes, um para cada nova coluna, então não esqueca de usar o <code>c()</code>, ex. <code>c("mes","ano")</code> para indicar que você queria um vetor com mais de um elemento.</p>
-<p>O (iii) é o mais poderoso e complicado: Existe dois jeitos de separar uma variável em duas - por <em>posição</em>, ou por <em>caractere</em>. Vamos ver por posição primeira, que indica que a variável tem um padrão fixo definido pelo número de cáracteres entre os dois componentes. Ex. “jan2013” pode ser separado depois do terceiro caractere, então usamos um separador de ‘3’.</p>
+<p>Nós recebemos um banco de dados que combina dois pedaços de informação em uma variável único. Por exemplo, juntando mês e ano num formato combinado, ex. “jan2013” Para filtrar, manipular ou calcular baseado no mês ou ano individualmente, é sempre melhor organizar os dados em variáveis separadas para cada pedaço de informação. Isto é um princípio de análise dados: cada variável merece a sua própria coluna.</p>
+<p>Para dividir uma variável (coluna) em duas, usamos o verbo <code>separate()</code>. Os argumentos da função são: (i) o nome da coluna que queremos dividir, (ii) os nomes das duas colunas novas, e (iii) como/onde queremos separar a coluna em duas. Pode verificar estes argumentos usando o help, <code>?separate</code>. O (i) é fácil. No (ii) temos que especificar dois nomes, um para cada nova coluna, então não esqueça de usar o <code>c()</code>, ex. <code>c("mes","ano")</code> para indicar que você queria um vetor com mais de um elemento.</p>
+<p>O (iii) é o mais poderoso e complicado: Existem dois jeitos de separar uma variável em duas - por <em>posição</em>, ou por <em>caractere</em>. Vamos ver por posição primeiro, que indica que a variável tem um padrão fixo definido pelo número de caracteres entre os dois componentes. Ex. “jan2013” pode sempre ser separado depois do terceiro caractere, então usamos um separador de ‘3’.</p>
 <p>Vamos mostrar com uma tabela pequena como uma variável de mês-ano pode ser dividido por posição:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1368,9 +1368,9 @@ ex_separate_2 %&gt;% separate(Mes_Ano, c(&quot;Mes&quot;,&quot;Ano&quot;), &quot
   </script>
 </div>
 </div>
-<p>Muito poderoso! Vejamos em uma aula futura como a trabalhar mais com estes strings de texto complicados.</p>
+<p>Muito poderoso! Veremos em uma aula futura como trabalhar mais com estes strings de texto complicados.</p>
 <h2 id="unificar-variáveis-unite">Unificar Variáveis (<code>unite</code>)</h2>
-<p>Podemos fazer o inverso e unificar duas variáveis para uma? Sim, é fácil, mas temos que justificar o porque. Normalmente faz mais sentido deixar os pedaços de informação distintos em variáveis separadas. Pode ser que por motivos de apresentação queremos unificar duas variáveis em uma. Por exemplo, para juntar nome e sobrenome em uma coluna para um relatório. Veja abaixo o uso de <code>unite()</code> para devolver as nossas colunas de mês e ano para mes_ano. Os argumentos são basicamente os mesmos que <code>separate()</code>, sem o terceiro elemento do separador:</p>
+<p>Podemos fazer o inverso e unificar duas variáveis para uma? Sim, é fácil, mas temos que justificar o porquê. Normalmente faz mais sentido deixar os pedaços de informação distintos em variáveis separadas. Pode ser que por motivos de apresentação queremos unificar duas variáveis em uma. Por exemplo, para juntar nome e sobrenome em uma coluna para um relatório. Veja abaixo o uso de <code>unite()</code> para devolver as nossas colunas de mês e ano para mes_ano. Os argumentos são basicamente os mesmos que <code>separate()</code>, sem o terceiro elemento do separador:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ex_separate_3 &lt;- ex_separate_2 %&gt;% separate(Mes_Ano, c(&quot;Mes&quot;,&quot;Ano&quot;), &quot;_&quot;)
@@ -1391,14 +1391,14 @@ ex_separate_3 %&gt;% unite(&quot;Mes_Ano&quot;, c(Mes,Ano), sep=&quot;, &quot;)<
 </div>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Aspas ou sem Aspas?</strong></p>
-<p>Você já observou que estamos referindo às variáveis em duas formas diferentes? Às vezes com aspas <code>"Variável"</code>, e as vezes sem aspas <code>Variável</code>. Como sabemos qual a usar? É um tópico um pouco chato, mas importante.</p>
-<p>Usamos sem aspas quando referimos ao um objeto que <em>já existe</em> em nosso Environment, ou uma coluna já existente num tibble. Usamos com aspas quando referimos a um nome <em>novo</em> que estamos gerando naquele momento.</p>
-<p>Então em <code>separate</code> são as duas novas colunas que exigem de aspas, enquanto no <code>unite</code> é a coluna única e nova que exige de aspas.</p>
-<p>Quando trabalhando com caracteres específicos dentro de uma variável/tabela, sempre temos que usar aspas.</p>
-<p>O R é meio tolerante, e tenta ajudar em alguns casos se usamos o formato errado. Mas é importante evitar erros e confusões se possível.</p>
+<p>Você já observou que estamos nos referindo às variáveis em duas formas diferentes? Às vezes com aspas <code>"Variável"</code>, e às vezes sem aspas <code>Variável</code>. Como sabemos qual a usar? É um tópico um pouco chato, mas importante.</p>
+<p>Usamos sem aspas quando referimos a um objeto que <em>já existe</em> em nosso Environment, ou uma coluna já existente num tibble. Usamos com aspas quando referimos a um nome <em>novo</em> que estamos gerando naquele momento.</p>
+<p>Então em <code>separate</code> são as duas novas colunas que exigem de aspas, enquanto no <code>unite</code> é a coluna única e nova que exige aspas.</p>
+<p>Ao trabalhar com caracteres específicos dentro de uma variável/tabela, sempre temos que usar aspas.</p>
+<p>O R é meio tolerante e tenta ajudar em alguns casos se usamos o formato errado. Mas é importante evitar erros e confusões se possível.</p>
 </div>
 <h1 id="recodificação-de-variáveis">Recodificação de Variáveis</h1>
-<p>Recodificaçao de variáveis é uma habilidade fundamental na preparação de um banco de dados. Vamos ver várias opções para recodificação, mas começamos com o mais flexível. Imagine-se que queremos corrigir alguns dos erros na tabela abaixo:</p>
+<p>Recodificação de variáveis é uma habilidade fundamental na preparação de um banco de dados. Vamos ver várias opções para recodificação, mas começamos com o mais flexível. Imagine-se que queremos corrigir alguns dos erros na tabela abaixo:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ex_recodificar &lt;- tibble(ID=1:3,
@@ -1412,8 +1412,8 @@ ex_recodificar &lt;- tibble(ID=1:3,
   </script>
 </div>
 </div>
-<p>Queremos renomear ‘february’ ‘fevereiro’ para corrigir o erro de um gringo ignorante. Como? Temos duas tarefas: (i) Identificar o caso relevante (e apenas o caso relevante), e (ii) Especificar o novo valor. Em geral, quando queremos criar ou modificar uma variável trabalhamos dentro de um <code>mutate()</code>, mas o mutate acustoma mudar todos os valores na variável. Aqui, queremos sobreescrever a variável ‘Mes’ com nova informação apenas no caso de ‘february’. Para isso, combinamos <code>mutate()</code> com <code>case_when()</code> que controla os detalhes de modificação no mutate.</p>
-<p><code>case_when()</code> funciona com um sintáxe específica: Estabalecemos várias condições (do mesmo tipo que usamos no <code>filter()</code>), e depois de cada uma usamos ‘~’ e em seguida o novo valor para substituir quando esta condição aplica. Por exemplo, em nosso caso queremos a condição <code>Mes=="february"</code> e o novo valor <code>"fevereiro"</code>. Então precisamos de <code>Mes=="february"~"fevereiro"</code>.</p>
+<p>Queremos renomear ‘february’ ‘fevereiro’ para corrigir o erro de um gringo ignorante. Como? Temos duas tarefas: (i) identificar o caso relevante (e apenas o caso relevante), e (ii) especificar o novo valor. Em geral, quando queremos criar ou modificar uma variável trabalhamos dentro de um <code>mutate()</code>, mas o mutate costuma mudar todos os valores na variável. Aqui, queremos sobreescrever a variável ‘Mes’ com nova informação apenas no caso de ‘february’. Para isso, combinamos <code>mutate()</code> com <code>case_when()</code>, que controla os detalhes de modificação no mutate.</p>
+<p><code>case_when()</code> funciona com um sintáxe específica: Estabelecemos várias condições (do mesmo tipo que usamos no <code>filter()</code>), e depois de cada uma usamos ‘~’ e em seguida o novo valor para substituir quando esta condição se aplica. Por exemplo, em nosso caso queremos a condição <code>Mes=="february"</code> e o novo valor <code>"fevereiro"</code>. Então precisamos de <code>Mes=="february"~"fevereiro"</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ex_recodificar %&gt;% mutate(Mes=case_when(Mes==&quot;february&quot;~&quot;fevereiro&quot;))</code></pre>
@@ -1425,7 +1425,7 @@ ex_recodificar %&gt;% mutate(Mes=case_when(Mes==&quot;february&quot;~&quot;fever
   </script>
 </div>
 </div>
-<p>Qual o resultado? Mudamos o valor para “fevereiro”, está correto, mas apagamos os valores dos outros dois meses. O <code>mutate()</code> realmente muda a coluna inteira, então as condições no <code>case_when()</code> precisam ser <strong>compreensivos</strong> para todos os valores na nova coluna. Felizmente, existe um atalho para preservar os valores originais caso a condição anterior não seja satisfeita: Usamos uma condição que é sempre satisfeita: a condição literalmente <code>TRUE</code>, e um novo valor que não muda nada; o nome da variável original. Então:</p>
+<p>Qual o resultado? Mudamos o valor para “fevereiro”, está correto, mas apagamos os valores dos outros dois meses. O <code>mutate()</code> realmente muda a coluna inteira, então as condições no <code>case_when()</code> precisam ser <strong>completas</strong> para todos os valores na nova coluna. Felizmente, existe um atalho para preservar os valores originais caso a condição anterior não seja satisfeita: Usamos uma condição que é sempre satisfeita: a condição literalmente <code>TRUE</code>, e um novo valor que não muda nada; o nome da variável original. Então:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ex_recodificar %&gt;% mutate(Mes=case_when(Mes==&quot;february&quot;~&quot;fevereiro&quot;,
@@ -1438,8 +1438,8 @@ ex_recodificar %&gt;% mutate(Mes=case_when(Mes==&quot;february&quot;~&quot;fever
   </script>
 </div>
 </div>
-<p>Agora está correto. O sintáxe é um pouco específico então não se preocupe se recebe um erro, volte para verificar se tenha um <code>~</code> depois de cada condição, e uma vírgula entre cada recodificação. Também lembre-se que as condições precisam de dois sinais de iguais.</p>
-<p>Vamos recodificar a variável ‘Ano’ usando a mesma lógica, mas agora queremos gerar uma variável binário que identifica todos as observações depois de 2010. Também não queremos sobreescrever a varíavel original, queremos uma nova variável:</p>
+<p>Agora está correto. A sintáxe é um pouco específica então não se preocupe se receber uma mensagem de erro, volte para verificar se tem um <code>~</code> depois de cada condição, e uma vírgula entre cada recodificação. Também lembre-se que as condições precisam de dois sinais de igual.</p>
+<p>Vamos recodificar a variável ‘Ano’ usando a mesma lógica, mas agora queremos gerar uma variável binária que identifica todas as observações depois de 2010. Também não queremos sobreescrever a variável original, queremos uma nova variável:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ex_recodificar %&gt;% mutate(Depois_2010=case_when(Ano&gt;2010~1,
@@ -1452,7 +1452,7 @@ ex_recodificar %&gt;% mutate(Depois_2010=case_when(Ano&gt;2010~1,
   </script>
 </div>
 </div>
-<p>É importante que as duas condições aqui cobrem todos os valores de ‘Ano’ possível.</p>
+<p>É importante que as duas condições aqui cubram todos os valores de ‘Ano’ possível.</p>
 <p>Note que o <code>case_when()</code> é flexível demais: Podemos usar muitas condições, fazer referência a todas as variáveis na condição, e pegar os dados de todas as variáveis para definir o novo valor. Para ilustrar, veja o exemplo bobagem abaixo:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1467,7 +1467,7 @@ ex_recodificar %&gt;% mutate(Nova_Variavel=case_when(Ano&gt;=2014~&quot;Sim&quot
   </script>
 </div>
 </div>
-<p>Tome cuidado na construção das condições: Idealmente elas devam ser <strong>compreensivo</strong> e também <strong>mutualmente exclusivos</strong>. Se não, a ordem das condições importa e pode gerar resultados inesperados.</p>
+<p>Tome cuidado na construção das condições: Idealmente elas devem ser <strong>completas</strong> e também <strong>mutualmente excludentes</strong>. Se não, a ordem das condições importa e pode gerar resultados inesperados.</p>
 <p><br></p>
 <div class="green">
 <h1 id="exercício-1-limpando-dados">Exercício 1: Limpando Dados</h1>
@@ -1497,7 +1497,7 @@ ex_recodificar %&gt;% mutate(Nova_Variavel=case_when(Ano&gt;=2014~&quot;Sim&quot
 </script>
 </div>
 </aside>
-<p>Usando o banco de dados de <code>flights</code> no pacote <code>nycflights13</code>, responde as seguintes perguntas:</p>
+<p>Usando o banco de dados de <code>flights</code> no pacote <code>nycflights13</code>, responda as seguintes perguntas:</p>
 <ol type="1">
 <li>Crie uma data completa numa variável única, com o formato “day-month-year”.</li>
 </ol>
@@ -1506,14 +1506,14 @@ ex_recodificar %&gt;% mutate(Nova_Variavel=case_when(Ano&gt;=2014~&quot;Sim&quot
 flights %&gt;% unite(&quot;Data&quot;, day, month, year, sep = &quot;-&quot;)</code></pre>
 </div>
 <ol start="2" type="1">
-<li>Divide a variável <code>time_hour</code> em duas; uma variável de <code>time</code> e a outra variável de <code>hour</code>.</li>
+<li>Divida a variável <code>time_hour</code> em duas: uma variável de <code>time</code> e a outra variável de <code>hour</code>.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights %&gt;% separate(time_hour, c(&quot;time&quot;, &quot;hour&quot;), sep = &quot; &quot;)</code></pre>
 </div>
 <ol start="3" type="1">
-<li>Recodifique a variável <code>dep_delay</code> para uma variável binário, que seja <code>1</code> quando tem atraso, e <code>0</code> quando não tem atraso (valores negativos significam decolagens antes do horário previsto).</li>
+<li>Recodifique a variável <code>dep_delay</code> para uma variável binária, que seja <code>1</code> quando tem atraso, e <code>0</code> quando não tem atraso (valores negativos significam decolagens antes do horário previsto).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1549,7 +1549,7 @@ ex_arrange &lt;- tibble(ID=1:10,
   </script>
 </div>
 </div>
-<p>Se quisemos as observações em ordem de ano e valor:</p>
+<p>Se quisermos as observações em ordem de ano e valor:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ex_arrange %&gt;% arrange(Ano, Valor)</code></pre>
@@ -1562,7 +1562,7 @@ ex_arrange %&gt;% arrange(Ano, Valor)</code></pre>
 </div>
 </div>
 <p>O resultado é que os dados são ordenados por Ano primeiramente, e dentro de cada Ano, por Valor.</p>
-<p>Se quisemos as observações em ordem <em>decrescente</em>, usamos um menos (‘-’) para invertir a ordem, por exemplo em ordem decrescente de valor:</p>
+<p>Se quisermos as observações em ordem <em>decrescente</em>, usamos um menos (‘-’) para inverter a ordem, por exemplo, em ordem decrescente de valor:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ex_arrange %&gt;% arrange(-Valor)</code></pre>
@@ -1574,8 +1574,8 @@ ex_arrange %&gt;% arrange(-Valor)</code></pre>
   </script>
 </div>
 </div>
-<h2 id="filtrar-para-os-mairoesmenores-top_n-e-top_frac">Filtrar para os Mairoes/Menores: <code>top_n</code> e <code>top_frac</code></h2>
-<p>Um tipo de <code>filter()</code> específico é quando queremos os maiores/menores observações de acordo com uma variável. Se não seja um limite absoluto (ex. acima de 140) mas acima de um limite <em>relativo</em> (ex. os cinco maiores), precisamos fazer um ranquemanto e depois filtrar baseado no ranqueamento. É possível calcular isso manualmente, mas a maneira mais fácil é usar a função <code>top_n()</code>. Ela exige dois argumentos: O número de observações desejadas, e a variável para usar.</p>
+<h2 id="filtrar-para-os-maioresmenores-top_n-e-top_frac">Filtrar para os Maiores/Menores: <code>top_n</code> e <code>top_frac</code></h2>
+<p>Um tipo de <code>filter()</code> específico é quando queremos as maiores/menores observações de acordo com uma variável. Se não for um limite absoluto (ex. acima de 140), mas acima de um limite <em>relativo</em> (ex. os cinco maiores), precisamos fazer um ranquemanto e depois filtrar baseado nesse ranqueamento. É possível calcular isso manualmente, mas a maneira mais fácil é usar a função <code>top_n()</code>. Ela exige dois argumentos: o número de observações desejadas, e a variável na qual queremos aplicar o filtro.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ex_arrange %&gt;% top_n(5, Valor)</code></pre>
@@ -1587,7 +1587,7 @@ ex_arrange %&gt;% top_n(5, Valor)</code></pre>
   </script>
 </div>
 </div>
-<p>Para os menores valores, usamos um menos (‘-’) em frente do número de observações.</p>
+<p>Para os menores valores, usamos um menos (‘-’) na frente do número de observações.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ex_arrange %&gt;% top_n(-5, Valor)</code></pre>
@@ -1612,7 +1612,7 @@ ex_arrange %&gt;% top_frac(0.3, Valor)</code></pre>
 </div>
 </div>
 <h2 id="dados-de-time-series-lag-e-lead">Dados de Time-Series: <code>lag</code> e <code>lead</code></h2>
-<p>Com os nossos dados ordenados, podemos implementar várias técnicas do mundo de análise de Time Series. Por exemplo, podemos calcular para cada observação o valor de uma variável no período anterior usando <code>lag()</code>. Note que é <em>essencial</em> que os nossos dados já estão ordenados com <code>arrange()</code> antes de executar o <code>lag</code>. Dado que estamos construindo uma nova variável, tambem é necessário usar <code>lag</code> dentro de <code>mutate</code>:</p>
+<p>Com os nossos dados ordenados, podemos implementar várias técnicas de análise de Time Series (séries temporais). Por exemplo, podemos calcular, para cada observação, o valor de uma variável no período anterior usando <code>lag()</code>. Note que é <em>essencial</em> que os nossos dados já estão ordenados com <code>arrange()</code> antes de executar o <code>lag</code>. Dado que estamos construindo uma nova variável, também é necessário usar <code>lag</code> dentro de <code>mutate</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ex_arrange %&gt;% arrange(Ano) %&gt;% 
@@ -1626,7 +1626,7 @@ ex_arrange %&gt;% arrange(Ano) %&gt;%
 </div>
 </div>
 <p>Uma dificuldade com esta operação é que não existe um valor anterior para a primeira observação - veja que o R insere um <code>NA</code> para o primeiro valor de Valor_anterior.</p>
-<p>Com <code>lag</code>, é fácil calcular a diferença entre o valor e o valor anterior para focar em mudanças ao longo do tempo na variável:</p>
+<p>Com <code>lag</code>, é fácil calcular a diferença entre ‘Valor’ e ‘Valor_anterior’ para focar em mudanças ao longo do tempo na variável:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ex_arrange %&gt;% arrange(Ano) %&gt;% 
@@ -1689,7 +1689,7 @@ ex_arrange %&gt;% arrange(Ano) %&gt;%
 </aside>
 <p>Use de novo o banco de dados <code>flights</code>:</p>
 <ol type="1">
-<li>Ordene o banco de dados de menor a maior duração (<code>air_time</code>), incluindo apenas os voos com destino de Anchorage (<code>ANC</code>).</li>
+<li>Ordene o banco de dados da menor à maior duração (<code>air_time</code>), incluindo apenas os voos com destino de Anchorage (<code>ANC</code>).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1703,7 +1703,7 @@ flights %&gt;% filter(dest == &quot;ANC&quot;) %&gt;% arrange(air_time)</code></
 flights %&gt;% filter(origin == &quot;LGA&quot; &amp; dest == &quot;ATL&quot;) %&gt;% top_n(1, dep_delay)</code></pre>
 </div>
 <ol start="3" type="1">
-<li>Calcule a velocidade de cada voo, e selecione os três voos mais rápidos. Eles voaram de qual aeroporto para qual destino?</li>
+<li>Calcule a velocidade de cada voo, e selecione os três voos mais rápidos. Eles partiram de qual aeroporto para qual destino?</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1711,7 +1711,7 @@ flights %&gt;% mutate(velocidade = distance/air_time) %&gt;% top_n(3, velocidade
     select(velocidade, origin, dest)</code></pre>
 </div>
 <ol start="4" type="1">
-<li>Para os voos com destino de Anchorage (<code>ANC</code>), verifique que eles são ordenados cronologicamente (por <code>year</code>, <code>month</code>, <code>day</code>, e <code>dep_time</code>) e gera uma nova variável com a duração (<code>air_time</code>) do voo <em>anterior</em>. Agora, compare a duração de cada voo com a duração do voo anterior.</li>
+<li>Para os voos com destino em Anchorage (<code>ANC</code>), verifique que eles são ordenados cronologicamente (por <code>year</code>, <code>month</code>, <code>day</code>, e <code>dep_time</code>) e gera uma nova variável com a duração (<code>air_time</code>) do voo <em>anterior</em>. Agora, compare a duração de cada voo com a duração do voo anterior.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1722,8 +1722,8 @@ flights %&gt;% filter(dest == &quot;ANC&quot;) %&gt;% arrange(year, month, day, 
 </div>
 <p><br></p>
 <h1 id="factors">Factors</h1>
-<p>Além de numéricos, caracteres e logicais (TRUE/FALSE), o tipo de dado mais útil para análise de dados é um ‘factor’. Factors são variáveis que podem assumir um número de valores <em>limitados e pre-definidos</em> (normalmente strings de texto). Pense-se em variáveis categóricas, nominais, ordinais etc. Factors nos ajudamos evitar erros e refletir a estrutura correta das nossas variáveis, mas elas exigem uma disciplina e um cuidado por nosso lado.</p>
-<p>Por exemplo, lembre-se o problema quando o nosso banco de dados incluiu “february” em vez de “fevereiro”? Este problema é impossível com uma variável do tipo factor, pois definimos do início os valores aceitáveis num formato padrão - os ‘levels’ do factor. Vamos recriar o tibble ‘ex_arrange’ de acima, mas agora especificamos o mês como uma variável factor, com os ‘levels’ permitidos pela natureza da variável:</p>
+<p>Além de números, caracteres e lógicos (TRUE/FALSE), o tipo de dado mais útil para análise de dados é um ‘factor’. Factors são variáveis que podem assumir um número de valores <em>limitados e pré-definidos</em> (normalmente strings de texto). Pense em variáveis categóricas, nominais, ordinais etc. Factors nos ajudam a evitar erros e refletir a estrutura correta das nossas variáveis, mas elas exigem uma disciplina e um cuidado por nosso lado.</p>
+<p>Por exemplo, lembre-se do problema quando o nosso banco de dados incluiu “february” em vez de “fevereiro”? Este problema é impossível com uma variável do tipo factor, pois definimos do início os valores aceitáveis num formato padrão - os ‘levels’ do factor. Vamos recriar o tibble ‘ex_arrange’ de acima, mas agora especificamos o mês como uma variável factor, com os ‘levels’ permitidos pela natureza da variável:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ex_arrange &lt;- tibble(ID = 1:10, Ano = c(2008, 2005, 2009, 2006, 2006, 2007, 
@@ -1740,8 +1740,8 @@ ex_arrange &lt;- tibble(ID = 1:10, Ano = c(2008, 2005, 2009, 2006, 2006, 2007,
   </script>
 </div>
 </div>
-<p>Bastante mais trabalho, não?? Mas vale a pena: Veja a tabela que isso produziu - em lugar de “February” o R colocou <code>NA</code> porque “February” não fica na lista de levels que delimitamos no argumento ‘levels’. Isso impede que a nossa variável toma valores impossíveis, deixando a nossa análise subsequente mais confiável. Lembre-se de incluir todos os valores possíveis nos ‘levels’ para evitar problemas futuros. Por exemplo temos ‘Maio’ na lista de levels mesmo que ele não existe nos dados atuais.</p>
-<p>O código acima mostra como a criar variáveis de tipo factor num novo banco de dados. Mais frequentemente, já temos um banco de dados com uma variável de tipo caractere, e queremos transformá-lo em factor. Vamos criar o mesmo banco de dados de novo, mas sem especificar o mês como factor, e depois aplica a transformação dentro de mutatue.</p>
+<p>Bem mais trabalhoso, não?? Mas vale a pena: veja a tabela que isso produziu - em lugar de “February” o R colocou <code>NA</code> porque “February” não está na lista de levels que delimitamos no argumento ‘levels’. Isso impede que a nossa variável tome valores impossíveis, deixando a nossa análise subsequente mais confiável. Lembre-se de incluir todos os valores possíveis nos ‘levels’ para evitar problemas futuros. Por exemplo temos ‘Maio’ na lista de levels mesmo que ele não exista nos dados atuais.</p>
+<p>O código acima mostra como criar variáveis de tipo factor num novo banco de dados. É comum já termos um banco de dados com uma variável de tipo caractere, e querermos transformá-la em factor. Vamos criar o mesmo banco de dados de novo, mas sem especificar o mês como factor, e depois aplicar a transformação dentro de mutate.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ex_arrange &lt;- tibble(ID = 1:10, Ano = c(2008, 2005, 2009, 2006, 2006, 2007, 
@@ -1753,7 +1753,7 @@ ex_arrange &lt;- tibble(ID = 1:10, Ano = c(2008, 2005, 2009, 2006, 2006, 2007,
 <pre class="r"><code>
 ex_arrange &lt;- ex_arrange %&gt;% mutate(Mes=factor(Mes))</code></pre>
 </div>
-<p>Note que aqui não temos que especificar os ‘levels’ do factor - o R use os valores atuais para preencher os levels. Podemos fazer assim, mas lembre-se que os levels não incluem todos os meses, que pode gerar problemas no futuro se quisermos adicionar mais dados.</p>
+<p>Note que aqui não temos que especificar os ‘levels’ do factor - o R usa os valores atuais para preencher os levels. Podemos fazer assim, mas lembre-se que os levels não incluem todos os meses, o que pode gerar problemas no futuro se quisermos adicionar mais dados.</p>
 <p>Para permitir todos os doze meses desde o início, temos que especificar os levels explicitamente:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1767,7 +1767,7 @@ ex_arrange &lt;- ex_arrange %&gt;% mutate(Mes = factor(Mes, levels = c(&quot;Jan
     &quot;Setembro&quot;, &quot;Outubro&quot;, &quot;Novembro&quot;, &quot;Dezembro&quot;)))</code></pre>
 </div>
 <h2 id="factors-ordenados">Factors Ordenados</h2>
-<p>Existem mais duas vantagens em trabalhar com Factors. Primeiro, é que podemos especificar uma ordem para a variável mesmo para variáveis que contém caracteres. Meses, por exemplo, são ordenados, mas não conseguimos usar na seção anterior para ordenação porque o R não entende automaticamente a ordem de “Janeiro”,“Fevereiro”. Na verdade, o R entendo que a ordem de caracteres é <em>alfabética</em>, que não faz sentido para a variável de mês. Dentro de <code>factor</code>, podemos especificar <code>ordered=TRUE</code> para definir a ordem dos valores na sequência que eles aperecem no vetor <code>levels()</code>:</p>
+<p>Existem mais duas vantagens em trabalhar com Factors. Primeiro, é que podemos especificar uma ordem para a variável mesmo para variáveis que contém caracteres. Meses, por exemplo, são ordenados, mas não conseguimos usar na seção anterior para ordenação porque o R não entende automaticamente a ordem de “Janeiro”,“Fevereiro”. Na verdade, o R entendo que a ordem de caracteres é <em>alfabética</em>, que não faz sentido para a variável de mês. Dentro de <code>factor</code>, podemos especificar <code>ordered=TRUE</code> para definir a ordem dos valores na sequência que eles aparecem no vetor <code>levels()</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ex_arrange &lt;- tibble(ID = 1:10, Ano = c(2008, 2005, 2009, 2006, 2006, 2007, 
@@ -1791,7 +1791,7 @@ ex_arrange %&gt;% arrange(Ano, Mes)</code></pre>
 </div>
 </div>
 <h2 id="completando-bancos-de-dados-parciais-complete">Completando Bancos de Dados Parciais: <code>complete</code></h2>
-<p>A segunda vantagem de trabalar com factors é que um factor deixa fácil preencher os valores ausentes da variável. Por exemplo, os nossos cálculos de <code>lag</code>, <code>lead</code> e diferença acima não fazem muito sentido - comparamos por exemplo o valor de Junho com o valor de Abril, pulando Maio porque ele não aparece no banco de dados originais. Então o nosso cálculo de <code>lag</code> é inconsistente; um lag de um mês em alguns casos, dois meses em outros, 9 meses em outros. Um cálculo consistente e confiável tem que refletir os dados ausentes <em>explicitamente</em>.</p>
+<p>A segunda vantagem de trabalhar com factors é que um factor deixa fácil preencher os valores ausentes da variável. Por exemplo, os nossos cálculos de <code>lag</code>, <code>lead</code> e diferença acima não fazem muito sentido - comparamos por exemplo o valor de Junho com o valor de Abril, pulando Maio porque ele não aparece no banco de dados originais. Então o nosso cálculo de <code>lag</code> é inconsistente; um lag de um mês em alguns casos, dois meses em outros, 9 meses em outros. Um cálculo consistente e confiável tem que refletir os dados ausentes <em>explicitamente</em>.</p>
 <p>Podemos criar uma sequência completa facilmente se as variáveis originais foram criados corretamente como factors: Usamos o verbo <code>complete()</code> para preencher as variáveis:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1805,7 +1805,7 @@ ex_arrange %&gt;% complete(Ano, Mes)</code></pre>
 </div>
 </div>
 <p>Veja o resultado: Temos os 12 meses para cada um dos cinco anos, um banco de dados completo (e uma linha duplicada para Novembro 2005). A maioria dos valores são desconhecidos, <code>NA</code> porque não aparecem no banco de dados original, mas tudo bem, pelo menos entendemos onde temos dados e onde não, e não criamos lags e leads enganosos.</p>
-<p>Note para o futuro que é possível especificar o valor que o <code>complete</code> usa para preencher observações ausentes. Por exemplo, pode ser que o ‘valor’ nos dados reflete vendas e sabemos que não houve vendas nos meses ausentes do banco de dados. Neste caso, faz sentido preencher as observações dos outros meses com zero usando o argumento <code>fill</code>:</p>
+<p>Note para o futuro que é possível especificar o valor que o <code>complete</code> usa para preencher observações ausentes. Por exemplo, pode ser que o ‘valor’ nos dados reflita vendas e que saibamos que não houve vendas nos meses ausentes do banco de dados. Neste caso, faz sentido preencher as observações dos outros meses com zero usando o argumento <code>fill</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ex_arrange %&gt;% complete(Ano, Mes, fill=list(Valor=0))</code></pre>
@@ -1817,12 +1817,12 @@ ex_arrange %&gt;% complete(Ano, Mes, fill=list(Valor=0))</code></pre>
   </script>
 </div>
 </div>
-<p>Esta capacidade também ajudará muito na construção de gráficos em tutoriais futuros: Valores podem desaparecer da legenda, e cores podem ficar inconsistentes entre gráficos se não mantemos estável os levels do factor, então é importante aprender como a trabalhar com eles do início.</p>
+<p>Esta capacidade também ajudará muito na construção de gráficos em tutoriais futuros: Valores podem desaparecer da legenda, e cores podem ficar inconsistentes entre gráficos se não mantivermos estáveis os levels do factor, então é importante aprender como a trabalhar com eles do início.</p>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Dados Ausentes, <code>NA</code></strong></p>
-<p>Muitos problemas e erros são gerados pelo tratamento inapropriado de dados ausentes. Vamos revisar isto várias vezes, mas por enquanto temos que reconhecer que <code>NA</code> é um pedaço de informação importante também que não podemos ignorar. Jogar fora os dados ausentes significa perder muitas observações potencias, que pode gerar um vies de seleção em nossa análise. Então é sempre importante deixar os <code>NA</code>s explícitos.</p>
-<p>Por outro lado, um <code>NA</code> é ambíguo e pode significar duas coisas diferentes: (i) Um NA ‘estrutural’ que é <em>impossível</em> medir. Por exemplo, o PIB do Estado do Tocantins em 1970 (o estado foi criado apenas em 1988). (ii) Um NA que poderia ter ser medido, mas por algum motivo não foi. Por exemplo, faltamos dados de 2014 porque os arquivos foram perdidos em um incêndio. O tipo de <code>NA</code> vai afetar a nossa interpretação e tratamento de dados.</p>
-<p>Trabalhando com dados <code>NA</code> exige umas regras específicas. Para testar se um valor seja <code>NA</code>, não podemos usar o padrão <code>x=="NA"</code>. Temos que usar <code>is.na(x)</code>, uma função dedicada para testar se um valor é NA ou não.</p>
+<p>Muitos problemas e erros são gerados pelo tratamento inapropriado de dados ausentes. Vamos revisar isto várias vezes, mas por enquanto temos que reconhecer que <code>NA</code> é um pedaço de informação importante que não podemos ignorar. Jogar fora os dados ausentes significa perder muitas observações potenciais, o que pode gerar um viés de seleção em nossa análise. Então é sempre importante deixar os <code>NA</code>s explícitos.</p>
+<p>Por outro lado, um <code>NA</code> é ambíguo e pode significar duas coisas diferentes: (i) Um NA ‘estrutural’ que é <em>impossível</em> medir. Por exemplo, o PIB do Estado do Tocantins em 1970 (o estado foi criado apenas em 1988). (ii) Um NA que podia ter sido medido, mas por algum motivo não foi. Por exemplo, faltamos dados de 2014 porque os arquivos foram perdidos em um incêndio. O tipo de <code>NA</code> vai afetar a nossa interpretação e tratamento de dados.</p>
+<p>Trabalhando com dados <code>NA</code> exige algumas regras específicas. Para testar se um valor é <code>NA</code>, não podemos usar o padrão <code>x=="NA"</code>. Temos que usar <code>is.na(x)</code>, uma função dedicada para testar se um valor é NA ou não.</p>
 <p>Se quisemos criar valores <code>NA</code>, temos que usar uma versão apropriada para o tipo de dado da variável: existe <code>NA_character_</code>, <code>NA_real_</code> e <code>NA_integer_</code>. Para subtituir <code>NA</code> com outro valor, use a função <code>replace_na()</code>. Todos são demonstrados no exemplo abaixo.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1835,8 +1835,8 @@ ex_arrange %&gt;% complete(Ano, Mes, fill=list(Valor=0)) %&gt;%
 </div>
 </div>
 <h2 id="recodificação-de-levels-de-factors">Recodificação de levels de Factors</h2>
-<p>Um desafio em trabalhar com Factors é que eles exigem funções específicos para recodificação dos seus levels. Existe um pacote inteiro para isso se chama ‘forcats’, parte do tidyverse.</p>
-<p>Existem três funções super-úteis para trabalhar com factors, todos que começam com <code>fct_</code>, e usamos todos dentro de um <code>mutate()</code> dado que estamos mexendo com uma coluna atual.</p>
+<p>Um desafio em trabalhar com Factors é que eles exigem funções específicas para recodificação dos seus levels. Existe um pacote inteiro para isso, que se chama ‘forcats’ e é parte do tidyverse.</p>
+<p>Existem três funções super-úteis para trabalhar com factors, todas que começam com <code>fct_</code>, e usamos todas dentro de um <code>mutate()</code>, dado que estamos mexendo com uma coluna que já existe.</p>
 <p>Primeiro, quando queremos renomear os <em>levels</em> de um factor, usamos <code>fct_recode</code>. Por exemplo:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1851,7 +1851,7 @@ ex_arrange %&gt;% mutate(Mes=fct_recode(Mes,
   </script>
 </div>
 </div>
-<p>Segundo, quando queremos ajustar a <em>ordem</em> de um factor ordenado, usamos <code>fct_relevel</code>. Por exemplo, para invertir a ordem do mês:</p>
+<p>Segundo, quando queremos ajustar a <em>ordem</em> de um factor ordenado, usamos <code>fct_relevel</code>. Por exemplo, para inverter a ordem do mês:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ex_arrange %&gt;% mutate(Mes = fct_relevel(Mes, c(&quot;Dezembro&quot;, &quot;Novembro&quot;, 
@@ -1865,7 +1865,7 @@ ex_arrange %&gt;% mutate(Mes = fct_relevel(Mes, c(&quot;Dezembro&quot;, &quot;No
   </script>
 </div>
 </div>
-<p>Terceiro, quando queremos <em>reestrutar/simplificar</em> o factor para menos níveis, usamos <code>fct_collapse</code>. Por exemplo, podemos juntar os primeiros três meses e descrever como o primeiro quarto do ano, ‘Q1’:</p>
+<p>Terceiro, quando queremos <em>reestruturar/simplificar</em> o factor para menos níveis, usamos <code>fct_collapse</code>. Por exemplo, podemos juntar os primeiros três meses e descrever como o primeiro quarto do ano, ‘Q1’:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ex_arrange %&gt;% mutate(Mes=fct_collapse(Mes,&quot;Q1&quot;=c(&quot;Janeiro&quot;,&quot;Fevereiro&quot;,&quot;Março&quot;)))</code></pre>
@@ -1946,8 +1946,8 @@ flights %&gt;% mutate(month = factor(month, levels = 1:12, ordered = T))</code><
 </div>
 <p><br></p>
 <h1 id="identificando-casosvalores-únicos-distinct">Identificando Casos/Valores Únicos (<code>distinct</code>)</h1>
-<p>Quais valores existem em nosso banco de dados? Em uma variável de 1.000 linhas, quais valores <em>únicos</em> existem? As nossa observações são duplicadas?</p>
-<p>Começando com um tibble, podemos pedir os valores/casos únicos que existem no banco de dados usando o verbo <code>distinct()</code>. Nos parénteses, especificamos quais variáveis queremos avaliar. Se especificarmos uma variável, recebemos todos os valores que existem no banco de dados para esta variável:</p>
+<p>Quais valores existem em nosso banco de dados? Em uma variável de 1.000 linhas, quais valores <em>únicos</em> existem? As nossas observações são duplicadas?</p>
+<p>Começando com um tibble, podemos pedir os valores/casos únicos que existem no banco de dados usando o verbo <code>distinct()</code>. Nos parênteses, especificamos quais variáveis queremos avaliar. Se especificarmos uma variável, recebemos todos os valores que existem no banco de dados para esta variável:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights %&gt;% distinct(origin)</code></pre>
@@ -1972,17 +1972,17 @@ flights %&gt;% distinct(origin, carrier) %&gt;%
   </script>
 </div>
 </div>
-<p>Finalmente, <code>distinct</code> nos ajuda para entender melhor a unidade de análise no banco de dados, e a presença de duplicados que podem indicar erros ou contaminar análises subsequentes. Por exemplo, em teoria deve ser impossível ter mais de um voo no mesmo horário, com o mesmo número da mesma companhia, do mesmo origem ao mesmo destino. Podemos confirmar isso observando que o número de linhas na seguinte operação é ígual ao número de linhas no banco de dados inteiro:</p>
+<p>Finalmente, <code>distinct</code> nos ajuda a entender melhor a unidade de análise no banco de dados, e a presença de observações/informações duplicadas que podem indicar erros ou contaminar análises subsequentes. Por exemplo, em teoria deve ser impossível ter mais de um voo no mesmo horário, com o mesmo número da mesma companhia, da mesma origem ao mesmo destino. Podemos confirmar isso observando que o número de linhas na seguinte operação é igual ao número de linhas no banco de dados inteiro:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights %&gt;% distinct(year, month, day, dep_time, carrier, flight, origin, dest)</code></pre>
 </div>
-<p>As aviões são também identificados por um número de cauda (<code>tailnum</code>), e imaginando que o <code>tailnum</code> seja única para cada avião, parece razoável assumir que a mesma avião não está voando no mesmo horário mais que uma vez:</p>
+<p>Os aviões são também identificados por um número de cauda (<code>tailnum</code>), e imaginando que o <code>tailnum</code> seja único para cada avião, parece razoável assumir que o mesmo avião não está voando no mesmo horário mais que uma vez:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights %&gt;% distinct(year, month, day, dep_time, tailnum)</code></pre>
 </div>
-<p>Pare, o número de linhas aqui é 334.067, menos do 336.776 no banco de dados inteiro. Isso significa que temos mais que um <code>tailnum</code> decolando no mesmo horário…Estranho. É crucial saber isso para informar as nossas análises. Com mais investigação, entenderemos que a diferença é produzido pela presença de observações de <code>dep_time</code> e <code>tailnum</code> que são <code>NA</code>, desconhecidos, e portanto aparecem como duplicados.</p>
+<p>Repare, o número de linhas aqui é 334.067, menos do 336.776 no banco de dados inteiro. Isso significa que temos mais que um <code>tailnum</code> decolando no mesmo horário…Estranho. É crucial saber isso para informar as nossas análises. Com mais investigação, entenderemos que a diferença é produzida pela presença de observações de <code>dep_time</code> e <code>tailnum</code> que são <code>NA</code>, desconhecidos, e portanto aparecem como duplicados.</p>
 <div class="orange">
 <h1 id="leitura-para-tutorial-4">Leitura para Tutorial 4</h1>
 <p>Antes da próxima aula, por favor leia <a href="https://r4ds.had.co.nz/">R 4 Data Science, Capítulos 6, 8, 17, 18 e 19-19.3</a></p>

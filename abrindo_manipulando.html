@@ -1336,9 +1336,9 @@ div.orange { background-color:#fee6ce; border-radius: 5px; padding: 20px;}
 div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 </style>
 <h1 id="manipulando-dados">Manipulando Dados</h1>
-<p>Estamos trabalhando com um banco de dados, mas ele não está pronto para a análise que desejamos fazer. Por exemplo, as variáveis não contém os indicadores relevantes, os nomes das variáveis não fazem sentido, a unidade de análise precisa ser mais agregada, queremos retirar alguns outliers etc. Como podemos ‘manipular’ um banco de dados para o tamanho, a estrutura e o conteúdo apropriado para a análise desejada?</p>
+<p>Estamos trabalhando com um banco de dados, mas ele não está pronto para a análise que desejamos fazer. Por exemplo, as variáveis não contêm os indicadores relevantes, os nomes das variáveis não fazem sentido, a unidade de análise precisa ser mais agregada, queremos retirar alguns outliers etc. Como podemos ‘manipular’ um banco de dados para o tamanho, a estrutura e o conteúdo apropriado para a análise desejada?</p>
 <p>Fazemos a manipulação da mesma forma que trabalhamos com os ingredientes de uma receita: executando <strong>ações</strong> para cortar, selecionar e combinar os ingredientes. Sempre começando com o nosso tibble (data.frame) e aplicamos ‘verbos’ (ações) que transformam o nosso banco de dados.</p>
-<p>Na verdade, esta lógica de manipulação de dados baseado em ‘verbos’ é apenas uma abordagem, e no futuro vamos ver alternativas. Vamos trabalhar com a abordagem de verbos do pacote <code>tidyverse</code> porque (i) é mais fácil para aprender, (ii) é mais sistemático, e (iii) é mais transparente para ler e entender do que outros pacotes. Os códigos descritos no restante do tutorial só funcionam se você abrir a biblioteca do tidyverse num chunk inicial:</p>
+<p>Na verdade, esta lógica de manipulação de dados baseada em ‘verbos’ é apenas uma abordagem, e no futuro vamos ver alternativas. Vamos trabalhar com a abordagem de verbos do pacote <code>tidyverse</code> porque (i) é mais fácil para aprender, (ii) é mais sistemático, e (iii) é mais transparente para ler e entender do que outros pacotes. Os códigos descritos no restante do tutorial só funcionam se você abrir a biblioteca do tidyverse num chunk inicial:</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
@@ -1346,7 +1346,7 @@ div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 ```{r}
 library(&quot;tidyverse&quot;)
 ```</code></pre>
-<p>Antes de começar, lembre-se de abrir o projeto anterior com quem você trabalhou no tutorial anterior, ou um novo projeto se necessário. Em seguida, abre um novo arquivo de R Markdown, e apague tudo exceto o cabeçalho.</p>
+<p>Antes de começar, lembre-se de abrir o projeto anterior com o qual você trabalhou no tutorial anterior, ou um novo projeto se necessário. Em seguida, abra um novo arquivo de R Markdown, e apague tudo exceto o cabeçalho.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ---
@@ -1357,8 +1357,8 @@ output: html_document
 ---</code></pre>
 </div>
 <h2 id="renomear-variáveis-rename">1. Renomear Variáveis (<code>Rename</code>)</h2>
-<p>Começamos com uma transformação bem simples, mas se você já abriu um banco de dados com variáveis nomeadas como ‘hu52_lm_00’ você vai entender o valor dessa transformação. Cada coluna (variável) em nosso tibble sempre tem um nome, e podemos troca-lo a qualquer momento.</p>
-<p>Para inspecionar os nomes de um tibble, podemos simplesmente executar o nome do objeto e ver o que aparece na tabela abaixo do chunk. Ou podemos usar a funçõ <code>names()</code>. Vamos utilizar como exemplo de banco de dados os voos de Nova York, dados que usamos no tutorial anterior, lembrando que temos que abrir a biblioteca de voos primeiramente (se esqueceu dê uma olhada no tutorial 1).</p>
+<p>Começamos com uma transformação bem simples, mas se você já abriu um banco de dados com variáveis nomeadas como ‘hu52_lm_00’ você vai entender o valor dessa transformação. Cada coluna (variável) em nosso tibble sempre tem um nome, e podemos trocá-lo a qualquer momento.</p>
+<p>Para inspecionar os nomes de um tibble, podemos simplesmente executar o nome do objeto e ver o que aparece na tabela abaixo do chunk. Ou então, podemos usar a função <code>names()</code>. Vamos utilizar como exemplo de banco de dados os voos de Nova York, dados que usamos no tutorial anterior, lembrando que temos que abrir a biblioteca de voos primeiramente (se esqueceu dê uma olhada no tutorial 1).</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 library(&quot;nycflights13&quot;)
@@ -1380,14 +1380,14 @@ names(flights)</code></pre>
 flights %&gt;% rename()</code></pre>
 </div>
 <div class="blue">
-<p><strong>Habilidade Básica de Programação: Pipes, <code>%&gt;%</code></strong> O pipe conecta um tibble para uma função. Pode ser traduzido como ‘e depois’, ou ‘then’ em inglês. Por exemplo, “pegue o banco de dados de flights, e depois aplique a função renomear”.</p>
+<p><strong>Habilidade Básica de Programação: Pipes, <code>%&gt;%</code></strong> O pipe conecta um tibble a uma função. Pode ser traduzido como ‘e depois’, ou ‘then’ em inglês. Por exemplo, “pegue o banco de dados de flights, e depois aplique a função renomear”.</p>
 <p>Podemos juntar vários pipes para combinar funções diferentes e gerar uma análise mais complexa. Por exemplo:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights %&gt;% rename() %&gt;% outra_funcao() %&gt;% outra_funcao()</code></pre>
 </div>
 </div>
-<p><br> O código acima não faz nada porque ainda não especificamos <em>qual</em> variável a renomear, ou o novo nome. <em>Qual</em> variável a renomear e o novo nome da variável são parâmetros da função <code>rename</code>, que tem um formato específico:</p>
+<p><br> O código acima não faz nada porque ainda não especificamos <em>qual</em> variável renomear e o novo nome. <em>Qual</em> variável a renomear e o novo nome da variável são parâmetros da função <code>rename</code>, que tem um formato específico:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights %&gt;% rename(arrival_time = arr_time)</code></pre>
@@ -1399,7 +1399,7 @@ flights %&gt;% rename(arrival_time = arr_time)</code></pre>
   </script>
 </div>
 </div>
-<p>Qual o formato aqui? Dentro dos parênteses, colocamos o <em>novo</em> nome primeiro, depois o sinal de igual, depois o nome <em>velho/original</em>. Se digitar o nome original errado a função não vai funcionar, irá aparecer uma mensagem de erro. O nome novo pode ser diversas coisas (não abuse da sua criatividade aqui), mas evite começar com números e por enquanto evite usar espaços (pode usar <code>_</code> em vez de um espaço).</p>
+<p>Qual o formato aqui? Dentro dos parênteses, colocamos o <em>novo</em> nome primeiro, depois o sinal de igual, depois o nome <em>antigo/original</em>. Se digitarmos o nome original errado, a função não vai funcionar e vai aparecer uma mensagem de erro. O nome novo pode ser diversas coisas (não abuse da sua criatividade aqui), mas evite começar com números e, por enquanto, evite usar espaços (pode usar "_" em vez de um espaço).</p>
 <p>Vamos inspecionar o nosso novo tibble renomeado:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1413,28 +1413,28 @@ flights_renomeado &lt;- flights %&gt;% rename(arrival_time=arr_time)
 
 flights_renomeado</code></pre>
 </div>
-<p>Agora, o tibble de <code>flights_renomeado</code> tem a variável se chama <code>arrival_time</code>, correto?</p>
-<p>Dependendo do nosso objetivo, as vezes faz sentido salvar o nosso objeto com o mesmo nome que ele tinha antes, sobreescrevendo o conteúdo dele, ao invés de criar um novo objeto toda vez que executamos uma função. (Pelo menos, isso salva memória).</p>
+<p>Agora, o tibble de <code>flights_renomeado</code> tem a variável chamada <code>arrival_time</code>, correto?</p>
+<p>Dependendo do nosso objetivo, às vezes faz sentido salvar o nosso objeto com o mesmo nome que ele tinha antes, sobrescrevendo o conteúdo dele, ao invés de criar um novo objeto toda vez que executamos uma função. (Pelo menos, isso economiza memória).</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights &lt;- flights %&gt;% rename(arrival_time=arr_time)
 
 flights</code></pre>
 </div>
-<p>Mais uma detalhe: será que para renomear colunas diversas temos que escrever uma corrente que repete a função <code>rename()</code> diversas vezes?</p>
+<p>Mais uma detalhe: será que para renomear colunas diversas temos que escrever a função <code>rename()</code> diversas vezes?</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights &lt;- flights %&gt;% rename(arrival_time=arr_time) %&gt;%
   rename(departure_time=dep_time)</code></pre>
 </div>
-<p>Podemos fazer isso, mas é mais eficiente fazer dentro da mesma função, separando as colunas por vírgula (e uma nova linha para deixar o código claro). Lembre-se da vírgula para separar cada renomeação, muitas vezes passamos para a linha de baixo e esquecemos a vírgula; quando rodamos o código aparece mensagem de erro e demoramos a descobrir que o único erro é a vírgula faltante:</p>
+<p>Podemos fazer isso, mas é mais eficiente fazer dentro da mesma função, separando as colunas por vírgula (e uma nova linha para deixar o código claro). Lembre-se da vírgula para separar cada renomeação, muitas vezes passamos para a linha de baixo e esquecemos a vírgula; quando rodamos o código aparece mensagem de erro e demoramos para descobrir que o único erro é a vírgula faltante:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights &lt;- flights %&gt;% rename(arrival_time=arr_time,
                               departure_time=dep_time)</code></pre>
 </div>
 <h2 id="selecionar-variáveis-select">2. Selecionar Variáveis (<code>Select</code>)</h2>
-<p>Já aprendemos o formato para utilizar funções, e tudos que vamos aprender daqui para frente possue o mesmo padrão. Quando temos colunas demais em nosso banco de dados, sempre ajuda focar nas variáveis mais relevantes, excluindo aquelas que não serão utilizadas. Para selecionar um subconjunto das variáveis (colunas) para manter no tibble, usamos o verbo <code>select()</code>. De novo, começamos com o tibble, o pipe, e finalmente o verbo <code>select</code>:</p>
+<p>Já aprendemos o formato para utilizar funções, e tudo o que vamos aprender daqui para frente possui o mesmo padrão. Quando temos colunas demais em nosso banco de dados, sempre ajuda focar nas variáveis mais relevantes, excluindo aquelas que não serão utilizadas. Para selecionar um subconjunto das variáveis (colunas) para manter no tibble, usamos o verbo <code>select()</code>. De novo, começamos com o tibble, o pipe, e finalmente o verbo <code>select</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights %&gt;% select(year, month, day)</code></pre>
@@ -1453,7 +1453,7 @@ flights %&gt;% select(year, month, day)</code></pre>
 flights &lt;- flights %&gt;% select(year, month, day)</code></pre>
 </div>
 <h2 id="transformar-variáveis-mutate">3. Transformar Variáveis (<code>Mutate</code>)</h2>
-<p>Que tal se quisermos <em>criar</em> novas variáveis? Isso é comum, por exemplo quando queremos o PIB per capita e não simplesmente o PIB. Para isso, temos que pegar duas variáveis, PIB e população e dividir o primeiro pelo segundo. Em R o verbo para realizar isso se chama <code>mutate()</code>. Ele permite a combinação, usando qualquer tipo de matématica que você desejar, de colunas que <em>já existem</em> no banco de dados (se quer trazer dados de fora, tem que usar um <code>join</code> que vamos discutir logo no futuro).</p>
+<p>E se quisermos <em>criar</em> novas variáveis? Isso é comum, por exemplo, quando queremos o PIB per capita e não simplesmente o PIB. Para isso, temos que pegar duas variáveis, PIB e população e dividir o primeiro pelo segundo. Em R, o verbo para realizar isso se chama <code>mutate()</code>. Ele permite a combinação, usando qualquer tipo de matématica que você desejar, de colunas que <em>já existem</em> no banco de dados (se quer trazer dados de fora, tem que usar um <code>join</code> que vamos discutir logo no futuro).</p>
 <p>Como funciona? Como sempre, pegamos o nosso tibble relevante, depois o pipe, depois a função <code>mutate()</code>. Dentro dos paramêtros de mutate precisamos especificar o cálculo a ser realizado usando os nomes de colunas atuais, e o nome da nova variável (coluna) em que vamos guardar o resultado do cálculo. Por exemplo, se queremos dobrar o <code>dep_delay</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1466,20 +1466,20 @@ flights &lt;- flights %&gt;% mutate(dep_delay_dobro=dep_delay*2)</code></pre>
   </script>
 </div>
 </div>
-<p>Note que dentro do mutate, usamos um <code>=</code> em vez da flecha para salvar o resultado.</p>
-<p>Onde fica a nossa nova coluna? Na última posição a direita do tibble (última coluna do banco de dados).</p>
-<p>Podemos combinar variáveis múltiplas para fazer cálculos mais complexos. Por exemplo, por algum motivo eu quero saber metade da diferença entre o <code>dep_time</code> e <code>arr_time</code>:</p>
+<p>Note que dentro do mutate, usamos o igual “=” em vez da flecha para salvar o resultado.</p>
+<p>Onde fica a nossa nova coluna? Na última posição à direita do tibble (última coluna do banco de dados).</p>
+<p>Podemos combinar variáveis múltiplas para fazer cálculos mais complexos. Por exemplo, se por algum motivo eu quero saber metade da diferença entre o <code>dep_time</code> e <code>arr_time</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights &lt;- flights %&gt;% mutate(calculo=(arr_time-dep_time)/2)</code></pre>
 </div>
-<p>Como na matemática, lembre-se que os parênteses importam. Então o que fizemos a cima <code>(arr_time-dep_time)/2</code> é diferente de <code>arr_time-dep_time/2</code>. Se quiser, teste para ter certeza.</p>
-<p>Mais uma possibilidade: podemos transformar uma coluna atual sem criar uma nova coluna. Para fazer isso, é só renomear a coluna com o mesmo nome do original, dessa maneira sobreescrevemos o conteúdo original da coluna pelo novo conteúdo que calculamos. Por exemplo, podemos recalcular o <code>dep_delay</code> de minutos para segundos:</p>
+<p>Como na matemática, lembre-se que os parênteses importam. Então o que fizemos acima <code>(arr_time-dep_time)/2</code> é diferente de <code>arr_time-dep_time/2</code>. Se quiser, teste para ter certeza.</p>
+<p>Mais uma possibilidade: podemos transformar uma coluna atual sem criar uma nova coluna. Para fazer isso, é só renomear a coluna com o mesmo nome do original, dessa maneira sobrescrevemos o conteúdo original da coluna pelo novo conteúdo que calculamos. Por exemplo, podemos recalcular o <code>dep_delay</code> de minutos para segundos:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights &lt;- flights %&gt;% mutate(dep_delay=dep_delay*60)</code></pre>
 </div>
-<p>E finalmente, podemos usar funções dentro de mutate e não simplesmente símbolos matemáticos. No futuro, isso abre um mundo de possibilidades. Por enquanto, vamos apenas usar a função <code>tolower()</code> para mudar o <code>origin</code> do voo de maiúsculas para minúsculas:</p>
+<p>E finalmente, podemos usar funções dentro de mutate e não simplesmente símbolos matemáticos. No futuro, isso abre um mundo de possibilidades. Por enquanto, vamos apenas usar a função <code>tolower()</code> para mudar a origem (variável <code>origin</code>) do voo de maiúsculas para minúsculas:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights &lt;- flights %&gt;% mutate(origin=tolower(origin))</code></pre>
@@ -1536,7 +1536,7 @@ flights %&gt;% slice(5)</code></pre>
   </script>
 </div>
 </div>
-<p>Um pouco triste perder todo o resto da informação, então como selecionamos todas as primeiras cinco linhas?</p>
+<p>Um pouco triste perder todo o resto da informação…, então, como selecionamos todas as primeiras cinco linhas?</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights %&gt;% slice(1:5)</code></pre>
@@ -1553,7 +1553,7 @@ linhas_desejadas &lt;- c(1,4,5,8,22,169)</code></pre>
 flights %&gt;% slice(linhas_desejadas)</code></pre>
 </div>
 <p>O R substituirá o objeto (o vetor) <code>linhas_desejadas</code> com os 6 números e devolverá um tibble das 6 linhas.</p>
-<p>Também é possível selecionar as observações <strong>não</strong> desejadas, inserindo um menos em frente do número. O R devolve o tibble inteiro sem a linha identificada.</p>
+<p>Também é possível selecionar as observações <strong>não</strong> desejadas, inserindo o sinal de menos, “-”, em frente ao número. O R devolve o tibble inteiro sem a linha identificada.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights %&gt;% slice(-1)</code></pre>
@@ -1564,7 +1564,7 @@ flights %&gt;% slice(-1)</code></pre>
 <pre class="r"><code>
 flights %&gt;% slice(10:20)</code></pre>
 </div>
-<p>Para conjuntos não-sequenciais mais sistemáticos, podemos usar a função <code>seq()</code>, que tem três paramêtros: valor inicial, valor final, e incremento. Por exemplo, para selecionar cada 10 linhas nas primeiras 100 linhas, usamos:</p>
+<p>Para conjuntos não-sequenciais mais sistemáticos, podemos usar a função <code>seq()</code>, que tem três parâmetros: valor inicial, valor final, e incremento. Por exemplo, para selecionar cada 10 linhas nas primeiras 100 linhas, usamos:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights %&gt;% slice(seq(from=1,
@@ -1584,12 +1584,12 @@ flights %&gt;% slice(seq(1,100,10))</code></pre>
 </div>
 </div>
 <h2 id="filtrar-observações-filter">5. Filtrar Observações (<code>Filter</code>)</h2>
-<p>Mais frequentemente, não importa a posição vertical (linha) da observação no conjunto de dados, para limitar a nossa análise o que importa é o valor de uma variável. Por exemplo, podemos querer os dados apenas da Ásia, do século 20, de mulheres, ou de homens acima de 18 anos de idade que moram em São Paulo.</p>
-<p>Estes critérios podem ser aplicados usando o verbo <code>filter()</code>. Nos paramêtros de <code>filter()</code>, temos que especificar as <strong>condições</strong> que o R vai avaliar para decidir se vai incluir no banco de dados final. A condição <em>sempre</em> tem que avaliar para verdadeiro ou falso (TRUE ou FALSE) para cada observação, e o R guarda apenas as observações ‘verdadeiras’.</p>
-<p>Em nosso banco de dados de voos, vamos selecionar apenas os voos de mês 6 (junho). Como definimos esta condição? Precisamos de três elementos:</p>
+<p>Mais frequentemente, não importa a posição vertical (linha) da observação no conjunto de dados. Para limitar a nossa análise o que importa é o valor de uma variável. Por exemplo, podemos buscar apenas os dados da Ásia, do século 20, de mulheres, ou de homens acima de 18 anos de idade que moram em São Paulo.</p>
+<p>Estes critérios podem ser aplicados usando o verbo <code>filter()</code>. Nos parâmetros de <code>filter()</code>, temos que especificar as <strong>condições</strong> do banco de dados final. O R vai avaliar se o parâmetro de cada observação é verdadeiro ou falso (TRUE ou FALSE), armazenando apenas as observações ‘verdadeiras’.</p>
+<p>Em nosso banco de dados de voos, vamos selecionar apenas os voos do mês 6 (junho). Como definimos esta condição? Precisamos de três elementos:</p>
 <ol type="1">
 <li><strong>Nome de variável</strong> - aqui, o mês, <code>month</code>.</li>
-<li><strong>Tipo de comparação</strong> - aqui, queremos selecionar um mês específico então precisamos de uma igualdade que digitamos em R como <code>==</code>. Sim, dois iguais juntos! Explicamos embaixo.</li>
+<li><strong>Tipo de comparação</strong> - aqui, queremos selecionar um mês específico, então precisamos de uma igualdade que digitamos em R como <code>==</code>. Sim, dois iguais juntos! Explicamos abaixo.</li>
 <li><strong>Critério</strong> - aqui, qual mês? Nos dados, junho está codificado como número (<code>int</code>), então ‘6’.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
@@ -1628,7 +1628,7 @@ flights_junho &lt;- flights %&gt;% filter(month==6)</code></pre>
 <tr class="even">
 <td>2</td>
 <td>!=</td>
-<td>Não igual</td>
+<td>Diferente</td>
 </tr>
 <tr class="odd">
 <td>3</td>
@@ -1652,7 +1652,7 @@ flights_junho &lt;- flights %&gt;% filter(month==6)</code></pre>
 </tr>
 </tbody>
 </table>
-<p>Simples. Alguns exemplos de uso básico de operadores abaixo.</p>
+<p>Simples. Alguns exemplos de uso básico de operadores abaixo. Rodar ao código para verificar quais condições são verdadeiras ou falsas (TRUE ou FALSE).</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 42 == 41
@@ -1702,7 +1702,7 @@ x &gt; y</code></pre>
 <pre class="r"><code>
 flights_junho_5 &lt;- flights %&gt;% filter(month==6 &amp; day==5)</code></pre>
 </div>
-<p>E existem vários tipos de comparações, incluindo maior (<code>&gt;</code>) e menor (<code>&lt;</code>):</p>
+<p>Incluindo maior (<code>&gt;</code>) e menor (<code>&lt;</code>), podemos gerar comparações complexas, ex. todos os voos da manhã do dia 5 de julho:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights_junho_5_manha &lt;- flights %&gt;% filter(month==6 &amp; day==5 &amp; dep_time&lt;1200)</code></pre>
@@ -1801,25 +1801,25 @@ flights_junho_5_manha &lt;- flights %&gt;% filter(month==6 &amp; day==5 &amp; de
 </tr>
 </tbody>
 </table>
-<p>Com esta nova flexibilidade, temos que pensar com cuidado para construir o filtro apropriado. E temos que usar os parenteses apropriados, porque a lista acima é em ordem de prioridade (como na matemática quando multiplicação acontece antes de adição, aqui “E” acontece antes de “OU”). Por exemplo, se quissemos todos os voos que atrasaram na chegada por mais de 50 minutos, e que decolaram antes das 5h <em>ou</em> que chegaram em Atlanta (ATL), temos que escrever assim:</p>
+<p>Com esta nova flexibilidade, temos que pensar com cuidado para construir o filtro apropriado. E temos que usar os parênteses apropriados, porque a lista acima é em ordem de prioridade (como na matemática quando multiplicação acontece antes de adição, aqui “E” acontece antes de “OU”). Por exemplo, se quisermos todos os voos que atrasaram na chegada por mais de 50 minutos, e que decolaram antes das 5h <em>ou</em> que chegaram em Atlanta (ATL), temos que escrever assim:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights %&gt;% filter((dep_time&lt;=500 | dest==&quot;ATL&quot;) &amp; arr_delay&gt;=50)</code></pre>
 </div>
-<p>O resultado é diferente do pedido quando tiramos os parenteses:</p>
+<p>O resultado é diferente do pedido quando tiramos os parênteses:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights %&gt;% filter(dep_time&lt;=500 | dest==&quot;ATL&quot; &amp; arr_delay&gt;=50)</code></pre>
 </div>
 <p>Note que o número de linhas é bem diferente. Aqui, pedimos para todos os voos que decolaram antes das 5h (se tivesse atraso ou não), juntado com um outro conjunto os voos que decolaram de Atlanta com atraso de 50 minutos na chegada.</p>
-<p>É fácil pedir o inverso deste conjunto usando <code>!</code> (símbolo para negação):</p>
+<p>É fácil pedir o inverso deste conjunto usando o símbolo para negação, <code>!</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights %&gt;% filter(!((dep_time&lt;=500 | dest==&quot;ATL&quot;) &amp; arr_delay&gt;=50))</code></pre>
 </div>
 </div>
 <h2 id="combinando-manipulações">Combinando Manipulações</h2>
-<p>Frequentemente, limpar um banco de dados exige dezenas de transformações para construir o banco de dados apropriado para a nossa análise. A lógica e estrutura de cada ação acima nos permitimos combinar operações em sequência; em uma corrente de pipes e verbos. Depois de uma ação, simplesmente continuamos com mais um pipe (<code>%&gt;%</code>) e a próxima ação.</p>
+<p>Frequentemente, limpar um banco de dados exige dezenas de transformações para construir o banco de dados apropriado para a nossa análise. A lógica e estrutura de cada ação acima nos permite combinar operações em sequência; em uma sequência de pipes e verbos. Depois de uma ação, simplesmente continuamos com mais um pipe (<code>%&gt;%</code>) e a próxima ação.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 flights %&gt;% 
@@ -1828,8 +1828,8 @@ flights %&gt;%
   filter(month==6 &amp; day==5) %&gt;% 
   select(year, month, day, arrival_time, dep_delay)</code></pre>
 </div>
-<p>É importante entender que depois de cada ação, o banco de dados encaminhado à proxíma ação é o resultado da ação anterior. Então na linha final, <code>select(year, month, day, arr_time, dep_delay)</code> não funcionará, pois <code>arr_time</code> já foi renomeado para <code>arrival_time</code> e temos que fazer referência ao novo nome.</p>
-<p>Voltando à analogia de preparar uma refeição, o código acima é uma <strong>receita</strong>: Pegue o banco de dados de <code>flights</code>, depois renomei a variável <code>arr_time</code>, depois multiplique a variável <code>dep_delay</code> por 60, depois filtre as observações para aquelas do dia 5 de junho, depois selecione as cinco variáveis (year, month, day, arrival_time, dep_delay), e devolva o banco de dados final.</p>
+<p>É importante entender que depois de cada ação, o banco de dados encaminhado à próxima ação é o resultado da ação anterior. Então na linha final, <code>select(year, month, day, arr_time, dep_delay)</code> não funcionará, pois <code>arr_time</code> já foi renomeado para <code>arrival_time</code> e temos que fazer referência ao novo nome.</p>
+<p>Voltando à analogia de preparar uma refeição, o código acima é uma <strong>receita</strong>: Pegue o banco de dados de <code>flights</code>, depois renomeie a variável <code>arr_time</code>, depois multiplique a variável <code>dep_delay</code> por 60, depois filtre as observações para aquelas do dia 5 de junho, depois selecione as cinco variáveis (year, month, day, arrival_time, dep_delay), e devolva o banco de dados final.</p>
 <p>Note também que no código acima inserimos uma nova linha depois de cada pipe; isso não é necessário mas ajuda a organizar o código e deixá-lo mais fácil para ler e entender no futuro.</p>
 <div class="green">
 <h1 id="exercício-1-manipulando-dados">Exercício 1: Manipulando dados</h1>
@@ -1880,7 +1880,7 @@ flights %&gt;% filter(carrier == &quot;UA&quot; &amp; month == 1 &amp; day == 25
 flights %&gt;% filter(carrier == &quot;B6&quot; &amp; dep_delay &gt; 300 &amp; origin == &quot;EWR&quot;)</code></pre>
 </div>
 <ol start="3" type="1">
-<li>Calcule a velocidade dos voos que decolaram de LaGuardia (<code>origin</code> LGA) no dia 7 de setembro antes das 6h. Lembre-se que velocidade é distância dividido por tempo. (Qual é a unidade desta velocidade?)</li>
+<li>Calcule a velocidade dos voos que decolaram de LaGuardia (<code>origin</code> LGA) no dia 7 de setembro antes das 6h. Lembre-se que velocidade é a distância dividida por tempo. (Qual é a unidade desta velocidade?)</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1888,7 +1888,7 @@ flights %&gt;% filter(origin == &quot;LGA&quot; &amp; month == 9 &amp; day == 7 
     600) %&gt;% mutate(speed = distance/air_time)</code></pre>
 </div>
 <ol start="4" type="1">
-<li>Uma tabela com apenas o atraso na chegada de todos os voos atrasados por pelo menos 60 minutos que partiram do aeroporto Newark e chegaram em Buffalo (BUF) no dia seis de qualquer mes.</li>
+<li>Uma tabela com apenas o atraso na chegada de todos os voos atrasados por pelo menos 60 minutos que partiram do aeroporto Newark e chegaram em Buffalo (BUF) no dia seis de todos os meses.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1905,12 +1905,12 @@ flights %&gt;% mutate(velocidade = distance/(air_time/60)) %&gt;% filter((distan
     velocidade)</code></pre>
 </div>
 <ol start="6" type="1">
-<li>Prepare os resultados de todos as análises acima em tabelas usando a opção de R Markdown de <code>df_print: paged</code> (veja o Tutorial 1), e faça o <code>knit</code> do seu script de R markdown para produzir o relatório final.</li>
+<li>Prepare os resultados de todas as análises acima em tabelas usando a opção de R Markdown de <code>df_print: paged</code> (veja o Tutorial 1), e faça o <code>knit</code> do seu script de R markdown para produzir o relatório final.</li>
 </ol>
 </div>
 <h1 id="controlando-o-que-aparece-no-relatório-final">Controlando o que Aparece no Relatório Final</h1>
-<p>Os nossos relatórios finais são profissionais e claros, mas ficam ‘técnicos’, com várias linhas de código e informações do R. Isso é importante se quiser documentar e comunicar exatamente como você analisou os dados, mas o seu orientandor provavalmente não tem interesse em saber como a linguiça foi feita. Como geramos um relatório ‘limpo’ para o público geral?</p>
-<p>O R Markdown nos permitimos controlar os produtos de cada chunk individualmente. Existem pelo menos cinco tipos de produtos possíveis para cada chunk, e decidimos quais deles devem aparecer no relatório final com um argumento na linha inicial de cada chunk:</p>
+<p>Os nossos relatórios finais são profissionais e claros, mas ficam ‘técnicos’ quando mantemos as várias linhas de código e informações do R. Isso é importante se quiser documentar e comunicar exatamente como você analisou os dados, mas provavalmente o seu orientandor não tem interesse em saber como foi feito em detalhes. Como geramos um relatório ‘limpo’ para o público geral?</p>
+<p>O R Markdown nos permite controlar os produtos de cada chunk individualmente. Existem pelo menos cinco tipos de produtos possíveis para cada chunk, e decidimos quais deles devem aparecer no relatório final com um argumento na linha inicial de cada chunk:</p>
 <table>
 <thead>
 <tr class="header">
@@ -1947,13 +1947,13 @@ flights %&gt;% mutate(velocidade = distance/(air_time/60)) %&gt;% filter((distan
 </tr>
 </tbody>
 </table>
-<p>O padrão (default) é para incluir todos os cinco tipos de conteúdo no relatório final. Mas na prática, normalmente não queremos mostrar para o leitor o código, erros, avisos e mensagens. Para cada chunk, poodemos especificar as opções assim:</p>
+<p>O padrão (default) é para incluir todos os cinco tipos de conteúdo no relatório final. Mas na prática, normalmente não queremos mostrar para o leitor o código, erros, avisos e mensagens. Para cada chunk, podemos especificar as opções assim:</p>
 <pre class="clike"><code>
 ```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 600/30
 ```</code></pre>
 <p>Se compilamos o relatório com ‘Knit’, a única coisa que será impressa no documento final é o resultado do cálculo (20), nada do código ou o pensamento do R.</p>
-<p>Porém, num relatório grande, teremos dezenas de chunks e fica chato especificar todas as opções para cada um dos chunks. Então uma alternativa é ajustar o padrão do nosso análise para que, por exemplo, <code>echo=FALSE</code> seja o padrão. O melhor jeito é adicionar um novo chunk no início do seu script com a seguinte linha:</p>
+<p>Porém, num relatório grande, teremos dezenas de chunks e fica chato especificar todas as opções para cada um dos chunks. Então uma alternativa é ajustar o padrão da nossa análise para que, por exemplo, <code>echo=FALSE</code> seja o padrão. O melhor jeito é adicionar um novo chunk no início do seu script com a seguinte linha:</p>
 <pre class="clike"><code>
 ```{r, echo=FALSE}
 knitr::opts_chunk$set(echo=FALSE, error=FALSE, warning=FALSE, message=FALSE)
@@ -1961,11 +1961,11 @@ knitr::opts_chunk$set(echo=FALSE, error=FALSE, warning=FALSE, message=FALSE)
 <p>Isso indica para o R não imprimir o código original de nenhum chunk. Note que temos que usar <code>echo=F</code> na linha inicial deste chunk também para esconder esta linha de código porque o novo padrão só é aplicado depois da conclusão deste chunk.</p>
 <div class="green">
 <h1 id="exercício-2-relatórios-limpos">Exercício 2: Relatórios Limpos</h1>
-<p>Experimente adicionar um chunk com essa linha acima como o primeiro no seu relatório do Execício 1, e ‘Knit’ de novo. Veja quão mais simples e bonito fica o seu relatório!</p>
+<p>Experimente adicionar um chunk com essa linha acima como o primeiro no seu relatório do Exercício 1, e ‘Knit’ de novo. Veja quão mais simples e bonito fica o seu relatório!</p>
 </div>
 <h1 id="abrindo-dados">Abrindo Dados</h1>
 <h2 id="dados-em-arquivos-textuais-.csv-.tsv-.txt">Dados em arquivos textuais (.csv, .tsv, .txt)</h2>
-<p>Agora que estamos especialistas na manipulação de dados já disponíveis em R, queremos analisar dados mais interessantes e relevantes para a nossa própria pesquisa. Isso exige a abertura de arquivos externos; bancos de dados que criamos ou recebemos de outros estudos. Lembrando que o nosso script vai processar os comandos cada vez que é executado pela botão ‘Knit’, então temos que incorporar a abertura de dados em código também, dentro do script.</p>
+<p>Agora que estamos especialistas na manipulação de dados já disponíveis em R, queremos analisar dados mais interessantes e relevantes para a nossa própria pesquisa. Isso exige a abertura de arquivos externos; bancos de dados que criamos ou recebemos de outros estudos. Lembrando que o nosso script vai processar os comandos cada vez que é executado pelo botão ‘Knit’, então temos que incorporar a abertura de dados em código também, dentro do script.</p>
 <p>Existem muitas funções para abrir arquivos de dados, mas, para simplificar, neste curso vamos nos concentrar em algumas das mais flexíveis, simples e úteis para trabalhar com dados ‘retangulares’ (.csv, .tsv, .txt). As funções são parte da biblioteca <code>tidyverse</code> que já abrimos.</p>
 <p>Provavelmente a função mais usada é <code>read_csv</code>, que abre arquivos com extensão .csv. Em vez de abrir arquivos do nosso computador, também podemos abrir links online e, para simplificar, disponibilizamos vários arquivos em nosso repositório do github. Você pode colar o url de cada arquivo no navegador para ver o seu formato antes de executar o código.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1973,7 +1973,7 @@ knitr::opts_chunk$set(echo=FALSE, error=FALSE, warning=FALSE, message=FALSE)
 file1 &lt;- &quot;https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_hv.csv&quot;
 dados &lt;- read_csv(file1)</code></pre>
 </div>
-<p><code>dados</code> deve aperecer como um objeto - um tibble - em seu ‘Environment’. A função <code>read_delim</code> nos dá mais flexibilidade para lidar com tipos incomuns de arquivos. Por exemplo, podemos especificar o caractere usado para separar as colunas (por padrão, esta é a vírgula em read_csv, mas muitos dados brasileiros usam “;” como padrão, já que a vírgula é, no Brasil, um separador decimal):</p>
+<p>‘<code>dados</code>’ deve aparecer como um objeto - um tibble - em seu ‘Environment’. A função <code>read_delim</code> nos dá mais flexibilidade para lidar com tipos incomuns de arquivos. Por exemplo, podemos especificar o caractere usado para separar as colunas (por padrão, esta é a vírgula em read_csv, mas muitos dados brasileiros usam “;” como padrão, já que a vírgula é, no Brasil, um separador decimal):</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 dados &lt;- read_delim(file1, 
@@ -1987,7 +1987,7 @@ file_tab &lt;- &quot;https://raw.githubusercontent.com/leobarone/ifch_intro_r/ma
 dados &lt;- read_delim(file_tab, 
                     delim = &quot;\t&quot;)</code></pre>
 </div>
-<p>O padrão de <em>read_delim</em> (e <em>read_csv</em>) é importar a primeira linha como nome das variáveis. Se nossos dados não tiverem um <em>header</em> (cabeçalho, ou seja, nomes das variáveis na primeira linha), a primeira linha de dados se torna equivocadamente o nome das variáveis (inclusive os números, que aparecem antecedidos por um “X”). Para corrigir o problema utilizamos o argumento “col_names”, que deve ser igual a “FALSE” para os dados armezenados sem nomes de colunas, por exemplo:</p>
+<p>O padrão de <em>read_delim</em> (e <em>read_csv</em>) é importar a primeira linha como o nome das variáveis. Se nossos dados não tiverem um <em>header</em> (cabeçalho, ou seja, nomes das variáveis na primeira linha), a primeira linha de dados se torna equivocadamente o nome das variáveis (inclusive os números, que aparecem antecedidos por um “X”). Para corrigir o problema utilizamos o argumento “col_names”, que deve ser igual a “FALSE” para os dados armazenados sem nomes de colunas, por exemplo:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 file_sem_header &lt;- &quot;https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_nv.csv&quot;
@@ -2010,8 +2010,8 @@ dados &lt;- read_delim(file1,
                     delim = &quot;,&quot;, 
                     col_types = &quot;cicid&quot;)</code></pre>
 </div>
-<p>Perceba que quando abrimos os dados sem especificar o tipo da coluna, a função <em>read_csv</em> tenta identificá-los.</p>
-<p>Uma complexidade de abertura de dados brasileiros é o uso da vírgula como separador decimal e o ponto para indicar milhares. Temos que especificar no argumento <em>locale</em> essas diferenças.</p>
+<p>Perceba que, quando abrimos os dados sem especificar o tipo da coluna, a função <em>read_csv</em> tenta identificá-los automaticamente.</p>
+<p>Uma complexidade de abertura de dados brasileiros é o uso da vírgula como separador decimal e o ponto para indicar milhares. Assim, temos que especificar no argumento <em>locale</em> essas diferenças.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 dados &lt;- read_delim(file1, 
@@ -2019,7 +2019,7 @@ dados &lt;- read_delim(file1,
                     locale = locale(decimal_mark=&quot;,&quot;,grouping_mark=&quot;.&quot;))</code></pre>
 </div>
 <p>Também podemos usar <em>locale</em> para especificar o formato da hora e o formato da data do arquivo que estamos lendo.</p>
-<p>Finalmente, é comum termos problemas para abrir arquivos que contenham caracteres especiais, pois há diferentes formas do computador interpretar vogais acentuadas, cecedilha, etc. O “encoding” de cada arquivo varia de acordo com o sistema operacional e aplicativo no qual foi gerado.</p>
+<p>Finalmente, é comum termos problemas para abrir arquivos que contenham caracteres especiais, pois há diferentes formas do computador interpretar vogais acentuadas, cedilha, etc. O “encoding” de cada arquivo varia de acordo com o sistema operacional e aplicativo no qual foi gerado.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 dados &lt;- read_delim(file1, 
@@ -2029,18 +2029,18 @@ dados &lt;- read_delim(file1,
 <p>Para resolver este problema, informamos ao R o parâmetro <em>encoding</em> dentro do <em>locale</em>, que indica qual é o “encoding” esperado do arquivo.</p>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Encoding dos Arquivos</strong></p>
-<p>Infelizmente não há formas automáticas infalíveis de descobrir o “encoding” de um arquivo e é preciso conhecer como foi gerado – seja você quem produziu o arquivo ou se você teve acesso à documentação – ou partir para tentativa e erro. Alguns “encodings” comuns são “latin1”, “latin2”, “utf8” e “WINDOWS-1252”, mas há diversos outros. Se o arquivo com o qual estamos trabalhando não contém caracteres especiais, não é preciso fazer nada; o R vai processa-lo adequadamente.</p>
-<p>Para minimixar o processo de tentativa e erro na importação de uma base sem documentação, é possível abrir o arquivo de forma manual clicando em “File” &gt; “Import Dataset” &gt; “From Text (readr)…”. Ao clicar nessa opção uma caixa será aberta. Nela você pode indicar onde o arquivo está salvo e selecionar manualmente as opções de “Delimiter”, “Locale”, entre outras. A vantagem aqui é que a janela possui uma prévia dos dados que serão importados, então se você escolheu primeiro um <em>encoding</em> que não funcionou, você pode mudar sem ter que esperar pelo R importar toda a base. O código final de importação do arquivo ficará no quadro a direita embaixo. Lembre-se de copiar esse código e colar no seu script, porque o “knit” não vai clicar nos botões para abrir a base quando você tentar produzir seu documento.</p>
+<p>Infelizmente não há formas automáticas infalíveis de descobrir o “encoding” de um arquivo e é preciso conhecer como foi gerado – seja você quem produziu o arquivo ou se você teve acesso à documentação – ou partir para tentativa e erro. Alguns “encodings” comuns são “latin1”, “latin2”, “utf8” e “WINDOWS-1252”, mas há diversos outros. Se o arquivo com o qual estamos trabalhando não contém caracteres especiais, não é preciso fazer nada; o R vai processá-lo adequadamente.</p>
+<p>Para minimizar o processo de tentativa e erro na importação de uma base sem documentação, é possível abrir o arquivo de forma manual clicando em “File” &gt; “Import Dataset” &gt; “From Text (readr)…”. Ao clicar nessa opção uma caixa será aberta. Nela você pode indicar onde o arquivo está salvo e selecionar manualmente as opções de “Delimiter”, “Locale”, entre outras. A vantagem aqui é que a janela possui uma prévia dos dados que serão importados, então se você escolheu primeiro um <em>encoding</em> que não funcionou, você pode mudar sem ter que esperar pelo R importar toda a base. O código final de importação do arquivo ficará no quadro a direita embaixo. Lembre-se de copiar esse código e colar no seu script, porque o “knit” não vai clicar nos botões para abrir a base quando você tentar produzir seu documento.</p>
 </div>
 <h2 id="dados-em-arquivos-de-excel">Dados em arquivos de Excel</h2>
 <p>Editores de planilha são, em geral, a primeira ferramenta de análise de dados que aprendemos. Diversas organizações disponibilizam (infelizmente) seus dados em formato .xls ou .xlsx e muitos pesquisadores utilizam editores de planilha para construir bases de dados.</p>
 <p>Vamos ver como obter dados em formato .xls ou .xlsx diretamente, sem precisar abrir os arquivos e exportá-los para um formato de texto.</p>
-<p>Vamos trabalhar com <code>readxl</code>. Importe a biblioteca (não precisa instalá-lo, já está instalado):</p>
+<p>Vamos trabalhar com <code>readxl</code>. Importe a biblioteca (não é preciso instalar, já está instalada):</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 library(&quot;readxl&quot;)</code></pre>
 </div>
-<p>Nosso exemplo será a Pesquisa Perfil dos Municípios Brasileiros de 2005, produzida pelo IBGE e apelidade de MUNIC. Diferentemente das demais funções deste tutorial, precisamos baixar o arquivo para o computador e acessá-lo localmente. É uma boa oportunidade para praticar. Faça o download diretamente no browser no <a href="ftp://ftp.ibge.gov.br/Perfil_Municipios/2005/base_MUNIC_2005.zip">site do IBGE</a> e descompacte para o arquivo “base_MUNIC_2005.xls” na pasta do seu projeto.</p>
+<p>Nosso exemplo será a Pesquisa Perfil dos Municípios Brasileiros de 2005, produzida pelo IBGE e apelidada de MUNIC. Diferentemente das demais funções deste tutorial, precisamos baixar o arquivo para o computador e acessá-lo localmente. É uma boa oportunidade para praticar. Faça o download diretamente no browser no <a href="ftp://ftp.ibge.gov.br/Perfil_Municipios/2005/base_MUNIC_2005.zip">site do IBGE</a> e descompacte para o arquivo “base_MUNIC_2005.xls” na pasta do seu projeto.</p>
 <p>Note que um ganho enorme de trabalhar dentro de um projeto é que não precisamos nos preocupar com a especificação do endereço inteiro de cada arquivo (o “C:\Users\Documents\…”) - só usamos o nome do arquivo e o R acessa tudo na pasta do projeto.</p>
 <p>Com <em>excel_sheets</em> examinamos quais são as planilhas existentes do arquivo:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2059,7 +2059,7 @@ externas &lt;- read_excel(&quot;Base 2005.xls&quot;, 11)</code></pre>
 </div>
 <p>A função <em>read_excel</em> aceita os argumentos “col_names” e “col_types” tal como as funções de importação do pacote <em>readr</em>.</p>
 <h2 id="dados-de-spss-stata-e-sas">Dados de SPSS, Stata e SAS</h2>
-<p>R é bastante flexível quanto à importação de dados de outros softwares estatísticos. Para este fim também há um pacote <em>haven</em>, que é, advinhe só, parte do <em>tidyverse</em>.</p>
+<p>O R é bastante flexível quanto à importação de dados de outros softwares estatísticos. Para este fim há também um pacote <em>haven</em>, que é, advinhe só, parte do <em>tidyverse</em>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 library(&quot;haven&quot;)</code></pre>
@@ -2076,7 +2076,7 @@ latino_barometro_spss &lt;- read_spss(&quot;Latinobarometro_2015_Eng.sav&quot;)
 latino_barometro_stata &lt;- read_stata(&quot;Latinobarometro_2015_Eng.dta&quot;)</code></pre>
 </div>
 <p>Simples assim.</p>
-<p>Há critérios de conversão de variáveis categóricas, rótulos e etc, adotados pelo R ao importar arquivos de outras linguagens, mas você pode descobrí-los testando sozinha.</p>
+<p>Há critérios de conversão de variáveis categóricas, rótulos e etc, adotados pelo R ao importar arquivos de outras linguagens, mas você pode descobri-los testando sozinho/a.</p>
 <div class="green">
 <h1 id="exercício-3-abrindo-dados-eleitorais">Exercício 3: Abrindo Dados Eleitorais</h1>
 <aside>
@@ -2111,7 +2111,7 @@ latino_barometro_stata &lt;- read_stata(&quot;Latinobarometro_2015_Eng.dta&quot;
 </div>
 </aside>
 <ol type="1">
-<li><p>Escolha um banco de dados (qualquer arquivo único) da aba ‘Resultados’ do site do <a href="http://www.tse.jus.br/eleicoes/estatisticas/repositorio-de-dados-eleitorais-1/repositorio-de-dados-eleitorais">Tribunal Superior Eleitoral aqui</a>, baixa-lo e unzip ele.</p></li>
+<li><p>Escolha um banco de dados (qualquer arquivo único) da aba ‘Resultados’ do site do <a href="http://www.tse.jus.br/eleicoes/estatisticas/repositorio-de-dados-eleitorais-1/repositorio-de-dados-eleitorais">Tribunal Superior Eleitoral aqui</a>, baixá-lo e dê unzip nele.</p></li>
 <li><p>Use uma função apropriada para abrir o arquivo em R.</p></li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
@@ -2119,7 +2119,7 @@ latino_barometro_stata &lt;- read_stata(&quot;Latinobarometro_2015_Eng.dta&quot;
 data &lt;- read_delim(&quot;arquivo.txt&quot;, delim = &quot;;&quot;, locale = locale(encoding = &quot;latin1&quot;))</code></pre>
 </div>
 <ol start="3" type="1">
-<li>Use o arquivo leiame.pdf que fica no zip com o arquivo do TSE para identificar o encoding dos dados, e os nomes das variáveis. Incorporar esta informação na abertura do arquivo.</li>
+<li>Use o arquivo leiame.pdf que fica no zip com o arquivo do TSE para identificar o encoding dos dados, e os nomes das variáveis. Incorpore esta informação na abertura do arquivo.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
