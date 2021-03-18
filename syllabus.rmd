@@ -40,7 +40,11 @@ No final do curso as estudantes deverão elaborar um projeto individual relacion
 Entre aulas, tutoriais, leituras e desafios, espera-se que cada aluna ou aluno dedique de 8h a 12h por semana à disciplina.
 
 ### Avaliação
-A avaliação é composta pela entrega dos desafios, do projeto final individual e da participação. A atribuição de nota para os desafios e projetos entregues priorizará o esforço e engenhosidade apresentados (leia-se "código com erros, mas bem elaborado") em detrimento da finalização do desafio (leia-se "código funcionando plenamente") como forma de encorajar estudantes iniciantes.
+A avaliação é composta pela entrega dos desafios (exercícios), do projeto final individual e da participação. A atribuição de nota para os desafios e projetos entregues priorizará o esforço e engenhosidade apresentados (leia-se "código com erros, mas bem elaborado") em detrimento da finalização do desafio (leia-se "código funcionando plenamente") como forma de encorajar estudantes iniciantes.
+
+1. Entrega de Desafios (40%)
+2. Projeto Final (40%)
+3. Participação Ativa e Respeitosa (20%)
 
 ## 5. Requisitos
 
