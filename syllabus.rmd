@@ -48,8 +48,6 @@ Não é necessário nenhum conhecimento prévio de programação, pacotes estat�
 
 É recomendado que as participantes já tenham concluído ou estejam cursando algum curso de métodos de pesquisa (de qualquer abordagem) ou de análise de dados, seja do programa ou da IPSA-USP Summer School. É um curso adequado para estudantes em qualquer etapa do mestrado ou doutorado, desde que tenham disponibilidade para realizar as atividades extra-classe.
 
-Estudantes do DCP-USP que podem se matricular regularmente não serão aceitas como ouvintes.
-
 ## 6. Tópicos
 
 1. Introdução ao curso, R e Rmarkdown (26/03/21)
