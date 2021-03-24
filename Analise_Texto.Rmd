@@ -279,7 +279,7 @@ library("urltools")
 
 #http://www.gutenberg.org/cache/epub/55752/pg55752.txt #Machado de Assis, Dom Casmurro
 
-Assis <- gutenberg_download(55752)
+Assis <- gutenberg_download(55752, mirror = "https://gutenberg.pglaf.org/")
 ```
 
 Temos que limpar e organizar o texto antes de usar. Por motivos chatos e técnicos, o próximo código converte o encoding para UTF-8, e depois tira manualmente as linhas do início e final que não foram parte do livro original. Aproveitamos para também adicionar uma nova coluna capturando o número da linha no livro, para facilitar restreando as linhas ao longo da análise.
@@ -754,6 +754,8 @@ O resultado de `LDA()` pode ser transformado em nosso amigo, o tibble, com a fun
 
 ```{r}
 library("broom")
+#install.packages("reshape2")
+library("reshape2")
 
 Assis_Verne_LDA_documentos <- Assis_Verne_LDA %>% tidy(matrix='gamma')
 ```

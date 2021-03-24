@@ -18,15 +18,80 @@
  <!--radix_placeholder_import_source-->
  <!--/radix_placeholder_import_source-->
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
   <!--radix_placeholder_meta_tags-->
-  <title>Analise de Dados para as Ciencias Sociais: Introducao</title>
+  <title>Analise de Dados para as Ciencias Sociais: Introdução</title>
   
   <meta property="description" itemprop="description" content="Gerar análises rápidas e ganhar confiança"/>
   
   
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Analise de Dados para as Ciencias Sociais: Introducao"/>
+  <meta property="og:title" content="Analise de Dados para as Ciencias Sociais: Introdução"/>
   <meta property="og:type" content="article"/>
   <meta property="og:description" content="Gerar análises rápidas e ganhar confiança"/>
   <meta property="og:locale" content="en_US"/>
@@ -34,17 +99,18 @@
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Analise de Dados para as Ciencias Sociais: Introducao"/>
+  <meta property="twitter:title" content="Analise de Dados para as Ciencias Sociais: Introdução"/>
   <meta property="twitter:description" content="Gerar análises rápidas e ganhar confiança"/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Introducao"]},{"type":"character","attributes":{},"value":["Gerar análises rápidas e ganhar confiança\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_float","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[1]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Introdução"]},{"type":"character","attributes":{},"value":["Gerar análises rápidas e ganhar confiança\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_float","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[1]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
+  <meta name="distill:offset" content=""/>
   
   <script type="application/javascript">
   
@@ -56,6 +122,7 @@
       var header = $('header').get(0);
       var headerHeight = header.offsetHeight;
       var headroom = new Headroom(header, {
+        tolerance: 5,
         onPin : function() {
           if (window.headroom_prevent_pin) {
             window.headroom_prevent_pin = false;
@@ -104,7 +171,7 @@
   
   .distill-site-nav {
     color: rgba(255, 255, 255, 0.8);
-    background-color: #455a64;
+    background-color: #0F2E3D;
     font-size: 15px;
     font-weight: 300;
   }
@@ -167,6 +234,7 @@
   
   .distill-site-header .title {
     font-size: 18px;
+    min-width: 150px;
   }
   
   .distill-site-header .logo {
@@ -308,7 +376,7 @@
   
   
   @media screen and (max-width: 768px) {
-    .distill-site-header.responsive {position: relative;}
+    .distill-site-header.responsive {position: relative; min-height: 500px; }
     .distill-site-header.responsive a.nav-toggle {
       position: absolute;
       right: 0;
@@ -377,11 +445,277 @@
     top: 0;
   }
   
+  /* adjust viewport for navbar height */
+  /* helps vertically center bootstrap (non-distill) content */
+  .min-vh-100 {
+    min-height: calc(100vh - 100px) !important;
+  }
+  
   </style>
   
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+  <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
+  
+  <script type="application/javascript">
+  
+  function getMeta(metaName) {
+    var metas = document.getElementsByTagName('meta');
+    for (let i = 0; i < metas.length; i++) {
+      if (metas[i].getAttribute('name') === metaName) {
+        return metas[i].getAttribute('content');
+      }
+    }
+    return '';
+  }
+  
+  function offsetURL(url) {
+    var offset = getMeta('distill:offset');
+    return offset ? offset + '/' + url : url;
+  }
+  
+  function createFuseIndex() {
+  
+    // create fuse index
+    var options = {
+      keys: [
+        { name: 'title', weight: 20 },
+        { name: 'categories', weight: 15 },
+        { name: 'description', weight: 10 },
+        { name: 'contents', weight: 5 },
+      ],
+      ignoreLocation: true,
+      threshold: 0
+    };
+    var fuse = new window.Fuse([], options);
+  
+    // fetch the main search.json
+    return fetch(offsetURL('search.json'))
+      .then(function(response) {
+        if (response.status == 200) {
+          return response.json().then(function(json) {
+            // index main articles
+            json.articles.forEach(function(article) {
+              fuse.add(article);
+            });
+            // download collections and index their articles
+            return Promise.all(json.collections.map(function(collection) {
+              return fetch(offsetURL(collection)).then(function(response) {
+                if (response.status === 200) {
+                  return response.json().then(function(articles) {
+                    articles.forEach(function(article) {
+                      fuse.add(article);
+                    });
+                  })
+                } else {
+                  return Promise.reject(
+                    new Error('Unexpected status from search index request: ' +
+                              response.status)
+                  );
+                }
+              });
+            })).then(function() {
+              return fuse;
+            });
+          });
+  
+        } else {
+          return Promise.reject(
+            new Error('Unexpected status from search index request: ' +
+                        response.status)
+          );
+        }
+      });
+  }
+  
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+  
+    // get search element (bail if we don't have one)
+    var searchEl = window.document.getElementById('distill-search');
+    if (!searchEl)
+      return;
+  
+    createFuseIndex()
+      .then(function(fuse) {
+  
+        // make search box visible
+        searchEl.classList.remove('hidden');
+  
+        // initialize autocomplete
+        var options = {
+          autoselect: true,
+          hint: false,
+          minLength: 2,
+        };
+        window.autocomplete(searchEl, options, [{
+          source: function(query, callback) {
+            const searchOptions = {
+              isCaseSensitive: false,
+              shouldSort: true,
+              minMatchCharLength: 2,
+              limit: 10,
+            };
+            var results = fuse.search(query, searchOptions);
+            callback(results
+              .map(function(result) { return result.item; })
+            );
+          },
+          templates: {
+            suggestion: function(suggestion) {
+              var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
+                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+                : '';
+              var html = `
+                <div class="search-item">
+                  <h3>${suggestion.title}</h3>
+                  <div class="search-item-description">
+                    ${suggestion.description || ''}
+                  </div>
+                  <div class="search-item-preview">
+                    ${img}
+                  </div>
+                </div>
+              `;
+              return html;
+            }
+          }
+        }]).on('autocomplete:selected', function(event, suggestion) {
+          window.location.href = offsetURL(suggestion.path);
+        });
+        // remove inline display style on autocompleter (we want to
+        // manage responsive display via css)
+        $('.algolia-autocomplete').css("display", "");
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  
+  });
+  
+  </script>
+  
+  <style type="text/css">
+  
+  .nav-search {
+    font-size: x-small;
+  }
+  
+  /* Algolioa Autocomplete */
+  
+  .algolia-autocomplete {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: sub;
+    background-color: white;
+    color: black;
+    padding: 6px;
+    padding-top: 8px;
+    padding-bottom: 0;
+    border-radius: 6px;
+    border: 1px #0F2E3D solid;
+    width: 180px;
+  }
+  
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-nav .algolia-autocomplete {
+      display: none;
+      visibility: hidden;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete {
+      display: inline-block;
+      visibility: visible;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+      margin-left: 0;
+      width: 400px;
+      max-height: 400px;
+    }
+  }
+  
+  .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+    width: 90%;
+    outline: none;
+    border: none;
+  }
+  
+  .algolia-autocomplete .aa-hint {
+    color: #999;
+  }
+  .algolia-autocomplete .aa-dropdown-menu {
+    width: 550px;
+    max-height: 70vh;
+    overflow-x: visible;
+    overflow-y: scroll;
+    padding: 5px;
+    margin-top: 3px;
+    margin-left: -150px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #999;
+    border-top: none;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+    cursor: pointer;
+    padding: 5px 4px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+    border-bottom: none;
+    margin-bottom: 2px;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+    overflow: hidden;
+    font-size: 0.8em;
+    line-height: 1.4em;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+    font-size: 1rem;
+    margin-block-start: 0;
+    margin-block-end: 5px;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+    display: inline-block;
+    overflow: hidden;
+    height: 2.8em;
+    width: 80%;
+    margin-right: 4%;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+    display: inline-block;
+    width: 15%;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+    height: 3em;
+    width: auto;
+    display: none;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+    display: initial;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+    background-color: #eee;
+  }
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+    font-weight: bold;
+    font-style: normal;
+  }
+  
+  </style>
+  
+  
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
   
@@ -405,6 +739,51 @@
   
   .pagedtable-footer {
     font-size: 15px;
+  }
+  
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+  
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+  
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+  
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+  
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+  
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
   }
   
   .html-widget {
@@ -446,6 +825,7 @@
   }
   
   d-article {
+    padding-top: 2.5rem;
     padding-bottom: 30px;
   }
   
@@ -457,91 +837,48 @@
     width: 100%;
   }
   
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+  
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+  
   d-article iframe {
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 2.0em;
     width: 100%;
   }
   
-  figure img.external {
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
-    padding: 18px;
-    box-sizing: border-box;
+  /* Tweak code blocks */
+  
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   }
   
-  /* CSS for table of contents */
-  
-  .d-toc {
-    color: rgba(0,0,0,0.8);
-    font-size: 0.8em;
-    line-height: 1em;
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
   }
   
-  .d-toc-header {
-    font-size: 0.6rem;
-    font-weight: 400;
-    color: rgba(0, 0, 0, 0.5);
-    text-transform: uppercase;
-    margin-top: 0;
-    margin-bottom: 1.3em;
+  d-article div.sourceCode {
+    background-color: white;
   }
   
-  .d-toc a {
-    border-bottom: none;
-  }
-  
-  .d-toc ul {
-    padding-left: 0;
-  }
-  
-  .d-toc li>ul {
-    padding-top: 0.8em;
-    padding-left: 16px;
-    margin-bottom: 0.6em;
-  }
-  
-  .d-toc ul,
-  .d-toc li {
-    list-style-type: none;
-  }
-  
-  .d-toc li {
-    margin-bottom: 0.9em;
-  }
-  
-  .d-toc-separator {
-    margin-top: 20px;
-    margin-bottom: 2em;
-  }
-  
-  .d-article-with-toc {
-    border-top: none;
-    padding-top: 0;
-  }
-  
-  
-  
-  /* Tweak code blocks (note that this CSS is repeated above in an injection
-     into the d-code shadow dom) */
-  
-  d-code {
-    overflow-x: auto !important;
-  }
-  
-  pre.d-code code.d-code {
+  d-article div.sourceCode pre {
     padding-left: 10px;
     font-size: 12px;
     border-left: 2px solid rgba(0,0,0,0.1);
   }
   
-  pre.text-output {
-  
+  d-article pre {
     font-size: 12px;
     color: black;
     background: none;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    margin-top: 0;
     text-align: left;
     white-space: pre;
     word-spacing: normal;
@@ -559,20 +896,128 @@
     hyphens: none;
   }
   
+  d-article pre a {
+    border-bottom: none;
+  }
+  
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+  
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+  
   @media(min-width: 768px) {
   
-  d-code {
-    overflow-x: visible !important;
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
   }
   
-  pre.d-code code.d-code  {
-      padding-left: 18px;
-      font-size: 14px;
-  }
-  pre.text-output {
+  d-article div.sourceCode pre {
+    padding-left: 18px;
     font-size: 14px;
   }
+  
+  d-article pre {
+    font-size: 14px;
   }
+  
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for d-contents */
+  
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+  
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+  
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+  
+  .d-contents li {
+    list-style-type: none
+  }
+  
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+  
+  .d-contents ul {
+    padding-left: 1em
+  }
+  
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+  
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+  
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+  
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+  
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+  
+  
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+  
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+  
   
   /* Figure */
   
@@ -610,6 +1055,27 @@
     color: rgba(0, 0, 0, 1.0);
   }
   
+  /* Citations */
+  
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+  
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+  
+  /* Citation hover box */
+  
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+  
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
   
   
   /* Tweak 1000px media break to show more text */
@@ -685,6 +1151,91 @@
     word-wrap: break-word;
   }
   
+  /* Include appendix styles here so they can be overridden */
+  
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+  
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+  
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+  
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+  
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+  
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+  
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  d-appendix > * {
+    grid-column: text;
+  }
+  
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+  
+  /* Include footnote styles here so they can be overridden */
+  
+  d-footnote-list {
+    contain: layout style;
+  }
+  
+  d-footnote-list > * {
+    grid-column: text;
+  }
+  
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+  
+  
+  
+  /* Anchor.js */
+  
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
   
   /* Social footer */
   
@@ -729,6 +1280,221 @@
   .article-footer .subscribe {
     font-size: 15px;
     margin-top: 45px;
+  }
+  
+  
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+  
+  /* Styles for posts lists (not auto-injected) */
+  
+  
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+  
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+  
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+  
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+  
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+  
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+  
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+  
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+  
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+  
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+  
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+  
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+  
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+  
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  .posts-list img {
+    opacity: 1;
+  }
+  
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+  
+  .posts-more {
+    clear: both;
+  }
+  
+  
+  .posts-sidebar {
+    font-size: 16px;
+  }
+  
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+  
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+  
+  .categories li>a {
+    border-bottom: none;
+  }
+  
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+  
+  .categories .active {
+    font-weight: 600;
+  }
+  
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+  
+  
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
   }
   
   
@@ -860,6 +1626,12 @@
     hyphens: none;
   }
   
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+  
+  
+  
   </style>
   
   <script type="application/javascript">
@@ -875,6 +1647,13 @@
   
   // show body when load is complete
   function on_load_complete() {
+  
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+  
   
     // set body to visible
     document.body.style.visibility = 'visible';
@@ -921,23 +1700,8 @@
     // create d-appendix
     $('.d-appendix').changeElementType('d-appendix');
   
-    // create d-bibliography
-    var bibliography = $('<d-bibliography></d-bibliography>');
-    $('#distill-bibliography').wrap(bibliography);
-  
     // flag indicating that we have appendix items
     var appendix = $('.appendix-bottom').children('h3').length > 0;
-  
-    // replace citations with <d-cite>
-    $('.citation').each(function(i, val) {
-      appendix = true;
-      var cites = $(this).attr('data-cites').split(" ");
-      var dt_cite = $('<d-cite></d-cite>');
-      dt_cite.attr('key', cites.join());
-      $(this).replaceWith(dt_cite);
-    });
-    // remove refs
-    $('#refs').remove();
   
     // replace footnotes with <d-footnote>
     $('.footnote-ref').each(function(i, val) {
@@ -955,39 +1719,21 @@
     // remove footnotes
     $('.footnotes').remove();
   
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+  
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
     });
     $('h3.appendix').each(function(i, val) {
       var id = $(this).attr('id');
-      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
       appendix = true;
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
     });
   
     // show d-appendix if we have appendix content
     $("d-appendix").css('display', appendix ? 'grid' : 'none');
-  
-    // replace code blocks with d-code
-    $('pre>code').each(function(i, val) {
-      var code = $(this);
-      var pre = code.parent();
-      var clz = "";
-      var language = pre.attr('class');
-      if (language) {
-        // map unknown languages to "clike" (without this they just dissapear)
-        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
-                                 "javascript", "js", "julia", "lua", "markdown",
-                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
-          language = "clike";
-        language = ' language="' + language + '"';
-        var dt_code = $('<d-code block' + language + clz + '></d-code>');
-        dt_code.text(code.text());
-        pre.replaceWith(dt_code);
-      } else {
-        code.addClass('text-output').unwrap().changeElementType('pre');
-      }
-    });
   
     // localize layout chunks to just output
     $('.layout-chunk').each(function(i, val) {
@@ -996,7 +1742,7 @@
       var layout = $(this).attr('data-layout');
   
       // apply layout to markdown level block elements
-      var elements = $(this).children().not('d-code, pre.text-output, script');
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
       elements.each(function(i, el) {
         var layout_div = $('<div class="' + layout + '"></div>');
         if (layout_div.hasClass('shaded')) {
@@ -1013,6 +1759,13 @@
       $(this).children().unwrap();
     });
   
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+  
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+  
     // load distill framework
     load_distill_framework();
   
@@ -1028,12 +1781,26 @@
       if (!have_authors)
         $('d-byline').addClass('hidden');
   
-      // table of contents
-      if (have_authors) // adjust border if we are in authors
-        $('.d-toc').parent().addClass('d-article-with-toc');
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
   
       // strip links that point to #
       $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
   
       // hide elements of author/affiliations grid that have no value
       function hide_byline_column(caption) {
@@ -1083,18 +1850,27 @@
         grid.children('h3:contains("Affiliations")').text('Affiliation');
       }
   
-      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
-      $('d-code').each(function(i, val) {
-        var style = document.createElement('style');
-        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
-                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
-        if (this.shadowRoot)
-          this.shadowRoot.appendChild(style);
-      });
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
   
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
+  
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
   
       // clear polling timer
       clearInterval(tid);
@@ -1126,9 +1902,7 @@
     $('.d-byline a').remove();
   
     // remove toc
-    $('.d-toc-header').remove();
-    $('.d-toc').remove();
-    $('.d-toc-separator').remove();
+    $('.d-contents').remove();
   
     // move appendix elements
     $('h1.appendix, h2.appendix').each(function(i, val) {
@@ -1259,7 +2033,11 @@
   <!--/radix_placeholder_distill-->
   <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
   <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="site_libs/distill-2.2.21/template.v2.js"></script>
@@ -1274,7 +2052,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Introducao","description":"Gerar análises rápidas e ganhar confiança","authors":[]}
+{"title":"Introdução","description":"Gerar análises rápidas e ganhar confiança","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1287,7 +2065,16 @@
 <div class="nav-right">
 <a href="index.html">Introducao</a>
 <a href="syllabus.html">Syllabus</a>
-<span class="nav-dropdown-header">Tutoriais</span>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Tutoriais
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="introducao.html">1. Introducao</a>
+</div>
+</div>
 <span class="nav-dropdown-header">Desafios</span>
 <a href="recursos.html">Recursos</a>
 <a href="projeto.html">Projeto Final</a>
@@ -1300,24 +2087,26 @@
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Introducao</h1>
+<h1>Introdução</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
 <p><p>Gerar análises rápidas e ganhar confiança</p></p>
 </div>
 
 
 <div class="d-article">
-<h3 class="d-toc-header">Table of Contents</h3>
-<nav class="d-toc" id="TOC">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
 <ul>
-<li><a href="#os-princípios-da-ciência-de-dados">Os Princípios da Ciência de Dados</a></li>
+<li><a href="#princípios-cruciais-na-análise-de-dados">Princípios Cruciais na Análise de Dados</a></li>
 <li><a href="#minha-primeira-análise">Minha primeira análise</a></li>
 <li><a href="#formatação-de-texto-em-r-markdown">Formatação de Texto em R Markdown</a></li>
-<li><a href="#big-header">Big Header</a></li>
-<li><a href="#trabalho-interativo-vs.-com-script">Trabalho Interativo vs. Com Script</a></li>
+<li><a href="#modo-interativo-vs.-modo-script">Modo Interativo vs. Modo Script</a></li>
 <li><a href="#data-frames-como-a-unidade-básica-de-ciência-de-dados">Data Frames como a Unidade Básica de Ciência de Dados</a></li>
 </ul>
 </nav>
-<hr class="d-toc-separator"/>
+</div>
 <style>
 div.green { background-color:#e5f5e0; border-radius: 5px; padding: 20px;}
 </style>
@@ -1327,12 +2116,14 @@ div.orange { background-color:#fee6ce; border-radius: 5px; padding: 20px;}
 <style>
 div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 </style>
-<h1 id="os-princípios-da-ciência-de-dados">Os Princípios da Ciência de Dados</h1>
+<h1 id="princípios-cruciais-na-análise-de-dados">Princípios Cruciais na Análise de Dados</h1>
+<p>Este curso é uma introdução a análise de dados, sobretudo para fins de pesquisa nas Ciências Sociais. No fluxo de trabalho mais comum, por exemplo na preparação de um relatório, tese, disertação ou artigo, queremos abrir um banco de dados, limpar e processar os dados, calcular estatísticas, produzir tabelas, gráficos, mapas, ou descrições, e apresentar os resultados num documento final. Através de tutoriais temáticos na linguagem de R, o curso orienta você em cada uma dessas tarefas.</p>
+<p>Em cada étapa da análise, salientamos os seguintes princípios que ajudam manter a integridade e confiabilidade da nossa análise:</p>
 <ul>
-<li>Transparência</li>
-<li>Simplicidade</li>
-<li>Reprodutibilidade</li>
-<li>Entender os seus dados</li>
+<li><strong>Transparência</strong> - Tudo a análise pode ser inspecionado para rastrear os origens de cada resultado e identificar erros</li>
+<li><strong>Simplicidade</strong> - Digitamos o código de forma mais simples e claro possível para que fica fácil ler e corrigir</li>
+<li><strong>Reprodutibilidade</strong> - Os bancos de dados brutos e o script de análise podem ser compartilhados com uma colega que consegue executa a análise e produzir o resultado idêntico</li>
+<li><strong>Entender os seus dados</strong> - A análise deve nos ajudar entender - e não esconder - o conteúdo dos nossos dados</li>
 </ul>
 <h1 id="minha-primeira-análise">Minha primeira análise</h1>
 <p>Programação e análise de dados não acontecem como mostrado nos filmes. Em vez de digitar furiosamente comandos na hora, preparamos um ‘script’ com calma de antemão e só temos que ‘executar’ o nosso script quando tudo está pronto para gerar o nosso produto final.</p>
@@ -1346,67 +2137,61 @@ div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 </ol>
 <p>Criamos o nosso projeto/pasta dentro do RStudio: Clique File -&gt; New Project. Depois, "New Directory’ -&gt; New Project e especifique o nome e a localização preferida para a pasta. Quando esse passo a passo é finalizado, a única coisa que muda no RStudio é que a aba/janela ‘Files’ mostra todos os arquivos em nossa pasta.</p>
 <p>Ainda temos que gerar o nosso primeiro script de R Markdown: Clique File -&gt; New File -&gt; R Markdown. Escolha ‘documento’ nas opções à esquerda, digite um título e autor, e escolha o formato HTML para o produto (output) final (podemos mudar o formato depois se necessário). Salve o novo script na pasta do seu projeto (que deve abrir como opção padrão (default)).</p>
-<p>Ao abrir o arquivo de RMarkdown haverá um conteúdo padrão como exemplo; pode apagar tudo exceto o ‘header’, que parece assim:</p>
+<p>Ao abrir o arquivo de RMarkdown haverá um conteúdo padrão como exemplo; pode apagar tudo exceto o cabeçalho/‘header’, que parece assim:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
----
-title: &quot;Exemplo&quot;
-author: &quot;Jonathan&quot;
-date: &quot;26 de março 2021&quot;
-output: html_document
----</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="op">---</span></a>
+<a class="sourceLine" id="cb1-2" title="2">title<span class="op">:</span><span class="st"> &quot;Exemplo&quot;</span></a>
+<a class="sourceLine" id="cb1-3" title="3">author<span class="op">:</span><span class="st"> &quot;Jonathan&quot;</span></a>
+<a class="sourceLine" id="cb1-4" title="4">date<span class="op">:</span><span class="st"> &quot;26 de março 2021&quot;</span></a>
+<a class="sourceLine" id="cb1-5" title="5">output<span class="op">:</span><span class="st"> </span>html_document</a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="op">---</span></a></code></pre></div>
 </div>
-<p>Depois, você pode escrever qualquer coisa em texto normal que vai aparecer no documento final. É como trabalhar em Microsoft Word ou outro editor de texto. Escreva numa frase curta o seu motivo para cursar esta disciplina.</p>
-<p>Agora temos o nosso primeiro script, e queremos ‘compilar’ ou ‘executar’ o script para o produto final. Em R isso se chama ‘knit’ e aparece como um ícone azul acima do seu script. Clique em ‘Knit’ e o RStudio vai abrir um documento de formato HTML numa janela separada.</p>
-<p>Parabéns! Você já produziu a sua primeira análise! Onde ela fica salva? Procure o documento com extensão HTML na mesma pasta do seu script, a pasta do projeto. Simples, não?</p>
+<p>Fique à vontade alterar o título, autor e data como quiser. Depois do cabeçalho, você pode escrever qualquer coisa em texto normal que vai aparecer no documento final. É como trabalhar em Microsoft Word ou outro editor de texto. Para entender como funciona, escreva numa frase curta o seu motivo para cursar esta disciplina.</p>
+<p>Agora temos o nosso primeiro script, e queremos ‘compilar’ ou ‘executar’ o script para gerar o produto final. Em R isso se chama ‘Knit’ e aparece como um ícone azul acima do seu script. Clique em ‘Knit’ e o RStudio vai abrir um documento de formato HTML numa janela separada.</p>
+<p>Parabéns! Você já produziu a sua primeira análise! Onde ela fica salva? Procure o documento com extensão HTML na mesma pasta do seu script, a pasta do projeto. Simples, não? Logo, vamos ver como a produzir outros formatos de documentos finais (eg. Word, PDF).</p>
 <h2 id="primeira-programação">Primeira Programação</h2>
-<p>Até agora o nosso documento é muito simples e não incorpora nenhuma análise técnica ou de programação. A melhor característica do R Markdown é que podemos juntar texto simples e programação no mesmo script. Apesar disso, existe uma separação forte e clara entre os dois: deixamos códigos de programação em lugares específicos e demarcados dentro do script - estes lugares se chamam ‘chunks’. Para inserir um chunk, clique em Insert -&gt; R. No local do seu mouse vai aparecer uma caixa com fundo cinza onde podemos digitar o nosso código de programação:</p>
-<pre class="clike"><code>
-```{r}
+<p>Até agora o nosso documento é muito simples e não incorpora nenhuma análise técnica ou de programação. A melhor característica do R Markdown é que podemos juntar texto simples e programação no mesmo script. Apesar disso, existe uma separação forte e clara entre os dois: deixamos códigos de programação em lugares específicos e demarcados dentro do script - estes lugares se chamam ‘chunks’. Para inserir um chunk, clique no icone verde com um ‘C’ acima do seu script e em seguida ‘R’. No local do seu mouse vai aparecer uma caixa com fundo cinza onde podemos digitar o nosso código de programação:</p>
+<pre class="clike"><code>```{r}
 
 ```</code></pre>
-<p>(No futuro, pode ser mais rápido criar um chunk com <code>Ctrl+Alt+i</code>, mas o atalho de teclado não funciona em todas as máquinas).</p>
-<p>O que inserimos aqui dentro? Em breve, centenas de linhas de código! Tudo que você escrever aqui será processado pela máquina do R e o output inserido no documento final.</p>
+<p>(No futuro, pode ser mais rápido criar um chunk com <code>Ctrl+Alt+i</code>).</p>
+<p>O que inserimos aqui dentro? Em breve, centenas de linhas de código! Tudo que você escrever aqui será processado pela máquina do R e o resultado inserido no documento final.</p>
 <p>O R funciona como calculadora, então podemos digitar alguns cálculos dentro do chunk e ver os resultados no documento final:</p>
-<pre class="clike"><code>
-```{r}
+<pre class="clike"><code>```{r}
 86*74
 ```</code></pre>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>
-[1] 6364</code></pre>
+<pre><code>[1] 6364</code></pre>
 </div>
-<p>O R também permite o armazenamento de valores como ‘objetos’, descritos por um nome. No início do seu cálculo, digite um nome do seu objeto desejado, seguido por uma seta à esquerda, ‘&lt;-’ que significa atribuir o resultado do cálculo a direita ao objeto com nome na esquerda. O objeto <code>calculo</code> fica disponível para o restante do seu script, em todas as linhas e chunks abaixo. A lista de objetos disponíveis no seu ambiente fica na aba ‘Environment’ do RStudio.</p>
-<pre class="clike"><code>
-```{r}
+<p>O R também permite o armazenamento de valores como ‘objetos’, descritos por um nome. No início do seu cálculo, digite um nome do seu objeto desejado, seguido por uma seta à esquerda ‘&lt;-’, composta por ‘&lt;’ e ‘-’, que significa atribuir o resultado do cálculo a direita ao objeto com nome na esquerda. O objeto <code>calculo</code> fica disponível para o restante do seu script, em todas as linhas e chunks abaixo. A lista de objetos disponíveis no seu ambiente fica na aba ‘Environment’ do RStudio.</p>
+<pre class="clike"><code>```{r}
 calculo &lt;- 86*74
 
 calculo/4
 ```</code></pre>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>
-[1] 1591</code></pre>
+<pre><code>[1] 1591</code></pre>
 </div>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Atribuição, ‘&lt;-’</strong> Guardamos dados/resultados para o futuro em objetos do R. A lista de objetos disponíveis fica na aba de ‘Environment’ do RStudio, e será limpa toda vez que fechamos o R, ou propositalmente limpamos o ‘Environment’. Para <em>criar</em> objetos, temos que atribuir o resultado de uma função/cálculo a um nome único.</p>
 <p>A flecha de atribuição, composto pelos dois símbolos ‘&lt;’ e ‘-’ conecta o nome de objeto e o conteúdo para salvar dentro:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-nome_objeto &lt;- 15*72</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>nome_objeto</span> <span class='op'>&lt;-</span> <span class='fl'>15</span><span class='op'>*</span><span class='fl'>72</span>
+</code></pre>
+</div>
 </div>
 </div>
 <p>Que ótimo! Já produzimos o nosso primeiro script de programação! Se compilarmos o script com ‘Knit’, você verá o documento final com o seu texto simples, o código e o resultado da execução do código.</p>
 <p>Vamos tentar mais uma análise. Por exemplo, calculamos a área de um círculo de raio 20 com o chunk abaixo, usando a constante <code>pi</code> (que o R já tem salvo como objeto na memória):</p>
-<pre class="clike"><code>
-```{r}
+<pre class="clike"><code>```{r}
 raio &lt;- 20
 area &lt;- pi * raio^2
 
 area
 ```</code></pre>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>
-[1] 1256.637</code></pre>
+<pre><code>[1] 1256.637</code></pre>
 </div>
 <p>Note que temos que escrever o nome do objeto para que o resultado apareça no documento final. Se não, ele fica apenas salvo no objeto ‘area’ para uso no futuro e seu valor não aparece no nosso documento final de RMarkdown.</p>
 <p>Como um resumo, existem dois lugares em nosso script, e temos que lembrar qual tipo de conteúdo fica em cada um:</p>
@@ -1433,64 +2218,77 @@ area
 </tbody>
 </table>
 <h1 id="formatação-de-texto-em-r-markdown">Formatação de Texto em R Markdown</h1>
-<p>Como tornamos o nosso texto mais interessante e organizado? Em contraste com o Microsoft Word, formatar textos em R Markdown não depende de clicar em botões - precisamos incluir caracteres/símbolos no script para indicar a formatação que queremos.</p>
-<p><em>Italic</em> - <code>*Italic*</code><br />
-<strong>Bold</strong> - <code>**Bold**</code></p>
-<h1 id="big-header">Big Header</h1>
-<p><code># Big Header</code></p>
-<h2 id="sub-header">Sub-Header</h2>
-<p><code>## Sub-Header</code></p>
-<h3 id="sub-sub-header">Sub-Sub-Header</h3>
-<p><code>### Sub-Sub-Header</code></p>
-<p><a href="www.google.com">link</a> - <code>[link](http://www.google.com)</code></p>
+<p>Como tornamos o nosso texto mais interessante e organizado? Em contraste com o Microsoft Word, formatar textos em R Markdown não depende de clicar em botões - precisamos incluir caracteres/símbolos no script para indicar a formatação que queremos. Por exemplo, usamos um asterisco (’*’) antes e depois de uma palavra/frase que queremos destacar em itálicos.</p>
+<div style="display: flex;">
+<div>
+<p><code>*Itálico*</code></p>
+<p><code>**Bold**</code></p>
+<p><code># Cabeçalho de seção</code></p>
+<p><br></p>
+<p><code>## Sub-cabeçalho</code><br />
+`</p>
+<p><code>### Sub-Sub-cabeçalho</code></p>
+<p><code>[link](http://www.google.com)</code></p>
+<p><code>* Bullets</code><br />
+<code>[quatro espaços]    * Sub-Bullets</code></p>
+<p><code>1. Lista numerada</code><br />
+<code>[quatro espaços]    1. Sub-Lista numerada</code></p>
+</div>
+<div>
+<p><em>Itálico</em></p>
+<p><strong>Bold</strong></p>
+<h1 id="cabeçalho-de-seção">Cabeçalho de seção</h1>
+<h2 id="sub-cabeçalho">Sub-cabeçalho</h2>
+<h3 id="sub-sub-cabeçalho">Sub-Sub-cabeçalho</h3>
+<p><a href="www.google.com">link</a></p>
 <ul>
 <li>Bullets
 <ul>
 <li>Sub-Bullets</li>
 </ul></li>
 </ul>
-<p><code>* Bullets</code><br />
-<code>[quatro espaços]    * Sub-Bullets</code></p>
 <ol type="1">
-<li>Numbered List
+<li>Lista numerada
 <ol type="1">
-<li>Sub-numbered list</li>
+<li>Sub-lista numerada</li>
 </ol></li>
 </ol>
-<p><code>1. Numbered List</code><br />
-<code>[quatro espaços]    1. Sub-Numbered List</code></p>
-<p>Pratique incluindo alguns cabeçalhos e formatações no seu documento. Para mais detalhes veja <a href="https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf">O Cheatsheet</a> do Rmarkdown.</p>
+</div>
+</div>
+<p>Pratique incluindo alguns cabeçalhos e formatações no seu documento, e compile com ‘Knit’ para verificar o resultado. Para mais detalhes veja <a href="https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf">O Cheatsheet</a> do Rmarkdown.</p>
 <h2 id="equações">Equações</h2>
-<p>Podemos escrever equações com a linguagem de Latex (que vamos aprender logo no futuro). Se quiser inserir uma equação dentro de uma frase (na mesma linha), use <code>$equation$</code>, e para centralizar numa nova linha use <code>$$equation grande$$</code>. A sintaxe é assim:</p>
+<p>Podemos escrever equações com a linguagem de Latex (que vamos aprender logo no futuro). Se quiser inserir uma equação dentro de uma frase (na mesma linha), use <code>$equacao$</code>, e para centralizar numa nova linha use <code>$$equacao grande$$</code>. A sintaxe é assim:</p>
 <p><code>$$\alpha^2 + \beta^2 = \chi^2$$</code> <span class="math display">\[\alpha^2 + \beta^2 = \chi^2\]</span><br />
 <code>$$\frac{\sqrt{1}}{2} * \frac{a}{2b} = \frac{a}{4b}$$</code> <span class="math display">\[\frac{\sqrt{1}}{2} * \frac{a}{2b} = \frac{a}{4b}\]</span> <code>$$\sum_0^{10} x = ...$$</code> <span class="math display">\[\sum_0^{10} x = ...\]</span></p>
 <p>Mais detalhes <a href="https://www.caam.rice.edu/~heinken/latex/symbols.pdf">aqui</a>.</p>
-<h2 id="incluindo-resultados-do-código-dentro-do-texto">Incluindo resultados do código dentro do texto</h2>
-<p>Até agora, o nosso texto está sendo dividido por chunks de código. Às vezes queremos integrar o código ao texto, para fazer referência ao resultado dentro do próprio texto/frase. Por exemplo, podemos querer inserir uma média ou o número de observações do nosso banco de dados não de forma manual ou de memória, mas como um valor exato, atualizado e calculado pelo nosso script.</p>
-<p>Como incluímos o resultado numérico <code>area</code> do cálculo acima dentro de uma frase em nosso texto (fora do chunk de código)? Podemos usar ‘in-line code’ para exibir um valor simples no documento final. O formato é como o exemplo abaixo, usando o acento grave para começar e terminar, a letra <code>r</code> para mostrar que queremos um cálculo do R, e o nome do objeto que queremos inserir. Você se lembra que já criamos o objeto <code>area</code> acima com o resultado do cálculo da área do círculo? O resultado deve estar ainda disponível se o chunk fica acima.</p>
-<pre class="clike"><code>
-```{r}
+<h2 id="código-em-linha-incluindo-resultados-do-código-dentro-do-texto">‘Código em linha’: Incluindo resultados do código dentro do texto</h2>
+<p>Até agora, o nosso script tem dois componentes distintos: texto simples e chunks de código que geram resultados separados no documento final. Às vezes queremos integrar o código ao texto, para fazer referência ao resultado da nossa análise dentro do próprio texto/frase. Por exemplo, podemos querer inserir uma média ou o número de observações do nosso banco de dados dentro de uma frase na sua tese, não de forma manual ou de memória, mas como um valor exato, atualizado e calculado pelo nosso script.</p>
+<p>Como incluímos o resultado numérico <code>area</code> do cálculo acima dentro de uma frase em nosso texto (fora do chunk de código)? Podemos usar ‘código em linha’ (‘in-line code’) para exibir um valor simples no documento final. O formato é como o exemplo abaixo, usando o acento grave para começar e terminar, a letra <code>r</code> para mostrar que queremos um cálculo do R, e o nome do objeto que queremos inserir. Você se lembra que já criamos o objeto <code>area</code> acima com o resultado do cálculo da área do círculo? O resultado deve estar ainda disponível se o chunk fica acima.</p>
+<pre class="clike"><code>```{r}
 raio &lt;- 20
 area &lt;- pi * raio^2
 ```</code></pre>
 <p>A área de um círculo de raio 20 é <code>`r area`</code>.</p>
 <p>E o resultado:</p>
-<p>A área de um círculo de raio 20 é 1256.6370614. Totalmente integrada na frase para que ninguém saberá que você não fez o cálculo manualmente! Tente ‘Knit’ o seu documento de novo.</p>
-<h1 id="trabalho-interativo-vs.-com-script">Trabalho Interativo vs. Com Script</h1>
+<p>A área de um círculo de raio 20 é 1256.6370614.</p>
+<p>O resultado é totalmente integrada na frase para que ninguém saberá que você não fez o cálculo manualmente! Tente ‘Knit’ o seu documento de novo.</p>
+<h1 id="modo-interativo-vs.-modo-script">Modo Interativo vs. Modo Script</h1>
 <p>Até agora, trabalhamos com scripts, arquivos .Rmd, e esse é o melhor jeito de organizar as nossas análises e deixá-las prontas e reproduzíveis para um outro pesquisador (ou você mesmo) no futuro.</p>
 <p>Porém, é bem difícil pensar no processamento de dados do início até o final sem interrogar os dados em cada passo do processo. Queremos verificar se cada linha de código gera o resultado esperado conforme vamos programando, e não apenas no documento final. Felizmente, o R nos permite trabalhar no modo <em>interativo</em> enquanto preparamos o nosso script. A ideia é que executamos o nosso código linha por linha, e avaliamos o resultado de cada linha para confirmar que o resultado faz sentido.</p>
 <p>Isso é indispensável, por exemplo, quando enfrentamos um erro na compilação do nosso script e precisamos diagnosticar o problema.</p>
-<p>Há dois jeitos de rodar uma linha de código:<br />
-1. Digite o seu código direitamente na janela/aba de ‘Console’ do RStudio;<br />
-2. Selecione a linha de código dentro do seu script (na verdade apenas precisa deixar o cursor na linha relevante) e toque ‘Run’ em R (botão acima do seu script, do lado direito) ou digite <code>Ctrl+Enter</code>.</p>
+<p>Há dois jeitos de rodar uma linha de código no modo interativo:<br />
+1. Digite o seu código diretamente na janela/aba de ‘Console’ do RStudio, e <code>Enter</code> para executar;<br />
+2. Selecione a(s) linha(s) de código dentro do seu script (na verdade apenas precisa deixar o cursor na linha relevante) e toque ‘Run’ em R (botão acima do seu script, do lado direito) ou digite <code>Ctrl+Enter</code>.</p>
 <p>Na prática, a nossa recomendação é usar opção (2) quando precisa rodar uma linha de código que já existe no seu script, e opção (1) apenas quando precisa rodar temporariamente uma linha nova, por exemplo para ajudar a inspecionar um objeto.</p>
 <p>Experimente rodando o código abaixo em modo interativo:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-raio &lt;- 20
-area &lt;- pi * raio^2
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>raio</span> <span class='op'>&lt;-</span> <span class='fl'>20</span>
+<span class='va'>area</span> <span class='op'>&lt;-</span> <span class='va'>pi</span> <span class='op'>*</span> <span class='va'>raio</span><span class='op'>^</span><span class='fl'>2</span>
 
-area</code></pre>
+<span class='va'>area</span>
+</code></pre>
+</div>
 </div>
 <p>O resultado é impresso na aba/janela de Console, e se usei opção (2), também abaixo do chunk que contém o código. Note que a execução do código por qualquer método gerou o objeto <code>area</code> na janela/aba de ‘Environment’ do RStudio. O Environment armazena todos os objetos que estão disponíveis em modo interativo.</p>
 <p>Vamos descrobrir que a ordem de execução de linhas de código é absolutamente crucial para o resultado final. Em modo interativo sempre existe um risco de executar os códigos na ordem errada. É por isso que o modo de script é mais robusto e deixa a ordem da análise clara - ordem da sequência das linhas do script. Se você ficar confuso com quais operações já foram executadas, recomendamos limpar o seu Environment no RStudio clicando na imagem da vassoura na aba de Environment, e comece de novo desde o início.</p>
@@ -1539,7 +2337,7 @@ area</code></pre>
 </tbody>
 </table>
 <p>Note que em uma linha os elementos são de tipos diferentes: na primeira coluna há uma nome (texto), na segunda uma sigla de partido (texto, mas limitado a um conjunto de siglas) e na terceira votos (números inteiros).</p>
-<p>Por outro lado, em cada coluna há somente elementos de um tipo. Por exemplo, há apenas números inteiros na coluna votos. Colunas são variáveis e por isso aceitam registros de um único tipo, não podemos mesclar informações de tipos diferentes em uma mesma coluna (como texto e números).</p>
+<p>Por outro lado, em cada coluna há somente elementos de um tipo. Por exemplo, há apenas números inteiros na coluna votos. Colunas são variáveis e por isso aceitam registros de um único tipo, não podemos mesclar informações de tipos diferentes em uma mesma coluna (como texto e data).</p>
 <p>Se destacamos uma coluna do nosso data frame, temos um <strong>vetor</strong>. Por exemplo, a variável “Votos” pode ser apresentada da seguinte maneira: {350, 1598, 784, 580, 2}. Um data frame é um conjunto de variáveis (vetores) dispostos na vertical e combinados um ao lado do outro.</p>
 <p>Data frame e vetores são <strong>objetos</strong> na linguagem R.</p>
 <p>Vamos ver como o R representa vetores e data frames na tela. Antes disso, é preciso ‘abrir’ um data frame.</p>
@@ -1547,45 +2345,45 @@ area</code></pre>
 <p>Uma das características mais atrativas da linguagem R é o desenvolvimento de <strong>pacotes</strong> pela comunidade de usuários. Pacotes são conjuntos de funções (isto é comandos) e, por vezes, guardam também dados em diversos formatos.</p>
 <p>Vamos carregar um pacote chamado <code>nycflights13</code>, que contém um conjunto de dados útil para fins didáticos. Existem dois passos para abrir um pacote em R:</p>
 <ol type="1">
-<li><strong>Instalação</strong>: Uma única vez por máquina (então rode uma vez em modo interativo, e se deixar no seu script lembra-se de colocar num comentário, veja abaixo para mais detalhes):</li>
+<li><strong>Instalação</strong>: Uma única vez por máquina (então rode uma vez em modo interativo, idealmente no Console. Se deixar no seu script lembra-se de colocar num comentário para que não seja executada cada vez que usamos ‘Knit’. Veja abaixo para mais detalhes):</li>
 </ol>
-<pre class="clike"><code>
-```{r}
-install.packages(&quot;nycflights13&quot;)
-```</code></pre>
+<pre class="clike"><code>install.packages(&quot;nycflights13&quot;)</code></pre>
 <ol start="2" type="1">
 <li><strong>Disponibilização</strong>: Cada vez que rodamos o script em que precisamos do conteúdo do pacote (então deixe essa linha dentro do seu script, no início de preferência):</li>
 </ol>
-<pre class="clike"><code>
-```{r}
+<pre class="clike"><code>```{r}
 library(&quot;nycflights13&quot;)
 ```</code></pre>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Comentários</strong> O R vai processar <em>tudo</em> que está no seu script, linha por linha. A única exceção é quando uma linha começa com o símbolo <code>#</code> dentro de um chunk. Isso significa um ‘comentário’, que queremos notar uma coisa para documentar o que estamos fazendo numa linha de código e porque.</p>
 <p>Comentários são essenciais para uma programação efetiva. <strong>Posso te garantir, você não vai lembrar o motivo para o seu código em alguns meses/anos.</strong> Melhor deixar tudo explícito hoje enquanto prepara o código.</p>
-<p>Pode usar o atalho <code>Ctrl+Shift+c</code> para comentar a(s) linha(s) selecionada(a) ou a linha na qual o cursor estiver posicionado.</p>
+<p>Pode usar o atalho <code>Ctrl+Shift+c</code> para comentar a(s) linha(s) selecionada(a) ou a linha na qual o cursor estiver posicionado. (Observe que isso também funciona para texto simples).</p>
 <div class="layout-chunk" data-layout="l-body-outset">
-<pre class="r"><code>
-# Nota: O uso de comentário abaixo nos permite notar como foi instalado
-# o pacote, sem rodar o código
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Nota: O uso de comentário abaixo nos permite notar como foi instalado</span>
+<span class='co'># o pacote, sem rodar o código</span>
 
-# install.packages(&#39;nycflights13&#39;)
-library(&quot;nycflights13&quot;)</code></pre>
+<span class='co'># install.packages('nycflights13')</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='http://github.com/hadley/nycflights13'>"nycflights13"</a></span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 </div>
 <h2 id="explorando-os-dados-de-flights">Explorando os dados de <em>flights</em></h2>
-<p>O pacote <code>nycflights13</code> contém um banco de dados chamado <code>flights</code>. É literalmente um banco de dados de todos os voos que partiram de Nova Iorque em 2013.</p>
+<p>O pacote <code>nycflights13</code> contém um banco de dados chamado <code>flights</code>. É literalmente um banco de dados de todos os voos que partiram de Nova Iorque em 2013, e um ótimo exemplo para illustrar os poderes de R.</p>
 <p>Logo mais veremos como abrir conjuntos de dados de outras fontes (arquivos de texto, outros softwares, etc), mas já podemos começar a trabalhar com <em>data frames</em> usando <code>flights</code>.</p>
-<p>Primeiro, queremos conhecer os dados para saber o que eles descrevem, então trabalhamos em modo interativo. Num chunk, digite o nome de banco de dados (o objeto) e executa-lo com ‘Run’ ou <code>Ctrl+Enter</code>:</p>
-<pre class="clike"><code>
-```{r}
+<p>Primeiro, queremos conhecer os dados para saber o que eles descrevem, então trabalhamos em modo interativo. Pode digitar o nome de banco de dados (o objeto) no console e executa-lo com <code>Enter</code>, ou digitar num chunk e executa-lo com ‘Run’ ou <code>Ctrl+Enter</code>:</p>
+<pre class="clike"><code>```{r}
 flights
 ```</code></pre>
 <p>Os dados aparecem numa tabela interativa abaixo do chunk em que eles foram abertos. Pode descer para ver mais observações ou passar para a direita para ver mais colunas.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span>
+</code></pre>
 </div>
+</div>
+<p><img src="flights_screencap.png" /></p>
 <p>Antes de continuar, olhe a tabela de <code>flights</code> e responda às seguintes perguntas:</p>
 <ol type="1">
 <li>Quantas observações existem no banco de dados?</li>
@@ -1597,29 +2395,31 @@ flights</code></pre>
 <p>Estas são questões fundamentais que devem ser o seu ponto de partida para conhecer os seus dados, perguntas críticas para qualquer análise.</p>
 <p>O R ajuda a responder as perguntas de várias formas. O número de linhas e colunas está escrito ao final da tabela. Se queremos calcular o número de observações (linhas) e variáveis (colunas) usando um código, podemos pedir assim:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-nrow(flights)
-ncol(flights)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>flights</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span><span class='op'>(</span><span class='va'>flights</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p><code>nrow</code> significa o número de linhas, e <code>ncol</code> o número de colunas. Use <code>Ctrl+Enter</code> para rodar interativamente, e/ou deixe no script para que o número de linhas e colunas seja impresso no seu documento final. Isso é bastante útil quando, por exemplo, você quer relatar o número de observações no seu artigo - não precisa lembrar, o R vai calcular e atualizar automaticamente para você!</p>
 <div class="blue">
-<p><strong>Habilidade Básica de Programação: Funções e Parênteses</strong> Qualquer operação ou transformação em R é uma função que aceita (pelo menos) um insumo (input) e gera um produto (output). Cada função deve ter um nome único (infelizmente, no entanto, duplicações são possíveis e problemáticas). Funções sempre vêm com parênteses depois, e especificamos os inputs nos parênteses. Mesmo quando uma função não precisa de inputs, exige parênteses, por exemplo <code>Sys.Date()</code> devolve a data de hoje.</p>
+<p><strong>Habilidade Básica de Programação: Funções e Parênteses</strong> Qualquer operação ou transformação em R é uma função que aceita (pelo menos) um insumo (input) e gera um produto (output). Cada função deve ter um nome único (infelizmente, no entanto, duplicações são possíveis e problemáticas). Funções sempre vêm com parênteses depois, e especificamos os insumos nos parênteses, com múltiplos insumos separados por vírgula. Mesmo quando uma função não precisa de inputs, exige parênteses, por exemplo <code>Sys.Date()</code> devolve a data de hoje.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-funcao(insumos)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>funcao</span><span class='op'>(</span><span class='va'>insumos</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-Sys.Date()</code></pre>
-<pre><code>
-[1] &quot;2021-03-19&quot;</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.Date</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] &quot;2021-03-24&quot;</code></pre>
 </div>
 </div>
 <p>Como sabemos o significado de algumas colunas com nomes ambíguos? Podemos acessar o <strong>help</strong> (documentação) do objeto para descobrir uma descrição do que há no <em>data frame</em> chamado <code>flights</code>:</p>
-<pre class="clike"><code>
-```{r}
-?flights
-```</code></pre>
+<pre class="clike"><code>?flights</code></pre>
 <p>Os detalhes aparecem na janela/aba ‘Help’. Você pode ler com calma antes de avançar. Se deixarmos o código de help no script, o R vai abrir a página de documentação cada vez que rodarmos o script (knit)! Então temos que operar no modo interativo: o melhor é digitar na aba de Console, ou apagar antes de continuar seu script.</p>
 <p>O help funciona para todas as funções de R: Abra o help da função <code>nrow</code> para entender melhor os detalhes da função.</p>
 <h2 id="tipos-de-dados">Tipos de Dados</h2>
@@ -1639,80 +2439,94 @@ Sys.Date()</code></pre>
 <th></th>
 <th></th>
 <th>Tipo em R</th>
-<th>Shortcut em Tabela</th>
+<th>Atalho em Tabela</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>Discreta</td>
 <td>Nominal</td>
-<td>Factor ou Character</td>
+<td>Fator ou Caracter</td>
 <td>fctr, chr</td>
 </tr>
 <tr class="even">
 <td></td>
 <td>Ordinal</td>
-<td>Ordered Factor</td>
+<td>Fator ordenado</td>
 <td>fctr, chr</td>
 </tr>
 <tr class="odd">
 <td></td>
 <td>Inteiro</td>
-<td>Integer</td>
+<td>Inteiro</td>
 <td>int</td>
 </tr>
 <tr class="even">
 <td>Contínua</td>
 <td></td>
-<td>Double/Numeric/Real</td>
+<td>Dobro/Numérico/Real</td>
 <td>dbl</td>
 </tr>
 </tbody>
 </table>
-<p>Existem outros tipos também. Por enquanto, podemos deixar o R cuidar dos tipos de dados e não precisamos nos preocupar na geração/transformação de tipos de dados.</p>
+<p>Existem outros tipos também. Por enquanto, podemos deixar o R cuidar dos tipos de dados e não precisamos nos preocupar na geração/transformação de tipos de dados. Quais tipos de dados existem no banco de dados <code>flights</code>?</p>
 <h2 id="criando-o-nosso-próprio-data.frame">Criando o nosso próprio data.frame</h2>
 <p>No próximo tutorial, vamos aprender como importar dados enormes de fontes externas. Na prática, quase todos os objetos com os quais vamos trabalhar são data.frames, e às vezes a informação contida neles é simples, então podemos criá-los na hora.</p>
-<p>Uma pequena complicação: neste curso vamos trabalhar com uma variedade de data.frame um pouco mais sofisticada - um <strong>‘tibble’</strong>. Um tibble é um data.frame, não tem diferença; só que um tibble é mais flexível e melhor formatado para facilitar a nossa análise. O banco de dados de <code>flights</code> é um tibble. Se você colocar o cursor em cima do nome de <code>flights</code> no ‘Environment’ (sem clicar) vai ver a informação sobre o tipo de objeto que ele é.</p>
+<p>Uma pequena complicação: neste curso vamos trabalhar com uma variedade de data.frame em R um pouco mais sofisticada - um <strong>‘tibble’</strong>. Um tibble é um data.frame, não tem diferença; só que um tibble é mais flexível e melhor formatado em R para facilitar a nossa análise. O banco de dados de <code>flights</code> é um tibble. Se você colocar o cursor em cima do nome de <code>flights</code> no ‘Environment’ (sem clicar) vai ver a informação sobre o tipo de objeto que ele é.</p>
 <p>Para usar um tibble, temos que aproveitar o pacote super-útil que se chama <code>tidyverse</code>. Primeiro, temos que instalar o pacote:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-install.packages(&quot;nycflights13&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"tidyverse"</span><span class='op'>)</span>
+</code></pre>
 </div>
-<p>Lembre-se de ‘comentar’ a instalação depois de executar porque só precisamos rodar uma vez por máquina.</p>
+</div>
+<p>Lembre-se de rodar esta linha no Console, ou ‘comentar’ a instalação depois de executar porque só precisamos rodar uma vez por máquina.</p>
 <p>Agora que o pacote é instalado, é só chamar com <code>library()</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-#install.packages(&quot;nycflights13&quot;)
-library(&quot;tidyverse&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#install.packages("tidyverse")</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='http://tidyverse.tidyverse.org'>"tidyverse"</a></span><span class='op'>)</span>
+</code></pre>
 </div>
-<p>Vamos ilustrar com um exemplo: imagine que queremos criar um lembrete dos nomes completos dos aeroportos. Em vez de escrever uma nota física ou anotar num caderno, vamos criar um tibble (um data.frame) em nosso script para documentar a relação entre as siglas e os nomes completos.</p>
-<p>Antes de criar um tibble, vamos começar criando um vetor simples apenas com as siglas. Um vetor é um <strong>c</strong>onjunto de elementos, então usamos a função <code>c()</code> (de conjunto ou concatenate) para definir um vetor. Dentro dos parênteses, digitamos os elementos em aspas. Assim:</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-c(&quot;NWR&quot;,&quot;JFK&quot;,&quot;LGA&quot;)</code></pre>
 </div>
-<p>O que acontece se rodarmos esta linha? Recebemos em resposta o mesmo vetor. Não ajuda muito só imprimir o que a gente acabou de imprimir… queremos <em>salvar</em> o nosso vetor como um objeto. Então temos que salvar (usando a flecha <code>&lt;-</code>) para um objeto nomeado, ex.:</p>
+<p>Vamos ilustrar a criação de um data frame com um exemplo: <code>flights</code> contém apenas as siglas dos aeroportos - Imagine que queremos criar um lembrete dos nomes completos dos aeroportos. Em vez de escrever uma nota física ou anotar num caderno, vamos criar um tibble (um data.frame, uma tabela) em nosso script para documentar a relação entre as siglas e os nomes completos.</p>
+<p>Antes de criar um tibble, vamos começar criando um vetor simples apenas com as siglas. Um vetor é um <strong>c</strong>onjunto de elementos, então usamos a função <code>c()</code> (de conjunto ou concatenate) para definir um vetor. Dentro dos parênteses, digitamos os elementos individuais em aspas. Assim:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-siglas_aeroportos &lt;- c(&quot;NWR&quot;,&quot;JFK&quot;,&quot;LGA&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"NWR"</span>,<span class='st'>"JFK"</span>,<span class='st'>"LGA"</span><span class='op'>)</span>
+</code></pre>
 </div>
-<p>Da mesma maneira podemos gerar um segundo vetor com os nomes completos dos aeroportos:</p>
+</div>
+<p>O que acontece se rodarmos esta linha? Recebemos em resposta o mesmo vetor. Não ajuda muito só imprimir o que a gente acabou de digitar… queremos <em>salvar</em> o nosso vetor como um objeto. Então temos que salvar (usando a seta <code>&lt;-</code>) para um objeto nomeado, ex.:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-nomes_aeroportos &lt;- c(&quot;Newark&quot;,&quot;John F Kennedy&quot;,&quot;Laguardia&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>siglas_aeroportos</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"NWR"</span>,<span class='st'>"JFK"</span>,<span class='st'>"LGA"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Da mesma maneira podemos gerar um segundo vetor com os nomes completos dos aeroportos na mesma ordem:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>nomes_aeroportos</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Newark"</span>,<span class='st'>"John F Kennedy"</span>,<span class='st'>"Laguardia"</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>E agora? O R guardou os dois vetores, mas ele não sabe que o primeiro elemento <code>NWR</code> de <code>siglas_aeroportos</code> é ligado com o primeiro elemento de <code>nomes_aeroportos</code>, e o segundo com o segundo etc. A beleza de um data.frame/tibble é que ele associa os elementos de vários vetores como observações ligadas.</p>
-<p>A função que nos permite gerar um tibble, supreendentemente, se chame <code>tibble()</code>. Nos parênteses, colocamos os nomes das variáveis, separada por vírgulas, e depois o conteúdo do vetor relevante.</p>
+<p>A função que nos permite gerar um tibble, supreendentemente, se chame <code>tibble()</code>. Nos parênteses, colocamos os nomes das variáveis, separadas por vírgulas, e depois o nome do vetor relevante.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-tabela_aeroportos &lt;- tibble(Sigla=siglas_aeroportos,
-                            Nome=nomes_aeroportos)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tabela_aeroportos</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>Sigla<span class='op'>=</span><span class='va'>siglas_aeroportos</span>,
+                            Nome<span class='op'>=</span><span class='va'>nomes_aeroportos</span><span class='op'>)</span>
+</code></pre>
 </div>
-<p>Caso seja mais simples/rápido, não tem problema pular a etapa de definir os vetores separadamente e anteriormente; podemos definir-los diretamente dentro do tibble:</p>
+</div>
+<p>Caso seja mais simples/rápido, não tem problema pular a etapa de definir os vetores separadamente e anteriormente; podemos definir-los diretamente dentro do tibble; o resultado é igual:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-tabela_aeroportos &lt;- tibble(Sigla=c(&quot;NWR&quot;,&quot;JFK&quot;,&quot;LGA&quot;),
-                            Nome=c(&quot;Newark&quot;,&quot;John F Kennedy&quot;,&quot;Laguardia&quot;))</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tabela_aeroportos</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>Sigla<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"NWR"</span>,<span class='st'>"JFK"</span>,<span class='st'>"LGA"</span><span class='op'>)</span>,
+                            Nome<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Newark"</span>,<span class='st'>"John F Kennedy"</span>,<span class='st'>"Laguardia"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <table>
@@ -1754,47 +2568,35 @@ Laguardia
 </tbody>
 </table>
 </div>
-<p>Agora, podemos rodar o nome de <code>tabela_aeroportos</code> sempre que queremos lembrar, e aparece uma tabela bonita! No futuro, vamos usar isso para várias uniões (joins) entre tibbles em análises mais complexas.</p>
+<p>Agora, podemos rodar o nome de <code>tabela_aeroportos</code> sempre que queremos lembrar, e aparece uma tabela bonita! Ou podemos incluir a tabela no documento final (veja a próxima seção). No futuro, vamos usar isso para várias uniões (joins) entre tibbles em análises mais complexas.</p>
 <h2 id="inserindo-tabelas-no-documento-final">Inserindo Tabelas no Documento Final</h2>
 <p>Voltando para o modo de gerar scripts para documentar a nossa análise, como os tibbles aparecem no nosso documento final?</p>
-<p>Podemos deixar o nome do tibble num chunk e rodar? Experimente!</p>
-<pre class="clike"><code>
-```{r}
+<p>Podemos deixar o nome do tibble num chunk e compilar com Knit? Experimente!</p>
+<pre class="clike"><code>```{r}
 tabela_aeroportos
 ```</code></pre>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>
-# A tibble: 3 x 2
+<pre><code># A tibble: 3 x 2
   Sigla Nome          
   &lt;chr&gt; &lt;chr&gt;         
 1 NWR   Newark        
 2 JFK   John F Kennedy
 3 LGA   Laguardia     </code></pre>
 </div>
-<p>Podemos, sim, mas ele sai feio demais. Vamos ver várias opções no futuro, mas por enquanto podemos pedir para o Rmarkdown produzir tabelas mais bonitas especificando uma opção no ‘header’ do documento.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
----
-title: &quot;Examplo&quot;
-author: &quot;Jonathan&quot;
-date: &quot;19 de fevereiro 2020&quot;
-output: html_document
----</code></pre>
-</div>
+<p>Podemos, sim, mas ele sai feio demais. Vamos ver várias opções no futuro, mas por enquanto podemos pedir para o Rmarkdown produzir tabelas mais bonitas especificando uma opção no cabeçalho do documento.</p>
 <p>Vamos especificar o ‘output’ com a opção de ‘df_print: paged’, que é um tipo de formatação de tabela simples mas útil:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
----
-title: &quot;Examplo&quot;
-author: &quot;Jonathan&quot;
-date: &quot;19 de fevereiro 2020&quot;
-output:
-  html_document:
-    df_print: paged
----</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="op">---</span></a>
+<a class="sourceLine" id="cb17-2" title="2">title<span class="op">:</span><span class="st"> &quot;Examplo&quot;</span></a>
+<a class="sourceLine" id="cb17-3" title="3">author<span class="op">:</span><span class="st"> &quot;Jonathan&quot;</span></a>
+<a class="sourceLine" id="cb17-4" title="4">date<span class="op">:</span><span class="st"> &quot;19 de fevereiro 2020&quot;</span></a>
+<a class="sourceLine" id="cb17-5" title="5">output<span class="op">:</span></a>
+<a class="sourceLine" id="cb17-6" title="6"><span class="st">  </span>html_document<span class="op">:</span></a>
+<a class="sourceLine" id="cb17-7" title="7"><span class="st">    </span>df_print<span class="op">:</span><span class="st"> </span>paged</a>
+<a class="sourceLine" id="cb17-8" title="8"><span class="op">---</span></a></code></pre></div>
 </div>
-<p>Tome cuidado com os espaços; o melhor é iniciar uma nova linha depois de ‘output:’ e o cursor já fica no lugar certo. E uma nova linha depois de ‘html_document:’.</p>
-<p>Agora, se usamoso ‘Knit’ para compilar o nosso documento, a tabela sai bonita e interativa, facilitando a nossa análise:</p>
+<p>Tome cuidado com os espaços; o melhor é iniciar uma nova linha depois de ‘output:’ e o cursor já fica no lugar certo. E uma nova linha depois de ‘html_document:’. Se tiver problemas, pode copiar e colar do exemplo acima.</p>
+<p>Agora, se usamos o ‘Knit’ para compilar o nosso documento, a tabela sai mais bonita, facilitando a nossa análise:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
@@ -1803,6 +2605,9 @@ output:
 </div>
 </div>
 <p>Tente gerar uma tabela para o banco de dados de <code>flights</code> para experimentar a interatividade da tabela.</p>
+<pre class="clike"><code>```{r}
+flights
+```</code></pre>
 <div class="layout-chunk" data-layout="l-body">
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
@@ -1810,46 +2615,18 @@ output:
   </script>
 </div>
 </div>
-<p>A opção de ‘df_print: paged’ funciona quando o formato do nosso documento final é um HTML, gerando uma tabela interativa.</p>
+<p>A opção de ‘df_print: paged’ funciona quando o formato do nosso documento final é HTML, gerando uma tabela interativa.</p>
 <h2 id="documentos-em-formato-word">Documentos em Formato Word</h2>
-<p>Até agora, só produzimos documentos em formato HTML. HTML tem a vantagem de ser simples, flexível e interativo, mas não é comum um relatório. O Rmarkdown facilita a produção de documentos em vários formatos. Um outro é Microsoft Word. Não precisa mudar nada no seu código.</p>
+<p>Até agora, só produzimos documentos em formato HTML. HTML tem a vantagem de ser simples, flexível e interativo, mas não é comum usar para relatórios. O Rmarkdown facilita a produção de documentos em vários formatos. Um outro é Microsoft Word. E não precisa mudar nada no seu código.</p>
 <p>Clique na seta ao lado do ‘Knit’ em RStudio e depois ‘Knit to Word’. Deve aparecer um documento mais familiar em Word.</p>
 <p>É isso, já aprendemos como criar relatórios e análises reproduzíveis! Agora faça os exercícios abaixo com calma e pratique o que você tem aprendido.</p>
 <div class="green">
 <h1 id="exercício-1">Exercício 1</h1>
-<aside>
-<div class="layout-chunk" data-layout="l-body">
-<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
-<script>
-  function codefolder(query) {
-
-    var x = document.querySelectorAll(query);
-    if (x.length === 0) return;
-
-    function toggle_vis(o) {
-      var d = o.style.display;
-      o.style.display = (d === 'block' || d === '') ? 'none':'block';
-    }
-
-    for (i = 0; i < x.length; i++) {
-      var y = x[i];
-      toggle_vis(y);
-    }
-
-    var elem = document.getElementById("codefolder-button");
-    if (elem.value === "Hide Code") elem.value = "Show Code";
-    else elem.value = "Hide Code";
-  }
-</script>
-</div>
-</aside>
 <ol type="1">
-<li>Comece um novo script de Rmarkdown e acesse o banco de dados <code>gapminder</code> no pacote <code>dslabs</code>. Estes dados descrevem as estatísticas resumidas para países do mundo desde 1960.</li>
+<li>Comece um novo script de Rmarkdown e acesse o banco de dados <code>gapminder</code> no pacote <code>dslabs</code>. Estes dados descrevem estatísticas resumidas para países do mundo desde 1960.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-#install.packages(&quot;dslabs&quot;)
-library(&quot;dslabs&quot;)</code></pre>
+
 </div>
 <ol start="2" type="1">
 <li>Produza um mini-relatório com algumas frases curtas em HTML que descreva o banco de dados <code>gapminder</code>:
@@ -1861,24 +2638,20 @@ library(&quot;dslabs&quot;)</code></pre>
 </ol></li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-nrow(gapminder)
-ncol(gapminder)</code></pre>
+
 </div>
 <ol start="3" type="1">
-<li><p>Faça com que as respostas 2(a) e 2(b) sejam calculadas automaticamente no relatório usando funções do R e in-line code para inserir as respostas numa frase.</p></li>
+<li><p>Faça com que as respostas 2(a) e 2(b) sejam calculadas automaticamente no relatório usando funções do R e código em linha para inserir as respostas numa frase.</p></li>
 <li><p>Calcule o valor do número de observações multiplicado pelo número de colunas</p></li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-nrow(gapminder)*ncol(gapminder)</code></pre>
+
 </div>
 <ol start="5" type="1">
 <li>Inclua uma tabela do banco de dados <code>gapminder</code> no relatório.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-gapminder</code></pre>
+
 </div>
 <ol start="6" type="1">
 <li><p>Verifique que o seu relatório tem título, autor e data corretos, e comentários suficientes para explicar o que faz cada linha de código.</p></li>
@@ -1888,63 +2661,31 @@ gapminder</code></pre>
 <p><br></p>
 <div class="green">
 <h1 id="exercício-2-aprender-juntos">Exercício 2: Aprender juntos</h1>
-<p>Compare o seu script de Exercício 1 com o script do seu vizinho. Quais são as diferenças? Quais delas importam? Como você pode melhorar o seu scipt? Ajuste o seu script para deixa-lo mais limpo e organizado.</p>
+<p>Se você conhece uma outra pessoa da turma, compare o seu script de Exercício 1 com o script deles. Quais são as diferenças? Quais delas importam? Como você pode melhorar o seu scipt? Ajuste o seu script para deixa-lo mais limpo e organizado.</p>
 </div>
 <p><br></p>
 <div class="green">
-<h1 id="exercício-3-encontre-o-erro-em-todos-os-códigos-abaixo">Exercício 3: Encontre o erro em todos os códigos abaixo:</h1>
-<aside>
-<div class="layout-chunk" data-layout="l-body">
-<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
-<script>
-  function codefolder(query) {
-
-    var x = document.querySelectorAll(query);
-    if (x.length === 0) return;
-
-    function toggle_vis(o) {
-      var d = o.style.display;
-      o.style.display = (d === 'block' || d === '') ? 'none':'block';
-    }
-
-    for (i = 0; i < x.length; i++) {
-      var y = x[i];
-      toggle_vis(y);
-    }
-
-    var elem = document.getElementById("codefolder-button");
-    if (elem.value === "Hide Code") elem.value = "Show Code";
-    else elem.value = "Hide Code";
-  }
-</script>
-</div>
-</aside>
+<h1 id="exercício-3-encontre-o-erro-em-todos-os-códigos-abaixo">Exercício 3: Encontre o erro em todos os códigos abaixo</h1>
 </div>
 <div class="green">
 <p>Q1)<br />
 nrow[flights]</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-nrow(flights)
-# Funções exigem parênteses, não colchetes</code></pre>
+
 </div>
 </div>
 <div class="green">
 <p>Q2)<br />
 nrou(flights)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-nrow(flights)   
-# R não tem verificador de texto. Erros impedirão o código de rodar</code></pre>
+
 </div>
 </div>
 <div class="green">
 <p>Q3)<br />
 v1 &lt;- (“pato”, “cachorro”, “minhoca”, “lagarto”)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v1 &lt;- c(&quot;pato&quot;, &quot;cachorro&quot;, &quot;minhoca&quot;, &quot;lagarto&quot;)
-# Criar um vetor exige a função &#39;c()&#39;</code></pre>
+
 </div>
 </div>
 <div class="green">
@@ -1952,71 +2693,49 @@ v1 &lt;- c(&quot;pato&quot;, &quot;cachorro&quot;, &quot;minhoca&quot;, &quot;la
 v2 &lt;- c(“1”, “2”, “3”, “4”)<br />
 v2 + 42</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v2 &lt;- c(1, 2, 3, 4)
-v2 + 42
-# Não podemos somar um número a um caractere.  Se quisermos manter v2
-# como variável numérica, precisamos retirar as aspas.</code></pre>
+
 </div>
 </div>
 <div class="green">
 <p>Q5)<br />
 v1 &lt;- c(“pato”, “cachorro”, “minhoca”, “lagarto”</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v1 &lt;- c(&quot;pato&quot;, &quot;cachorro&quot;, &quot;minhoca&quot;, &quot;lagarto&quot;)
-# Quando esquecemos de fechar os parênteses, o R entende que ainda
-# faltam argumentos na função, então não roda.</code></pre>
+
 </div>
 </div>
 <div class="green">
 <p>Q6)<br />
 v3 &lt;- c(33 31 40 25 27 40)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v3 &lt;- c(33, 31, 40, 25, 27, 40)
-# Seperamos argumentos e dados com vírgula</code></pre>
+
 </div>
 </div>
 <div class="green">
 <p>Q7)<br />
 v1 &lt;- c(pato, cachorro, minhoca, lagarto)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v1 &lt;- c(&quot;pato&quot;, &quot;cachorro&quot;, &quot;minhoca&quot;, &quot;lagarto&quot;)
-# Para o R entender que estamos tratando de palavras, precisamos usar
-# aspas. Do contrário, o programa irá procurar objetos nomeados de
-# pato, cachorro, etc. Como eles não existem nesse caso, não é possível
-# formar o vetor</code></pre>
+
 </div>
 </div>
 <div class="green">
 <p>Q8)<br />
 v1 -&gt; c(“pato”, “cachorro”, “minhoca”, “lagarto”)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v1 &lt;- c(&quot;pato&quot;, &quot;cachorro&quot;, &quot;minhoca&quot;, &quot;lagarto&quot;)
-# A direção da seta indica onde queremos salvar os resultados</code></pre>
+
 </div>
 </div>
 <div class="green">
 <p>Q9)<br />
 v3 &lt;- C(33, 31, 40, 25, 27, 40)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v3 &lt;- c(33, 31, 40, 25, 27, 40)
-# R é &#39;case sensitive&#39;. maiúsculo ou minúsculo é uma distinção
-# importante.</code></pre>
+
 </div>
 </div>
 <div class="green">
 <p>Q10)<br />
 v1 &lt;- c(“pato”, “cachorro”“,”minhoca“,”lagarto")</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v1 &lt;- c(&quot;pato&quot;, &quot;cachorro&quot;, &quot;minhoca&quot;, &quot;lagarto&quot;)
-# Aspas andam sempre em pares. É preciso prestar atenção à ordem deles
-# para não deixar o texto de interesse de fora</code></pre>
+
 </div>
 </div>
 <div class="green">
@@ -2025,13 +2744,7 @@ v1 &lt;- c(“pato”, “cachorro”, “minhoca”, “lagarto”)<br />
 v4 &lt;- c(33, 31, 40, 25, 27, 40)<br />
 myData &lt;- tibble(v1, v4)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v1 &lt;- c(&quot;pato&quot;, &quot;cachorro&quot;, &quot;minhoca&quot;, &quot;lagarto&quot;, &quot;&quot;, &quot;&quot;)
-v4 &lt;- c(33, 31, 40, 25, 27, 40)
-myData &lt;- tibble(v1, v4)
-# Tibbles precisam de vetores de tamanhos iguais.  Se não tivermos os
-# dados para alguma observação, precisamos avisar que este valor está
-# faltando, por isso as aspas vazias</code></pre>
+
 </div>
 </div>
 <div class="green">
@@ -2040,20 +2753,15 @@ v1 &lt;- c(“pato”, “cachorro”, “minhoca”, “lagarto”)<br />
 v4 &lt;- c(33, 31, 40, 25)<br />
 myData &lt;- tibble(v1 = animal, v4 = idade)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v1 &lt;- c(&quot;pato&quot;, &quot;cachorro&quot;, &quot;minhoca&quot;, &quot;lagarto&quot;)
-v4 &lt;- c(33, 31, 40, 25)
-myData &lt;- tibble(animal = v1, idade = v4)
-# Ao criar o tibble, o nome de variável na tabela fica em primeira
-# lugar, seguida por &#39;=&#39; e finalmente o nome do vetor que pretende
-# inserir na tabela.</code></pre>
+
 </div>
 </div>
 <p><br></p>
 <div class="orange">
 <h1 id="leitura-para-tutorial-2">Leitura para Tutorial 2</h1>
-<p>Antes da próxima aula, por favor leia <a href="https://r4ds.had.co.nz/">R 4 Data Science, Capítulos 2, 4, 5, 9, 10 e 11</a></p>
+<p>Antes da próxima aula, por favor leia <a href="https://r4ds.had.co.nz/">R 4 Data Science, Capítulos 2, 4, 5, 6, 8, 9, 10 e 11</a></p>
 </div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

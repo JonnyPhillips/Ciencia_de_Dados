@@ -1,5 +1,5 @@
 ---
-title: "Analise de Dados para as Ciencias Sociais"
+title: "Análise de Dados para as Ciências Sociais"
 description: |
   Um curso do Departamento da Ciência Política, Universidade de São Paulo
 site: distill::distill_website

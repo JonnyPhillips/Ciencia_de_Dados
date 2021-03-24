@@ -18,6 +18,71 @@
  <!--radix_placeholder_import_source-->
  <!--/radix_placeholder_import_source-->
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
   <!--radix_placeholder_meta_tags-->
   <title>Analise de Dados para as Ciencias Sociais: Funções e Repetição</title>
   
@@ -42,6 +107,7 @@
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
+  <meta name="distill:offset" content=""/>
   
   <script type="application/javascript">
   
@@ -53,6 +119,7 @@
       var header = $('header').get(0);
       var headerHeight = header.offsetHeight;
       var headroom = new Headroom(header, {
+        tolerance: 5,
         onPin : function() {
           if (window.headroom_prevent_pin) {
             window.headroom_prevent_pin = false;
@@ -101,7 +168,7 @@
   
   .distill-site-nav {
     color: rgba(255, 255, 255, 0.8);
-    background-color: #455a64;
+    background-color: #0F2E3D;
     font-size: 15px;
     font-weight: 300;
   }
@@ -164,6 +231,7 @@
   
   .distill-site-header .title {
     font-size: 18px;
+    min-width: 150px;
   }
   
   .distill-site-header .logo {
@@ -305,7 +373,7 @@
   
   
   @media screen and (max-width: 768px) {
-    .distill-site-header.responsive {position: relative;}
+    .distill-site-header.responsive {position: relative; min-height: 500px; }
     .distill-site-header.responsive a.nav-toggle {
       position: absolute;
       right: 0;
@@ -374,11 +442,277 @@
     top: 0;
   }
   
+  /* adjust viewport for navbar height */
+  /* helps vertically center bootstrap (non-distill) content */
+  .min-vh-100 {
+    min-height: calc(100vh - 100px) !important;
+  }
+  
   </style>
   
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+  <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
+  
+  <script type="application/javascript">
+  
+  function getMeta(metaName) {
+    var metas = document.getElementsByTagName('meta');
+    for (let i = 0; i < metas.length; i++) {
+      if (metas[i].getAttribute('name') === metaName) {
+        return metas[i].getAttribute('content');
+      }
+    }
+    return '';
+  }
+  
+  function offsetURL(url) {
+    var offset = getMeta('distill:offset');
+    return offset ? offset + '/' + url : url;
+  }
+  
+  function createFuseIndex() {
+  
+    // create fuse index
+    var options = {
+      keys: [
+        { name: 'title', weight: 20 },
+        { name: 'categories', weight: 15 },
+        { name: 'description', weight: 10 },
+        { name: 'contents', weight: 5 },
+      ],
+      ignoreLocation: true,
+      threshold: 0
+    };
+    var fuse = new window.Fuse([], options);
+  
+    // fetch the main search.json
+    return fetch(offsetURL('search.json'))
+      .then(function(response) {
+        if (response.status == 200) {
+          return response.json().then(function(json) {
+            // index main articles
+            json.articles.forEach(function(article) {
+              fuse.add(article);
+            });
+            // download collections and index their articles
+            return Promise.all(json.collections.map(function(collection) {
+              return fetch(offsetURL(collection)).then(function(response) {
+                if (response.status === 200) {
+                  return response.json().then(function(articles) {
+                    articles.forEach(function(article) {
+                      fuse.add(article);
+                    });
+                  })
+                } else {
+                  return Promise.reject(
+                    new Error('Unexpected status from search index request: ' +
+                              response.status)
+                  );
+                }
+              });
+            })).then(function() {
+              return fuse;
+            });
+          });
+  
+        } else {
+          return Promise.reject(
+            new Error('Unexpected status from search index request: ' +
+                        response.status)
+          );
+        }
+      });
+  }
+  
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+  
+    // get search element (bail if we don't have one)
+    var searchEl = window.document.getElementById('distill-search');
+    if (!searchEl)
+      return;
+  
+    createFuseIndex()
+      .then(function(fuse) {
+  
+        // make search box visible
+        searchEl.classList.remove('hidden');
+  
+        // initialize autocomplete
+        var options = {
+          autoselect: true,
+          hint: false,
+          minLength: 2,
+        };
+        window.autocomplete(searchEl, options, [{
+          source: function(query, callback) {
+            const searchOptions = {
+              isCaseSensitive: false,
+              shouldSort: true,
+              minMatchCharLength: 2,
+              limit: 10,
+            };
+            var results = fuse.search(query, searchOptions);
+            callback(results
+              .map(function(result) { return result.item; })
+            );
+          },
+          templates: {
+            suggestion: function(suggestion) {
+              var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
+                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+                : '';
+              var html = `
+                <div class="search-item">
+                  <h3>${suggestion.title}</h3>
+                  <div class="search-item-description">
+                    ${suggestion.description || ''}
+                  </div>
+                  <div class="search-item-preview">
+                    ${img}
+                  </div>
+                </div>
+              `;
+              return html;
+            }
+          }
+        }]).on('autocomplete:selected', function(event, suggestion) {
+          window.location.href = offsetURL(suggestion.path);
+        });
+        // remove inline display style on autocompleter (we want to
+        // manage responsive display via css)
+        $('.algolia-autocomplete').css("display", "");
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  
+  });
+  
+  </script>
+  
+  <style type="text/css">
+  
+  .nav-search {
+    font-size: x-small;
+  }
+  
+  /* Algolioa Autocomplete */
+  
+  .algolia-autocomplete {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: sub;
+    background-color: white;
+    color: black;
+    padding: 6px;
+    padding-top: 8px;
+    padding-bottom: 0;
+    border-radius: 6px;
+    border: 1px #0F2E3D solid;
+    width: 180px;
+  }
+  
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-nav .algolia-autocomplete {
+      display: none;
+      visibility: hidden;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete {
+      display: inline-block;
+      visibility: visible;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+      margin-left: 0;
+      width: 400px;
+      max-height: 400px;
+    }
+  }
+  
+  .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+    width: 90%;
+    outline: none;
+    border: none;
+  }
+  
+  .algolia-autocomplete .aa-hint {
+    color: #999;
+  }
+  .algolia-autocomplete .aa-dropdown-menu {
+    width: 550px;
+    max-height: 70vh;
+    overflow-x: visible;
+    overflow-y: scroll;
+    padding: 5px;
+    margin-top: 3px;
+    margin-left: -150px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #999;
+    border-top: none;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+    cursor: pointer;
+    padding: 5px 4px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+    border-bottom: none;
+    margin-bottom: 2px;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+    overflow: hidden;
+    font-size: 0.8em;
+    line-height: 1.4em;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+    font-size: 1rem;
+    margin-block-start: 0;
+    margin-block-end: 5px;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+    display: inline-block;
+    overflow: hidden;
+    height: 2.8em;
+    width: 80%;
+    margin-right: 4%;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+    display: inline-block;
+    width: 15%;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+    height: 3em;
+    width: auto;
+    display: none;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+    display: initial;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+    background-color: #eee;
+  }
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+    font-weight: bold;
+    font-style: normal;
+  }
+  
+  </style>
+  
+  
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
   
@@ -402,6 +736,51 @@
   
   .pagedtable-footer {
     font-size: 15px;
+  }
+  
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+  
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+  
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+  
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+  
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+  
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
   }
   
   .html-widget {
@@ -443,6 +822,7 @@
   }
   
   d-article {
+    padding-top: 2.5rem;
     padding-bottom: 30px;
   }
   
@@ -454,91 +834,48 @@
     width: 100%;
   }
   
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+  
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+  
   d-article iframe {
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 2.0em;
     width: 100%;
   }
   
-  figure img.external {
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
-    padding: 18px;
-    box-sizing: border-box;
+  /* Tweak code blocks */
+  
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   }
   
-  /* CSS for table of contents */
-  
-  .d-toc {
-    color: rgba(0,0,0,0.8);
-    font-size: 0.8em;
-    line-height: 1em;
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
   }
   
-  .d-toc-header {
-    font-size: 0.6rem;
-    font-weight: 400;
-    color: rgba(0, 0, 0, 0.5);
-    text-transform: uppercase;
-    margin-top: 0;
-    margin-bottom: 1.3em;
+  d-article div.sourceCode {
+    background-color: white;
   }
   
-  .d-toc a {
-    border-bottom: none;
-  }
-  
-  .d-toc ul {
-    padding-left: 0;
-  }
-  
-  .d-toc li>ul {
-    padding-top: 0.8em;
-    padding-left: 16px;
-    margin-bottom: 0.6em;
-  }
-  
-  .d-toc ul,
-  .d-toc li {
-    list-style-type: none;
-  }
-  
-  .d-toc li {
-    margin-bottom: 0.9em;
-  }
-  
-  .d-toc-separator {
-    margin-top: 20px;
-    margin-bottom: 2em;
-  }
-  
-  .d-article-with-toc {
-    border-top: none;
-    padding-top: 0;
-  }
-  
-  
-  
-  /* Tweak code blocks (note that this CSS is repeated above in an injection
-     into the d-code shadow dom) */
-  
-  d-code {
-    overflow-x: auto !important;
-  }
-  
-  pre.d-code code.d-code {
+  d-article div.sourceCode pre {
     padding-left: 10px;
     font-size: 12px;
     border-left: 2px solid rgba(0,0,0,0.1);
   }
   
-  pre.text-output {
-  
+  d-article pre {
     font-size: 12px;
     color: black;
     background: none;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    margin-top: 0;
     text-align: left;
     white-space: pre;
     word-spacing: normal;
@@ -556,20 +893,128 @@
     hyphens: none;
   }
   
+  d-article pre a {
+    border-bottom: none;
+  }
+  
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+  
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+  
   @media(min-width: 768px) {
   
-  d-code {
-    overflow-x: visible !important;
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
   }
   
-  pre.d-code code.d-code  {
-      padding-left: 18px;
-      font-size: 14px;
-  }
-  pre.text-output {
+  d-article div.sourceCode pre {
+    padding-left: 18px;
     font-size: 14px;
   }
+  
+  d-article pre {
+    font-size: 14px;
   }
+  
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for d-contents */
+  
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+  
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+  
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+  
+  .d-contents li {
+    list-style-type: none
+  }
+  
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+  
+  .d-contents ul {
+    padding-left: 1em
+  }
+  
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+  
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+  
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+  
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+  
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+  
+  
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+  
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+  
   
   /* Figure */
   
@@ -607,6 +1052,27 @@
     color: rgba(0, 0, 0, 1.0);
   }
   
+  /* Citations */
+  
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+  
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+  
+  /* Citation hover box */
+  
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+  
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
   
   
   /* Tweak 1000px media break to show more text */
@@ -682,6 +1148,91 @@
     word-wrap: break-word;
   }
   
+  /* Include appendix styles here so they can be overridden */
+  
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+  
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+  
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+  
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+  
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+  
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+  
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  d-appendix > * {
+    grid-column: text;
+  }
+  
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+  
+  /* Include footnote styles here so they can be overridden */
+  
+  d-footnote-list {
+    contain: layout style;
+  }
+  
+  d-footnote-list > * {
+    grid-column: text;
+  }
+  
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+  
+  
+  
+  /* Anchor.js */
+  
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
   
   /* Social footer */
   
@@ -726,6 +1277,221 @@
   .article-footer .subscribe {
     font-size: 15px;
     margin-top: 45px;
+  }
+  
+  
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+  
+  /* Styles for posts lists (not auto-injected) */
+  
+  
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+  
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+  
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+  
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+  
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+  
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+  
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+  
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+  
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+  
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+  
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+  
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+  
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+  
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  .posts-list img {
+    opacity: 1;
+  }
+  
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+  
+  .posts-more {
+    clear: both;
+  }
+  
+  
+  .posts-sidebar {
+    font-size: 16px;
+  }
+  
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+  
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+  
+  .categories li>a {
+    border-bottom: none;
+  }
+  
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+  
+  .categories .active {
+    font-weight: 600;
+  }
+  
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+  
+  
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
   }
   
   
@@ -857,6 +1623,12 @@
     hyphens: none;
   }
   
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+  
+  
+  
   </style>
   
   <script type="application/javascript">
@@ -872,6 +1644,13 @@
   
   // show body when load is complete
   function on_load_complete() {
+  
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+  
   
     // set body to visible
     document.body.style.visibility = 'visible';
@@ -918,23 +1697,8 @@
     // create d-appendix
     $('.d-appendix').changeElementType('d-appendix');
   
-    // create d-bibliography
-    var bibliography = $('<d-bibliography></d-bibliography>');
-    $('#distill-bibliography').wrap(bibliography);
-  
     // flag indicating that we have appendix items
     var appendix = $('.appendix-bottom').children('h3').length > 0;
-  
-    // replace citations with <d-cite>
-    $('.citation').each(function(i, val) {
-      appendix = true;
-      var cites = $(this).attr('data-cites').split(" ");
-      var dt_cite = $('<d-cite></d-cite>');
-      dt_cite.attr('key', cites.join());
-      $(this).replaceWith(dt_cite);
-    });
-    // remove refs
-    $('#refs').remove();
   
     // replace footnotes with <d-footnote>
     $('.footnote-ref').each(function(i, val) {
@@ -952,39 +1716,21 @@
     // remove footnotes
     $('.footnotes').remove();
   
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+  
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
     });
     $('h3.appendix').each(function(i, val) {
       var id = $(this).attr('id');
-      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
       appendix = true;
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
     });
   
     // show d-appendix if we have appendix content
     $("d-appendix").css('display', appendix ? 'grid' : 'none');
-  
-    // replace code blocks with d-code
-    $('pre>code').each(function(i, val) {
-      var code = $(this);
-      var pre = code.parent();
-      var clz = "";
-      var language = pre.attr('class');
-      if (language) {
-        // map unknown languages to "clike" (without this they just dissapear)
-        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
-                                 "javascript", "js", "julia", "lua", "markdown",
-                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
-          language = "clike";
-        language = ' language="' + language + '"';
-        var dt_code = $('<d-code block' + language + clz + '></d-code>');
-        dt_code.text(code.text());
-        pre.replaceWith(dt_code);
-      } else {
-        code.addClass('text-output').unwrap().changeElementType('pre');
-      }
-    });
   
     // localize layout chunks to just output
     $('.layout-chunk').each(function(i, val) {
@@ -993,7 +1739,7 @@
       var layout = $(this).attr('data-layout');
   
       // apply layout to markdown level block elements
-      var elements = $(this).children().not('d-code, pre.text-output, script');
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
       elements.each(function(i, el) {
         var layout_div = $('<div class="' + layout + '"></div>');
         if (layout_div.hasClass('shaded')) {
@@ -1010,6 +1756,13 @@
       $(this).children().unwrap();
     });
   
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+  
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+  
     // load distill framework
     load_distill_framework();
   
@@ -1025,12 +1778,26 @@
       if (!have_authors)
         $('d-byline').addClass('hidden');
   
-      // table of contents
-      if (have_authors) // adjust border if we are in authors
-        $('.d-toc').parent().addClass('d-article-with-toc');
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
   
       // strip links that point to #
       $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
   
       // hide elements of author/affiliations grid that have no value
       function hide_byline_column(caption) {
@@ -1080,18 +1847,27 @@
         grid.children('h3:contains("Affiliations")').text('Affiliation');
       }
   
-      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
-      $('d-code').each(function(i, val) {
-        var style = document.createElement('style');
-        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
-                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
-        if (this.shadowRoot)
-          this.shadowRoot.appendChild(style);
-      });
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
   
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
+  
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
   
       // clear polling timer
       clearInterval(tid);
@@ -1123,9 +1899,7 @@
     $('.d-byline a').remove();
   
     // remove toc
-    $('.d-toc-header').remove();
-    $('.d-toc').remove();
-    $('.d-toc-separator').remove();
+    $('.d-contents').remove();
   
     // move appendix elements
     $('h1.appendix, h2.appendix').each(function(i, val) {
@@ -1254,7 +2028,11 @@
   </script>
   
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="site_libs/distill-2.2.21/template.v2.js"></script>
@@ -1282,7 +2060,16 @@
 <div class="nav-right">
 <a href="index.html">Introducao</a>
 <a href="syllabus.html">Syllabus</a>
-<span class="nav-dropdown-header">Tutoriais</span>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Tutoriais
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="introducao.html">1. Introducao</a>
+</div>
+</div>
 <span class="nav-dropdown-header">Desafios</span>
 <a href="recursos.html">Recursos</a>
 <a href="projeto.html">Projeto Final</a>
@@ -1296,13 +2083,16 @@
 
 <div class="d-title">
 <h1>Funções e Repetição</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
 
 </div>
 
 
 <div class="d-article">
-<h3 class="d-toc-header">Table of Contents</h3>
-<nav class="d-toc" id="TOC">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
 <ul>
 <li><a href="#introdução">Introdução</a></li>
 <li><a href="#funções-customizadas">Funções Customizadas</a></li>
@@ -1310,7 +2100,7 @@
 <li><a href="#repetindo-funções-com-tibbles-nested">Repetindo Funções com Tibbles Nested</a></li>
 </ul>
 </nav>
-<hr class="d-toc-separator"/>
+</div>
 <style>
 div.green { background-color:#e5f5e0; border-radius: 5px; padding: 20px;}
 </style>
@@ -1327,18 +2117,20 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <p>Usar scripts de programação para a análise de dados tem várias vantagens: transparência, reprodutibilidade, etc., mas uma vantagem fundamental é a capacidade para escalar e repetir as nossas análises várias vezes sem repetir o código. A ideia é que podemos preparar uma análise para produzir uma estatística, uma tabela, um gráfico, um teste estatístico ou uma regressão para variáveis e valores específicos, e indicar para R refazer a análise várias vezes, deixando alguns elementos da análise fixos e permitindo outros a variar.</p>
 <p>Por exemplo, imagine que nos queremos calcular a amplitude de uma variável: o máximo menos o mínimo. E queremos rodar a análise para três variáveis:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-max_dep_delay &lt;- flights %&gt;% pull(dep_delay) %&gt;% max(na.rm=T)
-min_dep_delay &lt;- flights %&gt;% pull(dep_delay) %&gt;% min(na.rm=T)
-max_dep_delay - min_dep_delay
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>max_dep_delay</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>dep_delay</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span>na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span>
+<span class='va'>min_dep_delay</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>dep_delay</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span>na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span>
+<span class='va'>max_dep_delay</span> <span class='op'>-</span> <span class='va'>min_dep_delay</span>
 
-max_arr_delay &lt;- flights %&gt;% pull(arr_delay) %&gt;% max(na.rm=T)
-min_arr_delay &lt;- flights %&gt;% pull(arr_delay) %&gt;% min(na.rm=T)
-max_arr_delay - min_dep_delay
+<span class='va'>max_arr_delay</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>arr_delay</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span>na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span>
+<span class='va'>min_arr_delay</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>arr_delay</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span>na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span>
+<span class='va'>max_arr_delay</span> <span class='op'>-</span> <span class='va'>min_dep_delay</span>
 
-max_distance &lt;- flights %&gt;% pull(distance) %&gt;% max(na.rm=T)
-min_distance &lt;- flights %&gt;% pull(distance) %&gt;% min(na.rm=T)
-max_distance - min_arr_delay</code></pre>
+<span class='va'>max_distance</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>distance</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span>na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span>
+<span class='va'>min_distance</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>distance</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span>na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span>
+<span class='va'>max_distance</span> <span class='op'>-</span> <span class='va'>min_arr_delay</span>
+</code></pre>
+</div>
 </div>
 <p>Veja quanto do código aqui é repetido! Nove linhas e a única coisa que varia é o nome de variável… Não é simplesmente o esforço de digitação que é problemático aqui - mesmo que copiamos e colamos, temos que lembrar quais elementos a atualizar. Se esqueçamos apenas uma mudança, a nossa análise fica errada. Isso é responsável para uma grande parcela de erros na análise de dados. Vocês já identificaram o erro no código acima??</p>
 <h1 id="funções-customizadas">Funções Customizadas</h1>
@@ -1348,54 +2140,64 @@ max_distance - min_arr_delay</code></pre>
 
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-amplitude &lt;- function(x) {
-  return(max(x, na.rm=T) - min(x, na.rm=T))
-}
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>amplitude</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>x</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='va'>x</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
 
-flights %&gt;% pull(dep_delay) %&gt;% amplitude()
-flights %&gt;% pull(arr_delay) %&gt;% amplitude()
-flights %&gt;% pull(distance) %&gt;% amplitude()</code></pre>
+<span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>dep_delay</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>amplitude</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>arr_delay</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>amplitude</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>distance</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>amplitude</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>O uso da função já acelera a análise bastante! E também deixa fácil ajustar o cálculo no futuro. Por exemplo, pata arredondar os resultados, é só incoporar uma vez na função, e vai afetar todos os cálculos:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-amplitude &lt;- function(x) {
-  amplitude &lt;- max(x, na.rm=T) - min(x, na.rm=T)
-  return(round(amplitude, 0))
-}
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>amplitude</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>amplitude</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>x</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='va'>x</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span>
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>amplitude</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
 
-flights %&gt;% pull(dep_delay) %&gt;% amplitude()
-flights %&gt;% pull(arr_delay) %&gt;% amplitude()
-flights %&gt;% pull(distance) %&gt;% amplitude()</code></pre>
+<span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>dep_delay</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>amplitude</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>arr_delay</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>amplitude</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>distance</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>amplitude</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <h1 id="repitindo-a-aplicação-de-funções-map-map_df">Repitindo a aplicação de funções (<code>map</code>, <code>map_df</code>)</h1>
 <p>O parte chato do código acima é que não salvamos tantas linhas de código - temos 6 linhas - e ainda precisamos repetir as linhas finais para aplicar a função à cada variável, abrindo oportunidades para erros.</p>
 <p>É possível automatizar a aplicação da função? Sim! A função <code>map</code> é bem flexível e permite a aplicação de uma função à uma série de variáveis (vetores, ou listas), por exemplo às colunas do nosso tibble. O argumento de <code>map</code> é o nome da função.</p>
 <p>Em nosso exemplo de amplitude, podemos <code>select</code> as colunas para as quais queremos calcular o amplitude, e <code>map</code> a função amplitude para cada coluna:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-amplitude &lt;- function(x) {
-  return(max(x, na.rm=T) - min(x, na.rm=T))
-}
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>amplitude</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>x</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='va'>x</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
 
-resultado_lista &lt;- flights %&gt;% select(dep_delay, arr_delay, distance) %&gt;% 
-  map(amplitude)
-resultado_lista</code></pre>
+<span class='va'>resultado_lista</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>dep_delay</span>, <span class='va'>arr_delay</span>, <span class='va'>distance</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>map</span><span class='op'>(</span><span class='va'>amplitude</span><span class='op'>)</span>
+<span class='va'>resultado_lista</span>
+</code></pre>
+</div>
 </div>
 <p>Muito mais simples! Agora em mais ou menos três linhas. Note quanto fácil seja ampliar para mais variáveis - é só incluir elas dentro de <code>select</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-resultado_lista &lt;- flights %&gt;% select(dep_delay, arr_delay, distance, air_time) %&gt;% 
-  map(amplitude)
-resultado_lista</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>resultado_lista</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>dep_delay</span>, <span class='va'>arr_delay</span>, <span class='va'>distance</span>, <span class='va'>air_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>map</span><span class='op'>(</span><span class='va'>amplitude</span><span class='op'>)</span>
+<span class='va'>resultado_lista</span>
+</code></pre>
+</div>
 </div>
 <p>Qual o formato do resultado de <code>map</code>? É uma lista, um formato genérico e flexível, mas sempre preferimos trabalhar com tibbles. Felizmente, existe uma variadade de <code>map</code> que padroniza o resultado para um tibble, <code>map_df</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-resultado_tibble &lt;- flights %&gt;% select(dep_delay, arr_delay, distance, air_time) %&gt;% 
-  map_df(amplitude)
-resultado_tibble</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>resultado_tibble</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>dep_delay</span>, <span class='va'>arr_delay</span>, <span class='va'>distance</span>, <span class='va'>air_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>map_df</span><span class='op'>(</span><span class='va'>amplitude</span><span class='op'>)</span>
+<span class='va'>resultado_tibble</span>
+</code></pre>
+</div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <table>
@@ -1435,19 +2237,23 @@ air_time
 </div>
 <p>Observe que a funcionalidade aqui é bem parecida de <code>summarize_at()</code>. O <code>map</code> é mais geral e pode ser usado fora do contexto de <code>mutate</code> e <code>summarize</code>. Por exemplo, imagine que temos uma lista de centenas de arquivos .csv para abrir em R na pasta do nosso projeto - <code>map</code> permite aplicar a função de <code>read_csv</code> para todos os arquivos em uma linha só (gerando dois arquivos de csv primeiramente para ilustrar):</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% filter(month==1 &amp; day==1) %&gt;% write_csv(&quot;test1.csv&quot;)
-flights %&gt;% filter(month==1 &amp; day==2) %&gt;% write_csv(&quot;test2.csv&quot;)
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>day</span><span class='op'>==</span><span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>write_csv</span><span class='op'>(</span><span class='st'>"test1.csv"</span><span class='op'>)</span>
+<span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>day</span><span class='op'>==</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>write_csv</span><span class='op'>(</span><span class='st'>"test2.csv"</span><span class='op'>)</span>
 
-dados &lt;- c(&quot;test1.csv&quot;, &quot;test2.csv&quot;) %&gt;% map(read_csv)</code></pre>
+<span class='va'>dados</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test1.csv"</span>, <span class='st'>"test2.csv"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>map</span><span class='op'>(</span><span class='va'>read_csv</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>O resultado <code>dados</code> é uma lista. Dentro da lista existem, separadamente, dois tibbles. Temos duas opções para juntar os dois tibbles em um. Podemos substituir <code>map_df</code> para <code>map</code>. Ou podemos manter <code>map</code> e seguir com <code>bind_rows()</code> que junta tibbles verticalmente:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-dados &lt;- c(&quot;test1.csv&quot;, &quot;test2.csv&quot;) %&gt;% map_df(read_csv)
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test1.csv"</span>, <span class='st'>"test2.csv"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>map_df</span><span class='op'>(</span><span class='va'>read_csv</span><span class='op'>)</span>
 
-dados &lt;- c(&quot;test1.csv&quot;, &quot;test2.csv&quot;) %&gt;% map(read_csv) %&gt;%
-  bind_rows()</code></pre>
+<span class='va'>dados</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test1.csv"</span>, <span class='st'>"test2.csv"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>map</span><span class='op'>(</span><span class='va'>read_csv</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>bind_rows</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Outra aplicação muito útil de <code>map</code> é para executar funções iguais em tibbles diferentes. <code>map</code> funciona com vetores ou listas, aplicando a função a cada elemento do vetor/lista. Listas são úteis porque eles podem conter uma variedade de outros objetos - valores únicos, vetores, tibbles, outra listas. Se tivermos vários tibbles, podemos organizar eles em uma lista.</p>
 <div class="blue">
@@ -1455,57 +2261,69 @@ dados &lt;- c(&quot;test1.csv&quot;, &quot;test2.csv&quot;) %&gt;% map(read_csv)
 <p>Uma lista é um conjunto de objetos diversos organizada verticalmente. Não é um tibble com linhas e colunas, listas só tem ‘elementos’, caixas vazias para guardar qualquer tipo de objeto - valores únicos, tibbles ou outra listas.</p>
 <p>Em R, listas são fáceis a construir com <code>list(objeto1, objeto2, ...)</code>. Vamos ver como aparece uma lista de uma mistura de objetos:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-objeto1 &lt;- flights %&gt;% filter(month==1 &amp; day==1)
-objeto2 &lt;- 3.14
-objeto3 &lt;- flights %&gt;% filter(month==1 &amp; day==2)
-objeto4 &lt;- &quot;teste&quot;
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>objeto1</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>day</span><span class='op'>==</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>objeto2</span> <span class='op'>&lt;-</span> <span class='fl'>3.14</span>
+<span class='va'>objeto3</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>day</span><span class='op'>==</span><span class='fl'>2</span><span class='op'>)</span>
+<span class='va'>objeto4</span> <span class='op'>&lt;-</span> <span class='st'>"teste"</span>
 
-lista_exemplo &lt;- list(objeto1, objeto2, objeto3, objeto4)
-lista_exemplo</code></pre>
+<span class='va'>lista_exemplo</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>objeto1</span>, <span class='va'>objeto2</span>, <span class='va'>objeto3</span>, <span class='va'>objeto4</span><span class='op'>)</span>
+<span class='va'>lista_exemplo</span>
+</code></pre>
+</div>
 </div>
 <p><code>lista_exemplo</code> mostra o seu conteúdo com quatro elementos, designado com o sintáxe: <code>[[1]]</code>, <code>[[2]]</code> etc. Os colchetes duplos indicam um elemento de uma lista.</p>
 <p>Para acessar um elemento único de uma lista, é só indicar qual elemento deseja com os colchetes:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-lista_exemplo[[1]]</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>lista_exemplo</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+</code></pre>
+</div>
 </div>
 <p>Também podemos nomear os elementos de uma lista para guardar eles mais sistematicamente:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-lista_exemplo_nomes &lt;- list(tibble1=objeto1, 
-                      numero=objeto2, 
-                      tibble2=objeto3, 
-                      string=objeto4)
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>lista_exemplo_nomes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>tibble1<span class='op'>=</span><span class='va'>objeto1</span>, 
+                      numero<span class='op'>=</span><span class='va'>objeto2</span>, 
+                      tibble2<span class='op'>=</span><span class='va'>objeto3</span>, 
+                      string<span class='op'>=</span><span class='va'>objeto4</span><span class='op'>)</span>
 
-lista_exemplo_nomes
+<span class='va'>lista_exemplo_nomes</span>
 
-lista_exemplo_nomes[[&quot;string&quot;]]</code></pre>
+<span class='va'>lista_exemplo_nomes</span><span class='op'>[[</span><span class='st'>"string"</span><span class='op'>]</span><span class='op'>]</span>
+</code></pre>
+</div>
 </div>
 <p>Note que as ações do tidyverse (<code>select</code>, <code>filter</code>, <code>slice</code> etc.) não funcionam com listas. Temos que trabalhar com as ferramentas básicas de R, ou aplicar funções com <code>map</code> como ilustrado no tutorial.</p>
 </div>
 <p><br></p>
 <p>Para entender o use de <code>map</code> com listas, e especificamente com diversos tibbles, vamos separar o banco de dados de <code>flights</code> em dois meses, organizar eles em uma lista (com a função <code>list()</code>), e aplicar uma função a cada um. Como exemplo, vamos calcular o atraso média por aeroporto com <code>summarize()</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights_jan &lt;- flights %&gt;% filter(month==1)
-flights_fev &lt;- flights %&gt;% filter(month==2)
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_jan</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>flights_fev</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>2</span><span class='op'>)</span>
 
-flights_jan_feb &lt;- list(janeiro=flights_jan, 
-                        fevereiro=flights_fev)
+<span class='va'>flights_jan_feb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>janeiro<span class='op'>=</span><span class='va'>flights_jan</span>, 
+                        fevereiro<span class='op'>=</span><span class='va'>flights_fev</span><span class='op'>)</span>
 
-flights_jan_feb %&gt;% map(summarize, dep_delay=mean(dep_delay, na.rm=T))</code></pre>
+<span class='va'>flights_jan_feb</span> <span class='op'>%&gt;%</span> <span class='fu'>map</span><span class='op'>(</span><span class='va'>summarize</span>, dep_delay<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>dep_delay</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>O resultado seria mais claro e accessível se forçamos a produção de um tibble:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights_jan_feb %&gt;% map_df(summarize, dep_delay=mean(dep_delay, na.rm=T))</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_jan_feb</span> <span class='op'>%&gt;%</span> <span class='fu'>map_df</span><span class='op'>(</span><span class='va'>summarize</span>, dep_delay<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>dep_delay</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Há apenas um problema com o resultado aqui - não sabemos qual valor descreve qual aeroporto! É importante manter a identificação dos nossos resultados, e seria útil ter uma coluna com o nome do aeroporto dentro do tibble. Isso é possível a partir de um argumento adicional em <code>map_df</code>: especificando o nome da coluna no argumento <code>.id=""</code></p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights_jan_feb %&gt;% map_df(summarize, dep_delay=mean(dep_delay, na.rm=T),
-                           .id=&quot;Aeroporto&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_jan_feb</span> <span class='op'>%&gt;%</span> <span class='fu'>map_df</span><span class='op'>(</span><span class='va'>summarize</span>, dep_delay<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>dep_delay</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span>,
+                           .id<span class='op'>=</span><span class='st'>"Aeroporto"</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: For Loops</strong> Uma forma alternativa para repetir ações em R é o uso de ‘for’ loops. Eles são muito comum em programação, então é bom conhecer, mas se você consiga usar <code>map</code>, é normalmente mais eficiente.</p>
@@ -1517,24 +2335,25 @@ flights_jan_feb %&gt;% map_df(summarize, dep_delay=mean(dep_delay, na.rm=T),
 <li><strong>Um objeto final para guardar os resultados</strong> - Devido que vamos repetir a função várias vezes, precisamos de um objeto que aceita múltiplos valores, ou seja um vetor. Podemos criar anteriormente um vetor vazio com <code>resultado &lt;- c()</code>, e dentro da função salva a amplitude calculado com nome do elemento atual <code>i</code>.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-elementos &lt;- c(&quot;dep_delay&quot;, &quot;arr_delay&quot;, &quot;distance&quot;)
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>elementos</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"dep_delay"</span>, <span class='st'>"arr_delay"</span>, <span class='st'>"distance"</span><span class='op'>)</span>
 
-resultado &lt;- c()
+<span class='va'>resultado</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>)</span>
 
-for (i in elementos) {
-  resultado[i] &lt;- flights %&gt;% pull(i) %&gt;% amplitude()
-}</code></pre>
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='va'>elementos</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>resultado</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>i</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>amplitude</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
 </div>
 <p>Veja de novo a lógica do ‘for’ loop: a linha de função contém duas instâncias de ‘i’: o indíce de destino no resultado e a variável para analisar dentro de<code>pull()</code>. A questão é simplesmente quais variáveis para substituir para ‘i’. Elas são definidas pela linha anterior: <code>i in elementos</code> - todas definidas no vetor elementos.</p>
 </div>
 <aside>
 <p>Mais uma alternativa: Se você não saiba o número de repetições necessários, pode repetir até que uma condição seja atendida com um <code>while</code> loop, por exemplo:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-while (condição) {
- ...
-}</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="cf">while</span> (condição) {</a>
+<a class="sourceLine" id="cb1-2" title="2"> ...</a>
+<a class="sourceLine" id="cb1-3" title="3">}</a></code></pre></div>
 </div>
 </aside>
 <p><br></p>
@@ -1568,57 +2387,69 @@ while (condição) {
 <h2 id="gerando-novas-colunas-com-map">Gerando Novas Colunas com <code>map</code></h2>
 <p>Uma forma muito útil de usar <code>map</code> é <em>dentro</em> de <code>mutate</code>. Isso permite inserir os resultados do cálculo repitido em uma nova coluna em nosso tibble. Veja uma forma interessante de abrir os arquivos .csv - podemos gerar um tibble com a primeira coluna documentando os nomes dos arquivos, e vamos usar <code>map</code> para inserir os dados de cada arquivo em uma nova coluna. Note que agora temos que indicar para <code>map</code> para qual coluna queremos aplicar a função <code>read_csv</code> - o ordem é <code>map(coluna, função)</code>. Cada linha reflete um arquivo, e os dados ficam numa lista-coluna (como descobrimos no tutorial 7).</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-dados_nested &lt;- tibble(dia=c(1, 2),
-                       file=c(&quot;test1.csv&quot;, &quot;test2.csv&quot;)) %&gt;% 
-  mutate(conteudo=map(file, read_csv))</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>dia<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span>,
+                       file<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test1.csv"</span>, <span class='st'>"test2.csv"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>conteudo<span class='op'>=</span><span class='fu'>map</span><span class='op'>(</span><span class='va'>file</span>, <span class='va'>read_csv</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Este procedimento pode ajudar para organizar bases de dados grandes, pois podemos trabalhar com uma tabela simples de resumo, e não as tabelas inteiras.</p>
 <h1 id="repetindo-funções-com-tibbles-nested">Repetindo Funções com Tibbles Nested</h1>
 <p>Qual é o classe da coluna de <code>conteudo</code> no tibble <code>dados_nested</code>? É uma lista, uma lista de tibbles. Então o nosso fluxo de análise não precisa parar aqui. Podemos continuar usando <code>map</code> para aplicar uma função para cada banco de dados separadamente.</p>
 <p>Por exemplo, vamos adicionar uma nova coluna com o número de vôos em cada linha.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-dados_nested &lt;- dados_nested %&gt;% 
-  mutate(num_voos=map(conteudo, nrow))</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='va'>dados_nested</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>num_voos<span class='op'>=</span><span class='fu'>map</span><span class='op'>(</span><span class='va'>conteudo</span>, <span class='va'>nrow</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Pare, como aparece <code>dados_nested</code> agora? Na coluna <code>num_voos</code> temos uma coisa estranha <code>&lt;int [1]&gt;</code> - isso significa que existe um número dentro da lista, mas não está sendo apresentado. Isso acontece porque <code>map</code> produz uma lista por padrão. É melhor usar uma variadade de <code>map</code> para valores únicos numéricos: <code>map_dbl</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-dados_nested &lt;- dados_nested %&gt;% 
-  mutate(num_voos=map_dbl(conteudo, nrow))</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='va'>dados_nested</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>num_voos<span class='op'>=</span><span class='fu'>map_dbl</span><span class='op'>(</span><span class='va'>conteudo</span>, <span class='va'>nrow</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Bem melhor - agora podemos ver o número de linhas direitamente em nossa tabela. Também é possível aplicar uma função customizada para cada banco. Por exemplo, se quisemos resumir a correlação entre <code>dep_delay</code> e <code>dep_time</code> para cada banco, é só escrever uma função que executa esse cálculo para um tibble genérico, e aplicar a função dentro de <code>map</code> para a coluna apropriada:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-library(&quot;broom&quot;)
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://broom.tidymodels.org/'>"broom"</a></span><span class='op'>)</span>
 
-corr_function &lt;- function(tibble) {
-  tibble %&gt;% cor.test(~ dep_delay + dep_time, data=.) %&gt;%
-    tidy()
-}
+<span class='va'>corr_function</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>tibble</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>tibble</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/cor.test.html'>cor.test</a></span><span class='op'>(</span><span class='op'>~</span> <span class='va'>dep_delay</span> <span class='op'>+</span> <span class='va'>dep_time</span>, data<span class='op'>=</span><span class='va'>.</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
 
-dados_nested &lt;- dados_nested %&gt;% 
-  mutate(corr=map(conteudo, corr_function))</code></pre>
+<span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='va'>dados_nested</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>corr<span class='op'>=</span><span class='fu'>map</span><span class='op'>(</span><span class='va'>conteudo</span>, <span class='va'>corr_function</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Agora temos rodos os resultados do teste de correlação na coluna <code>corr</code>. Para deixar apenas a estimativa central de correlação visível, podemos adatar a função para extrair o valor desejado.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-corr_function &lt;- function(tibble) {
-  tibble %&gt;% cor.test(~ dep_delay + dep_time, data=.) %&gt;%
-    tidy() %&gt;%
-    pull(estimate)
-}
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>corr_function</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>tibble</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>tibble</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/cor.test.html'>cor.test</a></span><span class='op'>(</span><span class='op'>~</span> <span class='va'>dep_delay</span> <span class='op'>+</span> <span class='va'>dep_time</span>, data<span class='op'>=</span><span class='va'>.</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>pull</span><span class='op'>(</span><span class='va'>estimate</span><span class='op'>)</span>
+<span class='op'>}</span>
 
-dados_nested &lt;- dados_nested %&gt;% 
-  mutate(corr=map_dbl(conteudo, corr_function))</code></pre>
+<span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='va'>dados_nested</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>corr<span class='op'>=</span><span class='fu'>map_dbl</span><span class='op'>(</span><span class='va'>conteudo</span>, <span class='va'>corr_function</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <h2 id="repetindo-análises">Repetindo Análises</h2>
 <p>É comum em análises empíricas para executar várias estimativas. Por exemplo, com regressões podemos ajustar o banco de dados para estimar resultados em amostras diversas. Vamos usar este exemplo para aprender como a executar múltiplas regressões em uma linha única de código.</p>
 <p>Começamos com uma regressão simples:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% lm(dep_delay ~ dep_time, data=.)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>dep_delay</span> <span class='op'>~</span> <span class='va'>dep_time</span>, data<span class='op'>=</span><span class='va'>.</span><span class='op'>)</span>
+</code></pre>
+</div>
 <pre><code>
 Call:
 lm(formula = dep_delay ~ dep_time, data = .)
@@ -1630,45 +2461,43 @@ Coefficients:
 <p>A nossa primeira tarefa é repitir a regressão para vários bancos de dados. Vamos aproveitar da nossa tabela <code>dados_nested</code>. Inserindo a regressão <code>lm</code> dentro de <code>map</code> e <code>mutate</code> aplica a regressão para o banco de dados em cada linha (na coluna ‘conteudo’), e guarda os resultados em uma nova coluna.</p>
 <p>Existe apenas uma diferença em que já discutimos no código abaixo - em vez de especificar e nomear uma função anterior para ser aplicado em <code>map</code>, a função está sendo gerado ‘na hora’ (‘anonimamente’) com o uso de tilde <code>~</code> antes da função. É apenas um atalho para facilitar; claro que fica melhor definir uma função explícita anteriormente para cálculos complexos.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-dados_nested &lt;- dados_nested %&gt;% 
-  mutate(regressão=map(conteudo, ~lm(dep_delay ~ dep_time, data=.)))</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">dados_nested &lt;-<span class="st"> </span>dados_nested <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(regressã<span class="dt">o=</span><span class="kw">map</span>(conteudo, <span class="op">~</span><span class="kw">lm</span>(dep_delay <span class="op">~</span><span class="st"> </span>dep_time, <span class="dt">data=</span>.)))</a></code></pre></div>
 </div>
 <p>Agora temos o resultado básico da regressão em nosso tibble. Provavalmente queremos limpar isso para tornar mais accessível. Por exemplo, podemos aplicar <code>tidy</code> com mais uma chamada de <code>mutate</code> para gerar um tibble dos resultados:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-dados_nested &lt;- dados_nested %&gt;% 
-  mutate(regressão=map(regressão, tidy))</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">dados_nested &lt;-<span class="st"> </span>dados_nested <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(regressã<span class="dt">o=</span><span class="kw">map</span>(regressão, tidy))</a></code></pre></div>
 </div>
 <p>E se quisemos extrair um coeficiente de interesse para o tibble de resumo:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-dados_nested &lt;- dados_nested %&gt;% 
-  mutate(coef=map(regressão, filter, term==&quot;dep_time&quot;),
-         coef=map_dbl(coef, pull,estimate))</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">dados_nested &lt;-<span class="st"> </span>dados_nested <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">coef=</span><span class="kw">map</span>(regressão, filter, term<span class="op">==</span><span class="st">&quot;dep_time&quot;</span>),</a>
+<a class="sourceLine" id="cb5-3" title="3">         <span class="dt">coef=</span><span class="kw">map_dbl</span>(coef, pull,estimate))</a></code></pre></div>
 </div>
 <p>Observe um ponto importante aqui - quando aplicamos uma função com <code>map</code> sem o uso de <code>~</code>, os argumentos adicionais à função não ficam em paranteses, mas depois de uma vírgula.</p>
 <p>Na situação em que começamos com um banco de dados inteiro e quer aplicar uma regressão por grupo, em que o grupo é definido por uma variável, é só usar <code>group_by</code> e <code>nest</code> para preparar o tibble apropriado. Por exemplo, por aeroporto de origem:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights_reg_por_origem &lt;- flights %&gt;% 
-  group_by(origin) %&gt;%
-  nest() %&gt;%
-  mutate(regressão=map(data, ~lm(dep_delay ~ dep_time, data=.)),
-         regressão=map(regressão, tidy),
-         coef=map(regressão, filter, term==&quot;dep_time&quot;),
-         coef=map_dbl(coef, pull,estimate))</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">flights_reg_por_origem &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(origin) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="st">  </span><span class="kw">nest</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(regressã<span class="dt">o=</span><span class="kw">map</span>(data, <span class="op">~</span><span class="kw">lm</span>(dep_delay <span class="op">~</span><span class="st"> </span>dep_time, <span class="dt">data=</span>.)),</a>
+<a class="sourceLine" id="cb6-5" title="5">         regressã<span class="dt">o=</span><span class="kw">map</span>(regressão, tidy),</a>
+<a class="sourceLine" id="cb6-6" title="6">         <span class="dt">coef=</span><span class="kw">map</span>(regressão, filter, term<span class="op">==</span><span class="st">&quot;dep_time&quot;</span>),</a>
+<a class="sourceLine" id="cb6-7" title="7">         <span class="dt">coef=</span><span class="kw">map_dbl</span>(coef, pull,estimate))</a></code></pre></div>
 </div>
 <p>Preparando, executando, e resumindo três regressões em uma única linha de código.</p>
 <h3 id="mapeando-argumentos-múltiplos">Mapeando argumentos múltiplos</h3>
 <p>Não é apenas o banco de dados que é possível ajustar numa regressão - o <code>lm</code> aceita vários argumentos, ‘data’ mas também ‘formula’, o modelo da regressão. Isso é comum - funções aceitam vários argumentos e queremos variar mais que um argumento ao longa da nossa repitição. Por exemplo, eu queria rodar modelos A e B para banco de dados X e Y, modelo C para banco de dados Y e Z, e modelo D para banco de dados Z.</p>
 <p>Operações dessa forma exigem que indicamos para <code>map</code> <em>duas</em> colunas para encaminhar a nossa função. É simples: verificamos que as duas colunas com os argumentos desejados existem no tibble, usamos <code>map2</code> em vez de <code>map</code>, e indicamos os nomes das duas colunas no <code>map2</code>, no ordem em que eles são esperados pela função.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-dados_nested &lt;- dados_nested %&gt;% mutate(formula=c(&quot;dep_delay ~ dep_time&quot;,
-                                  &quot;arr_delay ~ dep_time&quot;))
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='va'>dados_nested</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>formula<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"dep_delay ~ dep_time"</span>,
+                                  <span class='st'>"arr_delay ~ dep_time"</span><span class='op'>)</span><span class='op'>)</span>
 
-dados_nested &lt;- dados_nested %&gt;% mutate(resultados=map2(formula, conteudo, lm))</code></pre>
+<span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='va'>dados_nested</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>resultados<span class='op'>=</span><span class='fu'>map2</span><span class='op'>(</span><span class='va'>formula</span>, <span class='va'>conteudo</span>, <span class='va'>lm</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Agora, os dois resultados refletam ambos uma amostra e uma fórmula diferente,</p>
 <div class="green">
@@ -1703,6 +2532,7 @@ dados_nested &lt;- dados_nested %&gt;% mutate(resultados=map2(formula, conteudo,
 <h1 id="leitura-para-tutorial-12">Leitura para Tutorial 12</h1>
 <p>Antes da próxima aula, por favor leia <a href="https://r4ds.had.co.nz/vectors.html">R 4 Data Science, Capítulo 14 sobre Strings</a> e <a href="https://www.tidytextmining.com/tidytext.html">Tidy Text Mining Capítulo 1</a></p>
 </div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

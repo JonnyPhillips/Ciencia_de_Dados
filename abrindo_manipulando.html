@@ -18,6 +18,71 @@
  <!--radix_placeholder_import_source-->
  <!--/radix_placeholder_import_source-->
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
   <!--radix_placeholder_meta_tags-->
   <title>Analise de Dados para as Ciencias Sociais: Abrindo e Manipulando Dados</title>
   
@@ -45,6 +110,7 @@
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
+  <meta name="distill:offset" content=""/>
   
   <script type="application/javascript">
   
@@ -56,6 +122,7 @@
       var header = $('header').get(0);
       var headerHeight = header.offsetHeight;
       var headroom = new Headroom(header, {
+        tolerance: 5,
         onPin : function() {
           if (window.headroom_prevent_pin) {
             window.headroom_prevent_pin = false;
@@ -104,7 +171,7 @@
   
   .distill-site-nav {
     color: rgba(255, 255, 255, 0.8);
-    background-color: #455a64;
+    background-color: #0F2E3D;
     font-size: 15px;
     font-weight: 300;
   }
@@ -167,6 +234,7 @@
   
   .distill-site-header .title {
     font-size: 18px;
+    min-width: 150px;
   }
   
   .distill-site-header .logo {
@@ -308,7 +376,7 @@
   
   
   @media screen and (max-width: 768px) {
-    .distill-site-header.responsive {position: relative;}
+    .distill-site-header.responsive {position: relative; min-height: 500px; }
     .distill-site-header.responsive a.nav-toggle {
       position: absolute;
       right: 0;
@@ -377,11 +445,277 @@
     top: 0;
   }
   
+  /* adjust viewport for navbar height */
+  /* helps vertically center bootstrap (non-distill) content */
+  .min-vh-100 {
+    min-height: calc(100vh - 100px) !important;
+  }
+  
   </style>
   
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+  <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
+  
+  <script type="application/javascript">
+  
+  function getMeta(metaName) {
+    var metas = document.getElementsByTagName('meta');
+    for (let i = 0; i < metas.length; i++) {
+      if (metas[i].getAttribute('name') === metaName) {
+        return metas[i].getAttribute('content');
+      }
+    }
+    return '';
+  }
+  
+  function offsetURL(url) {
+    var offset = getMeta('distill:offset');
+    return offset ? offset + '/' + url : url;
+  }
+  
+  function createFuseIndex() {
+  
+    // create fuse index
+    var options = {
+      keys: [
+        { name: 'title', weight: 20 },
+        { name: 'categories', weight: 15 },
+        { name: 'description', weight: 10 },
+        { name: 'contents', weight: 5 },
+      ],
+      ignoreLocation: true,
+      threshold: 0
+    };
+    var fuse = new window.Fuse([], options);
+  
+    // fetch the main search.json
+    return fetch(offsetURL('search.json'))
+      .then(function(response) {
+        if (response.status == 200) {
+          return response.json().then(function(json) {
+            // index main articles
+            json.articles.forEach(function(article) {
+              fuse.add(article);
+            });
+            // download collections and index their articles
+            return Promise.all(json.collections.map(function(collection) {
+              return fetch(offsetURL(collection)).then(function(response) {
+                if (response.status === 200) {
+                  return response.json().then(function(articles) {
+                    articles.forEach(function(article) {
+                      fuse.add(article);
+                    });
+                  })
+                } else {
+                  return Promise.reject(
+                    new Error('Unexpected status from search index request: ' +
+                              response.status)
+                  );
+                }
+              });
+            })).then(function() {
+              return fuse;
+            });
+          });
+  
+        } else {
+          return Promise.reject(
+            new Error('Unexpected status from search index request: ' +
+                        response.status)
+          );
+        }
+      });
+  }
+  
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+  
+    // get search element (bail if we don't have one)
+    var searchEl = window.document.getElementById('distill-search');
+    if (!searchEl)
+      return;
+  
+    createFuseIndex()
+      .then(function(fuse) {
+  
+        // make search box visible
+        searchEl.classList.remove('hidden');
+  
+        // initialize autocomplete
+        var options = {
+          autoselect: true,
+          hint: false,
+          minLength: 2,
+        };
+        window.autocomplete(searchEl, options, [{
+          source: function(query, callback) {
+            const searchOptions = {
+              isCaseSensitive: false,
+              shouldSort: true,
+              minMatchCharLength: 2,
+              limit: 10,
+            };
+            var results = fuse.search(query, searchOptions);
+            callback(results
+              .map(function(result) { return result.item; })
+            );
+          },
+          templates: {
+            suggestion: function(suggestion) {
+              var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
+                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+                : '';
+              var html = `
+                <div class="search-item">
+                  <h3>${suggestion.title}</h3>
+                  <div class="search-item-description">
+                    ${suggestion.description || ''}
+                  </div>
+                  <div class="search-item-preview">
+                    ${img}
+                  </div>
+                </div>
+              `;
+              return html;
+            }
+          }
+        }]).on('autocomplete:selected', function(event, suggestion) {
+          window.location.href = offsetURL(suggestion.path);
+        });
+        // remove inline display style on autocompleter (we want to
+        // manage responsive display via css)
+        $('.algolia-autocomplete').css("display", "");
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  
+  });
+  
+  </script>
+  
+  <style type="text/css">
+  
+  .nav-search {
+    font-size: x-small;
+  }
+  
+  /* Algolioa Autocomplete */
+  
+  .algolia-autocomplete {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: sub;
+    background-color: white;
+    color: black;
+    padding: 6px;
+    padding-top: 8px;
+    padding-bottom: 0;
+    border-radius: 6px;
+    border: 1px #0F2E3D solid;
+    width: 180px;
+  }
+  
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-nav .algolia-autocomplete {
+      display: none;
+      visibility: hidden;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete {
+      display: inline-block;
+      visibility: visible;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+      margin-left: 0;
+      width: 400px;
+      max-height: 400px;
+    }
+  }
+  
+  .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+    width: 90%;
+    outline: none;
+    border: none;
+  }
+  
+  .algolia-autocomplete .aa-hint {
+    color: #999;
+  }
+  .algolia-autocomplete .aa-dropdown-menu {
+    width: 550px;
+    max-height: 70vh;
+    overflow-x: visible;
+    overflow-y: scroll;
+    padding: 5px;
+    margin-top: 3px;
+    margin-left: -150px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #999;
+    border-top: none;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+    cursor: pointer;
+    padding: 5px 4px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+    border-bottom: none;
+    margin-bottom: 2px;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+    overflow: hidden;
+    font-size: 0.8em;
+    line-height: 1.4em;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+    font-size: 1rem;
+    margin-block-start: 0;
+    margin-block-end: 5px;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+    display: inline-block;
+    overflow: hidden;
+    height: 2.8em;
+    width: 80%;
+    margin-right: 4%;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+    display: inline-block;
+    width: 15%;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+    height: 3em;
+    width: auto;
+    display: none;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+    display: initial;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+    background-color: #eee;
+  }
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+    font-weight: bold;
+    font-style: normal;
+  }
+  
+  </style>
+  
+  
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
   
@@ -405,6 +739,51 @@
   
   .pagedtable-footer {
     font-size: 15px;
+  }
+  
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+  
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+  
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+  
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+  
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+  
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
   }
   
   .html-widget {
@@ -446,6 +825,7 @@
   }
   
   d-article {
+    padding-top: 2.5rem;
     padding-bottom: 30px;
   }
   
@@ -457,91 +837,48 @@
     width: 100%;
   }
   
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+  
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+  
   d-article iframe {
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 2.0em;
     width: 100%;
   }
   
-  figure img.external {
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
-    padding: 18px;
-    box-sizing: border-box;
+  /* Tweak code blocks */
+  
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   }
   
-  /* CSS for table of contents */
-  
-  .d-toc {
-    color: rgba(0,0,0,0.8);
-    font-size: 0.8em;
-    line-height: 1em;
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
   }
   
-  .d-toc-header {
-    font-size: 0.6rem;
-    font-weight: 400;
-    color: rgba(0, 0, 0, 0.5);
-    text-transform: uppercase;
-    margin-top: 0;
-    margin-bottom: 1.3em;
+  d-article div.sourceCode {
+    background-color: white;
   }
   
-  .d-toc a {
-    border-bottom: none;
-  }
-  
-  .d-toc ul {
-    padding-left: 0;
-  }
-  
-  .d-toc li>ul {
-    padding-top: 0.8em;
-    padding-left: 16px;
-    margin-bottom: 0.6em;
-  }
-  
-  .d-toc ul,
-  .d-toc li {
-    list-style-type: none;
-  }
-  
-  .d-toc li {
-    margin-bottom: 0.9em;
-  }
-  
-  .d-toc-separator {
-    margin-top: 20px;
-    margin-bottom: 2em;
-  }
-  
-  .d-article-with-toc {
-    border-top: none;
-    padding-top: 0;
-  }
-  
-  
-  
-  /* Tweak code blocks (note that this CSS is repeated above in an injection
-     into the d-code shadow dom) */
-  
-  d-code {
-    overflow-x: auto !important;
-  }
-  
-  pre.d-code code.d-code {
+  d-article div.sourceCode pre {
     padding-left: 10px;
     font-size: 12px;
     border-left: 2px solid rgba(0,0,0,0.1);
   }
   
-  pre.text-output {
-  
+  d-article pre {
     font-size: 12px;
     color: black;
     background: none;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    margin-top: 0;
     text-align: left;
     white-space: pre;
     word-spacing: normal;
@@ -559,20 +896,128 @@
     hyphens: none;
   }
   
+  d-article pre a {
+    border-bottom: none;
+  }
+  
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+  
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+  
   @media(min-width: 768px) {
   
-  d-code {
-    overflow-x: visible !important;
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
   }
   
-  pre.d-code code.d-code  {
-      padding-left: 18px;
-      font-size: 14px;
-  }
-  pre.text-output {
+  d-article div.sourceCode pre {
+    padding-left: 18px;
     font-size: 14px;
   }
+  
+  d-article pre {
+    font-size: 14px;
   }
+  
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for d-contents */
+  
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+  
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+  
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+  
+  .d-contents li {
+    list-style-type: none
+  }
+  
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+  
+  .d-contents ul {
+    padding-left: 1em
+  }
+  
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+  
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+  
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+  
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+  
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+  
+  
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+  
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+  
   
   /* Figure */
   
@@ -610,6 +1055,27 @@
     color: rgba(0, 0, 0, 1.0);
   }
   
+  /* Citations */
+  
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+  
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+  
+  /* Citation hover box */
+  
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+  
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
   
   
   /* Tweak 1000px media break to show more text */
@@ -685,6 +1151,91 @@
     word-wrap: break-word;
   }
   
+  /* Include appendix styles here so they can be overridden */
+  
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+  
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+  
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+  
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+  
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+  
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+  
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  d-appendix > * {
+    grid-column: text;
+  }
+  
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+  
+  /* Include footnote styles here so they can be overridden */
+  
+  d-footnote-list {
+    contain: layout style;
+  }
+  
+  d-footnote-list > * {
+    grid-column: text;
+  }
+  
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+  
+  
+  
+  /* Anchor.js */
+  
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
   
   /* Social footer */
   
@@ -729,6 +1280,221 @@
   .article-footer .subscribe {
     font-size: 15px;
     margin-top: 45px;
+  }
+  
+  
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+  
+  /* Styles for posts lists (not auto-injected) */
+  
+  
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+  
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+  
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+  
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+  
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+  
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+  
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+  
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+  
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+  
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+  
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+  
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+  
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+  
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  .posts-list img {
+    opacity: 1;
+  }
+  
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+  
+  .posts-more {
+    clear: both;
+  }
+  
+  
+  .posts-sidebar {
+    font-size: 16px;
+  }
+  
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+  
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+  
+  .categories li>a {
+    border-bottom: none;
+  }
+  
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+  
+  .categories .active {
+    font-weight: 600;
+  }
+  
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+  
+  
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
   }
   
   
@@ -860,6 +1626,12 @@
     hyphens: none;
   }
   
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+  
+  
+  
   </style>
   
   <script type="application/javascript">
@@ -875,6 +1647,13 @@
   
   // show body when load is complete
   function on_load_complete() {
+  
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+  
   
     // set body to visible
     document.body.style.visibility = 'visible';
@@ -921,23 +1700,8 @@
     // create d-appendix
     $('.d-appendix').changeElementType('d-appendix');
   
-    // create d-bibliography
-    var bibliography = $('<d-bibliography></d-bibliography>');
-    $('#distill-bibliography').wrap(bibliography);
-  
     // flag indicating that we have appendix items
     var appendix = $('.appendix-bottom').children('h3').length > 0;
-  
-    // replace citations with <d-cite>
-    $('.citation').each(function(i, val) {
-      appendix = true;
-      var cites = $(this).attr('data-cites').split(" ");
-      var dt_cite = $('<d-cite></d-cite>');
-      dt_cite.attr('key', cites.join());
-      $(this).replaceWith(dt_cite);
-    });
-    // remove refs
-    $('#refs').remove();
   
     // replace footnotes with <d-footnote>
     $('.footnote-ref').each(function(i, val) {
@@ -955,39 +1719,21 @@
     // remove footnotes
     $('.footnotes').remove();
   
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+  
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
     });
     $('h3.appendix').each(function(i, val) {
       var id = $(this).attr('id');
-      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
       appendix = true;
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
     });
   
     // show d-appendix if we have appendix content
     $("d-appendix").css('display', appendix ? 'grid' : 'none');
-  
-    // replace code blocks with d-code
-    $('pre>code').each(function(i, val) {
-      var code = $(this);
-      var pre = code.parent();
-      var clz = "";
-      var language = pre.attr('class');
-      if (language) {
-        // map unknown languages to "clike" (without this they just dissapear)
-        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
-                                 "javascript", "js", "julia", "lua", "markdown",
-                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
-          language = "clike";
-        language = ' language="' + language + '"';
-        var dt_code = $('<d-code block' + language + clz + '></d-code>');
-        dt_code.text(code.text());
-        pre.replaceWith(dt_code);
-      } else {
-        code.addClass('text-output').unwrap().changeElementType('pre');
-      }
-    });
   
     // localize layout chunks to just output
     $('.layout-chunk').each(function(i, val) {
@@ -996,7 +1742,7 @@
       var layout = $(this).attr('data-layout');
   
       // apply layout to markdown level block elements
-      var elements = $(this).children().not('d-code, pre.text-output, script');
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
       elements.each(function(i, el) {
         var layout_div = $('<div class="' + layout + '"></div>');
         if (layout_div.hasClass('shaded')) {
@@ -1013,6 +1759,13 @@
       $(this).children().unwrap();
     });
   
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+  
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+  
     // load distill framework
     load_distill_framework();
   
@@ -1028,12 +1781,26 @@
       if (!have_authors)
         $('d-byline').addClass('hidden');
   
-      // table of contents
-      if (have_authors) // adjust border if we are in authors
-        $('.d-toc').parent().addClass('d-article-with-toc');
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
   
       // strip links that point to #
       $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
   
       // hide elements of author/affiliations grid that have no value
       function hide_byline_column(caption) {
@@ -1083,18 +1850,27 @@
         grid.children('h3:contains("Affiliations")').text('Affiliation');
       }
   
-      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
-      $('d-code').each(function(i, val) {
-        var style = document.createElement('style');
-        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
-                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
-        if (this.shadowRoot)
-          this.shadowRoot.appendChild(style);
-      });
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
   
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
+  
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
   
       // clear polling timer
       clearInterval(tid);
@@ -1126,9 +1902,7 @@
     $('.d-byline a').remove();
   
     // remove toc
-    $('.d-toc-header').remove();
-    $('.d-toc').remove();
-    $('.d-toc-separator').remove();
+    $('.d-contents').remove();
   
     // move appendix elements
     $('h1.appendix, h2.appendix').each(function(i, val) {
@@ -1259,7 +2033,11 @@
   <!--/radix_placeholder_distill-->
   <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
   <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="site_libs/distill-2.2.21/template.v2.js"></script>
@@ -1287,7 +2065,16 @@
 <div class="nav-right">
 <a href="index.html">Introducao</a>
 <a href="syllabus.html">Syllabus</a>
-<span class="nav-dropdown-header">Tutoriais</span>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Tutoriais
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="introducao.html">1. Introducao</a>
+</div>
+</div>
 <span class="nav-dropdown-header">Desafios</span>
 <a href="recursos.html">Recursos</a>
 <a href="projeto.html">Projeto Final</a>
@@ -1301,13 +2088,16 @@
 
 <div class="d-title">
 <h1>Abrindo e Manipulando Dados</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
 <p><p>Entendendo o mundo de Big Data</p></p>
 </div>
 
 
 <div class="d-article">
-<h3 class="d-toc-header">Table of Contents</h3>
-<nav class="d-toc" id="TOC">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
 <ul>
 <li><a href="#manipulando-dados">Manipulando Dados</a><ul>
 <li><a href="#renomear-variáveis-rename">1. Renomear Variáveis (<code>Rename</code>)</a></li>
@@ -1325,7 +2115,7 @@
 </ul></li>
 </ul>
 </nav>
-<hr class="d-toc-separator"/>
+</div>
 <style>
 div.green { background-color:#e5f5e0; border-radius: 5px; padding: 20px;}
 </style>
@@ -1337,34 +2127,34 @@ div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 </style>
 <h1 id="manipulando-dados">Manipulando Dados</h1>
 <p>Estamos trabalhando com um banco de dados, mas ele não está pronto para a análise que desejamos fazer. Por exemplo, as variáveis não contêm os indicadores relevantes, os nomes das variáveis não fazem sentido, a unidade de análise precisa ser mais agregada, queremos retirar alguns outliers etc. Como podemos ‘manipular’ um banco de dados para o tamanho, a estrutura e o conteúdo apropriado para a análise desejada?</p>
-<p>Fazemos a manipulação da mesma forma que trabalhamos com os ingredientes de uma receita: executando <strong>ações</strong> para cortar, selecionar e combinar os ingredientes. Sempre começando com o nosso tibble (data.frame) e aplicamos ‘verbos’ (ações) que transformam o nosso banco de dados.</p>
-<p>Na verdade, esta lógica de manipulação de dados baseada em ‘verbos’ é apenas uma abordagem, e no futuro vamos ver alternativas. Vamos trabalhar com a abordagem de verbos do pacote <code>tidyverse</code> porque (i) é mais fácil para aprender, (ii) é mais sistemático, e (iii) é mais transparente para ler e entender do que outros pacotes. Os códigos descritos no restante do tutorial só funcionam se você abrir a biblioteca do tidyverse num chunk inicial:</p>
+<p>Fazemos a manipulação da mesma forma que trabalhamos com os ingredientes de uma receita: executando <strong>ações</strong> para cortar, selecionar e combinar os ingredientes. Sempre começando com o nosso tibble (data.frame) e aplicamos ações (‘verbos’) que transformam o nosso banco de dados.</p>
+<p>Na verdade, esta lógica de manipulação de dados baseada em ‘verbos’ é apenas uma abordagem no mundo flexível de R, e no futuro vamos ver alternativas. Por enquanto, vamos trabalhar com a abordagem de verbos do pacote <code>tidyverse</code> porque (i) é mais fácil para aprender, (ii) é mais sistemático, e (iii) é mais transparente para ler e entender do que outras abordagens.</p>
+<p>Antes de começar, lembre-se de abrir o projeto com o qual você trabalhou no tutorial anterior (deve aparecer na lista no menu (‘Project:’) no canto superior à direita), ou um novo projeto se necessário. Em seguida, abra um novo arquivo de R Markdown (File -&gt; New File -&gt; R Markdown), e apague tudo exceto o cabeçalho:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="op">---</span></a>
+<a class="sourceLine" id="cb1-2" title="2">title<span class="op">:</span><span class="st"> &quot;Examplo&quot;</span></a>
+<a class="sourceLine" id="cb1-3" title="3">author<span class="op">:</span><span class="st"> &quot;Jonathan&quot;</span></a>
+<a class="sourceLine" id="cb1-4" title="4">date<span class="op">:</span><span class="st"> &quot;1 de abril 2021&quot;</span></a>
+<a class="sourceLine" id="cb1-5" title="5">output<span class="op">:</span><span class="st"> </span>html_document</a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="op">---</span></a></code></pre></div>
+</div>
+<p>Os códigos descritos no restante do tutorial só funcionam se você abrir a biblioteca do tidyverse (que já instalamos no tutorial anterior) num chunk inicial:</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
-<pre class="clike"><code>
-```{r}
+<pre class="clike"><code>```{r}
 library(&quot;tidyverse&quot;)
 ```</code></pre>
-<p>Antes de começar, lembre-se de abrir o projeto anterior com o qual você trabalhou no tutorial anterior, ou um novo projeto se necessário. Em seguida, abra um novo arquivo de R Markdown, e apague tudo exceto o cabeçalho.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
----
-title: &quot;Examplo&quot;
-author: &quot;Jonathan&quot;
-date: &quot;12 de março 2020&quot;
-output: html_document
----</code></pre>
-</div>
 <h2 id="renomear-variáveis-rename">1. Renomear Variáveis (<code>Rename</code>)</h2>
 <p>Começamos com uma transformação bem simples, mas se você já abriu um banco de dados com variáveis nomeadas como ‘hu52_lm_00’ você vai entender o valor dessa transformação. Cada coluna (variável) em nosso tibble sempre tem um nome, e podemos trocá-lo a qualquer momento.</p>
-<p>Para inspecionar os nomes de um tibble, podemos simplesmente executar o nome do objeto e ver o que aparece na tabela abaixo do chunk. Ou então, podemos usar a função <code>names()</code>. Vamos utilizar como exemplo de banco de dados os voos de Nova York, dados que usamos no tutorial anterior, lembrando que temos que abrir a biblioteca de voos primeiramente (se esqueceu dê uma olhada no tutorial 1).</p>
+<p>Para inspecionar os nomes das variáveis num tibble, podemos simplesmente executar o nome do objeto no modo interativo e ver o que aparece na tabela abaixo do chunk ou no Console. Ou então, podemos usar a função <code>names()</code>. Vamos utilizar como exemplo de banco de dados os voos de Nova York, dados que usamos no tutorial anterior, lembrando que temos que abrir a biblioteca de voos primeiramente (se esqueceu dê uma olhada no tutorial 1).</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-library(&quot;nycflights13&quot;)
-names(flights)</code></pre>
-<pre><code>
- [1] &quot;year&quot;           &quot;month&quot;          &quot;day&quot;           
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='http://github.com/hadley/nycflights13'>"nycflights13"</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>flights</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code> [1] &quot;year&quot;           &quot;month&quot;          &quot;day&quot;           
  [4] &quot;dep_time&quot;       &quot;sched_dep_time&quot; &quot;dep_delay&quot;     
  [7] &quot;arr_time&quot;       &quot;sched_arr_time&quot; &quot;arr_delay&quot;     
 [10] &quot;carrier&quot;        &quot;flight&quot;         &quot;tailnum&quot;       
@@ -1373,24 +2163,30 @@ names(flights)</code></pre>
 [19] &quot;time_hour&quot;     </code></pre>
 </div>
 <p>Note que o R descreve os índices (as posições na lista) dos nomes na esquerda.</p>
-<p>Queremos renomear a variável <code>arr_time</code> para <code>arrival_time</code> - como faremos? Temos que aplicar o verbo e função <code>rename()</code> ao banco de dados <code>flights</code>. Agora temos um princípio fundamental da manipulação de dados: <strong>começamos com o substantivo (o objeto; o tibble) e depois aplicamos o verbo (a função).</strong></p>
-<p>Para conectar o substantivo com o verbo, usamos um símbolo bizarro que se chama o ‘pipe’: <code>%&gt;%</code>. Não me pergunte o motivo para usar este símbolo; apenas Deus tem a resposta. A única coisa que importa é como a usar:</p>
+<p>Queremos renomear a variável <code>arr_time</code> para <code>arrival_time</code> - como faremos? Temos que aplicar o verbo e função <code>rename()</code> ao banco de dados <code>flights</code>. Agora temos um princípio fundamental da manipulação de dados no <code>tidyverse</code>: <strong>começamos com o substantivo (o objeto; o tibble) e depois aplicamos o verbo (a transformação; a função).</strong> Como em português: “A universidade [objeto] fechou [verbo]”.</p>
+<p>Para conectar o substantivo com o verbo, usamos um símbolo bizarro que se chama o ‘pipe’: <code>%&gt;%</code>. Não me pergunte o motivo para usar este símbolo; apenas Deus tem a resposta. A única coisa que importa é como a usar. O modelo é:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% rename()</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>rename</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Pipes, <code>%&gt;%</code></strong> O pipe conecta um tibble a uma função. Pode ser traduzido como ‘e depois’, ou ‘then’ em inglês. Por exemplo, “pegue o banco de dados de flights, e depois aplique a função renomear”.</p>
 <p>Podemos juntar vários pipes para combinar funções diferentes e gerar uma análise mais complexa. Por exemplo:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% rename() %&gt;% outra_funcao() %&gt;% outra_funcao()</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>rename</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>outra_funcao</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>mais_uma_funcao</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
 </div>
 </div>
-<p><br> O código acima não faz nada porque ainda não especificamos <em>qual</em> variável renomear e o novo nome. <em>Qual</em> variável a renomear e o novo nome da variável são parâmetros da função <code>rename</code>, que tem um formato específico:</p>
+</div>
+<p><br> O código acima não faz nada porque ainda não especificamos <em>qual</em> variável renomear e o novo nome. <em>Qual</em> variável a renomear e o novo nome da variável são <strong>parâmetros</strong> da função <code>rename</code>, que tem um formato específico:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% rename(arrival_time = arr_time)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>rename</span><span class='op'>(</span>arrival_time <span class='op'>=</span> <span class='va'>arr_time</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div data-pagedtable="false">
@@ -1399,45 +2195,58 @@ flights %&gt;% rename(arrival_time = arr_time)</code></pre>
   </script>
 </div>
 </div>
-<p>Qual o formato aqui? Dentro dos parênteses, colocamos o <em>novo</em> nome primeiro, depois o sinal de igual, depois o nome <em>antigo/original</em>. Se digitarmos o nome original errado, a função não vai funcionar e vai aparecer uma mensagem de erro. O nome novo pode ser diversas coisas (não abuse da sua criatividade aqui), mas evite começar com números e, por enquanto, evite usar espaços (pode usar "_" em vez de um espaço).</p>
+<p>Qual o formato aqui? Dentro dos parênteses, colocamos o <em>novo</em> nome primeiro, depois o sinal de igual, depois o nome <em>antigo/original</em>. Se digitarmos o nome original errado, a função não vai funcionar e vai aparecer uma mensagem de erro. O nome novo pode ser diversas coisas (não abuse da sua criatividade aqui), mas evite começar com números e, por enquanto para simplificar, evite usar espaços (pode usar "_" em vez de um espaço).</p>
 <p>Vamos inspecionar o nosso novo tibble renomeado:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span>
+</code></pre>
 </div>
-<p>…O que aconteceu?? Porque você acha a variável em nosso tibble ainda tem o nome `arr_time’?</p>
-<p>Porque não mudamos nada: aplicar verbos não <em>salva</em> o novo tibble automaticamente. Efetivamente, o novo tibble renomeado desaparece no momento que é criado. Para salvar, temos que usar a flecha de atribuição ao um novo objeto (se esqueceu, dê uma olhada no tutorial 1):</p>
+</div>
+<p>…O que aconteceu?? Porque você acha a variável em nosso tibble ainda tem o nome antigo `arr_time’?</p>
+<p>Porque o nosso código não mudou nada: aplicar verbos não <em>salva</em> o novo tibble renomeado automaticamente. Efetivamente, o novo tibble renomeado desaparece no momento que é criado. Para salvar, temos que usar a seta de atribuição ao um novo objeto (se esqueceu, dê uma olhada no tutorial 1):</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights_renomeado &lt;- flights %&gt;% rename(arrival_time=arr_time)
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_renomeado</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>rename</span><span class='op'>(</span>arrival_time<span class='op'>=</span><span class='va'>arr_time</span><span class='op'>)</span>
 
-flights_renomeado</code></pre>
+<span class='va'>flights_renomeado</span>
+</code></pre>
+</div>
 </div>
 <p>Agora, o tibble de <code>flights_renomeado</code> tem a variável chamada <code>arrival_time</code>, correto?</p>
 <p>Dependendo do nosso objetivo, às vezes faz sentido salvar o nosso objeto com o mesmo nome que ele tinha antes, sobrescrevendo o conteúdo dele, ao invés de criar um novo objeto toda vez que executamos uma função. (Pelo menos, isso economiza memória).</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights &lt;- flights %&gt;% rename(arrival_time=arr_time)
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>rename</span><span class='op'>(</span>arrival_time<span class='op'>=</span><span class='va'>arr_time</span><span class='op'>)</span>
 
-flights</code></pre>
+<span class='va'>flights</span>
+</code></pre>
+</div>
 </div>
 <p>Mais uma detalhe: será que para renomear colunas diversas temos que escrever a função <code>rename()</code> diversas vezes?</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights &lt;- flights %&gt;% rename(arrival_time=arr_time) %&gt;%
-  rename(departure_time=dep_time)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>rename</span><span class='op'>(</span>arrival_time<span class='op'>=</span><span class='va'>arr_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>rename</span><span class='op'>(</span>departure_time<span class='op'>=</span><span class='va'>dep_time</span><span class='op'>)</span>
+</code></pre>
 </div>
-<p>Podemos fazer isso, mas é mais eficiente fazer dentro da mesma função, separando as colunas por vírgula (e uma nova linha para deixar o código claro). Lembre-se da vírgula para separar cada renomeação, muitas vezes passamos para a linha de baixo e esquecemos a vírgula; quando rodamos o código aparece mensagem de erro e demoramos para descobrir que o único erro é a vírgula faltante:</p>
+</div>
+<p>Podemos fazer isso, mas é mais eficiente fazer dentro da mesma função, separando as colunas por vírgula (e inserindo uma nova linha para deixar o código claro). Lembre-se da vírgula para separar cada renomeação, muitas vezes passamos para a linha de baixo e esquecemos a vírgula; quando rodamos o código aparece mensagem de erro e demoramos para descobrir que o único erro é a vírgula faltante.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights &lt;- flights %&gt;% rename(arrival_time=arr_time,
-                              departure_time=dep_time)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>rename</span><span class='op'>(</span>arrival_time<span class='op'>=</span><span class='va'>arr_time</span>,
+                              departure_time<span class='op'>=</span><span class='va'>dep_time</span><span class='op'>)</span>
+</code></pre>
 </div>
+</div>
+<p>Observe que você pode receber um erro aqui - por que? Já renomeamos as variáveis acima e salvamos, então <code>arr_time</code> não existe mais em <code>flights</code> para renomear.</p>
 <h2 id="selecionar-variáveis-select">2. Selecionar Variáveis (<code>Select</code>)</h2>
-<p>Já aprendemos o formato para utilizar funções, e tudo o que vamos aprender daqui para frente possui o mesmo padrão. Quando temos colunas demais em nosso banco de dados, sempre ajuda focar nas variáveis mais relevantes, excluindo aquelas que não serão utilizadas. Para selecionar um subconjunto das variáveis (colunas) para manter no tibble, usamos o verbo <code>select()</code>. De novo, começamos com o tibble, o pipe, e finalmente o verbo <code>select</code>:</p>
+<p>Já aprendemos o formato para utilizar funções, e tudo o que vamos aprender daqui para frente possui o mesmo padrão. Quando temos colunas demais em nosso banco de dados, sempre ajuda focar nas variáveis mais relevantes, excluindo aquelas que não serão utilizadas. Para selecionar um subconjunto das variáveis (colunas) para manter no tibble, usamos o verbo <code>select()</code>. De novo, começamos com o tibble, o pipe, e finalmente o verbo, <code>select</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% select(year, month, day)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>year</span>, <span class='va'>month</span>, <span class='va'>day</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div data-pagedtable="false">
@@ -1449,15 +2258,19 @@ flights %&gt;% select(year, month, day)</code></pre>
 <p>Note que podemos selecionar várias variáveis usando uma vírgula para separar os nomes das variáveis. Fácil, certo?</p>
 <p>Mas preste atenção - se você salvar o seu objeto com o mesmo nome do original, vai perder as outras variáveis definitivamente (ou pelo menos até que abra o banco de dados original novamente ou rode o script do início de novo):</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights &lt;- flights %&gt;% select(year, month, day)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>year</span>, <span class='va'>month</span>, <span class='va'>day</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <h2 id="transformar-variáveis-mutate">3. Transformar Variáveis (<code>Mutate</code>)</h2>
 <p>E se quisermos <em>criar</em> novas variáveis? Isso é comum, por exemplo, quando queremos o PIB per capita e não simplesmente o PIB. Para isso, temos que pegar duas variáveis, PIB e população e dividir o primeiro pelo segundo. Em R, o verbo para realizar isso se chama <code>mutate()</code>. Ele permite a combinação, usando qualquer tipo de matématica que você desejar, de colunas que <em>já existem</em> no banco de dados (se quer trazer dados de fora, tem que usar um <code>join</code> que vamos discutir logo no futuro).</p>
 <p>Como funciona? Como sempre, pegamos o nosso tibble relevante, depois o pipe, depois a função <code>mutate()</code>. Dentro dos paramêtros de mutate precisamos especificar o cálculo a ser realizado usando os nomes de colunas atuais, e o nome da nova variável (coluna) em que vamos guardar o resultado do cálculo. Por exemplo, se queremos dobrar o <code>dep_delay</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights &lt;- flights %&gt;% mutate(dep_delay_dobro=dep_delay*2)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>dep_delay_dobro<span class='op'>=</span><span class='va'>dep_delay</span><span class='op'>*</span><span class='fl'>2</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div data-pagedtable="false">
@@ -1466,68 +2279,90 @@ flights &lt;- flights %&gt;% mutate(dep_delay_dobro=dep_delay*2)</code></pre>
   </script>
 </div>
 </div>
-<p>Note que dentro do mutate, usamos o igual “=” em vez da flecha para salvar o resultado.</p>
+<p>Note que dentro do mutate, usamos o igual “=” em vez da flecha para salvar o resultado como uma nova variável.</p>
 <p>Onde fica a nossa nova coluna? Na última posição à direita do tibble (última coluna do banco de dados).</p>
 <p>Podemos combinar variáveis múltiplas para fazer cálculos mais complexos. Por exemplo, se por algum motivo eu quero saber metade da diferença entre o <code>dep_time</code> e <code>arr_time</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights &lt;- flights %&gt;% mutate(calculo=(arr_time-dep_time)/2)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>calculo<span class='op'>=</span><span class='op'>(</span><span class='va'>arr_time</span><span class='op'>-</span><span class='va'>dep_time</span><span class='op'>)</span><span class='op'>/</span><span class='fl'>2</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Como na matemática, lembre-se que os parênteses importam. Então o que fizemos acima <code>(arr_time-dep_time)/2</code> é diferente de <code>arr_time-dep_time/2</code>. Se quiser, teste para ter certeza.</p>
 <p>Mais uma possibilidade: podemos transformar uma coluna atual sem criar uma nova coluna. Para fazer isso, é só renomear a coluna com o mesmo nome do original, dessa maneira sobrescrevemos o conteúdo original da coluna pelo novo conteúdo que calculamos. Por exemplo, podemos recalcular o <code>dep_delay</code> de minutos para segundos:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights &lt;- flights %&gt;% mutate(dep_delay=dep_delay*60)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>dep_delay<span class='op'>=</span><span class='va'>dep_delay</span><span class='op'>*</span><span class='fl'>60</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>E finalmente, podemos usar funções dentro de mutate e não simplesmente símbolos matemáticos. No futuro, isso abre um mundo de possibilidades. Por enquanto, vamos apenas usar a função <code>tolower()</code> para mudar a origem (variável <code>origin</code>) do voo de maiúsculas para minúsculas:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights &lt;- flights %&gt;% mutate(origin=tolower(origin))</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>origin<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/chartr.html'>tolower</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Abra os dados para ver se deu certo a função <code>tolower()</code>.</p>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Operações Matemáticas</strong> R serve como calculadora e é simples realizar operações matemáticas, seja com números ou com variáveis.</p>
 <p>Soma:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-x + y</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>x</span> <span class='op'>+</span> <span class='va'>y</span>
+</code></pre>
+</div>
 </div>
 <p>Subtração:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-x - y</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>x</span> <span class='op'>-</span> <span class='va'>y</span>
+</code></pre>
+</div>
 </div>
 <p>Multiplicação</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-x * y</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>x</span> <span class='op'>*</span> <span class='va'>y</span>
+</code></pre>
+</div>
 </div>
 <p>Divisão:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-x / y</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>x</span> <span class='op'>/</span> <span class='va'>y</span>
+</code></pre>
+</div>
 </div>
 <p>Potência:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-x ^ y</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>x</span> <span class='op'>^</span> <span class='va'>y</span>
+</code></pre>
+</div>
 </div>
 <p>Divisão inteira (sem resto):</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-x %/% y</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>x</span> <span class='op'>%/%</span> <span class='va'>y</span>
+</code></pre>
+</div>
 </div>
 <p>Resto da divisão:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-x %% y</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>x</span> <span class='op'>%%</span> <span class='va'>y</span>
+</code></pre>
+</div>
 </div>
 </div>
 <h2 id="cortarselecionar-observações-slice">4. Cortar/selecionar Observações (<code>Slice</code>)</h2>
 <p>Até agora, trabalhamos com manipulações de variáveis (colunas). Mas podemos também mexer com as observações (linhas). Podemos, por exemplo, limitar a nossa análise apenas para a quinta linha do banco de dados usando o verbo <code>slice()</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% slice(5)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>5</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div data-pagedtable="false">
@@ -1538,49 +2373,65 @@ flights %&gt;% slice(5)</code></pre>
 </div>
 <p>Um pouco triste perder todo o resto da informação…, então, como selecionamos todas as primeiras cinco linhas?</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% slice(1:5)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <div class="blue">
-<p><strong>Habilidade Básica de Programação: Conjuntos de números</strong> Para selecionar observações ou outros elementos de objetos, temos que criar um vetor com os índices (as posições) dos elementos desejados. Um jeito de fazer isso é usando a nossa função para criar vetores, <code>c()</code>:</p>
+<p><strong>Habilidade Básica de Programação: Conjuntos de números</strong> Para selecionar observações ou outros elementos de objetos, temos que criar um <em>vetor</em> com os índices (as posições) dos elementos desejados. Um jeito de fazer isso é usando a nossa função para criar vetores, <code>c()</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-linhas_desejadas &lt;- c(1,4,5,8,22,169)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>linhas_desejadas</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>4</span>,<span class='fl'>5</span>,<span class='fl'>8</span>,<span class='fl'>22</span>,<span class='fl'>169</span><span class='op'>)</span>
+</code></pre>
 </div>
-<p>Agora, podemos usar este vetor dentro da função <code>slice()</code>.</p>
+</div>
+<p>Agora, podemos usar este vetor, chamando ele por nome, dentro da função <code>slice()</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% slice(linhas_desejadas)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span><span class='op'>(</span><span class='va'>linhas_desejadas</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>O R substituirá o objeto (o vetor) <code>linhas_desejadas</code> com os 6 números e devolverá um tibble das 6 linhas.</p>
 <p>Também é possível selecionar as observações <strong>não</strong> desejadas, inserindo o sinal de menos, “-”, em frente ao número. O R devolve o tibble inteiro sem a linha identificada.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% slice(-1)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Compare o número de linhas do código acima com o número de linhas no tibble original de <code>flights</code>.</p>
 <p>Para conjuntos de números mais sistemáticos, temos várias opções. Usamos os dois pontos para indicar um conjunto sequencial de números, por exemplo <code>10:20</code> significa o mesmo que <code>c(10,11,12,13,14,15,16,17,18,19,20)</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% slice(10:20)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>10</span><span class='op'>:</span><span class='fl'>20</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Para conjuntos não-sequenciais mais sistemáticos, podemos usar a função <code>seq()</code>, que tem três parâmetros: valor inicial, valor final, e incremento. Por exemplo, para selecionar cada 10 linhas nas primeiras 100 linhas, usamos:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% slice(seq(from=1,
-                      to=100,
-                      by=10))</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from<span class='op'>=</span><span class='fl'>1</span>,
+                      to<span class='op'>=</span><span class='fl'>100</span>,
+                      by<span class='op'>=</span><span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Quais os números que a função <code>seq(from=1, to=100, by=10)</code> devolve? Copie e cole a função no “Console” para ver o resultado. Aparece (1, 11, 21, 31, 41, 51, 61, 71, 81, 91).</p>
 <p>Note que aqui usamos os nomes de cada parâmetro/argumento seguido por um sinal de igual e o valor relevante. Estes argumentos têm uma ordem oficial dentro da função, e se soubermos a ordem e especificarmos todos os argumentos, podemos evitar os nomes dos parâmetros/argumentos. O código abaixo é idêntico ao código acima:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% slice(seq(1,100,10))</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>100</span>,<span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Como podemos saber os nomes e a ordem dos argumentos? Consultamos o help da função:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-?seq</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='op'>?</span><span class='va'>seq</span>
+</code></pre>
+</div>
 </div>
 </div>
 <h2 id="filtrar-observações-filter">5. Filtrar Observações (<code>Filter</code>)</h2>
@@ -1593,8 +2444,10 @@ flights %&gt;% slice(seq(1,100,10))</code></pre>
 <li><strong>Critério</strong> - aqui, qual mês? Nos dados, junho está codificado como número (<code>int</code>), então ‘6’.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% filter(month==6)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>6</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div data-pagedtable="false">
@@ -1605,8 +2458,10 @@ flights %&gt;% filter(month==6)</code></pre>
 </div>
 <p>O resultado é um novo tibble com quantas linhas? Se o nosso filtro funcionou, o novo tibble deve ter bem menos observações (linhas) que o tibble original. Normalmente queremos salvar o tibble com outro nome, dado que ele representa, agora, um novo conjunto de observações:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights_junho &lt;- flights %&gt;% filter(month==6)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_junho</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>6</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Operadores Relacionais (Comparativos)</strong></p>
@@ -1652,60 +2507,74 @@ flights_junho &lt;- flights %&gt;% filter(month==6)</code></pre>
 </tr>
 </tbody>
 </table>
-<p>Simples. Alguns exemplos de uso básico de operadores abaixo. Rodar ao código para verificar quais condições são verdadeiras ou falsas (TRUE ou FALSE).</p>
+<p>Simples. Alguns exemplos de uso básico de operadores abaixo. Rodar o código para verificar quais condições são verdadeiras ou falsas (TRUE ou FALSE).</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-42 == 41
-42 != 41
-(2 + 2) == (3 + 1)
-(2 + 2) != (3 + 1)
-5 &gt; 3
-5 &lt; 3
-42 &gt; 42
-42 &lt; 41
-42 &gt;= 42
-42 &lt;= 41</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fl'>42</span> <span class='op'>==</span> <span class='fl'>41</span>
+<span class='fl'>42</span> <span class='op'>!=</span> <span class='fl'>41</span>
+<span class='op'>(</span><span class='fl'>2</span> <span class='op'>+</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>==</span> <span class='op'>(</span><span class='fl'>3</span> <span class='op'>+</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='op'>(</span><span class='fl'>2</span> <span class='op'>+</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>!=</span> <span class='op'>(</span><span class='fl'>3</span> <span class='op'>+</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='fl'>5</span> <span class='op'>&gt;</span> <span class='fl'>3</span>
+<span class='fl'>5</span> <span class='op'>&lt;</span> <span class='fl'>3</span>
+<span class='fl'>42</span> <span class='op'>&gt;</span> <span class='fl'>42</span>
+<span class='fl'>42</span> <span class='op'>&lt;</span> <span class='fl'>41</span>
+<span class='fl'>42</span> <span class='op'>&gt;=</span> <span class='fl'>42</span>
+<span class='fl'>42</span> <span class='op'>&lt;=</span> <span class='fl'>41</span>
+</code></pre>
+</div>
 </div>
 <p>Operadores relacionais também valem para textos:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-&quot;texto&quot; == &quot;texto&quot;
-&quot;texto&quot; == &quot;texTo&quot;
-&quot;texto&quot; != &quot;texto&quot;</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='st'>"texto"</span> <span class='op'>==</span> <span class='st'>"texto"</span>
+<span class='st'>"texto"</span> <span class='op'>==</span> <span class='st'>"texTo"</span>
+<span class='st'>"texto"</span> <span class='op'>!=</span> <span class='st'>"texto"</span>
+</code></pre>
+</div>
 </div>
 <p>Note no segundo exemplo que o R é “case sensitive”, ou seja, diferencia maiúsculas de minúsculas ao comparar textos.</p>
 <p>Textos também podem ser ordenados (lexicograficamente, isto é, alfabeticamente):</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-&quot;a&quot; &gt; &quot;b&quot;
-&quot;a&quot; &lt; &quot;b&quot;
-&quot;A&quot; &lt; &quot;b&quot;
-&quot;A&quot; &gt; &quot;a&quot;</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='st'>"a"</span> <span class='op'>&gt;</span> <span class='st'>"b"</span>
+<span class='st'>"a"</span> <span class='op'>&lt;</span> <span class='st'>"b"</span>
+<span class='st'>"A"</span> <span class='op'>&lt;</span> <span class='st'>"b"</span>
+<span class='st'>"A"</span> <span class='op'>&gt;</span> <span class='st'>"a"</span>
+</code></pre>
+</div>
 </div>
 <p>E valores lógicos? Veja se entende o que acontece nos exemplos abaixo:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-TRUE == 1
-FALSE == 0
-TRUE &gt; FALSE</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='cn'>TRUE</span> <span class='op'>==</span> <span class='fl'>1</span>
+<span class='cn'>FALSE</span> <span class='op'>==</span> <span class='fl'>0</span>
+<span class='cn'>TRUE</span> <span class='op'>&gt;</span> <span class='cn'>FALSE</span>
+</code></pre>
+</div>
 </div>
 <p>Podemos comparar valores armazenados em variáveis da mesma maneira que fizemos nos exemplos até aqui:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-x &lt;- 5
-y &lt;- 10
-x &gt; y</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fl'>5</span>
+<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
+<span class='va'>x</span> <span class='op'>&gt;</span> <span class='va'>y</span>
+</code></pre>
+</div>
 </div>
 </div>
 <p><br> Podemos combinar critérios diversos usando o símbolo de ‘e’, “&amp;”:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights_junho_5 &lt;- flights %&gt;% filter(month==6 &amp; day==5)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_junho_5</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>6</span> <span class='op'>&amp;</span> <span class='va'>day</span><span class='op'>==</span><span class='fl'>5</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Incluindo maior (<code>&gt;</code>) e menor (<code>&lt;</code>), podemos gerar comparações complexas, ex. todos os voos da manhã do dia 5 de julho:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights_junho_5_manha &lt;- flights %&gt;% filter(month==6 &amp; day==5 &amp; dep_time&lt;1200)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_junho_5_manha</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>6</span> <span class='op'>&amp;</span> <span class='va'>day</span><span class='op'>==</span><span class='fl'>5</span> <span class='op'>&amp;</span> <span class='va'>dep_time</span><span class='op'>&lt;</span><span class='fl'>1200</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Operadores Lógicos</strong></p>
@@ -1803,106 +2672,74 @@ flights_junho_5_manha &lt;- flights %&gt;% filter(month==6 &amp; day==5 &amp; de
 </table>
 <p>Com esta nova flexibilidade, temos que pensar com cuidado para construir o filtro apropriado. E temos que usar os parênteses apropriados, porque a lista acima é em ordem de prioridade (como na matemática quando multiplicação acontece antes de adição, aqui “E” acontece antes de “OU”). Por exemplo, se quisermos todos os voos que atrasaram na chegada por mais de 50 minutos, e que decolaram antes das 5h <em>ou</em> que chegaram em Atlanta (ATL), temos que escrever assim:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% filter((dep_time&lt;=500 | dest==&quot;ATL&quot;) &amp; arr_delay&gt;=50)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>(</span><span class='va'>dep_time</span><span class='op'>&lt;=</span><span class='fl'>500</span> <span class='op'>|</span> <span class='va'>dest</span><span class='op'>==</span><span class='st'>"ATL"</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='va'>arr_delay</span><span class='op'>&gt;=</span><span class='fl'>50</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>O resultado é diferente do pedido quando tiramos os parênteses:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% filter(dep_time&lt;=500 | dest==&quot;ATL&quot; &amp; arr_delay&gt;=50)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>dep_time</span><span class='op'>&lt;=</span><span class='fl'>500</span> <span class='op'>|</span> <span class='va'>dest</span><span class='op'>==</span><span class='st'>"ATL"</span> <span class='op'>&amp;</span> <span class='va'>arr_delay</span><span class='op'>&gt;=</span><span class='fl'>50</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Note que o número de linhas é bem diferente. Aqui, pedimos para todos os voos que decolaram antes das 5h (se tivesse atraso ou não), juntado com um outro conjunto os voos que decolaram de Atlanta com atraso de 50 minutos na chegada.</p>
 <p>É fácil pedir o inverso deste conjunto usando o símbolo para negação, <code>!</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% filter(!((dep_time&lt;=500 | dest==&quot;ATL&quot;) &amp; arr_delay&gt;=50))</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='op'>(</span><span class='op'>(</span><span class='va'>dep_time</span><span class='op'>&lt;=</span><span class='fl'>500</span> <span class='op'>|</span> <span class='va'>dest</span><span class='op'>==</span><span class='st'>"ATL"</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='va'>arr_delay</span><span class='op'>&gt;=</span><span class='fl'>50</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 </div>
 <h2 id="combinando-manipulações">Combinando Manipulações</h2>
 <p>Frequentemente, limpar um banco de dados exige dezenas de transformações para construir o banco de dados apropriado para a nossa análise. A lógica e estrutura de cada ação acima nos permite combinar operações em sequência; em uma sequência de pipes e verbos. Depois de uma ação, simplesmente continuamos com mais um pipe (<code>%&gt;%</code>) e a próxima ação.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% 
-  rename(arrival_time=arr_time) %&gt;% 
-  mutate(dep_delay=dep_delay*60) %&gt;%
-  filter(month==6 &amp; day==5) %&gt;% 
-  select(year, month, day, arrival_time, dep_delay)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>rename</span><span class='op'>(</span>arrival_time<span class='op'>=</span><span class='va'>arr_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>dep_delay<span class='op'>=</span><span class='va'>dep_delay</span><span class='op'>*</span><span class='fl'>60</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>6</span> <span class='op'>&amp;</span> <span class='va'>day</span><span class='op'>==</span><span class='fl'>5</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>year</span>, <span class='va'>month</span>, <span class='va'>day</span>, <span class='va'>arrival_time</span>, <span class='va'>dep_delay</span><span class='op'>)</span>
+</code></pre>
 </div>
-<p>É importante entender que depois de cada ação, o banco de dados encaminhado à próxima ação é o resultado da ação anterior. Então na linha final, <code>select(year, month, day, arr_time, dep_delay)</code> não funcionará, pois <code>arr_time</code> já foi renomeado para <code>arrival_time</code> e temos que fazer referência ao novo nome.</p>
+</div>
+<p>É importante entender que depois de cada ação, o banco de dados encaminhado à próxima ação é o resultado da ação anterior. Então na linha final, <code>select(year, month, day, arr_time, dep_delay)</code> não funcionará, pois <code>arr_time</code> já foi renomeado para <code>arrival_time</code> e temos que fazer referência ao novo nome. Quando você enfrenta um erro num conjunto de código complexo, uma dica é rodar o seu código ação por ação em sequência, ex. selecionando <code>flights %&gt;% rename(arrival_time=arr_time)</code> primeiro para saber se este componente dá um erro.</p>
 <p>Voltando à analogia de preparar uma refeição, o código acima é uma <strong>receita</strong>: Pegue o banco de dados de <code>flights</code>, depois renomeie a variável <code>arr_time</code>, depois multiplique a variável <code>dep_delay</code> por 60, depois filtre as observações para aquelas do dia 5 de junho, depois selecione as cinco variáveis (year, month, day, arrival_time, dep_delay), e devolva o banco de dados final.</p>
 <p>Note também que no código acima inserimos uma nova linha depois de cada pipe; isso não é necessário mas ajuda a organizar o código e deixá-lo mais fácil para ler e entender no futuro.</p>
 <div class="green">
 <h1 id="exercício-1-manipulando-dados">Exercício 1: Manipulando dados</h1>
-<aside>
-<div class="layout-chunk" data-layout="l-body">
-<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
-<script>
-  function codefolder(query) {
-
-    var x = document.querySelectorAll(query);
-    if (x.length === 0) return;
-
-    function toggle_vis(o) {
-      var d = o.style.display;
-      o.style.display = (d === 'block' || d === '') ? 'none':'block';
-    }
-
-    for (i = 0; i < x.length; i++) {
-      var y = x[i];
-      toggle_vis(y);
-    }
-
-    var elem = document.getElementById("codefolder-button");
-    if (elem.value === "Hide Code") elem.value = "Show Code";
-    else elem.value = "Hide Code";
-  }
-</script>
-<script>
-  window.addEventListener('load', function () {
-    codefolder('d-code');
-  });
-</script>
-</div>
-</aside>
 <p>Com essas novas habilidades, vamos preparar uma análise rápida do banco de dados <code>flights</code> com o objetivo de produzir um relatório em html no final. Gere uma tabela apropriada para cada critério:</p>
 <ol type="1">
 <li>Os voos de United (<code>carrier</code> UA) que decolaram no dia 25 de janeiro.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% filter(carrier == &quot;UA&quot; &amp; month == 1 &amp; day == 25)</code></pre>
+
 </div>
 <ol start="2" type="1">
 <li>Os voos de JetBlue (<code>carrier</code> B6) que decolaram com mais de 300 minutos de atraso de Newark (<code>origin</code> EWR).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% filter(carrier == &quot;B6&quot; &amp; dep_delay &gt; 300 &amp; origin == &quot;EWR&quot;)</code></pre>
+
 </div>
 <ol start="3" type="1">
 <li>Calcule a velocidade dos voos que decolaram de LaGuardia (<code>origin</code> LGA) no dia 7 de setembro antes das 6h. Lembre-se que velocidade é a distância dividida por tempo. (Qual é a unidade desta velocidade?)</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% filter(origin == &quot;LGA&quot; &amp; month == 9 &amp; day == 7 &amp; dep_time &lt; 
-    600) %&gt;% mutate(speed = distance/air_time)</code></pre>
+
 </div>
 <ol start="4" type="1">
 <li>Uma tabela com apenas o atraso na chegada de todos os voos atrasados por pelo menos 60 minutos que partiram do aeroporto Newark e chegaram em Buffalo (BUF) no dia seis de todos os meses.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% filter(dest == &quot;BUF&quot; &amp; origin == &quot;EWR&quot; &amp; arr_delay &gt;= 60 &amp; 
-    day == 6) %&gt;% select(arr_delay)</code></pre>
+
 </div>
 <ol start="5" type="1">
 <li>Uma tabela dos números dos aviões (<code>tailnum</code>), destino, distância e a velocidade em milhas por hora para voos que voaram em maio pelo menos 1000 milhas ou com velocidade acima de 500 milhas por hora.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights %&gt;% mutate(velocidade = distance/(air_time/60)) %&gt;% filter((distance &gt; 
-    1000 | velocidade &gt; 500) &amp; month == 5) %&gt;% select(tailnum, dest, distance, 
-    velocidade)</code></pre>
+
 </div>
 <ol start="6" type="1">
 <li>Prepare os resultados de todas as análises acima em tabelas usando a opção de R Markdown de <code>df_print: paged</code> (veja o Tutorial 1), e faça o <code>knit</code> do seu script de R markdown para produzir o relatório final.</li>
@@ -1948,183 +2785,172 @@ flights %&gt;% mutate(velocidade = distance/(air_time/60)) %&gt;% filter((distan
 </tbody>
 </table>
 <p>O padrão (default) é para incluir todos os cinco tipos de conteúdo no relatório final. Mas na prática, normalmente não queremos mostrar para o leitor o código, erros, avisos e mensagens. Para cada chunk, podemos especificar as opções assim:</p>
-<pre class="clike"><code>
-```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+<pre class="clike"><code>```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
 600/30
 ```</code></pre>
 <p>Se compilamos o relatório com ‘Knit’, a única coisa que será impressa no documento final é o resultado do cálculo (20), nada do código ou o pensamento do R.</p>
 <p>Porém, num relatório grande, teremos dezenas de chunks e fica chato especificar todas as opções para cada um dos chunks. Então uma alternativa é ajustar o padrão da nossa análise para que, por exemplo, <code>echo=FALSE</code> seja o padrão. O melhor jeito é adicionar um novo chunk no início do seu script com a seguinte linha:</p>
-<pre class="clike"><code>
-```{r, echo=FALSE}
+<pre class="clike"><code>```{r, echo=FALSE}
 knitr::opts_chunk$set(echo=FALSE, error=FALSE, warning=FALSE, message=FALSE)
 ```</code></pre>
 <p>Isso indica para o R não imprimir o código original de nenhum chunk. Note que temos que usar <code>echo=F</code> na linha inicial deste chunk também para esconder esta linha de código porque o novo padrão só é aplicado depois da conclusão deste chunk.</p>
 <div class="green">
 <h1 id="exercício-2-relatórios-limpos">Exercício 2: Relatórios Limpos</h1>
-<p>Experimente adicionar um chunk com essa linha acima como o primeiro no seu relatório do Exercício 1, e ‘Knit’ de novo. Veja quão mais simples e bonito fica o seu relatório!</p>
+<p>Experimente adicionar um chunk com essa linha (<code>knitr::opts_chunk...</code>) acima como o primeiro no seu relatório do Exercício 1, e ‘Knit’ de novo. Veja quão mais simples e bonito fica o seu relatório!</p>
 </div>
 <h1 id="abrindo-dados">Abrindo Dados</h1>
 <h2 id="dados-em-arquivos-textuais-.csv-.tsv-.txt">Dados em arquivos textuais (.csv, .tsv, .txt)</h2>
 <p>Agora que estamos especialistas na manipulação de dados já disponíveis em R, queremos analisar dados mais interessantes e relevantes para a nossa própria pesquisa. Isso exige a abertura de arquivos externos; bancos de dados que criamos ou recebemos de outros estudos. Lembrando que o nosso script vai processar os comandos cada vez que é executado pelo botão ‘Knit’, então temos que incorporar a abertura de dados em código também, dentro do script.</p>
 <p>Existem muitas funções para abrir arquivos de dados, mas, para simplificar, neste curso vamos nos concentrar em algumas das mais flexíveis, simples e úteis para trabalhar com dados ‘retangulares’ (.csv, .tsv, .txt). As funções são parte da biblioteca <code>tidyverse</code> que já abrimos.</p>
-<p>Provavelmente a função mais usada é <code>read_csv</code>, que abre arquivos com extensão .csv. Em vez de abrir arquivos do nosso computador, também podemos abrir links online e, para simplificar, disponibilizamos vários arquivos em nosso repositório do github. Você pode colar o url de cada arquivo no navegador para ver o seu formato antes de executar o código.</p>
+<p>Provavelmente a função mais usada é <code>read_csv</code>, que abre arquivos com extensão .csv. Em vez de abrir arquivos do nosso computador, também podemos abrir links online e, para simplificar, disponibilizamos vários arquivos em nosso repositório do github. Para começar, vamos salvar o url do link de um arquivo .csv como um objeto, <code>file1</code>, e abri-lo.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-file1 &lt;- &quot;https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_hv.csv&quot;
-dados &lt;- read_csv(file1)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>file1</span> <span class='op'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_hv.csv"</span>
+<span class='va'>dados</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='va'>file1</span><span class='op'>)</span>
+</code></pre>
 </div>
-<p>‘<code>dados</code>’ deve aparecer como um objeto - um tibble - em seu ‘Environment’. A função <code>read_delim</code> nos dá mais flexibilidade para lidar com tipos incomuns de arquivos. Por exemplo, podemos especificar o caractere usado para separar as colunas (por padrão, esta é a vírgula em read_csv, mas muitos dados brasileiros usam “;” como padrão, já que a vírgula é, no Brasil, um separador decimal):</p>
+</div>
+<p>‘<code>dados</code>’ deve aparecer como um objeto - um tibble - em seu ‘Environment’.</p>
+<p>A função <code>read_delim</code> nos dá mais flexibilidade para lidar com tipos incomuns de arquivos. Por exemplo, podemos especificar o caractere usado para separar as colunas (por padrão, esta é a vírgula em read_csv, mas muitos dados brasileiros usam “;” como padrão, já que a vírgula é, no Brasil, um separador decimal):</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-dados &lt;- read_delim(file1, 
-                    delim = &quot;,&quot;)
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados</span> <span class='op'>&lt;-</span> <span class='fu'>read_delim</span><span class='op'>(</span><span class='va'>file1</span>, 
+                    delim <span class='op'>=</span> <span class='st'>","</span><span class='op'>)</span>
 
-file_semi_colon &lt;- &quot;https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_hp.csv&quot;
-dados &lt;- read_delim(file_semi_colon, 
-                    delim = &quot;;&quot;)
+<span class='va'>file_semi_colon</span> <span class='op'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_hp.csv"</span>
+<span class='va'>dados</span> <span class='op'>&lt;-</span> <span class='fu'>read_delim</span><span class='op'>(</span><span class='va'>file_semi_colon</span>, 
+                    delim <span class='op'>=</span> <span class='st'>";"</span><span class='op'>)</span>
 
-file_tab &lt;- &quot;https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_ht.csv&quot;
-dados &lt;- read_delim(file_tab, 
-                    delim = &quot;\t&quot;)</code></pre>
+<span class='va'>file_tab</span> <span class='op'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_ht.csv"</span>
+<span class='va'>dados</span> <span class='op'>&lt;-</span> <span class='fu'>read_delim</span><span class='op'>(</span><span class='va'>file_tab</span>, 
+                    delim <span class='op'>=</span> <span class='st'>"\t"</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>O padrão de <em>read_delim</em> (e <em>read_csv</em>) é importar a primeira linha como o nome das variáveis. Se nossos dados não tiverem um <em>header</em> (cabeçalho, ou seja, nomes das variáveis na primeira linha), a primeira linha de dados se torna equivocadamente o nome das variáveis (inclusive os números, que aparecem antecedidos por um “X”). Para corrigir o problema utilizamos o argumento “col_names”, que deve ser igual a “FALSE” para os dados armazenados sem nomes de colunas, por exemplo:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-file_sem_header &lt;- &quot;https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_nv.csv&quot;
-dados &lt;- read_delim(file_sem_header, 
-                    col_names = F, 
-                    delim = &quot;,&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>file_sem_header</span> <span class='op'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/leobarone/ifch_intro_r/master/data/bf_amostra_nv.csv"</span>
+<span class='va'>dados</span> <span class='op'>&lt;-</span> <span class='fu'>read_delim</span><span class='op'>(</span><span class='va'>file_sem_header</span>, 
+                    col_names <span class='op'>=</span> <span class='cn'>F</span>, 
+                    delim <span class='op'>=</span> <span class='st'>","</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Além dos valores lógicos, “col_names” também aceita um vetor com novos nomes para as colunas como argumento:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-dados &lt;- read_delim(file_sem_header, 
-                    col_names = c(&quot;estado&quot;, &quot;municipio_cod&quot;, &quot;municipio_nome&quot;,
-                                  &quot;NIS&quot;, &quot;transferido&quot;),
-                    delim = &quot;,&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados</span> <span class='op'>&lt;-</span> <span class='fu'>read_delim</span><span class='op'>(</span><span class='va'>file_sem_header</span>, 
+                    col_names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"estado"</span>, <span class='st'>"municipio_cod"</span>, <span class='st'>"municipio_nome"</span>,
+                                  <span class='st'>"NIS"</span>, <span class='st'>"transferido"</span><span class='op'>)</span>,
+                    delim <span class='op'>=</span> <span class='st'>","</span><span class='op'>)</span>
+</code></pre>
 </div>
-<p>Por vezes, é interessante definir as classes das variáveis a serem importadas, para evitar novas transformações quando os dados forem importados. O argumento <em>col_types</em> deve ser uma sequência de caracteres onde “c” = “character”, “d” = “double”, “l” = “logical” e “i” = “integer”. Por exemplo:</p>
+</div>
+<p>Por vezes, é interessante definir as classes das variáveis a serem importadas, para evitar novas transformações quando os dados forem importados. O argumento <em>col_types</em> deve ser uma sequência de caracteres onde “c” = “character”, “d” = “double” (numérico), “l” = “logical” e “i” = “integer” (números inteiros). Por exemplo:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-dados &lt;- read_delim(file1, 
-                    delim = &quot;,&quot;, 
-                    col_types = &quot;cicid&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados</span> <span class='op'>&lt;-</span> <span class='fu'>read_delim</span><span class='op'>(</span><span class='va'>file1</span>, 
+                    delim <span class='op'>=</span> <span class='st'>","</span>, 
+                    col_types <span class='op'>=</span> <span class='st'>"cicid"</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Perceba que, quando abrimos os dados sem especificar o tipo da coluna, a função <em>read_csv</em> tenta identificá-los automaticamente.</p>
-<p>Uma complexidade de abertura de dados brasileiros é o uso da vírgula como separador decimal e o ponto para indicar milhares. Assim, temos que especificar no argumento <em>locale</em> essas diferenças.</p>
+<p>Uma complexidade de abertura de dados numéricos brasileiros é o uso da vírgula como separador decimal e o ponto para indicar milhares. Assim, temos que especificar no argumento <em>locale</em> essas diferenças.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-dados &lt;- read_delim(file1, 
-                    delim = &quot;,&quot;, 
-                    locale = locale(decimal_mark=&quot;,&quot;,grouping_mark=&quot;.&quot;))</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados</span> <span class='op'>&lt;-</span> <span class='fu'>read_delim</span><span class='op'>(</span><span class='va'>file1</span>, 
+                    delim <span class='op'>=</span> <span class='st'>","</span>, 
+                    locale <span class='op'>=</span> <span class='fu'>locale</span><span class='op'>(</span>decimal_mark<span class='op'>=</span><span class='st'>","</span>,grouping_mark<span class='op'>=</span><span class='st'>"."</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Também podemos usar <em>locale</em> para especificar o formato da hora e o formato da data do arquivo que estamos lendo.</p>
 <p>Finalmente, é comum termos problemas para abrir arquivos que contenham caracteres especiais, pois há diferentes formas do computador interpretar vogais acentuadas, cedilha, etc. O “encoding” de cada arquivo varia de acordo com o sistema operacional e aplicativo no qual foi gerado.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-dados &lt;- read_delim(file1, 
-                    delim = &quot;,&quot;, 
-                    locale = locale(encoding=&#39;latin1&#39;))</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados</span> <span class='op'>&lt;-</span> <span class='fu'>read_delim</span><span class='op'>(</span><span class='va'>file1</span>, 
+                    delim <span class='op'>=</span> <span class='st'>","</span>, 
+                    locale <span class='op'>=</span> <span class='fu'>locale</span><span class='op'>(</span>encoding<span class='op'>=</span><span class='st'>'latin1'</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Para resolver este problema, informamos ao R o parâmetro <em>encoding</em> dentro do <em>locale</em>, que indica qual é o “encoding” esperado do arquivo.</p>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Encoding dos Arquivos</strong></p>
 <p>Infelizmente não há formas automáticas infalíveis de descobrir o “encoding” de um arquivo e é preciso conhecer como foi gerado – seja você quem produziu o arquivo ou se você teve acesso à documentação – ou partir para tentativa e erro. Alguns “encodings” comuns são “latin1”, “latin2”, “utf8” e “WINDOWS-1252”, mas há diversos outros. Se o arquivo com o qual estamos trabalhando não contém caracteres especiais, não é preciso fazer nada; o R vai processá-lo adequadamente.</p>
-<p>Para minimizar o processo de tentativa e erro na importação de uma base sem documentação, é possível abrir o arquivo de forma manual clicando em “File” &gt; “Import Dataset” &gt; “From Text (readr)…”. Ao clicar nessa opção uma caixa será aberta. Nela você pode indicar onde o arquivo está salvo e selecionar manualmente as opções de “Delimiter”, “Locale”, entre outras. A vantagem aqui é que a janela possui uma prévia dos dados que serão importados, então se você escolheu primeiro um <em>encoding</em> que não funcionou, você pode mudar sem ter que esperar pelo R importar toda a base. O código final de importação do arquivo ficará no quadro a direita embaixo. Lembre-se de copiar esse código e colar no seu script, porque o “knit” não vai clicar nos botões para abrir a base quando você tentar produzir seu documento.</p>
+<p>O formato mais flexível, se pretende gerar os seus próprios dados, é UTF-8 (utf8).</p>
 </div>
 <h2 id="dados-em-arquivos-de-excel">Dados em arquivos de Excel</h2>
 <p>Editores de planilha são, em geral, a primeira ferramenta de análise de dados que aprendemos. Diversas organizações disponibilizam (infelizmente) seus dados em formato .xls ou .xlsx e muitos pesquisadores utilizam editores de planilha para construir bases de dados.</p>
 <p>Vamos ver como obter dados em formato .xls ou .xlsx diretamente, sem precisar abrir os arquivos e exportá-los para um formato de texto.</p>
 <p>Vamos trabalhar com <code>readxl</code>. Importe a biblioteca (não é preciso instalar, já está instalada):</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-library(&quot;readxl&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://readxl.tidyverse.org'>"readxl"</a></span><span class='op'>)</span>
+</code></pre>
 </div>
-<p>Nosso exemplo será a Pesquisa Perfil dos Municípios Brasileiros de 2005, produzida pelo IBGE e apelidada de MUNIC. Diferentemente das demais funções deste tutorial, precisamos baixar o arquivo para o computador e acessá-lo localmente. É uma boa oportunidade para praticar. Faça o download diretamente no browser no <a href="ftp://ftp.ibge.gov.br/Perfil_Municipios/2005/base_MUNIC_2005.zip">site do IBGE</a> e descompacte para o arquivo “base_MUNIC_2005.xls” na pasta do seu projeto.</p>
-<p>Note que um ganho enorme de trabalhar dentro de um projeto é que não precisamos nos preocupar com a especificação do endereço inteiro de cada arquivo (o “C:\Users\Documents\…”) - só usamos o nome do arquivo e o R acessa tudo na pasta do projeto.</p>
-<p>Com <em>excel_sheets</em> examinamos quais são as planilhas existentes do arquivo:</p>
+</div>
+<p>Nosso exemplo será a Pesquisa Perfil dos Municípios Brasileiros de 2005, produzida pelo IBGE e apelidada de MUNIC. Diferentemente das demais funções deste tutorial, precisamos baixar o arquivo para o computador e acessá-lo localmente. É uma boa oportunidade para praticar. Faça o download diretamente no browser no <a href="https://ftp.ibge.gov.br/Perfil_Municipios/2005//base_MUNIC_2005.zip">site do IBGE</a> e descompacte para o arquivo “Base 2005.xls” na pasta do seu projeto.</p>
+<p>Note que um ganho enorme de trabalhar dentro de um projeto é que não precisamos nos preocupar com a especificação do endereço inteiro de cada arquivo (o “C:\Users\Documents\…”) - só usamos o nome do arquivo e o R acessa tudo na pasta do projeto. (Se for num sub-pasta, podemos especificar “Subpasta/Base 2005.xls”)</p>
+<p>Com a função <em>excel_sheets</em> examinamos quais são as planilhas existentes do arquivo:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-excel_sheets(&quot;Base 2005.xls&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://readxl.tidyverse.org/reference/excel_sheets.html'>excel_sheets</a></span><span class='op'>(</span><span class='st'>"Base 2005.xls"</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>No caso, temos 11 planilhas diferentes (e um bocado de mensagens de erro estranhas). O dicionário, para quem já trabalhou alguma vez com a MUNIC, não é uma base de dados, apenas textos espalhados entre células. As demais, no entanto, têm formato adequado para um tibble.</p>
 <p>Vamos importar os dados da planilha “Variáveis externas”. As duas maneiras abaixo se equivalem:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-# 1
-externas &lt;- read_excel(&quot;Base 2005.xls&quot;, &quot;Variáveis externas&quot;)
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># 1</span>
+<span class='va'>externas</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>"Base 2005.xls"</span>, <span class='st'>"Variáveis externas"</span><span class='op'>)</span>
 
-# 2
-externas &lt;- read_excel(&quot;Base 2005.xls&quot;, 11)</code></pre>
+<span class='co'># 2</span>
+<span class='va'>externas</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>"Base 2005.xls"</span>, <span class='fl'>11</span><span class='op'>)</span>
+</code></pre>
 </div>
-<p>A função <em>read_excel</em> aceita os argumentos “col_names” e “col_types” tal como as funções de importação do pacote <em>readr</em>.</p>
+</div>
+<p>A função <em>read_excel</em> aceita os argumentos “col_names” e “col_types” tal como as funções de importação do pacote <em>readr</em>. Observe que o R não se importa e não lembra como o arquivo foi aberto - quando aberto por <code>read_csv</code> ou <code>read_excel</code> ou outra função, o tibble em R é idêntico.</p>
 <h2 id="dados-de-spss-stata-e-sas">Dados de SPSS, Stata e SAS</h2>
 <p>O R é bastante flexível quanto à importação de dados de outros softwares estatísticos. Para este fim há também um pacote <em>haven</em>, que é, advinhe só, parte do <em>tidyverse</em>.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-library(&quot;haven&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='http://haven.tidyverse.org'>"haven"</a></span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Basicamente, há cinco funções de importação de dados em <em>haven</em>: <em>read_sas</em>, para dados em SAS; <em>read_stata</em> e <em>read_dta</em>, idênticas, para dados em formato .dta gerados em Stata; e <em>read_sav</em> e <em>read_por</em>, uma para cada formato de dados em SPSS. O uso, como era de se esperar, é bastante similar ao que vimos no tutorial todo.</p>
 <p>Vamos usar como exemplo o <a href="http://www.latinobarometro.org/latContents.jsp">Latinobarômetro 2015</a>, que está disponível para SAS, Stata e SPSS. Vamos fazer o processo manual de baixar os dados da página ‘data bank’, e descompactar os arquivos de 2015. Vamos ignorar SAS por razões que não interessam agora e por não ser uma linguagem popular nas ciências sociais.</p>
 <p>Vejamos o uso das funções em arquivos de diferentes formatos:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-# SPSS
-latino_barometro_spss &lt;- read_spss(&quot;Latinobarometro_2015_Eng.sav&quot;)
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># SPSS</span>
+<span class='va'>latino_barometro_spss</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://haven.tidyverse.org/reference/read_spss.html'>read_spss</a></span><span class='op'>(</span><span class='st'>"Latinobarometro_2015_Eng.sav"</span><span class='op'>)</span>
 
-# Stata
-latino_barometro_stata &lt;- read_stata(&quot;Latinobarometro_2015_Eng.dta&quot;)</code></pre>
+<span class='co'># Stata</span>
+<span class='va'>latino_barometro_stata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://haven.tidyverse.org/reference/read_dta.html'>read_stata</a></span><span class='op'>(</span><span class='st'>"Latinobarometro_2015_Eng.dta"</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Simples assim.</p>
 <p>Há critérios de conversão de variáveis categóricas, rótulos e etc, adotados pelo R ao importar arquivos de outras linguagens, mas você pode descobri-los testando sozinho/a.</p>
 <div class="green">
 <h1 id="exercício-3-abrindo-dados-eleitorais">Exercício 3: Abrindo Dados Eleitorais</h1>
-<aside>
-<div class="layout-chunk" data-layout="l-body">
-<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
-<script>
-  function codefolder(query) {
-
-    var x = document.querySelectorAll(query);
-    if (x.length === 0) return;
-
-    function toggle_vis(o) {
-      var d = o.style.display;
-      o.style.display = (d === 'block' || d === '') ? 'none':'block';
-    }
-
-    for (i = 0; i < x.length; i++) {
-      var y = x[i];
-      toggle_vis(y);
-    }
-
-    var elem = document.getElementById("codefolder-button");
-    if (elem.value === "Hide Code") elem.value = "Show Code";
-    else elem.value = "Hide Code";
-  }
-</script>
-<script>
-  window.addEventListener('load', function () {
-    codefolder('d-code');
-  });
-</script>
-</div>
-</aside>
 <ol type="1">
 <li><p>Escolha um banco de dados (qualquer arquivo único) da aba ‘Resultados’ do site do <a href="http://www.tse.jus.br/eleicoes/estatisticas/repositorio-de-dados-eleitorais-1/repositorio-de-dados-eleitorais">Tribunal Superior Eleitoral aqui</a>, baixá-lo e dê unzip nele.</p></li>
 <li><p>Use uma função apropriada para abrir o arquivo em R.</p></li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-data &lt;- read_delim(&quot;arquivo.txt&quot;, delim = &quot;;&quot;, locale = locale(encoding = &quot;latin1&quot;))</code></pre>
+
 </div>
 <ol start="3" type="1">
 <li>Use o arquivo leiame.pdf que fica no zip com o arquivo do TSE para identificar o encoding dos dados, e os nomes das variáveis. Incorpore esta informação na abertura do arquivo.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-data &lt;- read_delim(&quot;arquivo.txt&quot;, delim = &quot;;&quot;, locale = locale(encoding = &quot;latin1&quot;), 
-    col_names = c(&quot;Variavel_1&quot;, &quot;Variavel_2&quot;, &quot;...&quot;))</code></pre>
+
 </div>
 <ol start="4" type="1">
 <li><p>Crie uma tabela bonita em R Markdown, e verifique que o número de colunas e observações fazem sentido.</p></li>
@@ -2136,6 +2962,7 @@ data &lt;- read_delim(&quot;arquivo.txt&quot;, delim = &quot;;&quot;, locale = l
 <h1 id="leitura-para-tutorial-3">Leitura para Tutorial 3</h1>
 <p>Antes da próxima aula, por favor leia <a href="https://r4ds.had.co.nz/">R 4 Data Science, Capítulos 12, 15, 27</a></p>
 </div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

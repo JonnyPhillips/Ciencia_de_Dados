@@ -18,6 +18,71 @@
  <!--radix_placeholder_import_source-->
  <!--/radix_placeholder_import_source-->
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
   <!--radix_placeholder_meta_tags-->
   <title>Analise de Dados para as Ciencias Sociais: Introducao</title>
   
@@ -45,6 +110,7 @@
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
+  <meta name="distill:offset" content=""/>
   
   <script type="application/javascript">
   
@@ -56,6 +122,7 @@
       var header = $('header').get(0);
       var headerHeight = header.offsetHeight;
       var headroom = new Headroom(header, {
+        tolerance: 5,
         onPin : function() {
           if (window.headroom_prevent_pin) {
             window.headroom_prevent_pin = false;
@@ -104,7 +171,7 @@
   
   .distill-site-nav {
     color: rgba(255, 255, 255, 0.8);
-    background-color: #455a64;
+    background-color: #0F2E3D;
     font-size: 15px;
     font-weight: 300;
   }
@@ -167,6 +234,7 @@
   
   .distill-site-header .title {
     font-size: 18px;
+    min-width: 150px;
   }
   
   .distill-site-header .logo {
@@ -308,7 +376,7 @@
   
   
   @media screen and (max-width: 768px) {
-    .distill-site-header.responsive {position: relative;}
+    .distill-site-header.responsive {position: relative; min-height: 500px; }
     .distill-site-header.responsive a.nav-toggle {
       position: absolute;
       right: 0;
@@ -377,11 +445,277 @@
     top: 0;
   }
   
+  /* adjust viewport for navbar height */
+  /* helps vertically center bootstrap (non-distill) content */
+  .min-vh-100 {
+    min-height: calc(100vh - 100px) !important;
+  }
+  
   </style>
   
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+  <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
+  
+  <script type="application/javascript">
+  
+  function getMeta(metaName) {
+    var metas = document.getElementsByTagName('meta');
+    for (let i = 0; i < metas.length; i++) {
+      if (metas[i].getAttribute('name') === metaName) {
+        return metas[i].getAttribute('content');
+      }
+    }
+    return '';
+  }
+  
+  function offsetURL(url) {
+    var offset = getMeta('distill:offset');
+    return offset ? offset + '/' + url : url;
+  }
+  
+  function createFuseIndex() {
+  
+    // create fuse index
+    var options = {
+      keys: [
+        { name: 'title', weight: 20 },
+        { name: 'categories', weight: 15 },
+        { name: 'description', weight: 10 },
+        { name: 'contents', weight: 5 },
+      ],
+      ignoreLocation: true,
+      threshold: 0
+    };
+    var fuse = new window.Fuse([], options);
+  
+    // fetch the main search.json
+    return fetch(offsetURL('search.json'))
+      .then(function(response) {
+        if (response.status == 200) {
+          return response.json().then(function(json) {
+            // index main articles
+            json.articles.forEach(function(article) {
+              fuse.add(article);
+            });
+            // download collections and index their articles
+            return Promise.all(json.collections.map(function(collection) {
+              return fetch(offsetURL(collection)).then(function(response) {
+                if (response.status === 200) {
+                  return response.json().then(function(articles) {
+                    articles.forEach(function(article) {
+                      fuse.add(article);
+                    });
+                  })
+                } else {
+                  return Promise.reject(
+                    new Error('Unexpected status from search index request: ' +
+                              response.status)
+                  );
+                }
+              });
+            })).then(function() {
+              return fuse;
+            });
+          });
+  
+        } else {
+          return Promise.reject(
+            new Error('Unexpected status from search index request: ' +
+                        response.status)
+          );
+        }
+      });
+  }
+  
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+  
+    // get search element (bail if we don't have one)
+    var searchEl = window.document.getElementById('distill-search');
+    if (!searchEl)
+      return;
+  
+    createFuseIndex()
+      .then(function(fuse) {
+  
+        // make search box visible
+        searchEl.classList.remove('hidden');
+  
+        // initialize autocomplete
+        var options = {
+          autoselect: true,
+          hint: false,
+          minLength: 2,
+        };
+        window.autocomplete(searchEl, options, [{
+          source: function(query, callback) {
+            const searchOptions = {
+              isCaseSensitive: false,
+              shouldSort: true,
+              minMatchCharLength: 2,
+              limit: 10,
+            };
+            var results = fuse.search(query, searchOptions);
+            callback(results
+              .map(function(result) { return result.item; })
+            );
+          },
+          templates: {
+            suggestion: function(suggestion) {
+              var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
+                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+                : '';
+              var html = `
+                <div class="search-item">
+                  <h3>${suggestion.title}</h3>
+                  <div class="search-item-description">
+                    ${suggestion.description || ''}
+                  </div>
+                  <div class="search-item-preview">
+                    ${img}
+                  </div>
+                </div>
+              `;
+              return html;
+            }
+          }
+        }]).on('autocomplete:selected', function(event, suggestion) {
+          window.location.href = offsetURL(suggestion.path);
+        });
+        // remove inline display style on autocompleter (we want to
+        // manage responsive display via css)
+        $('.algolia-autocomplete').css("display", "");
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  
+  });
+  
+  </script>
+  
+  <style type="text/css">
+  
+  .nav-search {
+    font-size: x-small;
+  }
+  
+  /* Algolioa Autocomplete */
+  
+  .algolia-autocomplete {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: sub;
+    background-color: white;
+    color: black;
+    padding: 6px;
+    padding-top: 8px;
+    padding-bottom: 0;
+    border-radius: 6px;
+    border: 1px #0F2E3D solid;
+    width: 180px;
+  }
+  
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-nav .algolia-autocomplete {
+      display: none;
+      visibility: hidden;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete {
+      display: inline-block;
+      visibility: visible;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+      margin-left: 0;
+      width: 400px;
+      max-height: 400px;
+    }
+  }
+  
+  .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+    width: 90%;
+    outline: none;
+    border: none;
+  }
+  
+  .algolia-autocomplete .aa-hint {
+    color: #999;
+  }
+  .algolia-autocomplete .aa-dropdown-menu {
+    width: 550px;
+    max-height: 70vh;
+    overflow-x: visible;
+    overflow-y: scroll;
+    padding: 5px;
+    margin-top: 3px;
+    margin-left: -150px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #999;
+    border-top: none;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+    cursor: pointer;
+    padding: 5px 4px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+    border-bottom: none;
+    margin-bottom: 2px;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+    overflow: hidden;
+    font-size: 0.8em;
+    line-height: 1.4em;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+    font-size: 1rem;
+    margin-block-start: 0;
+    margin-block-end: 5px;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+    display: inline-block;
+    overflow: hidden;
+    height: 2.8em;
+    width: 80%;
+    margin-right: 4%;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+    display: inline-block;
+    width: 15%;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+    height: 3em;
+    width: auto;
+    display: none;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+    display: initial;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+    background-color: #eee;
+  }
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+    font-weight: bold;
+    font-style: normal;
+  }
+  
+  </style>
+  
+  
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
   
@@ -405,6 +739,51 @@
   
   .pagedtable-footer {
     font-size: 15px;
+  }
+  
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+  
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+  
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+  
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+  
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+  
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
   }
   
   .html-widget {
@@ -446,6 +825,7 @@
   }
   
   d-article {
+    padding-top: 2.5rem;
     padding-bottom: 30px;
   }
   
@@ -457,91 +837,48 @@
     width: 100%;
   }
   
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+  
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+  
   d-article iframe {
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 2.0em;
     width: 100%;
   }
   
-  figure img.external {
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
-    padding: 18px;
-    box-sizing: border-box;
+  /* Tweak code blocks */
+  
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   }
   
-  /* CSS for table of contents */
-  
-  .d-toc {
-    color: rgba(0,0,0,0.8);
-    font-size: 0.8em;
-    line-height: 1em;
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
   }
   
-  .d-toc-header {
-    font-size: 0.6rem;
-    font-weight: 400;
-    color: rgba(0, 0, 0, 0.5);
-    text-transform: uppercase;
-    margin-top: 0;
-    margin-bottom: 1.3em;
+  d-article div.sourceCode {
+    background-color: white;
   }
   
-  .d-toc a {
-    border-bottom: none;
-  }
-  
-  .d-toc ul {
-    padding-left: 0;
-  }
-  
-  .d-toc li>ul {
-    padding-top: 0.8em;
-    padding-left: 16px;
-    margin-bottom: 0.6em;
-  }
-  
-  .d-toc ul,
-  .d-toc li {
-    list-style-type: none;
-  }
-  
-  .d-toc li {
-    margin-bottom: 0.9em;
-  }
-  
-  .d-toc-separator {
-    margin-top: 20px;
-    margin-bottom: 2em;
-  }
-  
-  .d-article-with-toc {
-    border-top: none;
-    padding-top: 0;
-  }
-  
-  
-  
-  /* Tweak code blocks (note that this CSS is repeated above in an injection
-     into the d-code shadow dom) */
-  
-  d-code {
-    overflow-x: auto !important;
-  }
-  
-  pre.d-code code.d-code {
+  d-article div.sourceCode pre {
     padding-left: 10px;
     font-size: 12px;
     border-left: 2px solid rgba(0,0,0,0.1);
   }
   
-  pre.text-output {
-  
+  d-article pre {
     font-size: 12px;
     color: black;
     background: none;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    margin-top: 0;
     text-align: left;
     white-space: pre;
     word-spacing: normal;
@@ -559,20 +896,128 @@
     hyphens: none;
   }
   
+  d-article pre a {
+    border-bottom: none;
+  }
+  
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+  
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+  
   @media(min-width: 768px) {
   
-  d-code {
-    overflow-x: visible !important;
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
   }
   
-  pre.d-code code.d-code  {
-      padding-left: 18px;
-      font-size: 14px;
-  }
-  pre.text-output {
+  d-article div.sourceCode pre {
+    padding-left: 18px;
     font-size: 14px;
   }
+  
+  d-article pre {
+    font-size: 14px;
   }
+  
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for d-contents */
+  
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+  
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+  
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+  
+  .d-contents li {
+    list-style-type: none
+  }
+  
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+  
+  .d-contents ul {
+    padding-left: 1em
+  }
+  
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+  
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+  
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+  
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+  
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+  
+  
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+  
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+  
   
   /* Figure */
   
@@ -610,6 +1055,27 @@
     color: rgba(0, 0, 0, 1.0);
   }
   
+  /* Citations */
+  
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+  
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+  
+  /* Citation hover box */
+  
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+  
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
   
   
   /* Tweak 1000px media break to show more text */
@@ -685,6 +1151,91 @@
     word-wrap: break-word;
   }
   
+  /* Include appendix styles here so they can be overridden */
+  
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+  
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+  
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+  
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+  
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+  
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+  
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  d-appendix > * {
+    grid-column: text;
+  }
+  
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+  
+  /* Include footnote styles here so they can be overridden */
+  
+  d-footnote-list {
+    contain: layout style;
+  }
+  
+  d-footnote-list > * {
+    grid-column: text;
+  }
+  
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+  
+  
+  
+  /* Anchor.js */
+  
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
   
   /* Social footer */
   
@@ -729,6 +1280,221 @@
   .article-footer .subscribe {
     font-size: 15px;
     margin-top: 45px;
+  }
+  
+  
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+  
+  /* Styles for posts lists (not auto-injected) */
+  
+  
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+  
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+  
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+  
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+  
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+  
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+  
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+  
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+  
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+  
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+  
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+  
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+  
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+  
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  .posts-list img {
+    opacity: 1;
+  }
+  
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+  
+  .posts-more {
+    clear: both;
+  }
+  
+  
+  .posts-sidebar {
+    font-size: 16px;
+  }
+  
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+  
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+  
+  .categories li>a {
+    border-bottom: none;
+  }
+  
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+  
+  .categories .active {
+    font-weight: 600;
+  }
+  
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+  
+  
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
   }
   
   
@@ -860,6 +1626,12 @@
     hyphens: none;
   }
   
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+  
+  
+  
   </style>
   
   <script type="application/javascript">
@@ -875,6 +1647,13 @@
   
   // show body when load is complete
   function on_load_complete() {
+  
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+  
   
     // set body to visible
     document.body.style.visibility = 'visible';
@@ -921,23 +1700,8 @@
     // create d-appendix
     $('.d-appendix').changeElementType('d-appendix');
   
-    // create d-bibliography
-    var bibliography = $('<d-bibliography></d-bibliography>');
-    $('#distill-bibliography').wrap(bibliography);
-  
     // flag indicating that we have appendix items
     var appendix = $('.appendix-bottom').children('h3').length > 0;
-  
-    // replace citations with <d-cite>
-    $('.citation').each(function(i, val) {
-      appendix = true;
-      var cites = $(this).attr('data-cites').split(" ");
-      var dt_cite = $('<d-cite></d-cite>');
-      dt_cite.attr('key', cites.join());
-      $(this).replaceWith(dt_cite);
-    });
-    // remove refs
-    $('#refs').remove();
   
     // replace footnotes with <d-footnote>
     $('.footnote-ref').each(function(i, val) {
@@ -955,39 +1719,21 @@
     // remove footnotes
     $('.footnotes').remove();
   
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+  
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
     });
     $('h3.appendix').each(function(i, val) {
       var id = $(this).attr('id');
-      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
       appendix = true;
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
     });
   
     // show d-appendix if we have appendix content
     $("d-appendix").css('display', appendix ? 'grid' : 'none');
-  
-    // replace code blocks with d-code
-    $('pre>code').each(function(i, val) {
-      var code = $(this);
-      var pre = code.parent();
-      var clz = "";
-      var language = pre.attr('class');
-      if (language) {
-        // map unknown languages to "clike" (without this they just dissapear)
-        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
-                                 "javascript", "js", "julia", "lua", "markdown",
-                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
-          language = "clike";
-        language = ' language="' + language + '"';
-        var dt_code = $('<d-code block' + language + clz + '></d-code>');
-        dt_code.text(code.text());
-        pre.replaceWith(dt_code);
-      } else {
-        code.addClass('text-output').unwrap().changeElementType('pre');
-      }
-    });
   
     // localize layout chunks to just output
     $('.layout-chunk').each(function(i, val) {
@@ -996,7 +1742,7 @@
       var layout = $(this).attr('data-layout');
   
       // apply layout to markdown level block elements
-      var elements = $(this).children().not('d-code, pre.text-output, script');
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
       elements.each(function(i, el) {
         var layout_div = $('<div class="' + layout + '"></div>');
         if (layout_div.hasClass('shaded')) {
@@ -1013,6 +1759,13 @@
       $(this).children().unwrap();
     });
   
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+  
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+  
     // load distill framework
     load_distill_framework();
   
@@ -1028,12 +1781,26 @@
       if (!have_authors)
         $('d-byline').addClass('hidden');
   
-      // table of contents
-      if (have_authors) // adjust border if we are in authors
-        $('.d-toc').parent().addClass('d-article-with-toc');
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
   
       // strip links that point to #
       $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
   
       // hide elements of author/affiliations grid that have no value
       function hide_byline_column(caption) {
@@ -1083,18 +1850,27 @@
         grid.children('h3:contains("Affiliations")').text('Affiliation');
       }
   
-      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
-      $('d-code').each(function(i, val) {
-        var style = document.createElement('style');
-        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
-                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
-        if (this.shadowRoot)
-          this.shadowRoot.appendChild(style);
-      });
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
   
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
+  
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
   
       // clear polling timer
       clearInterval(tid);
@@ -1126,9 +1902,7 @@
     $('.d-byline a').remove();
   
     // remove toc
-    $('.d-toc-header').remove();
-    $('.d-toc').remove();
-    $('.d-toc-separator').remove();
+    $('.d-contents').remove();
   
     // move appendix elements
     $('h1.appendix, h2.appendix').each(function(i, val) {
@@ -1257,15 +2031,20 @@
   </script>
   
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
-  <script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+  <script src="site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+  <script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
   <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-  <script src="site_libs/datatables-binding-0.9/datatables.js"></script>
-  <link href="site_libs/dt-core-1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
-  <link href="site_libs/dt-core-1.10.19/css/jquery.dataTables.extra.css" rel="stylesheet" />
-  <script src="site_libs/dt-core-1.10.19/js/jquery.dataTables.min.js"></script>
-  <link href="site_libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
-  <script src="site_libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+  <script src="site_libs/datatables-binding-0.17/datatables.js"></script>
+  <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+  <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+  <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+  <link href="site_libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+  <script src="site_libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+  <script src="site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="site_libs/distill-2.2.21/template.v2.js"></script>
@@ -1293,7 +2072,16 @@
 <div class="nav-right">
 <a href="index.html">Introducao</a>
 <a href="syllabus.html">Syllabus</a>
-<span class="nav-dropdown-header">Tutoriais</span>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Tutoriais
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="introducao.html">1. Introducao</a>
+</div>
+</div>
 <span class="nav-dropdown-header">Desafios</span>
 <a href="recursos.html">Recursos</a>
 <a href="projeto.html">Projeto Final</a>
@@ -1307,13 +2095,16 @@
 
 <div class="d-title">
 <h1>Introducao</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
 <p><p>Gerar análises rápidas e ganhar confiança</p></p>
 </div>
 
 
 <div class="d-article">
-<h3 class="d-toc-header">Table of Contents</h3>
-<nav class="d-toc" id="TOC">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
 <ul>
 <li><a href="#os-princípios-da-ciência-de-dados">Os Princípios da Ciência de Dados</a></li>
 <li><a href="#minha-primeira-análise">Minha primeira análise</a></li>
@@ -1323,7 +2114,7 @@
 <li><a href="#data-frames-como-a-unidade-básica-de-ciência-de-dados">Data Frames como a Unidade Básica de Ciência de Dados</a></li>
 </ul>
 </nav>
-<hr class="d-toc-separator"/>
+</div>
 <style>
 div.green { background-color:#e5f5e0; border-radius: 5px; padding: 20px;}
 </style>
@@ -1354,65 +2145,59 @@ div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 <p>Ainda temos que gerar o nosso primeiro script de R Markdown: Clique File -&gt; New File -&gt; R Markdown. Escolha ‘documento’ nas opções à esquerda, digite um título e autor, e escolha o formato HTML para o produto (output) final (podemos mudar o formato depois se necessário). Salve o novo script na pasta do seu projeto (que deve abrir como opção padrão (default)).</p>
 <p>Ao abrir o arquivo de RMarkdown haverá um conteúdo padrão como exemplo; pode apagar tudo exceto o ‘header’, que parece assim:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
----
-title: &quot;Examplo&quot;
-author: &quot;Jonathan&quot;
-date: &quot;19 de fevereiro 2020&quot;
-output: html_document
----</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="op">---</span></a>
+<a class="sourceLine" id="cb1-2" title="2">title<span class="op">:</span><span class="st"> &quot;Examplo&quot;</span></a>
+<a class="sourceLine" id="cb1-3" title="3">author<span class="op">:</span><span class="st"> &quot;Jonathan&quot;</span></a>
+<a class="sourceLine" id="cb1-4" title="4">date<span class="op">:</span><span class="st"> &quot;19 de fevereiro 2020&quot;</span></a>
+<a class="sourceLine" id="cb1-5" title="5">output<span class="op">:</span><span class="st"> </span>html_document</a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="op">---</span></a></code></pre></div>
 </div>
 <p>Depois, você pode escrever qualquer coisa em texto normal que vai aparecer no documento final. É como trabalhar em Microsoft Word ou outro editor de texto. Escreva uma frase curta o seu motivo para cursar esta disciplina.</p>
 <p>Agora temos o nosso primeiro script, e queremos ‘compilar’ ou ‘executar’ o script para o produto final. Em R isso se chama ‘knit’ e aparece como um ícone azul acima do seu script. Clique em ‘Knit’ e o RStudio vai abrir um documento de formato HTML numa janela separada.</p>
 <p>Parabéns! Você já produziu a sua primeira análise! Onde ela fica salva? Procure o documento com extensão HTML na mesma pasta do seu script, a pasta do projeto. Simples, não?</p>
 <h2 id="primeira-programação">Primeira Programação</h2>
 <p>Até agor o nosso documento é muito simples e não incorpora nenhuma análise técnica ou de programação. A melhor característica do R Markdown é que podemos juntar texto simples e programaçao no mesmo script. Apesar disso, existe uma separação forte e clara entre os dois: deixamos códigos de programação em lugares específicos e demarcados dentro do script - estes lugares se chamam ‘chunks’. Para inserir um chunk, clique em Insert -&gt; R. No local do seu mouse vai aparecer uma caixa com fundo cinza onde podemos digitar o nosso código de programação:</p>
-<pre class="clike"><code>
-```{r}
+<pre class="clike"><code>```{r}
 
 ```</code></pre>
 <p>(No futuro, pode ser mais rápido criar um chunk com <code>Ctrl+Alt+i</code>, mas o atalho de teclado não funciona em todas as máquinas).</p>
 <p>O que inserimos aqui dentro? Em breve, centenas de linhas de código! Tudo que você escrever aqui será processado pela máquina do R e o output inserido no documento final.</p>
 <p>O R funciona como calculadora, então podemos digitar alguns calcúlos dentro do chunk e ver os resultados no documento final:</p>
-<pre class="clike"><code>
-```{r}
+<pre class="clike"><code>```{r}
 86*74
 ```</code></pre>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>
-[1] 6364</code></pre>
+<pre><code>[1] 6364</code></pre>
 </div>
 <p>O R também permite o armazenamento de valores como ‘objetos’, descritos por um nome. No início do seu cálculo, digite um nome do seu objeto desejado, seguido por uma seta à esquerda, ‘&lt;-’ que significa atribuir o resultado do cálculo a direita ao objeto com nome na esquerda. O objeto <code>calculo</code> fica disponível para o restante do seu script, em todos as linhas e chunks abaixo. A lista de objetos disponíveis no seu ambiente fica na aba ‘Environment’ do RStudio.</p>
-<pre class="clike"><code>
-```{r}
+<pre class="clike"><code>```{r}
 calculo &lt;- 86*74
 
 calculo/4
 ```</code></pre>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>
-[1] 1591</code></pre>
+<pre><code>[1] 1591</code></pre>
 </div>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Atribuição, ‘&lt;-’</strong> Guardamos dados/resultados para o futuro em objetos do R. A lista de objetos disponíveis fica na aba de ‘Environment’ do RStudio, e será limpa toda vez que fechamos o R, ou propositalmente limpamos o ‘Environment’. Para <em>criar</em> objetos, temos que atribuir o resultado de uma função/cálculo a um nome único.</p>
 <p>A flecha de atribuição, composto pelos dois símbolos ‘&lt;’ e ‘-’ coneta o nome de objeto e o conteúdo para salvar dentro:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-nome_objeto &lt;- 15*72</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>nome_objeto</span> <span class='op'>&lt;-</span> <span class='fl'>15</span><span class='op'>*</span><span class='fl'>72</span>
+</code></pre>
+</div>
 </div>
 </div>
 <p>Que ótimo! Já produzimos o nosso primeiro script de programação! Se compilarmos o script com ‘Knit’, você verá o documento final com o seu texto simples, o código e o resultado da execução do código.</p>
 <p>Vamos tentar mais uma análise. Por exemplo, calculamos a área de um círculo de raio 20 com o chunk abaixo, usando a constante <code>pi</code> (que o R já tem salvo como objeto na memória):</p>
-<pre class="clike"><code>
-```{r}
+<pre class="clike"><code>```{r}
 raio &lt;- 20
 area &lt;- pi * raio^2
 
 area
 ```</code></pre>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>
-[1] 1256.637</code></pre>
+<pre><code>[1] 1256.637</code></pre>
 </div>
 <p>Note que temos que escrever o nome do objeto para que o resultado apareça no documento final. Se não, ele fica apenas salvo no objeto ‘area’ para uso no futuro e seu valor não aparece no nosso documento final de RMarkdown.</p>
 <p>Como um resumo, existem dois lugares em nosso script, e temos que lembrar qual tipo de conteúdo fica em cada um:</p>
@@ -1474,8 +2259,7 @@ area
 <h2 id="incluindo-resultados-do-código-dentro-do-texto">Incluindo resultados do código dentro do texto</h2>
 <p>Até agora, o nosso texto está sendo dividido por chunks de código. Ás vezes queremos integrar o código ao texto, para fazer referência ao resultado dentro do próprio texto/frase. Por exemplo, podemos querer inserir uma média ou o número de observações do nosso banco de dados não de forma manual ou de memória, mas como um valor exato, atualizado e calculado pelo nossa script.</p>
 <p>Como incluimos o resultado numérico <code>area</code> do cálculo acima dentro de uma frase em nosso texto (fora do chunk de código)? Podemos usar ‘in-line code’ para exibir um valor simples no documento final. O formato é como o exemplo abaixo, usando o acento grave para começar e terminar, a letra <code>r</code> para mostrar que queremos um cálculo do R, e o nome do objeto que queremos inserir. Você se lembra que já criamos o objeto <code>area</code> acima com o resultado do cálculo da área do círculo? O resultado deve ser ainda disponível se o chunk fica acima.</p>
-<pre class="clike"><code>
-```{r}
+<pre class="clike"><code>```{r}
 raio &lt;- 20
 area &lt;- pi * raio^2
 ```</code></pre>
@@ -1492,11 +2276,13 @@ area &lt;- pi * raio^2
 <p>Na prática, a nossa recomendação é usar opção (2) quando precisa rodar uma linha de código que já existe no seu script, e opção (1) apenas quando precisa rodar temporiaramente uma linha nova, por exemplo para ajudar a inspecionar um objeto.</p>
 <p>Experimente rodando o código abaixo em modo interativo:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-raio &lt;- 20
-area &lt;- pi * raio^2
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>raio</span> <span class='op'>&lt;-</span> <span class='fl'>20</span>
+<span class='va'>area</span> <span class='op'>&lt;-</span> <span class='va'>pi</span> <span class='op'>*</span> <span class='va'>raio</span><span class='op'>^</span><span class='fl'>2</span>
 
-area</code></pre>
+<span class='va'>area</span>
+</code></pre>
+</div>
 </div>
 <p>O resultado é impresso na aba/janela de Console, e se usei opção (2), também abaixo do chunk que contém o código. Note que a execução do código por qualquer método gerou o objeto <code>area</code> na janela/aba de ‘Environment’ do RStudio. O Environment armazena todos os objetos que estão disponíveis em modo interativo.</p>
 <p>Vamos descrobrir que a ordem de execução de linhas de código é absolutamente crucial para o resultado final. Em modo interativo sempre existe um risco de executar os códigos na ordem errada. É por isso que o modo de script é mais robusto e deixa a ordem da análise clara - ordem da sequência das linhas do script. Se você ficar confuso com quais operações já foram executadas, recomendamos limpar o seu Environment no RStudio clicando na imagem da vassoura na aba de Environment, e começe de novo desde o início.</p>
@@ -1555,15 +2341,13 @@ area</code></pre>
 <ol type="1">
 <li><strong>Instalação</strong>: Uma única vez por máquina (então rode uma vez em modo interativo, e se deixar no seu script lembra-se de colocar num comentário, veja abaixo para mais detalhes):</li>
 </ol>
-<pre class="clike"><code>
-```{r}
+<pre class="clike"><code>```{r}
 install.packages(&quot;nycflights13&quot;)
 ```</code></pre>
 <ol start="2" type="1">
 <li><strong>Disponibilização</strong>: Cada vez que rodamos o script em que precisamos do conteúdo do pacote (então deixe essa linha dentro do seu script, no início de preferência):</li>
 </ol>
-<pre class="clike"><code>
-```{r}
+<pre class="clike"><code>```{r}
 library(&quot;nycflights13&quot;)
 ```</code></pre>
 <div class="blue">
@@ -1571,25 +2355,28 @@ library(&quot;nycflights13&quot;)
 <p>Comentários são essenciais para programaçao efetiva. <strong>Posso te garantir, você não vai lembrar o motivo para o seu código em alguns meses/anos.</strong> Melhor deixar tudo explícito hoje enquanto preparando o código.</p>
 <p>Pode usar o atalho <code>Ctrl+c</code> para comentar a(s) linha(s) selecionada(a) ou a linha na qual o cursor estiver posicionado.</p>
 <div class="layout-chunk" data-layout="l-body-outset">
-<pre class="r"><code>
-#Nota: O uso de comentário abaixo nos permite notar como foi instalado o pacote, sem rodar o código
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#Nota: O uso de comentário abaixo nos permite notar como foi instalado o pacote, sem rodar o código</span>
 
-#install.packages(&quot;nycflights13&quot;)
-library(&quot;nycflights13&quot;)</code></pre>
+<span class='co'>#install.packages("nycflights13")</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='http://github.com/hadley/nycflights13'>"nycflights13"</a></span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 </div>
 <h2 id="explorando-os-dados-de-flights">Explorando os dados de <em>flights</em></h2>
 <p>O pacote <code>nycflights13</code> contém um banco de dados chamado <code>flights</code>. É literalmente um banco de dados de todos os voos que partiam de Nova Iorque em 2013.</p>
 <p>Logo mais veremos como abrir conjuntos de dados de outras fontes (arquivos de texto, outros softwares, etc), mas já podemos começar a trabalhar com <em>data frames</em> usando <code>flights</code>.</p>
 <p>Primeiro, queremos conhecer os dados para saber o que eles descrevem, então trabalhamos em modo interativo. Num chunk, digite o nome de banco de dados (o objeto) e executa-lo com ‘Run’ ou <code>Ctrl+Enter</code>:</p>
-<pre class="clike"><code>
-```{r}
+<pre class="clike"><code>```{r}
 flights
 ```</code></pre>
 <p>Os dados aparecem numa tabela interativa abaixo do chunk em que eles foram abertos. Pode descer para ver mais observações ou passar para a direita para ver mais colunas.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span>
+</code></pre>
+</div>
 </div>
 <p>Antes de continuar, olhe a tabela de <code>flights</code> e responda as seguintes perguntas:</p>
 <ol type="1">
@@ -1602,27 +2389,31 @@ flights</code></pre>
 <p>Estas são questões fundamentais que devem ser o seu ponto de partida para conhecer os seus dados, perguntas críticas para qualquer análise.</p>
 <p>O R ajuda responder as perguntas de vários formas. O número de linhas e colunas está escrita ao final da tabela. Se queremos calcular o número de observações (linhas) e variáveis (colunas) usando um código, podemos pedir assim:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-nrow(flights)
-ncol(flights)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>flights</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span><span class='op'>(</span><span class='va'>flights</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p><code>nrow</code> significa o número de linhas, e <code>ncol</code> o número de colunas. Use <code>Ctrl+Enter</code> para rodar interativamente, e/ou deixe no script para que o número de linhas e colunas seja impresso no seu documento final. Isso é bastante útil quando, por exemplo, você quer relatar o número de observações no seu artigo - não precisa lembrar, o R vai calcular e atualizar automaticamente para você!</p>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Funções e Parênteses</strong> Qualquer operação ou transformação em R é uma função que aceita (pelo menos) um input (insumo) e gera um output (produto). Cada função deve ter um nome único (infelizmente, no entanto, duplicações são possíveis e problemáticas). Funções sempre vêm com parênteses depois, e especificamos os inputs nos parênteses. Mesmo quando uma função não precisa de inputs, exige parênteses, por exemplo <code>Sys.Date()</code> devolve a data de hoje.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-funcao(insumos)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>funcao</span><span class='op'>(</span><span class='va'>insumos</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-Sys.Date()</code></pre>
-<pre><code>
-[1] &quot;2021-03-19&quot;</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.Date</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] &quot;2021-03-24&quot;</code></pre>
 </div>
 </div>
 <p>Como sabemos o significado de algumas colunas com nomes ambíguos? Podemos acessor o <strong>help</strong> (documentação) do objeto para descobrir uma descrição do que há no <em>data frame</em> chamado <code>flights</code>:</p>
-<pre class="clike"><code>
-```{r}
+<pre class="clike"><code>```{r}
 ?flights
 ```</code></pre>
 <p>Os detalhes aparecem na janela/aba ‘Help’. Você pode ler com calma antes de avançar. Se deixamos o código de help no script, o R vai abrir a página de documentação cada vez que rodarmos o script (knit)! Então temos que operar no modo interativo: o melhor é digitar na aba de Console, ou apagar antes de continuar seu script.</p>
@@ -1680,37 +2471,49 @@ Sys.Date()</code></pre>
 <p>Uma pequena complicação: neste curso vamos trabalhar com uma variedade de data.frame um pouco mais sofisticado - um <strong>‘tibble’</strong>. Um tibble é um data.frame, não tem diferença, só que um tibble é mais fléxivel e melhor formatado para facilitar a nossa análise. O banco de dados de <code>flights</code> é um tibble. Se você colocar o cursor em cima do nome de <code>flights</code> no ‘Environment’ (sem clicar) vai ver a informação sobre o tipo de objeto que ele é.</p>
 <p>Para usar um tibble, temos que aproveitar o pacote super-útil que se chama <code>tidyverse</code>. Esse pacote já está instalado nas máquinas do laboratório, então é só chamar com <code>library()</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-library(&quot;tidyverse&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='http://tidyverse.tidyverse.org'>"tidyverse"</a></span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Vamos ilustrar com um exemplo: imagine que queremos criar um lembrete dos nomes completos dos aeroportos. Em vez de escrever uma nota física ou anotar num caderno, vamos criar um tibble (um data.frame) em nosso script para documentar a relação entre as siglas e os nomes completos.</p>
 <p>Antes de criar um tibble, vamos começar criando um vetor simples apenas com as siglas. Um vetor é um <strong>c</strong>onjunto de elementos, então usamos a função <code>c()</code> (para conjunto ou concatenate) para definir um vetor. Dentro dos parenteses, digitamos os elementos em aspas. Assim:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-c(&quot;NWR&quot;,&quot;JFK&quot;,&quot;LGA&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"NWR"</span>,<span class='st'>"JFK"</span>,<span class='st'>"LGA"</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>O que acontece se rodamos esta linha? Recebemos em resposta o mesmo vetor. Não ajuda muito para só imprimir o que a gente acabou de imprimir… queremos <em>salvar</em> o nosso vetor como um objeto. Então temos que salvar (usando a flecha <code>&lt;-</code>) para um objeto nomeado, ex.:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-siglas_aeroportos &lt;- c(&quot;NWR&quot;,&quot;JFK&quot;,&quot;LGA&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>siglas_aeroportos</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"NWR"</span>,<span class='st'>"JFK"</span>,<span class='st'>"LGA"</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Da mesma maneira podemos gerar um segundo vetor com os nomes completos dos aeroportos:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-nomes_aeroportos &lt;- c(&quot;Newark&quot;,&quot;John F Kennedy&quot;,&quot;Laguardia&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>nomes_aeroportos</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Newark"</span>,<span class='st'>"John F Kennedy"</span>,<span class='st'>"Laguardia"</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>E agora? O R guardou os dois vetors, mas ele não sabe que o primeiro elemento <code>NWR</code> de <code>siglas_aeroportos</code> é ligado com o primeiro elemento de <code>nomes_aeroportos</code>, e o segundo com o segundo etc. A beleza de um data.frame/tibble é que ele associa os elementos de vários vetores como observações integras.</p>
 <p>A função que nos permite gerar um tibble, supreendentemente, se chame <code>tibble()</code>. Nos parenteses, colocamos os nomes das variáveis, separada por vírgulas, e depois o conteúdo do vetor relevante.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-tabela_aeroportos &lt;- tibble(Sigla=siglas_aeroportos,
-                            Nome=nomes_aeroportos)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tabela_aeroportos</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>Sigla<span class='op'>=</span><span class='va'>siglas_aeroportos</span>,
+                            Nome<span class='op'>=</span><span class='va'>nomes_aeroportos</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Se seja mais simples/rápido, não tem problema pular a étapa de definir os vetores separadamente e anteriormente; podemos definir-los direitamente dentro do tibble:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-tabela_aeroportos &lt;- tibble(Sigla=c(&quot;NWR&quot;,&quot;JFK&quot;,&quot;LGA&quot;),
-                            Nome=c(&quot;Newark&quot;,&quot;John F Kennedy&quot;,&quot;Laguardia&quot;))</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tabela_aeroportos</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>Sigla<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"NWR"</span>,<span class='st'>"JFK"</span>,<span class='st'>"LGA"</span><span class='op'>)</span>,
+                            Nome<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Newark"</span>,<span class='st'>"John F Kennedy"</span>,<span class='st'>"Laguardia"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <table>
@@ -1756,13 +2559,11 @@ Laguardia
 <h2 id="inserindo-tabelas-no-documento-final">Inserindo Tabelas no Documento Final</h2>
 <p>Voltando para o modo de gerar scripts para documentar a nossa análise, como os tibbles aparecem no nosso documento final?</p>
 <p>Podemos se deixar o nome num chunk e aparece? Experimente!</p>
-<pre class="clike"><code>
-```{r}
+<pre class="clike"><code>```{r}
 tabela_aeroportos
 ```</code></pre>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>
-# A tibble: 3 x 2
+<pre><code># A tibble: 3 x 2
   Sigla Nome          
   &lt;chr&gt; &lt;chr&gt;         
 1 NWR   Newark        
@@ -1770,8 +2571,7 @@ tabela_aeroportos
 3 LGA   Laguardia     </code></pre>
 </div>
 <p>Podemos, sim, mas ele sai feio demais. Precisamos usar uma função que embeleze a tabela. Vamos ver várias opções no futuro, mas por enquanto podemos usar a função <code>datatable()</code> do pacote <code>DT</code>:</p>
-<pre class="clike"><code>
-```{r}
+<pre class="clike"><code>```{r}
 library(&quot;DT&quot;)
 datatable(tabela_aeroportos)
 ```</code></pre>
@@ -1802,68 +2602,77 @@ datatable(tabela_aeroportos)
 <h1 id="exercício-2-encontre-o-erro-em-todos-os-códigos-abaixo">Exercício 2: Encontre o erro em todos os códigos abaixo:</h1>
 <p>Q1)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-dim[flights]</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dim</span><span class='op'>[</span><span class='va'>flights</span><span class='op'>]</span>
+</code></pre>
+</div>
 </div>
 <p>Q2)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-din(flights)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>din</span><span class='op'>(</span><span class='va'>flights</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Q3)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v1 &lt;- (&quot;pato&quot;, &quot;cachorro&quot;, &quot;minhoca&quot;, &quot;lagarto&quot;)</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">v1 &lt;-<span class="st"> </span>(<span class="st">&quot;pato&quot;</span>, <span class="st">&quot;cachorro&quot;</span>, <span class="st">&quot;minhoca&quot;</span>, <span class="st">&quot;lagarto&quot;</span>)</a></code></pre></div>
 </div>
 <p>Q4)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v2 &lt;- c(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;)
-v1 + 42</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"1"</span>, <span class='st'>"2"</span>, <span class='st'>"3"</span>, <span class='st'>"4"</span><span class='op'>)</span>
+<span class='va'>v1</span> <span class='op'>+</span> <span class='fl'>42</span>
+</code></pre>
+</div>
 </div>
 <p>Q5)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v1 &lt;- c(&quot;pato&quot;, &quot;cachorro&quot;, &quot;minhoca&quot;, &quot;lagarto&quot;</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">v1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;pato&quot;</span>, <span class="st">&quot;cachorro&quot;</span>, <span class="st">&quot;minhoca&quot;</span>, <span class="st">&quot;lagarto&quot;</span></a></code></pre></div>
 </div>
 <p>Q6)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v3 &lt;- c(33 31 40 25 27 40)</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">v3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">33</span> <span class="dv">31</span> <span class="dv">40</span> <span class="dv">25</span> <span class="dv">27</span> <span class="dv">40</span>)</a></code></pre></div>
 </div>
 <p>Q7)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v1 &lt;- c(pato, cachorro, minhoca, lagarto)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>pato</span>, <span class='va'>cachorro</span>, <span class='va'>minhoca</span>, <span class='va'>lagarto</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Q8)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v1 &lt;- c(&quot;pato&quot; &quot;cachorro&quot; &quot;minhoca&quot; &quot;lagarto&quot;)</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1">v1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;pato&quot;</span> <span class="st">&quot;cachorro&quot;</span> <span class="st">&quot;minhoca&quot;</span> <span class="st">&quot;lagarto&quot;</span>)</a></code></pre></div>
 </div>
 <p>Q9)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v3 &lt;- C(33, 31, 40, 25, 27, 40)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/zC.html'>C</a></span><span class='op'>(</span><span class='fl'>33</span>, <span class='fl'>31</span>, <span class='fl'>40</span>, <span class='fl'>25</span>, <span class='fl'>27</span>, <span class='fl'>40</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Q10)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v1 &lt;- c(&quot;pato&quot;, &quot;cachorro&quot;&quot;, &quot;minhoca&quot;, &quot;lagarto&quot;)</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">v1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;pato&quot;</span>, <span class="st">&quot;cachorro&quot;&quot;, &quot;</span>minhoca<span class="st">&quot;, &quot;</span>lagarto<span class="st">&quot;)</span></a></code></pre></div>
 </div>
 <p>Q11)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v1 &lt;- c(&quot;pato&quot;, &quot;cachorro&quot;, &quot;minhoca&quot;, &quot;lagarto&quot;)
-v4 &lt;- c(33, 31, 40, 25, 27, 40)
-myData &lt;- tibble(v1, v4)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pato"</span>, <span class='st'>"cachorro"</span>, <span class='st'>"minhoca"</span>, <span class='st'>"lagarto"</span><span class='op'>)</span>
+<span class='va'>v4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>33</span>, <span class='fl'>31</span>, <span class='fl'>40</span>, <span class='fl'>25</span>, <span class='fl'>27</span>, <span class='fl'>40</span><span class='op'>)</span>
+<span class='va'>myData</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span><span class='va'>v1</span>, <span class='va'>v4</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Q12)</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-v1 &lt;- c(&quot;pato&quot;, &quot;cachorro&quot;, &quot;minhoca&quot;, &quot;lagarto&quot;)
-v4 &lt;- c(33, 31, 40, 25)
-myData &lt;- tibble(v1 = animal, v4 = idade)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pato"</span>, <span class='st'>"cachorro"</span>, <span class='st'>"minhoca"</span>, <span class='st'>"lagarto"</span><span class='op'>)</span>
+<span class='va'>v4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>33</span>, <span class='fl'>31</span>, <span class='fl'>40</span>, <span class='fl'>25</span><span class='op'>)</span>
+<span class='va'>myData</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>v1 <span class='op'>=</span> <span class='va'>animal</span>, v4 <span class='op'>=</span> <span class='va'>idade</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 </div>
 <p><br> </br></p>
@@ -1871,6 +2680,7 @@ myData &lt;- tibble(v1 = animal, v4 = idade)</code></pre>
 <h1 id="leitura-para-tutorial-2">Leitura para Tutorial 2</h1>
 <p><a href="https://r4ds.had.co.nz/">R 4 Data Science, Capítulos 2, 4, 5, 9, 10, 11</a></p>
 </div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
