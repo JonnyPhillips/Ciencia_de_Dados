@@ -26,6 +26,8 @@ knitr::opts_chunk$set(echo = FALSE, tidy=F, highlight=T)
 library(nycflights13)
 ```
 
+[Clique aqui](https://drive.google.com/file/d/1t_-k0zOufuHFnstPlIoWiOfcIEC5bu-A/view?usp=sharing) para assistir o vídeo da aula online do dia 26 de março de 2021. E o [chat](https://drive.google.com/file/d/1DPGaqlU1mx7JQ0WTIL6Prvc3pl1tPY66/view?usp=sharing).
+
 # Princípios Cruciais na Análise de Dados
 
 Este curso é uma introdução a análise de dados, sobretudo para fins de pesquisa nas Ciências Sociais. No fluxo de trabalho mais comum, por exemplo na preparação de um relatório, tese, disertação ou artigo, queremos abrir um banco de dados, limpar e processar os dados, calcular estatísticas, produzir tabelas, gráficos, mapas, ou descrições, e apresentar os resultados num documento final. Através de tutoriais temáticos na linguagem de R, o curso orienta você em cada uma dessas tarefas.
