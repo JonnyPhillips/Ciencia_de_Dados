@@ -565,7 +565,7 @@ Clique na seta ao lado do 'Knit' em RStudio e depois 'Knit to Word'. Deve aparec
 
 1. Comece um novo script de Rmarkdown e acesse o banco de dados `gapminder` no pacote `dslabs`. Estes dados descrevem estatísticas resumidas para países do mundo desde 1960. 
 
-```{r, eval=F, echo=F, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, code_folding="Mostrar Código"}
 #install.packages("dslabs")
 library("dslabs")
 ```
@@ -576,7 +576,7 @@ library("dslabs")
     c. O tipo de cada variável
     d. O que representa cada observação no banco de dados?
 
-```{r, eval=F, echo=F, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, code_folding="Mostrar Código"}
 nrow(gapminder)
 ncol(gapminder)
 ```
@@ -585,13 +585,13 @@ ncol(gapminder)
 
 4. Calcule o valor do número de observações multiplicado pelo número de colunas
 
-```{r, eval=F, echo=F, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, code_folding="Mostrar Código"}
 nrow(gapminder)*ncol(gapminder)
 ```
 
 5. Inclua uma tabela do banco de dados `gapminder` no relatório.
 
-```{r, eval=F, echo=F, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, code_folding="Mostrar Código"}
 gapminder
 ```
 
@@ -620,7 +620,7 @@ Se você conhece uma outra pessoa da turma, compare o seu script de Exercício 1
 Q1)  
 nrow[flights]
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 nrow(flights)   
 # Funções exigem parênteses, não colchetes
 ```
@@ -630,7 +630,7 @@ nrow(flights)
 Q2)  
 nrou(flights)
 
-```{r, eval=F, echo=F, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, code_folding="Mostrar Código"}
 nrow(flights)   
 # R não tem verificador de texto. Erros impedirão o código de rodar
 ```
@@ -641,7 +641,7 @@ Q3)
 v1 <- ("pato", "cachorro",
        "minhoca", "lagarto")
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 v1 <- c("pato", "cachorro", "minhoca", "lagarto")  
 # Criar um vetor exige a função 'c()'
 ```
@@ -652,7 +652,7 @@ Q4)
 v2 <- c("1", "2", "3", "4")  
 v2 + 42
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 v2 <- c(1, 2, 3, 4)
 v2 + 42   
 # Não podemos somar um número a um caractere. 
@@ -664,7 +664,7 @@ v2 + 42
 Q5)  
 v1 <- c("pato", "cachorro", "minhoca", "lagarto"
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 v1 <- c("pato", "cachorro", "minhoca", "lagarto")
 # Quando esquecemos de fechar os parênteses, o R entende que ainda faltam argumentos na função, então não roda.
 ```
@@ -674,7 +674,7 @@ v1 <- c("pato", "cachorro", "minhoca", "lagarto")
 Q6)  
 v3 <- c(33 31 40 25 27 40)
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 v3 <- c(33, 31, 40, 25, 27, 40)  
 # Seperamos argumentos e dados com vírgula
 ```
@@ -684,7 +684,7 @@ v3 <- c(33, 31, 40, 25, 27, 40)
 Q7)  
 v1 <- c(pato, cachorro, minhoca, lagarto)
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 v1 <- c("pato", "cachorro", "minhoca", "lagarto")  
 # Para o R entender que estamos tratando de palavras, precisamos usar aspas. Do contrário, o programa irá procurar objetos nomeados de pato, cachorro, etc. Como eles não existem nesse caso, não é possível formar o vetor
 ```
@@ -694,7 +694,7 @@ v1 <- c("pato", "cachorro", "minhoca", "lagarto")
 Q8)  
 v1 -> c("pato", "cachorro", "minhoca", "lagarto")
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 v1 <- c("pato", "cachorro", "minhoca", "lagarto")  
 # A direção da seta indica onde queremos salvar os resultados
 ```
@@ -704,7 +704,7 @@ v1 <- c("pato", "cachorro", "minhoca", "lagarto")
 Q9)  
 v3 <- C(33, 31, 40, 25, 27, 40)
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 v3 <- c(33, 31, 40, 25, 27, 40)  
 # R é 'case sensitive'. maiúsculo ou minúsculo é uma distinção importante.
 ```
@@ -714,7 +714,7 @@ v3 <- c(33, 31, 40, 25, 27, 40)
 Q10)  
 v1 <- c("pato", "cachorro"", "minhoca", "lagarto")
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 v1 <- c("pato", "cachorro", "minhoca", "lagarto")  
 # Aspas andam sempre em pares. É preciso prestar atenção à ordem deles para não deixar o texto de interesse de fora
 ```
@@ -726,7 +726,7 @@ v1 <- c("pato", "cachorro", "minhoca", "lagarto")
 v4 <- c(33, 31, 40, 25, 27, 40)  
 myData <- tibble(v1, v4)
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 v1 <- c("pato", "cachorro", "minhoca", "lagarto","","")
 v4 <- c(33, 31, 40, 25, 27, 40)
 myData <- tibble(v1, v4)
@@ -741,7 +741,7 @@ v1 <- c("pato", "cachorro", "minhoca", "lagarto")
 v4 <- c(33, 31, 40, 25)  
 myData <- tibble(v1 = animal, v4 = idade)
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 v1 <- c("pato", "cachorro", "minhoca", "lagarto")
 v4 <- c(33, 31, 40, 25)
 myData <- tibble(animal = v1, idade = v4)

@@ -2073,6 +2073,7 @@ Tutoriais
 </button>
 <div class="nav-dropdown-content">
 <a href="introducao.html">1. Introducao</a>
+<a href="abrindo_manipulando.html">2. Abrindo e Manipulando Dados</a>
 </div>
 </div>
 <span class="nav-dropdown-header">Desafios</span>
@@ -2144,6 +2145,15 @@ div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 </div>
 <pre class="clike"><code>```{r}
 library(&quot;tidyverse&quot;)
+```</code></pre>
+<p>Também sugerimos instalar e abrir o pacote <code>tidylog</code>, que automaticamente fornece mais informação sobre cada uma das operações que executamos no tidyverse. Por isso, executamos uma vez só a instalação do pacote:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>E em seguida, adicionamos a biblioteca no início do nosso script:</p>
+<pre class="clike"><code>```{r}
+library(&quot;tidyverse&quot;)
+library(&quot;tidylog&quot;)
 ```</code></pre>
 <h2 id="renomear-variáveis-rename">1. Renomear Variáveis (<code>Rename</code>)</h2>
 <p>Começamos com uma transformação bem simples, mas se você já abriu um banco de dados com variáveis nomeadas como ‘hu52_lm_00’ você vai entender o valor dessa transformação. Cada coluna (variável) em nosso tibble sempre tem um nome, e podemos trocá-lo a qualquer momento.</p>
@@ -2796,7 +2806,7 @@ knitr::opts_chunk$set(echo=FALSE, error=FALSE, warning=FALSE, message=FALSE)
 <p>Isso indica para o R não imprimir o código original de nenhum chunk. Note que temos que usar <code>echo=F</code> na linha inicial deste chunk também para esconder esta linha de código porque o novo padrão só é aplicado depois da conclusão deste chunk.</p>
 <div class="green">
 <h1 id="exercício-2-relatórios-limpos">Exercício 2: Relatórios Limpos</h1>
-<p>Experimente adicionar um chunk com essa linha (<code>knitr::opts_chunk...</code>) acima como o primeiro no seu relatório do Exercício 1, e ‘Knit’ de novo. Veja quão mais simples e bonito fica o seu relatório!</p>
+<p>Experimente adicionar um chunk com essa linha acima (<code>knitr::opts_chunk$set(echo=FALSE, error=FALSE, warning=FALSE, message=FALSE)</code>) acima como o primeiro no seu relatório do Exercício 1, e ‘Knit’ de novo. Veja quão mais simples e bonito fica o seu relatório!</p>
 </div>
 <h1 id="abrindo-dados">Abrindo Dados</h1>
 <h2 id="dados-em-arquivos-textuais-.csv-.tsv-.txt">Dados em arquivos textuais (.csv, .tsv, .txt)</h2>
@@ -2953,8 +2963,8 @@ knitr::opts_chunk$set(echo=FALSE, error=FALSE, warning=FALSE, message=FALSE)
 
 </div>
 <ol start="4" type="1">
-<li><p>Crie uma tabela bonita em R Markdown, e verifique que o número de colunas e observações fazem sentido.</p></li>
-<li><p>Tente manipular a base utilizando as funções que aprendemos no tutorial de hoje.</p></li>
+<li><p>Crie uma tabela bonita em R Markdown dos dados do TSE, e verifique que o número de colunas e observações fazem sentido.</p></li>
+<li><p>Tente manipular a base utilizando as funções que aprendemos no tutorial de hoje para selecionar colunas e observações específicas.</p></li>
 </ol>
 </div>
 <p><br></p>
@@ -2962,7 +2972,7 @@ knitr::opts_chunk$set(echo=FALSE, error=FALSE, warning=FALSE, message=FALSE)
 <h1 id="leitura-para-tutorial-3">Leitura para Tutorial 3</h1>
 <p>Antes da próxima aula, por favor leia <a href="https://r4ds.had.co.nz/">R 4 Data Science, Capítulos 12, 15, 27</a></p>
 </div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

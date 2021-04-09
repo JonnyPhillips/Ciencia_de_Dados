@@ -860,6 +860,7 @@ Tutoriais
 </button>
 <div class="nav-dropdown-content">
 <a href="introducao.html">1. Introducao</a>
+<a href="abrindo_manipulando.html">2. Abrindo e Manipulando Dados</a>
 </div>
 </div>
 <span class="nav-dropdown-header">Desafios</span>
@@ -903,6 +904,9 @@ Tutoriais
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="introducao.html">1. Introducao</a>
+    </li>
+    <li>
+      <a href="abrindo_manipulando.html">2. Abrindo e Manipulando Dados</a>
     </li>
   </ul>
 </li>
@@ -2387,6 +2391,7 @@ Tutoriais
 ## [1457] &quot;Washington Union Station&quot;                           
 ## [1458] &quot;Penn Station&quot;</code></pre>
 <pre class="r"><code>airports %&gt;% mutate(Lake=str_detect(name, &quot;Lake&quot;))</code></pre>
+<pre><code>## mutate: new variable &#39;Lake&#39; (logical) with 2 unique values and 0% NA</code></pre>
 <pre><code>## # A tibble: 1,458 x 15
 ##    faa   name             lat    lon   alt    tz dst   País   Região  caracteres
 ##    &lt;chr&gt; &lt;chr&gt;          &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;int&gt;
@@ -2404,6 +2409,7 @@ Tutoriais
 ## #   nome_parcial &lt;list&gt;, nome_parcial_primeiro &lt;chr&gt;, nome_parcial_final &lt;chr&gt;,
 ## #   Lake &lt;lgl&gt;</code></pre>
 <pre class="r"><code>airports %&gt;% mutate(name=str_replace(name, &quot;Lake&quot;, &quot;Pond&quot;))</code></pre>
+<pre><code>## mutate: changed 26 values (2%) of &#39;name&#39; (0 new NA)</code></pre>
 <pre><code>## # A tibble: 1,458 x 14
 ##    faa   name             lat    lon   alt    tz dst   País   Região  caracteres
 ##    &lt;chr&gt; &lt;chr&gt;          &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;int&gt;
@@ -2421,9 +2427,10 @@ Tutoriais
 ## #   nome_parcial &lt;list&gt;, nome_parcial_primeiro &lt;chr&gt;, nome_parcial_final &lt;chr&gt;</code></pre>
 <pre class="r"><code>airports2 &lt;- airports %&gt;% mutate(name_split=str_split(name, &quot; Air&quot;),
                     name_split=map_chr(name_split, 1)) %&gt;%
-  select(name, name_split)
-
-airports2 %&gt;% pull(name_split)</code></pre>
+  select(name, name_split)</code></pre>
+<pre><code>## mutate: new variable &#39;name_split&#39; (character) with 1,435 unique values and 0% NA</code></pre>
+<pre><code>## select: dropped 13 variables (faa, lat, lon, alt, tz, …)</code></pre>
+<pre class="r"><code>airports2 %&gt;% pull(name_split)</code></pre>
 <pre><code>##    [1] &quot;Lansdowne&quot;                                 
 ##    [2] &quot;Moton Field Municipal&quot;                     
 ##    [3] &quot;Schaumburg Regional&quot;                       
@@ -3895,6 +3902,8 @@ palavras &lt;- texto %&gt;% unnest_tokens(palavra, text)
 palavras %&gt;% group_by(palavra) %&gt;%
   tally() %&gt;%
   arrange(-n)</code></pre>
+<pre><code>## group_by: one grouping variable (palavra)</code></pre>
+<pre><code>## tally: now 83 rows and 2 columns, ungrouped</code></pre>
 <pre><code>## # A tibble: 83 x 2
 ##    palavra     n
 ##    &lt;chr&gt;   &lt;int&gt;
@@ -5369,6 +5378,7 @@ palavras %&gt;% group_by(palavra) %&gt;%
 ## [1457] &quot;Washington Union Station&quot;                           
 ## [1458] &quot;Penn Station&quot;</code></pre>
 <pre class="r"><code>airports %&gt;% mutate(Lake=str_detect(name, &quot;Lake&quot;))</code></pre>
+<pre><code>## mutate: new variable &#39;Lake&#39; (logical) with 2 unique values and 0% NA</code></pre>
 <pre><code>## # A tibble: 1,458 x 15
 ##    faa   name             lat    lon   alt    tz dst   País   Região  caracteres
 ##    &lt;chr&gt; &lt;chr&gt;          &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;int&gt;
@@ -5386,6 +5396,7 @@ palavras %&gt;% group_by(palavra) %&gt;%
 ## #   nome_parcial &lt;list&gt;, nome_parcial_primeiro &lt;chr&gt;, nome_parcial_final &lt;chr&gt;,
 ## #   Lake &lt;lgl&gt;</code></pre>
 <pre class="r"><code>airports %&gt;% mutate(name=str_replace(name, &quot;Lake&quot;, &quot;Pond&quot;))</code></pre>
+<pre><code>## mutate: changed 26 values (2%) of &#39;name&#39; (0 new NA)</code></pre>
 <pre><code>## # A tibble: 1,458 x 14
 ##    faa   name             lat    lon   alt    tz dst   País   Região  caracteres
 ##    &lt;chr&gt; &lt;chr&gt;          &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;int&gt;
@@ -5403,6 +5414,8 @@ palavras %&gt;% group_by(palavra) %&gt;%
 ## #   nome_parcial &lt;list&gt;, nome_parcial_primeiro &lt;chr&gt;, nome_parcial_final &lt;chr&gt;</code></pre>
 <pre class="r"><code>airports %&gt;% mutate(name_split=str_split(name, &quot; &quot;)) %&gt;%
   mutate(name_split_1=map_chr(name_split, 1))</code></pre>
+<pre><code>## mutate: new variable &#39;name_split&#39; (list) with 1,440 unique values and 0% NA</code></pre>
+<pre><code>## mutate: new variable &#39;name_split_1&#39; (character) with 1,158 unique values and 0% NA</code></pre>
 <pre><code>## # A tibble: 1,458 x 16
 ##    faa   name             lat    lon   alt    tz dst   País   Região  caracteres
 ##    &lt;chr&gt; &lt;chr&gt;          &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;int&gt;
@@ -5431,6 +5444,8 @@ texto_palavras &lt;- texto %&gt;% unnest_tokens(palavra, text)
 
 texto_palavras %&gt;% group_by(palavra) %&gt;%
   tally()</code></pre>
+<pre><code>## group_by: one grouping variable (palavra)</code></pre>
+<pre><code>## tally: now 83 rows and 2 columns, ungrouped</code></pre>
 <pre><code>## # A tibble: 83 x 2
 ##    palavra          n
 ##    &lt;chr&gt;        &lt;int&gt;

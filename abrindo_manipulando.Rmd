@@ -51,11 +51,27 @@ Os códigos descritos no restante do tutorial só funcionam se você abrir a bib
 ```{r}
 library("tidyverse")
 library("DT")
+library("tidylog")
 ```
 
 ````clike
 ```{r}`r ''`
 library("tidyverse")
+```
+````
+
+Também sugerimos instalar e abrir o pacote `tidylog`, que automaticamente fornece mais informação sobre cada uma das operações que executamos no tidyverse. Por isso, executamos uma vez só a instalação do pacote:
+
+```{r, eval=F}
+install.packages("tidylog")
+```
+
+E em seguida, adicionamos a biblioteca no início do nosso script:
+
+````clike
+```{r}`r ''`
+library("tidyverse")
+library("tidylog")
 ```
 ````
 
@@ -580,7 +596,7 @@ Isso indica para o R não imprimir o código original de nenhum chunk. Note que 
 
 # Exercício 2: Relatórios Limpos
 
-Experimente adicionar um chunk com essa linha (`knitr::opts_chunk...`) acima como o primeiro no seu relatório do Exercício 1, e 'Knit' de novo. Veja quão mais simples e bonito fica o seu relatório!
+Experimente adicionar um chunk com essa linha acima (`knitr::opts_chunk$set(echo=FALSE, error=FALSE, warning=FALSE, message=FALSE)`) acima como o primeiro no seu relatório do Exercício 1, e 'Knit' de novo. Veja quão mais simples e bonito fica o seu relatório!
 </div>
 
 
@@ -759,9 +775,9 @@ data <- read_delim("arquivo.txt",
                    col_names=c("Variavel_1","Variavel_2","..."))
 ```
 
-4. Crie uma tabela bonita em R Markdown, e verifique que o número de colunas e observações fazem sentido.
+4. Crie uma tabela bonita em R Markdown dos dados do TSE, e verifique que o número de colunas e observações fazem sentido.
 
-5. Tente manipular a base utilizando as funções que aprendemos no tutorial de hoje.
+5. Tente manipular a base utilizando as funções que aprendemos no tutorial de hoje para selecionar colunas e observações específicas.
 </div>
 
 <br>
