@@ -2126,6 +2126,7 @@ div.orange { background-color:#fee6ce; border-radius: 5px; padding: 20px;}
 <style>
 div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 </style>
+<p><a href="https://drive.google.com/open?id=1HxeqxZolQH8ZnAZUCv5KmfS_u0KBDmMO">Clique aqui</a> para assistir o vídeo da aula online do dia 9 de abril de 2021. E o <a href="https://drive.google.com/open?id=1AkihoCsdmfzbwRI5iIxTw4wdAzi93ieK">chat</a>.</p>
 <h1 id="manipulando-dados">Manipulando Dados</h1>
 <p>Estamos trabalhando com um banco de dados, mas ele não está pronto para a análise que desejamos fazer. Por exemplo, as variáveis não contêm os indicadores relevantes, os nomes das variáveis não fazem sentido, a unidade de análise precisa ser mais agregada, queremos retirar alguns outliers etc. Como podemos ‘manipular’ um banco de dados para o tamanho, a estrutura e o conteúdo apropriado para a análise desejada?</p>
 <p>Fazemos a manipulação da mesma forma que trabalhamos com os ingredientes de uma receita: executando <strong>ações</strong> para cortar, selecionar e combinar os ingredientes. Sempre começando com o nosso tibble (data.frame) e aplicamos ações (‘verbos’) que transformam o nosso banco de dados.</p>
@@ -2148,7 +2149,10 @@ library(&quot;tidyverse&quot;)
 ```</code></pre>
 <p>Também sugerimos instalar e abrir o pacote <code>tidylog</code>, que automaticamente fornece mais informação sobre cada uma das operações que executamos no tidyverse. Por isso, executamos uma vez só a instalação do pacote:</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"tidylog"</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>E em seguida, adicionamos a biblioteca no início do nosso script:</p>
 <pre class="clike"><code>```{r}

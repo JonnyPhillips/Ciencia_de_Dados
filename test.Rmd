@@ -1,0 +1,11 @@
+---
+title: "Untitled"
+author: "Jonathan"
+date: "4/9/2021"
+output: html_document
+---
+
+```{r}
+
+23*12
+```
