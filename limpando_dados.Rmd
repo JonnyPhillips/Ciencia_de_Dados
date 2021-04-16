@@ -1,7 +1,7 @@
 ---
 title: "Organizando e Limpando Dados"
 description: |
-  Construindo o seu Banco de Dados para Analise
+  Construindo o seu Banco de Dados para Análise
 output:
   distill::distill_article:
     toc: true
@@ -193,29 +193,23 @@ Tome cuidado na construção das condições: Idealmente elas devem ser **comple
 <div class = "green">
 # Exercício 1: Limpando Dados
 
-<aside>
-```{r codefolder, echo=FALSE, results='asis'}
-codefolder::distill(init = "show")
-```
-</aside>
-
 Usando o banco de dados de `flights` no pacote `nycflights13`, responda as seguintes perguntas:
 
 1. Crie uma data completa numa variável única, com o formato "day-month-year". 
 
-```{r, echo=T, eval=F, tidy=TRUE}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% unite("Data", day, month, year, sep="-")
 ```
 
 2. Divida a variável `time_hour` em duas: uma variável de `time` e a outra variável de `hour`. 
 
-```{r, echo=T, eval=F, tidy=TRUE}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% separate(time_hour, c("time","hour"), sep=" ")
 ```
 
 3. Recodifique a variável `dep_delay` para uma variável binária, que seja `1` quando tem atraso, e `0` quando não tem atraso (valores negativos significam decolagens antes do horário previsto).
 
-```{r, echo=T, eval=F, tidy=TRUE}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights <- flights %>% 
   mutate(dep_delay= case_when( dep_delay>0~1,
                                        dep_delay<=0~0))
@@ -223,7 +217,7 @@ flights <- flights %>%
 
 4. A companhia aérea US Airways (código 'US') se fundiu com American Airlines (código 'AA') em 2015. Recodifique voos de US Airways como voos de American Airlines.
 
-```{r, echo=T, eval=F, tidy=TRUE}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights <- flights %>% mutate(carrier=case_when(carrier=="US"~"AA",
                                      TRUE~carrier))
 ```
@@ -252,7 +246,7 @@ ex_arrange <- tibble(ID=1:10,
 ex_arrange %>% paged_table()
 ```
 
-Se quisermos as observações em ordem de ano e valor:
+Se quisermos as observações em ordem de ano e valor (ignorando mês por enquanto porque vamos explorar isso em mais detalhe abaixo):
 
 ```{r, eval=F}
 ex_arrange %>% arrange(Ano, Valor)
@@ -312,7 +306,7 @@ ex_arrange %>% top_frac(0.3, Valor) %>%
 
 ## Dados de Time-Series: `lag` e `lead`
 
-Com os nossos dados ordenados, podemos implementar várias técnicas de análise de Time Series (séries temporais). Por exemplo, podemos calcular, para cada observação, o valor de uma variável no período anterior usando `lag()`. Note que é *essencial* que os nossos dados já estão ordenados com `arrange()` antes de executar o `lag`. Dado que estamos construindo uma nova variável, também é necessário usar `lag` dentro de `mutate`:
+Com os nossos dados ordenados, podemos implementar várias técnicas de análise de Time Series (séries temporais). Por exemplo, podemos calcular, para cada observação, o valor de uma variável no período anterior usando `lag()`. Note que é *essencial* que os nossos dados já estão ordenados cronologicamente com `arrange()` antes de executar o `lag`. Dado que estamos construindo uma nova variável, também é necessário usar `lag` dentro de `mutate`:
 
 ```{r, eval=F}
 ex_arrange %>% arrange(Ano) %>% 
@@ -325,7 +319,9 @@ ex_arrange %>% arrange(Ano) %>%
   paged_table()
 ```
 
-Uma dificuldade com esta operação é que não existe um valor anterior para a primeira observação - veja que o R insere um `NA` para o primeiro valor de Valor_anterior.
+Uma dificuldade com esta operação é que não existe um valor anterior para a primeira observação - veja que o R insere um `NA` para o primeiro valor de Valor_anterior. Isso é inevitável, exceto se temos dados mais antigos.
+
+Outra dificuldade é que ainda estamos ignorando a variável mês, então temos janeiro depois de junho em 2008 - não se preocupe, vamos tratar disso em breve.
 
 Com `lag`, é fácil calcular a diferença entre 'Valor' e 'Valor_anterior' para focar em mudanças ao longo do tempo na variável:
 
@@ -360,31 +356,25 @@ ex_arrange %>% arrange(Ano) %>%
 <div class = "green">
 # Exercício 2: Ordenação
 
-<aside>
-```{r codefolder2, echo=FALSE, results='asis'}
-codefolder::distill(init = "hide")
-```
-</aside>
-
 Use de novo o banco de dados `flights`:
 
 1. Ordene o banco de dados da menor à maior duração (`air_time`), incluindo apenas os voos com destino de Anchorage (`ANC`). 
 
-```{r, echo=T, eval=F, tidy=TRUE}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% filter(dest=="ANC") %>%
   arrange(air_time)
 ```
 
 2. Identifique o voo mais atrasado (`dep_delay`) entre LaGuardia (`LGA`) e Atlanta (`ATL`). Quão atrasado foi o voo?
 
-```{r, echo=T, eval=F, tidy=TRUE}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% filter(origin=="LGA" & dest=="ATL") %>%
   top_n(1,dep_delay)
 ```
 
 3. Calcule a velocidade de cada voo, e selecione os três voos mais rápidos. Eles partiram de qual aeroporto para qual destino?
 
-```{r, echo=T, eval=F, tidy=TRUE}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% 
   mutate(velocidade = distance/
                      air_time) %>% 
@@ -394,7 +384,7 @@ flights %>%
 
 4. Para os voos com destino em Anchorage (`ANC`), verifique que eles são ordenados cronologicamente (por `year`, `month`, `day`, e `dep_time`) e gera uma nova variável com a duração (`air_time`) do voo *anterior*. Agora, compare a duração de cada voo com a duração do voo anterior.
 
-```{r, echo=T, eval=F, tidy=TRUE}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% filter(dest=="ANC") %>%
   arrange(year, month, day, dep_time) %>% 
   mutate(air_time_anterior=lag(air_time),
@@ -498,7 +488,7 @@ ex_arrange %>% complete(Ano, Mes) %>%
   paged_table()
 ```
 
-Veja o resultado: Temos os 12 meses para cada um dos cinco anos, um banco de dados completo (e uma linha duplicada para Novembro 2005). A maioria dos valores são desconhecidos, `NA` porque não aparecem no banco de dados original, mas tudo bem, pelo menos entendemos onde temos dados e onde não, e não criamos lags e leads enganosos.
+Veja o resultado: Temos os 12 meses para cada um dos cinco anos, um banco de dados completo (e uma linha duplicada para Novembro 2005). A maioria dos valores são desconhecidos, `NA`, porque não aparecem no banco de dados original, mas tudo bem, pelo menos entendemos onde temos dados e onde não, e não criamos lags e leads enganosos.
 
 Note para o futuro que é possível especificar o valor que o `complete` usa para preencher observações ausentes. Por exemplo, pode ser que o 'valor' nos dados reflita vendas e que saibamos que não houve vendas nos meses ausentes do banco de dados. Neste caso, faz sentido preencher as observações dos outros meses com zero usando o argumento `fill`:
 
@@ -542,7 +532,7 @@ ex_arrange %>% complete(Ano, Mes, fill=list(Valor=0)) %>%
 
 ## Recodificação de levels de Factors
 
-Um desafio em trabalhar com Factors é que eles exigem funções específicas para recodificação dos seus levels. Existe um pacote inteiro para isso, que se chama 'forcats' e é parte do tidyverse.
+Um desafio em trabalhar com Factors é que eles exigem funções específicas para recodificação dos seus levels. Existe um pacote inteiro para isso, que se chama `forcats` e é parte do tidyverse.
 
 Existem três funções super-úteis para trabalhar com factors, todas que começam com `fct_`, e usamos todas dentro de um `mutate()`, dado que estamos mexendo com uma coluna que já existe. 
 
@@ -598,30 +588,24 @@ Mais detalhes no cheatsheet de forcats [aqui](https://github.com/rstudio/cheatsh
 <div class = "green">
 # Exercício 3: Factors
 
-<aside>
-```{r codefolder3, echo=FALSE, results='asis'}
-codefolder::distill(init = "hide")
-```
-</aside>
-
 Usando os dados de `flights` de novo:
 
 1. Transforme a variável `origin` para um factor (não-ordenado). 
 
-```{r, echo=T, eval=F, tidy=TRUE}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights <- flights %>% mutate(origin=factor(origin))
 ```
 
 2. Salve o resultado de (1) e tente-se usar o novo banco de dados para recodificar o aeroporto de origem "EWR" para "Newark" usando `case_when` dentro de `mutate`. É possível? 
 
-```{r, echo=T, eval=F, tidy=TRUE}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% mutate(origin=case_when(origin=="EWR"~"Newark",
                                     TRUE~origin))
 ```
 
 3. Usando as funções dedicadas do pacote `forcats`, recodifique o factor `origin` para os nomes completos dos aeroportos (Newark, John F Kennedy e LaGuardia).
 
-```{r, echo=T, eval=F, tidy=TRUE}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% mutate(origin = fct_recode( origin,  
                                      "Newark"="EWR", 
                                      "John F Kennedy"="JFK", 
@@ -630,7 +614,7 @@ flights %>% mutate(origin = fct_recode( origin,
 
 4. Transforme a variável `month` para um factor ordenado. 
 
-```{r, echo=T, eval=F, tidy=TRUE}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% mutate(month=factor(month, levels=1:12, ordered=T))
 ```
 
@@ -682,7 +666,7 @@ Repare, o número de linhas aqui é 334.067, menos do 336.776 no banco de dados 
 <div class = "orange">
 # Leitura para Tutorial 4
 
-Antes da próxima aula, por favor leia [R 4 Data Science, Capítulos 6, 8, 17, 18 e 19-19.3 ](https://r4ds.had.co.nz/)
+Antes da próxima aula, por favor leia [R 4 Data Science, Capítulos 17, 18 e 19-19.3 ](https://r4ds.had.co.nz/)
 
 </div>
 <br>
@@ -692,5 +676,5 @@ Antes da próxima aula, por favor leia [R 4 Data Science, Capítulos 6, 8, 17, 1
 
 É mais ou menos fácil seguir um tutorial passo a passo. O teste real do nosso entendimento é quando temos que trabalhar com um novo banco de dados sem instrução. O [Desafio 1](Desafios/Desafio_1.html) teste a sua capacidade de abrir, manipular e limpar um banco de dados para produzir um relatório bonito e claro em HTML.
 
-O prazo para entregar Desafio 1 por email à minha conta é **14h, 27/03/2020**, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
+O prazo para entregar Desafio 1 por email à minha conta é **14h, 30/04/2021**, antes da aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
 </div>

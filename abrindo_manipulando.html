@@ -2074,9 +2074,19 @@ Tutoriais
 <div class="nav-dropdown-content">
 <a href="introducao.html">1. Introducao</a>
 <a href="abrindo_manipulando.html">2. Abrindo e Manipulando Dados</a>
+<a href="limpando_dados.html">3. Organizando e Limpando Dados</a>
 </div>
 </div>
-<span class="nav-dropdown-header">Desafios</span>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Desafios
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="Desafios/Desafio_1.html">Desafio 1</a>
+</div>
+</div>
 <a href="recursos.html">Recursos</a>
 <a href="projeto.html">Projeto Final</a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
@@ -2729,31 +2739,65 @@ library(&quot;tidylog&quot;)
 <li>Os voos de United (<code>carrier</code> UA) que decolaram no dia 25 de janeiro.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<details>
+<summary>Mostrar Código</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>carrier</span> <span class='op'>==</span> <span class='st'>"UA"</span> <span class='op'>&amp;</span> <span class='va'>month</span> <span class='op'>==</span> <span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>day</span> <span class='op'>==</span> <span class='fl'>25</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
 </div>
 <ol start="2" type="1">
 <li>Os voos de JetBlue (<code>carrier</code> B6) que decolaram com mais de 300 minutos de atraso de Newark (<code>origin</code> EWR).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<details>
+<summary>Mostrar Código</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>carrier</span> <span class='op'>==</span> <span class='st'>"B6"</span> <span class='op'>&amp;</span> <span class='va'>dep_delay</span> <span class='op'>&gt;</span> <span class='fl'>300</span> <span class='op'>&amp;</span> <span class='va'>origin</span> <span class='op'>==</span> <span class='st'>"EWR"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
 </div>
 <ol start="3" type="1">
 <li>Calcule a velocidade dos voos que decolaram de LaGuardia (<code>origin</code> LGA) no dia 7 de setembro antes das 6h. Lembre-se que velocidade é a distância dividida por tempo. (Qual é a unidade desta velocidade?)</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<details>
+<summary>Mostrar Código</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span> <span class='op'>==</span> <span class='st'>"LGA"</span> <span class='op'>&amp;</span> <span class='va'>month</span> <span class='op'>==</span> <span class='fl'>9</span> <span class='op'>&amp;</span> <span class='va'>day</span> <span class='op'>==</span> <span class='fl'>7</span> <span class='op'>&amp;</span> <span class='va'>dep_time</span> <span class='op'>&lt;</span> 
+    <span class='fl'>600</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>speed <span class='op'>=</span> <span class='va'>distance</span><span class='op'>/</span><span class='va'>air_time</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
 </div>
 <ol start="4" type="1">
 <li>Uma tabela com apenas o atraso na chegada de todos os voos atrasados por pelo menos 60 minutos que partiram do aeroporto Newark e chegaram em Buffalo (BUF) no dia seis de todos os meses.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<details>
+<summary>Mostrar Código</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>dest</span> <span class='op'>==</span> <span class='st'>"BUF"</span> <span class='op'>&amp;</span> <span class='va'>origin</span> <span class='op'>==</span> <span class='st'>"EWR"</span> <span class='op'>&amp;</span> <span class='va'>arr_delay</span> <span class='op'>&gt;=</span> <span class='fl'>60</span> <span class='op'>&amp;</span> 
+    <span class='va'>day</span> <span class='op'>==</span> <span class='fl'>6</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>arr_delay</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
 </div>
 <ol start="5" type="1">
 <li>Uma tabela dos números dos aviões (<code>tailnum</code>), destino, distância e a velocidade em milhas por hora para voos que voaram em maio pelo menos 1000 milhas ou com velocidade acima de 500 milhas por hora.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<details>
+<summary>Mostrar Código</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>velocidade <span class='op'>=</span> <span class='va'>distance</span><span class='op'>/</span><span class='op'>(</span><span class='va'>air_time</span><span class='op'>/</span><span class='fl'>60</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>(</span><span class='va'>distance</span> <span class='op'>&gt;</span> 
+    <span class='fl'>1000</span> <span class='op'>|</span> <span class='va'>velocidade</span> <span class='op'>&gt;</span> <span class='fl'>500</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='va'>month</span> <span class='op'>==</span> <span class='fl'>5</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>tailnum</span>, <span class='va'>dest</span>, <span class='va'>distance</span>, 
+    <span class='va'>velocidade</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
 </div>
 <ol start="6" type="1">
 <li>Prepare os resultados de todas as análises acima em tabelas usando a opção de R Markdown de <code>df_print: paged</code> (veja o Tutorial 1), e faça o <code>knit</code> do seu script de R markdown para produzir o relatório final.</li>
@@ -2958,13 +3002,26 @@ knitr::opts_chunk$set(echo=FALSE, error=FALSE, warning=FALSE, message=FALSE)
 <li><p>Use uma função apropriada para abrir o arquivo em R.</p></li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<details>
+<summary>Mostrar Código</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'>read_delim</span><span class='op'>(</span><span class='st'>"arquivo.txt"</span>, delim <span class='op'>=</span> <span class='st'>";"</span>, locale <span class='op'>=</span> <span class='fu'>locale</span><span class='op'>(</span>encoding <span class='op'>=</span> <span class='st'>"latin1"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
 </div>
 <ol start="3" type="1">
 <li>Use o arquivo leiame.pdf que fica no zip com o arquivo do TSE para identificar o encoding dos dados, e os nomes das variáveis. Incorpore esta informação na abertura do arquivo.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<details>
+<summary>Mostrar Código</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'>read_delim</span><span class='op'>(</span><span class='st'>"arquivo.txt"</span>, delim <span class='op'>=</span> <span class='st'>";"</span>, locale <span class='op'>=</span> <span class='fu'>locale</span><span class='op'>(</span>encoding <span class='op'>=</span> <span class='st'>"latin1"</span><span class='op'>)</span>, 
+    col_names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Variavel_1"</span>, <span class='st'>"Variavel_2"</span>, <span class='st'>"..."</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
 </div>
 <ol start="4" type="1">
 <li><p>Crie uma tabela bonita em R Markdown dos dados do TSE, e verifique que o número de colunas e observações fazem sentido.</p></li>

@@ -86,27 +86,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_meta_tags-->
   <title>Analise de Dados para as Ciencias Sociais: Organizando e Limpando Dados</title>
   
-  <meta property="description" itemprop="description" content="Construindo o seu Banco de Dados para Analise"/>
+  <meta property="description" itemprop="description" content="Construindo o seu Banco de Dados para Análise"/>
   
   
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Analise de Dados para as Ciencias Sociais: Organizando e Limpando Dados"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Construindo o seu Banco de Dados para Analise"/>
+  <meta property="og:description" content="Construindo o seu Banco de Dados para Análise"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="Analise de Dados para as Ciencias Sociais"/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
   <meta property="twitter:title" content="Analise de Dados para as Ciencias Sociais: Organizando e Limpando Dados"/>
-  <meta property="twitter:description" content="Construindo o seu Banco de Dados para Analise"/>
+  <meta property="twitter:description" content="Construindo o seu Banco de Dados para Análise"/>
   
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Organizando e Limpando Dados"]},{"type":"character","attributes":{},"value":["Construindo o seu Banco de Dados para Analise\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_float","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[1]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Organizando e Limpando Dados"]},{"type":"character","attributes":{},"value":["Construindo o seu Banco de Dados para Análise\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_float","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[1]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2052,7 +2052,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Organizando e Limpando Dados","description":"Construindo o seu Banco de Dados para Analise","authors":[]}
+{"title":"Organizando e Limpando Dados","description":"Construindo o seu Banco de Dados para Análise","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2074,9 +2074,19 @@ Tutoriais
 <div class="nav-dropdown-content">
 <a href="introducao.html">1. Introducao</a>
 <a href="abrindo_manipulando.html">2. Abrindo e Manipulando Dados</a>
+<a href="limpando_dados.html">3. Organizando e Limpando Dados</a>
 </div>
 </div>
-<span class="nav-dropdown-header">Desafios</span>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+Desafios
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<a href="Desafios/Desafio_1.html">Desafio 1</a>
+</div>
+</div>
 <a href="recursos.html">Recursos</a>
 <a href="projeto.html">Projeto Final</a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
@@ -2091,7 +2101,7 @@ Tutoriais
 <h1>Organizando e Limpando Dados</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>Construindo o seu Banco de Dados para Analise</p></p>
+<p><p>Construindo o seu Banco de Dados para Análise</p></p>
 </div>
 
 
@@ -2282,70 +2292,30 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <p><br></p>
 <div class="green">
 <h1 id="exercício-1-limpando-dados">Exercício 1: Limpando Dados</h1>
-<aside>
-<div class="layout-chunk" data-layout="l-body">
-<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
-<script>
-  function codefolder(query) {
-
-    var x = document.querySelectorAll(query);
-    if (x.length === 0) return;
-
-    function toggle_vis(o) {
-      var d = o.style.display;
-      o.style.display = (d === 'block' || d === '') ? 'none':'block';
-    }
-
-    for (i = 0; i < x.length; i++) {
-      var y = x[i];
-      toggle_vis(y);
-    }
-
-    var elem = document.getElementById("codefolder-button");
-    if (elem.value === "Hide Code") elem.value = "Show Code";
-    else elem.value = "Hide Code";
-  }
-</script>
-</div>
-</aside>
 <p>Usando o banco de dados de <code>flights</code> no pacote <code>nycflights13</code>, responda as seguintes perguntas:</p>
 <ol type="1">
 <li>Crie uma data completa numa variável única, com o formato “day-month-year”.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>unite</span><span class='op'>(</span><span class='st'>"Data"</span>, <span class='va'>day</span>, <span class='va'>month</span>, <span class='va'>year</span>, sep <span class='op'>=</span> <span class='st'>"-"</span><span class='op'>)</span>
-</code></pre>
-</div>
+
 </div>
 <ol start="2" type="1">
 <li>Divida a variável <code>time_hour</code> em duas: uma variável de <code>time</code> e a outra variável de <code>hour</code>.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>separate</span><span class='op'>(</span><span class='va'>time_hour</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"time"</span>, <span class='st'>"hour"</span><span class='op'>)</span>, sep <span class='op'>=</span> <span class='st'>" "</span><span class='op'>)</span>
-</code></pre>
-</div>
+
 </div>
 <ol start="3" type="1">
 <li>Recodifique a variável <code>dep_delay</code> para uma variável binária, que seja <code>1</code> quando tem atraso, e <code>0</code> quando não tem atraso (valores negativos significam decolagens antes do horário previsto).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>dep_delay <span class='op'>=</span> <span class='fu'>case_when</span><span class='op'>(</span><span class='va'>dep_delay</span> <span class='op'>&gt;</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='fl'>1</span>, 
-    <span class='va'>dep_delay</span> <span class='op'>&lt;=</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
+
 </div>
 <ol start="4" type="1">
 <li>A companhia aérea US Airways (código ‘US’) se fundiu com American Airlines (código ‘AA’) em 2015. Recodifique voos de US Airways como voos de American Airlines.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>carrier <span class='op'>=</span> <span class='fu'>case_when</span><span class='op'>(</span><span class='va'>carrier</span> <span class='op'>==</span> <span class='st'>"US"</span> <span class='op'>~</span> <span class='st'>"AA"</span>, 
-    <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='va'>carrier</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
+
 </div>
 </div>
 <p><br></p>
@@ -2370,7 +2340,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
   </script>
 </div>
 </div>
-<p>Se quisermos as observações em ordem de ano e valor:</p>
+<p>Se quisermos as observações em ordem de ano e valor (ignorando mês por enquanto porque vamos explorar isso em mais detalhe abaixo):</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>Ano</span>, <span class='va'>Valor</span><span class='op'>)</span>
@@ -2443,7 +2413,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </div>
 </div>
 <h2 id="dados-de-time-series-lag-e-lead">Dados de Time-Series: <code>lag</code> e <code>lead</code></h2>
-<p>Com os nossos dados ordenados, podemos implementar várias técnicas de análise de Time Series (séries temporais). Por exemplo, podemos calcular, para cada observação, o valor de uma variável no período anterior usando <code>lag()</code>. Note que é <em>essencial</em> que os nossos dados já estão ordenados com <code>arrange()</code> antes de executar o <code>lag</code>. Dado que estamos construindo uma nova variável, também é necessário usar <code>lag</code> dentro de <code>mutate</code>:</p>
+<p>Com os nossos dados ordenados, podemos implementar várias técnicas de análise de Time Series (séries temporais). Por exemplo, podemos calcular, para cada observação, o valor de uma variável no período anterior usando <code>lag()</code>. Note que é <em>essencial</em> que os nossos dados já estão ordenados cronologicamente com <code>arrange()</code> antes de executar o <code>lag</code>. Dado que estamos construindo uma nova variável, também é necessário usar <code>lag</code> dentro de <code>mutate</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>Ano</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
@@ -2458,7 +2428,8 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
   </script>
 </div>
 </div>
-<p>Uma dificuldade com esta operação é que não existe um valor anterior para a primeira observação - veja que o R insere um <code>NA</code> para o primeiro valor de Valor_anterior.</p>
+<p>Uma dificuldade com esta operação é que não existe um valor anterior para a primeira observação - veja que o R insere um <code>NA</code> para o primeiro valor de Valor_anterior. Isso é inevitável, exceto se temos dados mais antigos.</p>
+<p>Outra dificuldade é que ainda estamos ignorando a variável mês, então temos janeiro depois de junho em 2008 - não se preocupe, vamos tratar disso em breve.</p>
 <p>Com <code>lag</code>, é fácil calcular a diferença entre ‘Valor’ e ‘Valor_anterior’ para focar em mudanças ao longo do tempo na variável:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2493,76 +2464,30 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <p><br></p>
 <div class="green">
 <h1 id="exercício-2-ordenação">Exercício 2: Ordenação</h1>
-<aside>
-<div class="layout-chunk" data-layout="l-body">
-<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
-<script>
-  function codefolder(query) {
-
-    var x = document.querySelectorAll(query);
-    if (x.length === 0) return;
-
-    function toggle_vis(o) {
-      var d = o.style.display;
-      o.style.display = (d === 'block' || d === '') ? 'none':'block';
-    }
-
-    for (i = 0; i < x.length; i++) {
-      var y = x[i];
-      toggle_vis(y);
-    }
-
-    var elem = document.getElementById("codefolder-button");
-    if (elem.value === "Hide Code") elem.value = "Show Code";
-    else elem.value = "Hide Code";
-  }
-</script>
-<script>
-  window.addEventListener('load', function () {
-    codefolder('d-code');
-  });
-</script>
-</div>
-</aside>
 <p>Use de novo o banco de dados <code>flights</code>:</p>
 <ol type="1">
 <li>Ordene o banco de dados da menor à maior duração (<code>air_time</code>), incluindo apenas os voos com destino de Anchorage (<code>ANC</code>).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>dest</span> <span class='op'>==</span> <span class='st'>"ANC"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>air_time</span><span class='op'>)</span>
-</code></pre>
-</div>
+
 </div>
 <ol start="2" type="1">
 <li>Identifique o voo mais atrasado (<code>dep_delay</code>) entre LaGuardia (<code>LGA</code>) e Atlanta (<code>ATL</code>). Quão atrasado foi o voo?</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span> <span class='op'>==</span> <span class='st'>"LGA"</span> <span class='op'>&amp;</span> <span class='va'>dest</span> <span class='op'>==</span> <span class='st'>"ATL"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>top_n</span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>dep_delay</span><span class='op'>)</span>
-</code></pre>
-</div>
+
 </div>
 <ol start="3" type="1">
 <li>Calcule a velocidade de cada voo, e selecione os três voos mais rápidos. Eles partiram de qual aeroporto para qual destino?</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>velocidade <span class='op'>=</span> <span class='va'>distance</span><span class='op'>/</span><span class='va'>air_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>top_n</span><span class='op'>(</span><span class='fl'>3</span>, <span class='va'>velocidade</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>velocidade</span>, <span class='va'>origin</span>, <span class='va'>dest</span><span class='op'>)</span>
-</code></pre>
-</div>
+
 </div>
 <ol start="4" type="1">
 <li>Para os voos com destino em Anchorage (<code>ANC</code>), verifique que eles são ordenados cronologicamente (por <code>year</code>, <code>month</code>, <code>day</code>, e <code>dep_time</code>) e gera uma nova variável com a duração (<code>air_time</code>) do voo <em>anterior</em>. Agora, compare a duração de cada voo com a duração do voo anterior.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>dest</span> <span class='op'>==</span> <span class='st'>"ANC"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>year</span>, <span class='va'>month</span>, <span class='va'>day</span>, <span class='va'>dep_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>air_time_anterior <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>air_time</span><span class='op'>)</span>, air_time_anterior_dif <span class='op'>=</span> <span class='va'>air_time</span> <span class='op'>-</span> 
-        <span class='va'>air_time_anterior</span><span class='op'>)</span>
-</code></pre>
-</div>
+
 </div>
 </div>
 <p><br></p>
@@ -2663,7 +2588,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
   </script>
 </div>
 </div>
-<p>Veja o resultado: Temos os 12 meses para cada um dos cinco anos, um banco de dados completo (e uma linha duplicada para Novembro 2005). A maioria dos valores são desconhecidos, <code>NA</code> porque não aparecem no banco de dados original, mas tudo bem, pelo menos entendemos onde temos dados e onde não, e não criamos lags e leads enganosos.</p>
+<p>Veja o resultado: Temos os 12 meses para cada um dos cinco anos, um banco de dados completo (e uma linha duplicada para Novembro 2005). A maioria dos valores são desconhecidos, <code>NA</code>, porque não aparecem no banco de dados original, mas tudo bem, pelo menos entendemos onde temos dados e onde não, e não criamos lags e leads enganosos.</p>
 <p>Note para o futuro que é possível especificar o valor que o <code>complete</code> usa para preencher observações ausentes. Por exemplo, pode ser que o ‘valor’ nos dados reflita vendas e que saibamos que não houve vendas nos meses ausentes do banco de dados. Neste caso, faz sentido preencher as observações dos outros meses com zero usando o argumento <code>fill</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2698,7 +2623,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </div>
 </div>
 <h2 id="recodificação-de-levels-de-factors">Recodificação de levels de Factors</h2>
-<p>Um desafio em trabalhar com Factors é que eles exigem funções específicas para recodificação dos seus levels. Existe um pacote inteiro para isso, que se chama ‘forcats’ e é parte do tidyverse.</p>
+<p>Um desafio em trabalhar com Factors é que eles exigem funções específicas para recodificação dos seus levels. Existe um pacote inteiro para isso, que se chama <code>forcats</code> e é parte do tidyverse.</p>
 <p>Existem três funções super-úteis para trabalhar com factors, todas que começam com <code>fct_</code>, e usamos todas dentro de um <code>mutate()</code>, dado que estamos mexendo com uma coluna que já existe.</p>
 <p>Primeiro, quando queremos renomear os <em>levels</em> de um factor, usamos <code>fct_recode</code>. Por exemplo:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2750,75 +2675,30 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <p><br></p>
 <div class="green">
 <h1 id="exercício-3-factors">Exercício 3: Factors</h1>
-<aside>
-<div class="layout-chunk" data-layout="l-body">
-<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
-<script>
-  function codefolder(query) {
-
-    var x = document.querySelectorAll(query);
-    if (x.length === 0) return;
-
-    function toggle_vis(o) {
-      var d = o.style.display;
-      o.style.display = (d === 'block' || d === '') ? 'none':'block';
-    }
-
-    for (i = 0; i < x.length; i++) {
-      var y = x[i];
-      toggle_vis(y);
-    }
-
-    var elem = document.getElementById("codefolder-button");
-    if (elem.value === "Hide Code") elem.value = "Show Code";
-    else elem.value = "Hide Code";
-  }
-</script>
-<script>
-  window.addEventListener('load', function () {
-    codefolder('d-code');
-  });
-</script>
-</div>
-</aside>
 <p>Usando os dados de <code>flights</code> de novo:</p>
 <ol type="1">
 <li>Transforme a variável <code>origin</code> para um factor (não-ordenado).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>origin <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
+
 </div>
 <ol start="2" type="1">
 <li>Salve o resultado de (1) e tente-se usar o novo banco de dados para recodificar o aeroporto de origem “EWR” para “Newark” usando <code>case_when</code> dentro de <code>mutate</code>. É possível?</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>origin <span class='op'>=</span> <span class='fu'>case_when</span><span class='op'>(</span><span class='va'>origin</span> <span class='op'>==</span> <span class='st'>"EWR"</span> <span class='op'>~</span> <span class='st'>"Newark"</span>, <span class='cn'>TRUE</span> <span class='op'>~</span> 
-    <span class='va'>origin</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
+
 </div>
 <ol start="3" type="1">
 <li>Usando as funções dedicadas do pacote <code>forcats</code>, recodifique o factor <code>origin</code> para os nomes completos dos aeroportos (Newark, John F Kennedy e LaGuardia).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>origin <span class='op'>=</span> <span class='fu'>fct_recode</span><span class='op'>(</span><span class='va'>origin</span>, Newark <span class='op'>=</span> <span class='st'>"EWR"</span>, `John F Kennedy` <span class='op'>=</span> <span class='st'>"JFK"</span>, 
-    LaGuardia <span class='op'>=</span> <span class='st'>"LGA"</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
+
 </div>
 <ol start="4" type="1">
 <li>Transforme a variável <code>month</code> para um factor ordenado.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>month <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>month</span>, levels <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>12</span>, ordered <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
+
 </div>
 </div>
 <p><br></p>
@@ -2870,13 +2750,13 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <p>Repare, o número de linhas aqui é 334.067, menos do 336.776 no banco de dados inteiro. Isso significa que temos mais que um <code>tailnum</code> decolando no mesmo horário…Estranho. É crucial saber isso para informar as nossas análises. Com mais investigação, entenderemos que a diferença é produzida pela presença de observações de <code>dep_time</code> e <code>tailnum</code> que são <code>NA</code>, desconhecidos, e portanto aparecem como duplicados.</p>
 <div class="orange">
 <h1 id="leitura-para-tutorial-4">Leitura para Tutorial 4</h1>
-<p>Antes da próxima aula, por favor leia <a href="https://r4ds.had.co.nz/">R 4 Data Science, Capítulos 6, 8, 17, 18 e 19-19.3</a></p>
+<p>Antes da próxima aula, por favor leia <a href="https://r4ds.had.co.nz/">R 4 Data Science, Capítulos 17, 18 e 19-19.3</a></p>
 </div>
 <p><br></p>
 <div class="purple">
 <h1 id="desafio-1">Desafio 1</h1>
 <p>É mais ou menos fácil seguir um tutorial passo a passo. O teste real do nosso entendimento é quando temos que trabalhar com um novo banco de dados sem instrução. O <a href="Desafios/Desafio_1.html">Desafio 1</a> teste a sua capacidade de abrir, manipular e limpar um banco de dados para produzir um relatório bonito e claro em HTML.</p>
-<p>O prazo para entregar Desafio 1 por email à minha conta é <strong>14h, 27/03/2020</strong>, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.</p>
+<p>O prazo para entregar Desafio 1 por email à minha conta é <strong>14h, 30/04/2021</strong>, antes da aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.</p>
 </div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->

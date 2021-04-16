@@ -525,33 +525,33 @@ Com essas novas habilidades, vamos preparar uma análise rápida do banco de dad
 
 1. Os voos de United (`carrier` UA) que decolaram no dia 25 de janeiro.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% filter(carrier=="UA" & month==1 & day==25)
 ```
 
 2. Os voos de JetBlue (`carrier` B6) que decolaram com mais de 300 minutos de atraso de Newark (`origin` EWR).
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% filter(carrier=="B6" & dep_delay>300 & origin=="EWR")
 ```
 
 3. Calcule a velocidade dos voos que decolaram de LaGuardia (`origin` LGA) no dia 7 de setembro antes das 6h. Lembre-se que velocidade é a distância dividida por tempo. (Qual é a unidade desta velocidade?)
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% filter(origin=="LGA" & month==9 & day==7 & dep_time<600) %>%
   mutate(speed=distance/air_time)
 ```
 
 4. Uma tabela com apenas o atraso na chegada de todos os voos atrasados por pelo menos 60 minutos que partiram do aeroporto Newark e chegaram em Buffalo (BUF) no dia seis de todos os meses. 
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% filter(dest=="BUF" & origin=="EWR" & arr_delay>=60 & day==6) %>%
   select(arr_delay)
 ```
 
 5. Uma tabela dos números dos aviões (`tailnum`), destino, distância e a velocidade em milhas por hora para voos que voaram em maio pelo menos 1000 milhas ou com velocidade acima de 500 milhas por hora.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% mutate(velocidade=distance/(air_time/60)) %>%
   filter((distance>1000 | velocidade>500) & month==5) %>%
   select(tailnum, dest, distance, velocidade) 
@@ -762,7 +762,7 @@ Há critérios de conversão de variáveis categóricas, rótulos e etc, adotado
 
 2. Use uma função apropriada para abrir o arquivo em R. 
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 data <- read_delim("arquivo.txt",
                    delim=";",
                    locale=locale(encoding = "latin1"))
@@ -770,7 +770,7 @@ data <- read_delim("arquivo.txt",
 
 3. Use o arquivo leiame.pdf que fica no zip com o arquivo do TSE para identificar o encoding dos dados, e os nomes das variáveis. Incorpore esta informação na abertura do arquivo.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 data <- read_delim("arquivo.txt",
                    delim=";",
                    locale=locale(encoding = "latin1"),
