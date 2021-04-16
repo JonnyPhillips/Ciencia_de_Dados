@@ -2479,7 +2479,7 @@ distill-header .nav a {
 div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </style>
 <div class="purple">
-<p>O prazo para entregar Desafio 1 por email com título “[FLS6397] - D1” à minha conta é <strong>14h, 30/04/2021</strong>, antes da aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.</p>
+<p>O prazo para entregar Desafio 1 por email com título “[FLS6397] - D1” na minha conta de email é <strong>14h, 30/04/2021</strong>, antes da aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.</p>
 </div>
 <p><br></p>
 <!-- [Respostas Sugeridas para Desafio 1 aqui](Desafio_1_Suggested_Responses.html) -->
@@ -2488,7 +2488,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <h2 id="roteiro">Roteiro</h2>
 <ol type="1">
 <li><p>Vá ao <a href="http://www.tse.jus.br/eleitor-e-eleicoes/estatisticas/repositorio-de-dados-eleitorais-1/repositorio-de-dados-eleitorais">Repositório de Dados Eleitorais do TSE</a>. Na página “Resultados” e no ano 2012, faça o download do arquivo “Votação nominal por município e zona” e descompacte-o.</p></li>
-<li><p>Abre o arquivo para São Paulo (<em>votacao_candidato_munzona_2012_SP.txt</em>) em R com os nomes de colunas e o encoding corretos de acordo com a seção relevante de leaime.pdf.</p></li>
+<li><p>Abra o arquivo de São Paulo (<em>votacao_candidato_munzona_2012_SP.txt</em>) em R com os nomes de colunas e o encoding corretos de acordo com a seção relevante de leaime.pdf.</p></li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2501,13 +2501,13 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 
 </div>
 <ol start="5" type="1">
-<li>Selecione apenas as linhas que contém resultados eleitorais para o primeiro turno da eleição do prefeito(a).</li>
+<li>Selecione apenas as linhas que contêm os resultados eleitorais para o primeiro turno da eleição do prefeito(a).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="6" type="1">
-<li>Note que candidatos podem aparecer mais de uma vez na tabela em Q5 (porque existem múltiplas zonas em cada município). Usando identificadores únicos, identifique os candidatos distintos para o primeiro turno do prefeito. Explique no seu relatório quantos candidatos concorrem para prefeito no primeiro turno em 2012.</li>
+<li>Note que alguns candidatos podem aparecer mais de uma vez na tabela em Q5 (porque existem múltiplas zonas em cada município). Usando identificadores únicos, identifique os candidatos distintos e exclusivos para o primeiro turno do prefeito. Explique no seu relatório quantos candidatos concorrem para prefeito no primeiro turno em 2012.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2519,7 +2519,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 
 </div>
 <ol start="8" type="1">
-<li>No banco de dados de prefeitos no primeiro turno gerado na questão anterior, filtrar os dados para os candidatos que se candidataram com Nome de Urna ígual ao seu Nome completo, e identifique os candidatos únicos de novo. No seu relatório, explique qual percentagem de todos os candidatos para prefeito no primeiro turno isso representa.</li>
+<li>No banco de dados de prefeitos no primeiro turno gerado na questão anterior, filtre os dados para os candidatos que se candidataram com Nome de Urna igual ao seu Nome completo, e identifique os candidatos únicos de novo. No seu relatório, explique qual percentagem de todos os candidatos para prefeito no primeiro turno isso representa.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2543,19 +2543,19 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 
 </div>
 <ol start="12" type="1">
-<li>Criei uma variável que indica se o candidato no município de São Paulo recebeu mais de 10.000 votos na zona.</li>
+<li>Crie uma variável que indica se o candidato no município de São Paulo recebeu mais de 10.000 votos na zona.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="13" type="1">
-<li>Voltando para os dados orginais, filtrar para os dados dos vereadores. Agora, imagine que não temos os dados do partido de cada candidato e queremos recuperar do <code>NUMERO_CAND</code>, em que os primeiros dois digitos sempre refletem o número do partido do candidato. Divida a coluna <code>NUMERO_CAND</code> em duas para criar uma coluna de <code>NUM_PARTIDO</code> e outra de <code>NUM_CAND_RESTANTE</code>.</li>
+<li>Voltando para os dados originais, filtre apenas os dados dos vereadores. Agora, imagine que não temos os dados do partido de cada candidato e queremos recuperar do <code>NUMERO_CAND</code>, em que os primeiros dois dígitos sempre refletem o número do partido do candidato. Divida a coluna <code>NUMERO_CAND</code> em duas para criar uma coluna de <code>NUM_PARTIDO</code> e outra de <code>NUM_CAND_RESTANTE</code>.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="14" type="1">
-<li>Agora, unifique as colunas <code>NUM_PARTIDO</code> e <code>NUM_CAND_RESTANTE</code> criado em Q9. O resultado deve ser ígual à coluna original <code>NUMERO_CAND</code>.</li>
+<li>Agora, unifique as colunas <code>NUM_PARTIDO</code> e <code>NUM_CAND_RESTANTE</code> criado em Q9. O resultado deve ser igual à coluna original <code>NUMERO_CAND</code>.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 

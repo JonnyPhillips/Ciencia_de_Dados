@@ -14,7 +14,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </style>
 
 <div class = "purple">
-O prazo para entregar Desafio 1 por email com título “[FLS6397] - D1” à minha conta é **14h, 30/04/2021**, antes da aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
+O prazo para entregar Desafio 1 por email com título “[FLS6397] - D1” na minha conta de email é **14h, 30/04/2021**, antes da aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
 </div>
 
 <br>
@@ -29,7 +29,7 @@ Siga as instruções abaixo. Documente *todos* os seus passos em um script. Come
 
 1. Vá ao [Repositório de Dados Eleitorais do TSE](http://www.tse.jus.br/eleitor-e-eleicoes/estatisticas/repositorio-de-dados-eleitorais-1/repositorio-de-dados-eleitorais). Na página "Resultados" e no ano 2012, faça o download do arquivo "Votação nominal por município e zona" e descompacte-o. 
 
-2. Abre o arquivo para São Paulo (*votacao_candidato_munzona_2012_SP.txt*) em R com os nomes de colunas e o encoding corretos de acordo com a seção relevante de leaime.pdf.
+2. Abra o arquivo de São Paulo (*votacao_candidato_munzona_2012_SP.txt*) em R com os nomes de colunas e o encoding corretos de acordo com a seção relevante de leaime.pdf.
 
 ```{r, echo=F}
 library(tidyverse)
@@ -57,13 +57,13 @@ data <- read_delim("C:/Users/Jonny/Downloads/votacao_candidato_munzona_2012/vota
 #data <- data %>% select()
 ```
 
-5. Selecione apenas as linhas que contém resultados eleitorais para o primeiro turno da eleição do prefeito(a). 
+5. Selecione apenas as linhas que contêm os resultados eleitorais para o primeiro turno da eleição do prefeito(a). 
 
 ```{r}
 data_prefeito_turno_1 <- data %>% filter(DESCRICAO_CARGO=="PREFEITO" & NUM_TURNO==1)
 ```
 
-6. Note que candidatos podem aparecer mais de uma vez na tabela em Q5 (porque existem múltiplas zonas em cada município). Usando identificadores únicos, identifique os candidatos distintos para o primeiro turno do prefeito. Explique no seu relatório quantos candidatos concorrem para prefeito no primeiro turno em 2012.
+6. Note que alguns candidatos podem aparecer mais de uma vez na tabela em Q5 (porque existem múltiplas zonas em cada município). Usando identificadores únicos, identifique os candidatos distintos e exclusivos para o primeiro turno do prefeito. Explique no seu relatório quantos candidatos concorrem para prefeito no primeiro turno em 2012.
 
 ```{r}
 cands_prefeito_turno_1 <- data_prefeito_turno_1 %>% distinct(SQ_CANDIDATO)
@@ -77,7 +77,7 @@ num_cands_prefeito_turno_1 <- nrow(cands_prefeito_turno_1)
 data_prefeito_turno_1 <- data_prefeito_turno_1 %>% rename(RESULTADO=DESC_SIT_CAND_TOT)
 ```
 
-8. No banco de dados de prefeitos no primeiro turno gerado na questão anterior, filtrar os dados para os candidatos que se candidataram com Nome de Urna ígual ao seu Nome completo, e identifique os candidatos únicos de novo. No seu relatório, explique qual percentagem de todos os candidatos para prefeito no primeiro turno isso representa.
+8. No banco de dados de prefeitos no primeiro turno gerado na questão anterior, filtre os dados para os candidatos que se candidataram com Nome de Urna igual ao seu Nome completo, e identifique os candidatos únicos de novo. No seu relatório, explique qual percentagem de todos os candidatos para prefeito no primeiro turno isso representa.
 
 ```{r}
 cands_prefeito_turno_1_nome_igual <- data_prefeito_turno_1 %>% 
@@ -121,7 +121,7 @@ data_prefeito_turno_1 <- data_prefeito_turno_1 %>%
 
 ```
 
-12. Criei uma variável que indica se o candidato no município de São Paulo recebeu mais de 10.000 votos na zona.
+12. Crie uma variável que indica se o candidato no município de São Paulo recebeu mais de 10.000 votos na zona.
 
 ```{r}
 data_prefeito_turno_1 <- data_prefeito_turno_1 %>% 
@@ -132,14 +132,14 @@ data_prefeito_turno_1 <- data_prefeito_turno_1 %>%
 sum(data_prefeito_turno_1$Mais_de_10000_votos)
 ```
 
-13. Voltando para os dados orginais, filtrar para os dados dos vereadores. Agora, imagine que não temos os dados do partido de cada candidato e queremos recuperar do `NUMERO_CAND`, em que os primeiros dois digitos sempre refletem o número do partido do candidato. Divida a coluna `NUMERO_CAND` em duas para criar uma coluna de `NUM_PARTIDO` e outra de `NUM_CAND_RESTANTE`.
+13. Voltando para os dados originais, filtre apenas os dados dos vereadores. Agora, imagine que não temos os dados do partido de cada candidato e queremos recuperar do `NUMERO_CAND`, em que os primeiros dois dígitos sempre refletem o número do partido do candidato. Divida a coluna `NUMERO_CAND` em duas para criar uma coluna de `NUM_PARTIDO` e outra de `NUM_CAND_RESTANTE`.
 
 ```{r}
 data_verador <- data %>% filter(DESCRICAO_CARGO=="VEREADOR") %>%
   separate(NUMERO_CAND, into=c("NUM_PARTIDO","NUM_CAND_RESTANTE"), sep=2)
 ```
 
-14. Agora, unifique as colunas `NUM_PARTIDO` e `NUM_CAND_RESTANTE` criado em Q9. O resultado deve ser ígual à coluna original `NUMERO_CAND`.
+14. Agora, unifique as colunas `NUM_PARTIDO` e `NUM_CAND_RESTANTE` criado em Q9. O resultado deve ser igual à coluna original `NUMERO_CAND`.
 
 ```{r}
 data_verador <- data_verador %>% 
