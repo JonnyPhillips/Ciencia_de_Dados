@@ -1,5 +1,5 @@
 ---
-title: "Manipulando Dados"
+title: "Manipulando Dados: Resumo de Funções"
 output: 
   ioslides_presentation:
     incremental: true

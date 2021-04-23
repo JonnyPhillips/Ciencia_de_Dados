@@ -22,7 +22,7 @@ flights %>% mutate(dep_on_time=case_when(dep_time<=sched_dep_time~1,
 ```{r}
 flights <- flights %>% unite("carrier_flight", carrier, flight)
 
-flights %>% separate(carrier_flight, c("carrier", flight)
+flights %>% separate(carrier_flight, c("carrier", flight))
                      
 ```
 

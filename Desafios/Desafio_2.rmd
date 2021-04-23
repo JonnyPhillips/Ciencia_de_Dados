@@ -13,16 +13,18 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </style>
 
 <div class = "purple">
-O prazo para entregar Desafio 2 por email com título “[FLS6397] - D2” à minha conta é **14h, 17/04/2020**, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
+O prazo para entregar Desafio 2 por email com título “[FLS6397] - D2” à minha conta é **14h, 14/04/2020**, antes da aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
 </div>
 
 <br>
 
-[Respostas Sugeridas para Desafio 2 aqui](Desafio_2_Suggested_Responses.html)
+<!-- [Respostas Sugeridas para Desafio 2 aqui](Desafio_2_Suggested_Responses.html) -->
 
 ## Instruções
 
 Siga as instruções abaixo. Documente *todos* os seus passos em um script. Comente no seu script *todos* os seus passos e explique a si mesma(o) suas escolhas e estratégias. Se você se beneficiou da assistência de outra pessoa, sempre reconheça isso em comentários no código.
+
+Neste desafio, vamos analisar dados do Censo Escolar do INEP, usando um arquivo dos dados para Roraima em 2004.
 
 ## Roteiro
 
@@ -40,16 +42,15 @@ educ_RO <- educ %>% filter(UF=="Roraima") %>%
                                BIBLIO=="n"~0,
                                TRUE~NA_real_))
 
-educ_RO %>% write_delim("CENSOESC_2004_RO.csv", delim="|")
+educ_RO %>% write_delim("CENSOESC_2004_RR.csv", delim="|")
 ```
 
-1. Baixe e abra o banco de dados ["CENSOESC_2004_RO.CSV"](https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Desafios/CENSOESC_2004_RO.csv). Incomumente este banco usa o separador "|". O banco nacional é 1GB então já filtramos o banco para o estado de Roraima para deixar ele mais leve e accessível. Os nomes das variáveis são mais ou menos auto-explicativas, e descrevemos alguns em mais detalhe ao longo do desafio.
+1. Baixe e abra em R o banco de dados aqui: ["CENSOESC_2004_RO.CSV"](https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Desafios/CENSOESC_2004_RR.csv). Incomumente este banco usa o separador "|" entre colunas. O banco nacional é 1GB então já filtramos o banco para o estado de Roraima para deixar ele mais leve e accessível. Os nomes das variáveis são mais ou menos auto-explicativas, e descrevemos alguns em mais detalhe ao longo do desafio.
 
 ```{r}
 library(tidyverse)
-educ_RO <- read_delim("CENSOESC_2004_RO.csv", delim="|")
+educ_RO <- read_delim("CENSOESC_2004_RR.csv", delim="|")
 ```
-
 
 2. Os dados contém escolas não-ativas (veja a variável `CODFUNC`); tire elas do banco de dados. O que representa uma observação no banco de dados agora?
 
@@ -58,7 +59,7 @@ educ_RO <- educ_RO %>% filter(CODFUNC=="Ativo")
 ```
 
 3. (a) Quantas escolas há no estado, quantas por municípo (inclua uma tabela), e qual é o município com o maior número de escolas?  
-    (b) Adicione uma última linha na tabela que tenha o total de escolas no estado.
+    (b) Adicione uma última linha na tabela em (a) para inserir o total de escolas no estado.
 
 ```{r}
 #Número de escolas no Estado, número por município, e munícipio com o maior número de escolas
@@ -91,7 +92,7 @@ educ_RO %>% group_by(CODMUNIC,MUNIC) %>%
   mutate(Pct_PROFESS=100*PROFESS/(FUNCION + PROFESS))
 ```
 
-5. Calcule a média e o desvio padrão do número de professores por escola em cada município (inclua uma tabela). Qual município há a maior variabilidade no número de professores por escola?
+5. Calcule a média e o desvio padrão do número de professores por escola em cada município (inclua uma tabela). Qual município há a maior variabilidade (desvio padrão) no número de professores por escola?
 
 ```{r}
 #Desvio padrão de professores por escola em cada município. Qual município tem a maior variabilidade?
@@ -114,7 +115,7 @@ educ_RO %>% group_by(DEP) %>%
   mutate(Pct_PROFESS=100*PROFESS/sum(PROFESS))
 ```
 
-7. Qual é o porcentagem de escolas com laboratório de informático, por município (inclua uma tabela)? Qual é o nome do município com o maior porcentagem de escolas com laboratório de informático?
+7. Qual é o porcentagem de escolas com laboratório de informático, por município (inclua uma tabela)? Qual é o nome do município com a maior porcentagem de escolas com laboratório de informático?
 
 ```{r}
 #Porcentagem de Escolas com Laboratório de Informática, por Munícipio
@@ -124,10 +125,10 @@ pct_escolas_labinfo <- educ_RO %>% group_by(CODMUNIC,MUNIC) %>%
 pct_escolas_labinfo %>% ungroup() %>% top_n(1,Pct_LAB_INFO) %>% pull(MUNIC)
 ```
 
-8. O banco de dados do INEP contém quatro variáveis (`VDG1CA`,`VDG1C1`,`VDG1C3`,`VDG1C4`) com o número de professores por nível de ensinamento.   
-    (a) Vire o banco de dados do formato largo para o formato longo, para que as quatro variáveis `VDG1CA`, `VDG1C1`, `VDG1C3`, `VDG1C4` se tornam uma variável que descreve o nível de ensinamento do professor, e uma outra variável que descreve o número de professores.
-    (b) No novo banco de dados longo, recodifique as variáveis: `VDG1CA` para 'Creche', `VDG1C1` para 'Pré-escola', `VDG1C3` para 'Fundamental', `VDG1C4` para 'Médio'.  
-    (c) Resuma o número de professores por nível de ensinamento no estado inteiro.
+8. O banco de dados do INEP contém quatro variáveis (`VDG1CA`, `VDG1C1`, `VDG1C3`, `VDG1C4`) com o número de professores, organizado por nível de ensino.   
+    (a) Vire o banco de dados do formato largo para o formato longo, para que as quatro variáveis `VDG1CA`, `VDG1C1`, `VDG1C3`, `VDG1C4` se tornam uma variável que descreve o nível de ensino do professor, e uma outra variável que descreve o número de professores.
+    (b) No novo banco de dados longo, recodifique os valores: `VDG1CA` para 'Creche', `VDG1C1` para 'Pré-escola', `VDG1C3` para 'Fundamental', `VDG1C4` para 'Médio'.  
+    (c) Resuma o número de professores por nível de ensino no estado inteiro.
 
 ```{r}
 #Virar o banco de dados para que os quatro variáveis VDG1CA,VDG1C1,VDG1C3,VDG1C4 se tornam para o formato 'longo' em que uma variável descreve o nível de ensinamento do professor, e outra variável descreve o número de professores.
@@ -148,9 +149,9 @@ educ_RO_long %>% group_by(Nível_Professor) %>%
 ```
 
 9. Usando o banco de dados 'longo' criado na questão 8:  
-    (a) Calcule a média e o total do número de professores em cada nível de ensinamento em cada município (inclua uma tabela)
-    (b) Calcule o porcentagem dos professores em cada nível de ensinamento, por município, em uma tabela, e o município com o maior porcentagem dos seus Professores alocado à nível Fundamental
-    (c) Calcule o porcentagem dos professores em cada município, por nível de ensinamento, em uma tabela, e o município com o maior porcentagem de Professores de Ensino Fundamental.
+    (a) Calcule a média e o total do número de professores em cada nível de ensino *em cada município* (inclua uma tabela)
+    (b) Calcule a porcentagem dos professores em cada nível de ensino, por município, em uma tabela. Qual é o município com a maior porcentagem dos seus Professores alocado à nível Fundamental?
+    (c) Calcule a porcentagem dos professores em cada município, por nível de ensino, em uma tabela. (Observe que isso é sutilmente diferente da questão em (b) acima). Qual é o município com a maior porcentagem de todos os Professores de Ensino Fundamental no páis?
 
 ```{r}
 #(a) Média e total de Número de professores em cada nível de ensinamento em cada município
@@ -193,8 +194,8 @@ educ_RO %>% filter(DEP=="Estadual") %>%
   sample_n(2)
 ```
 
-11. Agora, queremos gerar uma tabela com nomes dos municípios nas linhas e rede (Estadual, Municipal, Federal, Particular; variável `DEP`) nas colunas. Nas células, colocamos o número de escolas de cada rede em cada município. Há vários jeitos de realizar isso, mas vamos seguir os passos abaixo:  
-    (a) Calcule o número de escolas por município e rede. Todas as redes existem em todos os município?
+11. Agora, queremos gerar uma tabela com nomes dos municípios nas linhas e a rede (Estadual, Municipal, Federal, Particular; variável `DEP`) nas colunas. Nas células, colocamos o número de escolas de cada rede em cada município. Há vários jeitos de realizar isso, mas vamos seguir os passos abaixo:  
+    (a) Calcule o número de escolas por município e rede. Todas as redes existem em todos os municípios?
     (b) Transforme as variáveis do município e rede em fatores.  
     (c) Use `complete` (de Tutorial 3) para criar uma tabela 'completa' com todas as combinações de município e rede possível, mesmo que não existe uma rede específica num município específico. Preenche os valores `NA` com '0', porque já sabemos que não temos escolas nestes casos.  
     (d) Use uma função de pivot para virar o tibble e gerar o tamanho de tabela desejada (municípios nas linhas, redes nas colunas).  
@@ -208,7 +209,7 @@ educ_RO %>% group_by(MUNIC, DEP) %>% tally() %>%
   pivot_wider(names_from=DEP, values_from=n)
 ```
 
-12. Para as tabelas que você produziu acima, volte para gerar tabelas estáticos bem formatados com `kable()`. Verifique que todas as tabelas têm um título, as colunas apropriadas, formatação de números, etc.
+12. Para todas as tabelas que você produziu acima, verifique que você preparou tabelas estáticas e bem formatados com `kable()`. Verifique que todas as tabelas têm um título, as colunas apropriadas, formatação de números, etc.
 
 
 

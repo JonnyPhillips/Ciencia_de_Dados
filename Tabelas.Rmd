@@ -41,6 +41,7 @@ A primeira função de formatação de tabelas se chama `kable` e fica num pacot
 
 ```{r eval=F}
 library("tidyverse")
+library("tidylog")
 library("nycflights13")
 #install.packages("knitr")
 library("knitr")
@@ -61,7 +62,7 @@ flights %>% filter(dest=="ANC") %>%
 Uma alternativa de `filter` ou `slice` que é útil para apresentar uma amostra aleatória da sua tabela (e também para realizar amostras aleatórias em estudos empíricas) é `sample_n()`. Escolhemos o número de observações desejadas, e o R vai selecionar aleatoriamente este número de linhas da tabela (Observe que as observações mudam cada vez que rodamos/compilamos o nosso documento):
 
 ```{r}
-flights %>% sample_n(8) %>%
+flights %>% sample_n(4) %>%
   kable()
 ```
 
@@ -74,7 +75,7 @@ A solução é a 'aleatoriedade reproduzível': Imediatamente antes de roder `sa
 
 ```{r, eval=F}
 set.seed(05508)
-flights %>% sample_n(8) 
+flights %>% sample_n(4) 
 ```
 
 Execute este código (tudo o código, incluindo o `set.seed`) umas vezes e confirme que o resultado não muda.
@@ -105,7 +106,7 @@ flights %>% sample_n(8) %>%
   kable(caption="Tabela de 8 voos aleatórios")
 ```
 
-Mais profissional. Em segundo lugar, o `kable` deixa mais fácil formatar os resultados númericos - para arredondar os números com as tabelas padrões temos que manualmente usar `mutate` para mexer com os valores atuais da tabela. Mas é melhor manter os números 'corretos' e completos no tibble, e só ajustar a apresentação na tabela final. Conseguimos realizar uma formatação do número de dígitos com `kable` com a opção `digits`. A nossa tabela não contém valores não integras então vamos calcular velocidade para ilustrar isso:
+Mais profissional. Em segundo lugar, o `kable` deixa mais fácil formatar os resultados númericos - para arredondar os números com as tabelas padrões temos que manualmente usar `mutate` para mexer com os valores atuais da tabela. Mas é melhor manter os números 'corretos' e completos no tibble, e só ajustar a apresentação na tabela final. Conseguimos realizar uma formatação do número de dígitos com `kable` com a opção `digits`, que define o número de casas decimais. A nossa tabela não contém valores não integras então vamos calcular velocidade para ilustrar isso:
 
 ```{r}
 flights %>% sample_n(8) %>%
@@ -131,9 +132,9 @@ flights %>% sample_n(8) %>%
     kable(digits=1, format.args=list(big.mark=".", decimal.mark=","))
 ```
 
-Para mais opções de `kable`, leia [aqui](https://bookdown.org/yihui/rmarkdown-cookbook/kable.html), e para saber ainda veja o pacote `kableExtra` [aqui](https://haozhu233.github.io/kableExtra/).
+Para mais opções de `kable`, leia [aqui](https://bookdown.org/yihui/rmarkdown-cookbook/kable.html), e para saber mais ainda veja o pacote `kableExtra` [aqui](https://haozhu233.github.io/kableExtra/).
 
-Note que existe a opção de gerar tabelas direitamente em R markdown, fora de um chunk (detalhes [aqui](https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)). Não recomendo isso porque a sintaxe é chata para digitar, não temos controle de formatação, e não podemos acessar e transformar o conteúdo no futuro. Se você precisa gerar uma tabela rápida, sempre é recomendado que você gera uma pequena tabela com `tibble()` e manda para `kable()`, por exemplo:
+Note que existe a opção de gerar tabelas 'manuais' diretamente em R markdown, fora de um chunk (detalhes [aqui](https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)). Não recomendo isso porque a sintaxe é chata para digitar, não temos controle de formatação, e não podemos acessar e transformar o conteúdo no futuro. Se você precisa gerar uma tabela rápida, sempre é recomendado que você gera uma pequena tabela com `tibble()` e manda para `kable()`, por exemplo:
 
 ```{r, tidy=T}
 tibble(Função=c("kable","opção df_print: paged","datatable"),
@@ -182,16 +183,9 @@ flights %>%
 <div class = "green">
 # Exercício 1: Tabelas Bonitas
 
-<aside>
-```{r codefolder1, echo=FALSE, results='asis'}
-codefolder::distill(init = "show")
-```
-</aside>
-
-
 1. Gere uma tabela estática de duração (`air_time`) média dos voos de cada aeoporto de origem, ordenado de menor a maior duração. Inclua um título e a formatação apropriada na sua tabela.
 
-```{r, echo=T, eval=F}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% group_by(origin) %>%
   summarize(media_air_time=mean(air_time,na.rm=T)) %>%
   arrange(media_air_time) %>%
@@ -201,7 +195,7 @@ flights %>% group_by(origin) %>%
 
 2. Identifique os voos de origem 'EWR' no dia 1 de Abril com decolagem antes de 6h. Prepare uma tabela estática que mostra as variáveis `dep_time`, `dep_delay`, `carrier`, `flight`, `dest`, `air_time`, `distance`. Inclua um título e a formatação apropriada.
 
-```{r, echo=T, eval=F}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% filter(month==4 & day==1 & origin=="EWR" & dep_time<600) %>%
   select(dep_time, dep_delay, carrier, flight, dest, air_time, distance) %>%
   kable(caption="Voos de EWR no dia 4 de abril, antes de 6h")
@@ -209,7 +203,7 @@ flights %>% filter(month==4 & day==1 & origin=="EWR" & dep_time<600) %>%
 
 3. Duplique a tabela de questão 2, mas agora mande o resultado para uma tabela interativa de `datatable`. (Não se preocupe com a formatação).
 
-```{r, echo=T, eval=F}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% filter(month==4 & day==1 & origin=="EWR" & dep_time<600) %>%
   select(dep_time, dep_delay, carrier, flight, dest, air_time, distance) %>%
   datatable(caption="Voos de EWR no dia 4 de abril, antes de 6h")
@@ -221,7 +215,7 @@ flights %>% filter(month==4 & day==1 & origin=="EWR" & dep_time<600) %>%
 
 # Mudando a Unidade de Observação (`Pivot_wide`, `Pivot_long`)
 
-Nós temos trabalhado com uma distinção entre variáveis (colunas) e observações (linhas) fixa. Mas a distinção na prática é mais flexível, e a estrutura/organização dos nossos dados depende do nosso objetivo. As vezes vamos querer virar a nossa tabela (tibble) para que as variáveis se transformem em observações múltiplas, ou vice-versa. Esse tipo de operação é muito útil quando trabalhamos com ou queremos criar dados em painel.
+Nós temos trabalhado com uma distinção entre variáveis (colunas) e observações (linhas) fixa. Mas a distinção na prática é mais flexível, e a estrutura/organização dos nossos dados depende do nosso objetivo. As vezes vamos querer virar a nossa tabela (tibble) para que as variáveis se transformem em observações múltiplas, ou vice-versa. Esse tipo de operação é muito útil quando trabalhamos com ou queremos criar dados em painel, ou para uma tabela específica em nosso relatório.
 
 É mais fácil demonstar com um exemplo. Veja a tabela de `flights` com as variáveis `origin` e `dest`:
 
@@ -257,7 +251,7 @@ flights %>% filter(dest=="SNA") %>%
   paged_table()
 ```
 
-Note que agora o nosso banco de dados tem *dobro* o número de linhas que antes. Cada observação é um evento (decolagen/chegada). As duas colunas 'origin' e 'dest' agora são linhas separadas, identificados na colona `name`, e o aeroporto que antes era um valor abaixo de 'origin' ou 'dest' na coluna tem a sua própria coluna `value`. Ou seja, em vez de ler os detalhes do primeiro voo *horizontalmente* no tibble original, agora lemos *verticalmente* - origem EWR, destino ANC.
+Note que agora o nosso banco de dados tem *dobro* o número de linhas que antes. Cada observação é um evento (decolagen/chegada). As duas colunas 'origin' e 'dest' agora são linhas separadas, identificadas na colona `name`, e o aeroporto que antes era um valor abaixo de 'origin' ou 'dest' na coluna tem a sua própria coluna `value`. Ou seja, em vez de ler os detalhes do primeiro voo *horizontalmente* no tibble original, agora lemos *verticalmente* - origem EWR, destino ANC.
 
 O que falta aqui é que os nomes das colunas `name` e `value` são genéricas e não ajudam entender e descrever os dados. Então é importante renomear as colunas como parte de `pivot_longer`. Há duas colunas para nomear: a coluna de `name` que contém os nomes de colunas no tibble original (a direção de viagem), que especificamos com o argumento `names_to`, e a coluna de `valor` que contém os valores no tibble original (os aeroportos), que especificamos com o argumento `values_to`.
 
@@ -274,7 +268,7 @@ flights %>% filter(dest=="SNA") %>%
   paged_table()
 ```
 
-Agora, recebemos o mesmo resultado, mas é bem mais fácil interpretar, pois a natureza do evento é cadastrado na coluna 'Direção' e o local do evento fica na coluna 'Aeroporto'.
+Agora, recebemos o mesmo resultado, mas é bem mais fácil interpretar, pois a natureza do evento é cadastrada na coluna 'Direção' e o local do evento fica na coluna 'Aeroporto'.
 
 Mas ainda existe um problema sério aqui - como sabemos que a primeira linha - o voo com origem em EWR no dia 1 de janeiro é o mesmo voo que chegou no aeroporto SNA no mesmo dia? Não sabemos isso porque não temos dados suficientes para identificar os mesmos voos em linhas separadas. Pode ser que o voo da primeira linha de origem é o mesmo voo na linha 3 ou linha 
 
@@ -307,7 +301,7 @@ Perfeito! Agora, dá para rastrear cada voo: Voo UA1496 as 0646 no dia 1 de jane
 
 ### De Longo para Largo
 
-É comum que recebemos um banco de dados no formato longo e queremos virar (pivot) para o formato largo. Ou seja, tornar observações em variáveis. Imagine-se que recebemos do fornecedor o banco de dados `flights_longo` produzido no chunk anterior. Como reproduzimos o nosso banco de dados bem conhecido, `flight`, no formato mais largo?
+É comum que recebemos um banco de dados no formato longo e queremos virar (pivot) para o formato largo. Ou seja, tornar observações em variáveis. Imagine-se que recebemos do fornecedor o banco de dados `flights_longo` produzido no chunk anterior. Como reproduzimos o nosso banco de dados bem conhecido, `flights`, no formato mais largo?
 
 A função `pivot_wider` é exatamante o inverso de `pivot_longer`. Em vez de especificar as colunas que queremos virar, especificamos as colunas de 'identificação' que *não queremos virar* no argumento `id_cols`; em vez da coluna nova, especificamos a coluna atual que contém os nomes das colunas novas, no argumento `names_from`; e em vez de valores noves, especificamos a coluna que contém os valores que vão preencher as colunas novas (no argumento `values_from`. 
 
@@ -334,16 +328,9 @@ Essas duas funções de pivot são mais avançadas, mas as vezes são essenciais
 <div class = "green">
 # Exercício 2: Virando Tabelas
 
-<aside>
-```{r codefolder2, echo=FALSE, results='asis'}
-codefolder::distill(init = "show")
-```
-</aside>
-
-
 1. Use `pivot_longer` para virar a tabela `flights` mais longa, para que cada voo tem duas observações - uma para a hora de partida (`dep_time`) e uma outra para a hora de chegada (`arr_time`). 
 
-```{r, echo=T, eval=F}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights_hora_longo <- flights %>% pivot_longer(c(arr_time, dep_time),
                          names_to="Direção",
                          values_to="Hora")
@@ -351,7 +338,7 @@ flights_hora_longo <- flights %>% pivot_longer(c(arr_time, dep_time),
 
 2. Usando o seu resultado de questão 1, gere uma tabela estática de 10 linhas selecionadas aleatoriamente por R, mostrando as variáveis `carrier`, `flight`, `origin`, `dest` e as colunas novas que você gerou na questão 1. 
 
-```{r, echo=T, eval=F}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights_hora_longo %>% 
   select(carrier, flight, origin, dest, Direção, Hora) %>%
   sample_n(10) %>%
@@ -360,7 +347,7 @@ flights_hora_longo %>%
 
 3. Usando o seu resultado de questão 1, use `pivot_wider` para recuperar o banco de dados original de `flights`. Verifique que os números de colunas e linhas são íguais.
 
-```{r, echo=T, eval=F}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights_recuperado <- flights_hora_longo %>% pivot_wider(names_from="Direção",
                                                          values_from="Hora")
 ```
@@ -458,7 +445,7 @@ flights %>% group_by(origin) %>%
 <div class = "orange">
 # Leitura para Tutorial 6
 
-Antes da próxima aula, por favor leia [R 4 Data Science, Capítulo 3](https://r4ds.had.co.nz/data-visualisation.html) e [ggplot2: Elegant Graphics for Data Analysis, Capítulos 1-6](https://ggplot2-book.org/)
+Antes da próxima aula, por favor leia [R 4 Data Science, Capítulo 3](https://r4ds.had.co.nz/data-visualisation.html) e [ggplot2: Elegant Graphics for Data Analysis, Capítulos 1-5](https://ggplot2-book.org/)
 
 </div>
 
