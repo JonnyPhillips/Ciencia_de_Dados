@@ -34,6 +34,8 @@ library("rmarkdown")
 
 ```
 
+[Clique aqui](https://drive.google.com/file/d/1D1lWuAH9NsLPaM4vUhe6pg5JGB2Pqvtq/view?usp=sharing) para assistir o vídeo da aula online do dia 16 de abril de 2021. E o [chat](https://drive.google.com/file/d/15TmR2nELEBqwmpR6KygupsAH5XeHGNGT/view?usp=sharing).
+
 # Estatísticas Resumidas (`summarize`)
 
 Nos últimos tutoriais, não mexemos com a unidade de análise de nosso banco de dados - sempre avaliamos os voos individuais, por exemplo. Porém, mesmo depois de vários filtros e mutates, os seus dados provavelmente tem dezenas, centenas ou milhares de linhas - é difícil incluir toda esta informação no seu relatório, e é impossível para o leitor entender tudo. É por isso que usamos estatísticas resumidas: médias, medianas etc.

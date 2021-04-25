@@ -217,7 +217,7 @@ flights <- flights %>%
                                        dep_delay<=0~0))
 ```
 
-4. A companhia aérea US Airways (código 'US') se fundiu com American Airlines (código 'AA') em 2015. Recodifique voos de US Airways como voos de American Airlines.
+4. A companhia aérea US Airways (código 'US') se fundiu com American Airlines (código 'AA'). Recodifique voos de US Airways como voos de American Airlines.
 
 ```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights <- flights %>% mutate(carrier=case_when(carrier=="US"~"AA",

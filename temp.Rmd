@@ -1,0 +1,23 @@
+---
+title: "Untitled"
+author: "Jonathan"
+date: "4/23/2021"
+output: html_document
+---
+
+```{r}
+library("tidyverse")
+library("nycflights13")
+
+flights %>% summarize(Max_dep_delay=max(dep_delay, na.rm=T))
+
+flights %>% summarize(Media_dep_delay=mean(dep_delay, na.rm=T),
+                      Max_dep_delay=max(dep_delay, na.rm=T),
+                      Min_dep_delay=min(dep_delay, na.rm=T))
+```
+
+```{r}
+flights %>% group_by(origin, dest) %>%
+  summarize(Max_dep_delay=max(dep_delay, na.rm=T)) 
+```
+
