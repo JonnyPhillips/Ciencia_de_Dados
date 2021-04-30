@@ -69,9 +69,9 @@ flights %>% sample_n(4) %>%
 <div class = "blue">
 **Habilidade Básica de Programação: Aleatoriedade reproduzível**
 
-É comum usar funções aleatórias em R para gerar distribuições, simulações e amostras. A função `sample_n()` seleciona linhas aleatórias *cada vez* que rodamos o código ou compilar o relatório com 'knit'. Isto é útil, mas impede um dos nossos objetivos - a reprodutibilidade, dado que o relatório final fica diferente depois de cada compilação e não vamos saber se seja por causa de um erro ou por causa da aleatorização. 
+É comum usar funções aleatórias em R para gerar distribuições, simulações e amostras. A função `sample_n()` seleciona linhas aleatórias *cada vez que rodamos o código* ou compilar o relatório com 'knit'. Isto é útil, mas impede um dos nossos objetivos - a reprodutibilidade, dado que o relatório final fica diferente depois de cada compilação e não temos condições de saber se a variação seja por causa de um erro no código ou por causa da aleatorização. 
 
-A solução é a 'aleatoriedade reproduzível': Imediatamente antes de roder `sample_n()` (fora do pipe, numa linha única), especificamos um 'seed' que será mapeado a uma seleção aleatória, mas fixa, porque o seed fica o mesmo cada vez. É para nos especificar um seed aribtrário, eu sempre gosto de usar um CEP, mas pode escolher qualquer número, não significa nada:
+A solução é a 'aleatoriedade reproduzível': Imediatamente antes de roder `sample_n()` (fora do pipe, numa linha única), especificamos um 'seed'. Um seed é como um identificador de uma sequência aleatória. Ele é associado a uma seleção aleatória, mas fixa - ou seja, toda vez que rodarmos o código, a sequência aleatória produzida será a mesma. Para especificar um seed aribtrário, eu sempre gosto de usar um CEP, mas pode escolher qualquer número; não significa nada:
 
 ```{r, eval=F}
 set.seed(05508)
@@ -106,7 +106,7 @@ flights %>% sample_n(8) %>%
   kable(caption="Tabela de 8 voos aleatórios")
 ```
 
-Mais profissional. Em segundo lugar, o `kable` deixa mais fácil formatar os resultados númericos - para arredondar os números com as tabelas padrões temos que manualmente usar `mutate` para mexer com os valores atuais da tabela. Mas é melhor manter os números 'corretos' e completos no tibble, e só ajustar a apresentação na tabela final. Conseguimos realizar uma formatação do número de dígitos com `kable` com a opção `digits`, que define o número de casas decimais. A nossa tabela não contém valores não integras então vamos calcular velocidade para ilustrar isso:
+Mais profissional. Em segundo lugar, o `kable` deixa mais fácil formatar os resultados númericos - para arredondar os números com as tabelas padrões temos que manualmente usar `mutate` para mexer com os valores atuais da tabela. Mas é melhor manter os números 'corretos' e completos no tibble, e só ajustar a apresentação na tabela final. Conseguimos realizar uma formatação do número de dígitos com `kable` com a opção `digits`, que define o número de casas decimais. A nossa tabela até agora só contém variáveis numéricas do tipo 'integer (integral), então vamos calcular velocidade para ilustrar isso:
 
 ```{r}
 flights %>% sample_n(8) %>%
@@ -213,7 +213,7 @@ flights %>% filter(month==4 & day==1 & origin=="EWR" & dep_time<600) %>%
 
 </div>
 
-# Mudando a Unidade de Observação (`Pivot_wide`, `Pivot_long`)
+# Mudando a Unidade de Observação (`Pivot_wide`, `Pivot_longer`)
 
 Nós temos trabalhado com uma distinção entre variáveis (colunas) e observações (linhas) fixa. Mas a distinção na prática é mais flexível, e a estrutura/organização dos nossos dados depende do nosso objetivo. As vezes vamos querer virar a nossa tabela (tibble) para que as variáveis se transformem em observações múltiplas, ou vice-versa. Esse tipo de operação é muito útil quando trabalhamos com ou queremos criar dados em painel, ou para uma tabela específica em nosso relatório.
 
@@ -230,11 +230,11 @@ flights %>% filter(dest=="SNA") %>%
   paged_table()
 ```
 
-A observação é cada voo, e cada variável é um atributo de cada voo. Mas ambos `origin` e `dest` são aeroportos - podemos imaginar um banco de dados em que cadastramos 'eventos', decolagens e chegadas. Neste banco de dados alternativo, cada observação é um evento e cada voo tem duas entradas (observações, linhas), um decolagem e uma chegada. Isso pode ser útil, por exemplo, se tenhamos muitos dados sobre cada evento/aeroporto, por exemplo os dados de controle de tráfego aéreo. 
+A observação é cada voo, e cada variável é um atributo de cada voo - isto é dados de onde o voo partiu, e onde ele chegou. Mas ambos as variáveis `origin` e `dest` são a mesma coisa: aeroportos. Podemos imaginar um banco de dados em que desagregamos os voos em dois 'eventos' - decolagens e chegadas. Neste banco de dados alternativo, cada observação é um evento e cada voo tem duas entradas (observações, linhas), um decolagem e uma chegada. Isso pode ser útil, por exemplo, se tenhamos muitos dados sobre cada evento/aeroporto, por exemplo os dados de controle de tráfego aéreo. 
 
 ### De Largo para Longo
 
-Para 'virar' (pivot) a nossa tabela para o formato mais 'longo', usamos a função `pivot_longer`. O objetivo de `pivot_longer` é converter colunas em observações. Mas não todas as colunas; temos que especificar quais colunas queremos virar no argumento `cols`. É sempre mais que uma coluna, então temos que especificar as colunas dentro de `c()`. As outras colunas nào mencionadas em `cols` são colunas 'identificadoras' que queremos duplicar para as novas linhas (em nosso exemplo os dados que pertencem ao voo e não ao aeroporto). 
+Para 'virar' (pivot) a nossa tabela para o formato mais 'longo', usamos a função `pivot_longer`. O objetivo de `pivot_longer` é converter colunas em observações - no nosso exemplo, converter o evento único "voo" em dois eventos diferentes, pousos e decolagens. Mas não queremos mudar todas as colunas (algumas pertencem ao voo inteiro, como distância, duração); temos que especificar quais colunas queremos virar no argumento `cols`. É sempre mais que uma coluna, então temos que especificar as colunas dentro de `c()`. As outras colunas nào mencionadas em `cols` são colunas 'identificadoras' que queremos duplicar para as novas linhas (em nosso exemplo os dados que pertencem ao voo e não ao aeroporto). 
 
 Como uma primeira tentativa, o código abaixo é suficiente para virar o nosso tibble:
 
@@ -303,7 +303,7 @@ Perfeito! Agora, dá para rastrear cada voo: Voo UA1496 as 0646 no dia 1 de jane
 
 É comum que recebemos um banco de dados no formato longo e queremos virar (pivot) para o formato largo. Ou seja, tornar observações em variáveis. Imagine-se que recebemos do fornecedor o banco de dados `flights_longo` produzido no chunk anterior. Como reproduzimos o nosso banco de dados bem conhecido, `flights`, no formato mais largo?
 
-A função `pivot_wider` é exatamante o inverso de `pivot_longer`. Em vez de especificar as colunas que queremos virar, especificamos as colunas de 'identificação' que *não queremos virar* no argumento `id_cols`; em vez da coluna nova, especificamos a coluna atual que contém os nomes das colunas novas, no argumento `names_from`; e em vez de valores noves, especificamos a coluna que contém os valores que vão preencher as colunas novas (no argumento `values_from`. 
+A função `pivot_wider` é exatamante o inverso de `pivot_longer`. Em vez de especificar as colunas que queremos virar, especificamos as colunas de 'identificação' que *não queremos virar* no argumento `id_cols`; em vez da coluna nova, especificamos a coluna original que contém os nomes das colunas novas, no argumento `names_from`; e em vez de valores noves, especificamos a coluna de onde vão sair os valores que vão formar as colunas novas (no argumento `values_from`). 
 
 Note que com `pivot_longer` os argumentos `names_to` e `values_to` precisam de aspas porque são colunas novas que não existem em nosso tibble. No `pivot_wider` os argumentos `names_from` e `values_from` são colunas atuais em nosso tibble, então não precisam de aspas. 
 
@@ -456,5 +456,5 @@ Antes da próxima aula, por favor leia [R 4 Data Science, Capítulo 3](https://r
 
 O [Desafio 2](Desafios/Desafio_2.html) teste a sua capacidade de organizar, resumir, agrupar, e apresentar um banco de dados para produzir um relatório bonito e claro em HTML.
 
-O prazo para entregar Desafio 2 por email com título “[FLS6397] - D2” à minha conta é **14h, 17/04/2020**, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
+O prazo para entregar Desafio 2 por email com título “[FLS6397] - D2” à minha conta é **14h, 14/05/2021**, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
 </div>

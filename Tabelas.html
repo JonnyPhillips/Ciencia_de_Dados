@@ -2089,6 +2089,7 @@ Tutoriais
 <a href="abrindo_manipulando.html">2. Abrindo e Manipulando Dados</a>
 <a href="limpando_dados.html">3. Organizando e Limpando Dados</a>
 <a href="Estatisticas_Resumidas.html">4. Calculando Estatisticas Resumidas</a>
+<a href="Tabelas.html">5. Construindo Tabelas</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2099,6 +2100,7 @@ Desafios
 </button>
 <div class="nav-dropdown-content">
 <a href="Desafios/Desafio_1.html">Desafio 1</a>
+<a href="Desafios/Desafio_2.html">Desafio 2</a>
 </div>
 </div>
 <a href="recursos.html">Recursos</a>
@@ -2126,7 +2128,7 @@ Desafios
 <ul>
 <li><a href="#tabelas-estáticas">Tabelas Estáticas</a></li>
 <li><a href="#tabelas-interativas">Tabelas Interativas</a></li>
-<li><a href="#mudando-a-unidade-de-observação-pivot_wide-pivot_long">Mudando a Unidade de Observação (<code>Pivot_wide</code>, <code>Pivot_long</code>)</a></li>
+<li><a href="#mudando-a-unidade-de-observação-pivot_wide-pivot_longer">Mudando a Unidade de Observação (<code>Pivot_wide</code>, <code>Pivot_longer</code>)</a></li>
 <li><a href="#voltando-ao-r-base-brevemente">Voltando ao R Base Brevemente</a></li>
 <li><a href="#totais-para-tabelas">Totais para Tabelas</a></li>
 </ul>
@@ -3100,8 +3102,8 @@ CAK
 </div>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Aleatoriedade reproduzível</strong></p>
-<p>É comum usar funções aleatórias em R para gerar distribuições, simulações e amostras. A função <code>sample_n()</code> seleciona linhas aleatórias <em>cada vez</em> que rodamos o código ou compilar o relatório com ‘knit’. Isto é útil, mas impede um dos nossos objetivos - a reprodutibilidade, dado que o relatório final fica diferente depois de cada compilação e não vamos saber se seja por causa de um erro ou por causa da aleatorização.</p>
-<p>A solução é a ‘aleatoriedade reproduzível’: Imediatamente antes de roder <code>sample_n()</code> (fora do pipe, numa linha única), especificamos um ‘seed’ que será mapeado a uma seleção aleatória, mas fixa, porque o seed fica o mesmo cada vez. É para nos especificar um seed aribtrário, eu sempre gosto de usar um CEP, mas pode escolher qualquer número, não significa nada:</p>
+<p>É comum usar funções aleatórias em R para gerar distribuições, simulações e amostras. A função <code>sample_n()</code> seleciona linhas aleatórias <em>cada vez que rodamos o código</em> ou compilar o relatório com ‘knit’. Isto é útil, mas impede um dos nossos objetivos - a reprodutibilidade, dado que o relatório final fica diferente depois de cada compilação e não temos condições de saber se a variação seja por causa de um erro no código ou por causa da aleatorização.</p>
+<p>A solução é a ‘aleatoriedade reproduzível’: Imediatamente antes de roder <code>sample_n()</code> (fora do pipe, numa linha única), especificamos um ‘seed’. Um seed é como um identificador de uma sequência aleatória. Ele é associado a uma seleção aleatória, mas fixa - ou seja, toda vez que rodarmos o código, a sequência aleatória produzida será a mesma. Para especificar um seed aribtrário, eu sempre gosto de usar um CEP, mas pode escolher qualquer número; não significa nada:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>05508</span><span class='op'>)</span>
@@ -3564,7 +3566,7 @@ MIA
 </tbody>
 </table>
 </div>
-<p>Mais profissional. Em segundo lugar, o <code>kable</code> deixa mais fácil formatar os resultados númericos - para arredondar os números com as tabelas padrões temos que manualmente usar <code>mutate</code> para mexer com os valores atuais da tabela. Mas é melhor manter os números ‘corretos’ e completos no tibble, e só ajustar a apresentação na tabela final. Conseguimos realizar uma formatação do número de dígitos com <code>kable</code> com a opção <code>digits</code>, que define o número de casas decimais. A nossa tabela não contém valores não integras então vamos calcular velocidade para ilustrar isso:</p>
+<p>Mais profissional. Em segundo lugar, o <code>kable</code> deixa mais fácil formatar os resultados númericos - para arredondar os números com as tabelas padrões temos que manualmente usar <code>mutate</code> para mexer com os valores atuais da tabela. Mas é melhor manter os números ‘corretos’ e completos no tibble, e só ajustar a apresentação na tabela final. Conseguimos realizar uma formatação do número de dígitos com <code>kable</code> com a opção <code>digits</code>, que define o número de casas decimais. A nossa tabela até agora só contém variáveis numéricas do tipo ’integer (integral), então vamos calcular velocidade para ilustrar isso:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/sample_n.html'>sample_n</a></span><span class='op'>(</span><span class='fl'>8</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -4399,7 +4401,7 @@ HTML, relatórios interativos complexos
 <li>Knit o seu script para HTML e verifique que as tabelas aparecem limpas e claras.</li>
 </ol>
 </div>
-<h1 id="mudando-a-unidade-de-observação-pivot_wide-pivot_long">Mudando a Unidade de Observação (<code>Pivot_wide</code>, <code>Pivot_long</code>)</h1>
+<h1 id="mudando-a-unidade-de-observação-pivot_wide-pivot_longer">Mudando a Unidade de Observação (<code>Pivot_wide</code>, <code>Pivot_longer</code>)</h1>
 <p>Nós temos trabalhado com uma distinção entre variáveis (colunas) e observações (linhas) fixa. Mas a distinção na prática é mais flexível, e a estrutura/organização dos nossos dados depende do nosso objetivo. As vezes vamos querer virar a nossa tabela (tibble) para que as variáveis se transformem em observações múltiplas, ou vice-versa. Esse tipo de operação é muito útil quando trabalhamos com ou queremos criar dados em painel, ou para uma tabela específica em nosso relatório.</p>
 <p>É mais fácil demonstar com um exemplo. Veja a tabela de <code>flights</code> com as variáveis <code>origin</code> e <code>dest</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -4416,9 +4418,9 @@ HTML, relatórios interativos complexos
   </script>
 </div>
 </div>
-<p>A observação é cada voo, e cada variável é um atributo de cada voo. Mas ambos <code>origin</code> e <code>dest</code> são aeroportos - podemos imaginar um banco de dados em que cadastramos ‘eventos’, decolagens e chegadas. Neste banco de dados alternativo, cada observação é um evento e cada voo tem duas entradas (observações, linhas), um decolagem e uma chegada. Isso pode ser útil, por exemplo, se tenhamos muitos dados sobre cada evento/aeroporto, por exemplo os dados de controle de tráfego aéreo.</p>
+<p>A observação é cada voo, e cada variável é um atributo de cada voo - isto é dados de onde o voo partiu, e onde ele chegou. Mas ambos as variáveis <code>origin</code> e <code>dest</code> são a mesma coisa: aeroportos. Podemos imaginar um banco de dados em que desagregamos os voos em dois ‘eventos’ - decolagens e chegadas. Neste banco de dados alternativo, cada observação é um evento e cada voo tem duas entradas (observações, linhas), um decolagem e uma chegada. Isso pode ser útil, por exemplo, se tenhamos muitos dados sobre cada evento/aeroporto, por exemplo os dados de controle de tráfego aéreo.</p>
 <h3 id="de-largo-para-longo">De Largo para Longo</h3>
-<p>Para ‘virar’ (pivot) a nossa tabela para o formato mais ‘longo’, usamos a função <code>pivot_longer</code>. O objetivo de <code>pivot_longer</code> é converter colunas em observações. Mas não todas as colunas; temos que especificar quais colunas queremos virar no argumento <code>cols</code>. É sempre mais que uma coluna, então temos que especificar as colunas dentro de <code>c()</code>. As outras colunas nào mencionadas em <code>cols</code> são colunas ‘identificadoras’ que queremos duplicar para as novas linhas (em nosso exemplo os dados que pertencem ao voo e não ao aeroporto).</p>
+<p>Para ‘virar’ (pivot) a nossa tabela para o formato mais ‘longo’, usamos a função <code>pivot_longer</code>. O objetivo de <code>pivot_longer</code> é converter colunas em observações - no nosso exemplo, converter o evento único “voo” em dois eventos diferentes, pousos e decolagens. Mas não queremos mudar todas as colunas (algumas pertencem ao voo inteiro, como distância, duração); temos que especificar quais colunas queremos virar no argumento <code>cols</code>. É sempre mais que uma coluna, então temos que especificar as colunas dentro de <code>c()</code>. As outras colunas nào mencionadas em <code>cols</code> são colunas ‘identificadoras’ que queremos duplicar para as novas linhas (em nosso exemplo os dados que pertencem ao voo e não ao aeroporto).</p>
 <p>Como uma primeira tentativa, o código abaixo é suficiente para virar o nosso tibble:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -4481,7 +4483,7 @@ HTML, relatórios interativos complexos
 <p>Perfeito! Agora, dá para rastrear cada voo: Voo UA1496 as 0646 no dia 1 de janeiro tem duas entradas - origem em EWR e chegada em SNA.</p>
 <h3 id="de-longo-para-largo">De Longo para Largo</h3>
 <p>É comum que recebemos um banco de dados no formato longo e queremos virar (pivot) para o formato largo. Ou seja, tornar observações em variáveis. Imagine-se que recebemos do fornecedor o banco de dados <code>flights_longo</code> produzido no chunk anterior. Como reproduzimos o nosso banco de dados bem conhecido, <code>flights</code>, no formato mais largo?</p>
-<p>A função <code>pivot_wider</code> é exatamante o inverso de <code>pivot_longer</code>. Em vez de especificar as colunas que queremos virar, especificamos as colunas de ‘identificação’ que <em>não queremos virar</em> no argumento <code>id_cols</code>; em vez da coluna nova, especificamos a coluna atual que contém os nomes das colunas novas, no argumento <code>names_from</code>; e em vez de valores noves, especificamos a coluna que contém os valores que vão preencher as colunas novas (no argumento <code>values_from</code>.</p>
+<p>A função <code>pivot_wider</code> é exatamante o inverso de <code>pivot_longer</code>. Em vez de especificar as colunas que queremos virar, especificamos as colunas de ‘identificação’ que <em>não queremos virar</em> no argumento <code>id_cols</code>; em vez da coluna nova, especificamos a coluna original que contém os nomes das colunas novas, no argumento <code>names_from</code>; e em vez de valores noves, especificamos a coluna de onde vão sair os valores que vão formar as colunas novas (no argumento <code>values_from</code>).</p>
 <p>Note que com <code>pivot_longer</code> os argumentos <code>names_to</code> e <code>values_to</code> precisam de aspas porque são colunas novas que não existem em nosso tibble. No <code>pivot_wider</code> os argumentos <code>names_from</code> e <code>values_from</code> são colunas atuais em nosso tibble, então não precisam de aspas.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">flights_longo <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pivot_wider</span>(<span class="dt">id_cols =</span> <span class="kw">c</span>(month, day, dep_time, carrier, </a>
@@ -4627,7 +4629,7 @@ HTML, relatórios interativos complexos
 <div class="purple">
 <h1 id="desafio-2">Desafio 2</h1>
 <p>O <a href="Desafios/Desafio_2.html">Desafio 2</a> teste a sua capacidade de organizar, resumir, agrupar, e apresentar um banco de dados para produzir um relatório bonito e claro em HTML.</p>
-<p>O prazo para entregar Desafio 2 por email com título “[FLS6397] - D2” à minha conta é <strong>14h, 17/04/2020</strong>, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.</p>
+<p>O prazo para entregar Desafio 2 por email com título “[FLS6397] - D2” à minha conta é <strong>14h, 14/05/2021</strong>, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.</p>
 </div>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->

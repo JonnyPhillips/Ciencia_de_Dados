@@ -22,7 +22,7 @@ flights %>% mutate(dep_on_time=case_when(dep_time<=sched_dep_time~1,
 ```{r}
 flights <- flights %>% unite("carrier_flight", carrier, flight)
 
-flights %>% separate(carrier_flight, c("carrier", flight))
+#flights %>% separate(carrier_flight, c("carrier", flight))
                      
 ```
 
@@ -38,7 +38,7 @@ flights %>% group_by(month) %>% top_n(-1, dep_delay)
 
 ```{r}
 flights <- flights %>% mutate(origin=factor(origin, levels=c("EWR", "LGA", "JFK")))
-flights <- flights %>% mutate(origin=factor(origin, levels=c("EWR", "LGA")))
+#flights <- flights %>% mutate(origin=factor(origin, levels=c("EWR", "LGA")))
 
 flights <- flights %>% mutate(month=factor(month, levels=c("1", "2", "3")))
 ```

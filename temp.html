@@ -864,6 +864,7 @@ Tutoriais
 <a href="abrindo_manipulando.html">2. Abrindo e Manipulando Dados</a>
 <a href="limpando_dados.html">3. Organizando e Limpando Dados</a>
 <a href="Estatisticas_Resumidas.html">4. Calculando Estatisticas Resumidas</a>
+<a href="Tabelas.html">5. Construindo Tabelas</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -874,6 +875,7 @@ Desafios
 </button>
 <div class="nav-dropdown-content">
 <a href="Desafios/Desafio_1.html">Desafio 1</a>
+<a href="Desafios/Desafio_2.html">Desafio 2</a>
 </div>
 </div>
 <a href="recursos.html">Recursos</a>
@@ -926,6 +928,9 @@ Desafios
     <li>
       <a href="Estatisticas_Resumidas.html">4. Calculando Estatisticas Resumidas</a>
     </li>
+    <li>
+      <a href="Tabelas.html">5. Construindo Tabelas</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -937,6 +942,9 @@ Desafios
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="Desafios/Desafio_1.html">Desafio 1</a>
+    </li>
+    <li>
+      <a href="Desafios/Desafio_2.html">Desafio 2</a>
     </li>
   </ul>
 </li>
@@ -962,18 +970,11 @@ Desafios
 </div>
 
 
-<pre class="r"><code>library(&quot;tidyverse&quot;)</code></pre>
-<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --</code></pre>
-<pre><code>## v ggplot2 3.3.3     v purrr   0.3.4
-## v tibble  3.1.0     v dplyr   1.0.5
-## v tidyr   1.1.3     v stringr 1.4.0
-## v readr   1.4.0     v forcats 0.5.1</code></pre>
-<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(&quot;nycflights13&quot;)
+<pre class="r"><code>library(&quot;tidyverse&quot;)
+library(&quot;nycflights13&quot;)
 
 flights %&gt;% summarize(Max_dep_delay=max(dep_delay, na.rm=T))</code></pre>
+<pre><code>## summarize: now one row and one column, ungrouped</code></pre>
 <pre><code>## # A tibble: 1 x 1
 ##   Max_dep_delay
 ##           &lt;dbl&gt;
@@ -981,6 +982,7 @@ flights %&gt;% summarize(Max_dep_delay=max(dep_delay, na.rm=T))</code></pre>
 <pre class="r"><code>flights %&gt;% summarize(Media_dep_delay=mean(dep_delay, na.rm=T),
                       Max_dep_delay=max(dep_delay, na.rm=T),
                       Min_dep_delay=min(dep_delay, na.rm=T))</code></pre>
+<pre><code>## summarize: now one row and 3 columns, ungrouped</code></pre>
 <pre><code>## # A tibble: 1 x 3
 ##   Media_dep_delay Max_dep_delay Min_dep_delay
 ##             &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;
@@ -989,7 +991,7 @@ flights %&gt;% summarize(Max_dep_delay=max(dep_delay, na.rm=T))</code></pre>
   summarize(Max_dep_delay=max(dep_delay, na.rm=T)) </code></pre>
 <pre><code>## Warning in max(dep_delay, na.rm = T): no non-missing arguments to max; returning
 ## -Inf</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;origin&#39;. You can override using the `.groups` argument.</code></pre>
+<pre><code>## summarize: now 224 rows and 3 columns, one group variable remaining (origin)</code></pre>
 <pre><code>## # A tibble: 224 x 3
 ## # Groups:   origin [3]
 ##    origin dest  Max_dep_delay
