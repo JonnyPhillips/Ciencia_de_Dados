@@ -209,7 +209,7 @@ data_vereador
 
 ```{r, echo=F}
 data_vereador <- data_vereador %>% 
-  unite(NUMERO_CAND_NOVO,c(NUM_PARTIDO,NUM_CAND_RESTANTE)) 
+  unite("NUMERO_CAND_NOVO",c(NUM_PARTIDO,NUM_CAND_RESTANTE)) 
 data_vereador %>%
   paged_table()
 ```

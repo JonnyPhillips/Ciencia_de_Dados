@@ -34,7 +34,7 @@ library("rmarkdown")
 
 ```
 
-[Clique aqui](https://drive.google.com/file/d/1D1lWuAH9NsLPaM4vUhe6pg5JGB2Pqvtq/view?usp=sharing) para assistir o vídeo da aula online do dia 16 de abril de 2021. E o [chat](https://drive.google.com/file/d/15TmR2nELEBqwmpR6KygupsAH5XeHGNGT/view?usp=sharing).
+[Clique aqui](https://drive.google.com/file/d/1D1lWuAH9NsLPaM4vUhe6pg5JGB2Pqvtq/view?usp=sharing) para assistir o vídeo da aula online do dia 23 de abril de 2021. E o [chat](https://drive.google.com/file/d/15TmR2nELEBqwmpR6KygupsAH5XeHGNGT/view?usp=sharing).
 
 # Estatísticas Resumidas (`summarize`)
 
@@ -252,21 +252,21 @@ Usando o banco de dados de `flights` no pacote `nycflights13`, responda às segu
 
 1. Calcule a duração (`air_time`) média por companhia aérea (`carrier`). 
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% group_by(carrier) %>%
   summarize(media_air_time=mean(air_time,na.rm=T))
 ```
 
 2. Calcule a duração (`air_time`) média por companhia aérea (`carrier`) e mês (`month`).
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% group_by(carrier, month) %>%
   summarize(media_air_time=mean(air_time,na.rm=T))
 ```
 
 3. Calcule o atraso médio (`dep_delay`) por aeroporto de origem (`origin`). Qual aeroporto tem o pior atraso?
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% group_by(origin) %>%
   summarize(media_dep_delay=mean(dep_delay,na.rm=T)) %>%
   arrange(-media_dep_delay)
@@ -275,7 +275,7 @@ flights %>% group_by(origin) %>%
 4. Qual companhia aérea (`carrier`) tem o pior registro de atrasos (`dep_delay`) na média no aeroporto JFK?
 
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% filter(origin=="JFK") %>% 
   group_by(carrier) %>%
   summarize(media_dep_delay=mean(dep_delay,na.rm=T)) %>%
@@ -284,7 +284,7 @@ flights %>% filter(origin=="JFK") %>%
 
 5. Você odeia atrasos. Qual é o pior mês para viajar do aeroporto JFK?
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% filter(origin=="JFK") %>% 
   group_by(month) %>%
   summarize(media_dep_delay=mean(dep_delay,na.rm=T)) %>%
@@ -329,14 +329,14 @@ flights %>% group_by(origin, dest) %>%
 
 1. Quantos voos decolaram de Nova Iorque em cada mês de 2013?
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% group_by(month) %>% 
   tally()
 ```
 
 2. Qual companhia aérea teve o maior número de voos em cada mês de 2013?
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% group_by(month, carrier) %>% 
   tally() %>%
   group_by(month) %>% 
@@ -345,7 +345,7 @@ flights %>% group_by(month, carrier) %>%
 
 3. Qual é a média do número de voos que decolaram dos três aeroportos, em cada mês?
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% group_by(origin, month) %>% 
   tally() %>%
   group_by(month) %>%
@@ -354,7 +354,7 @@ flights %>% group_by(origin, month) %>%
 
 4. Qual é a média mensal do número de voos que decolaram em cada aeroporto?
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% group_by(origin, month) %>% 
   tally() %>%
   group_by(origin) %>%
@@ -363,7 +363,7 @@ flights %>% group_by(origin, month) %>%
 
 5. Qual horário de partida (`dep_time`) é o segundo mais congestionado (medida pelo número de decolagens) em cada aeroporto? (O mais congestionado é o horário `NA`, então é mais interessante pegar o segundo mais congestionado).
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% group_by(origin,dep_time) %>%
   tally() %>%
   group_by(origin) %>%
@@ -680,13 +680,13 @@ Veja a beleza de programação mais eficiente - o mesmo resultado com menos digi
 
 1. Calcule o total de distância dos voos que decolaram de cada aeroporto como uma coluna nova.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% group_by(origin) %>% summarize(dist_total=sum(distance,na.rm=T))
 ```
 
 2. Calcule a média do atraso médio de cada aeroporto de origem em cada mês 
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% group_by(origin,month) %>%
   summarize(media_dep_delay=mean(dep_delay,na.rm=T)) %>%
   ungroup() %>% 
@@ -695,7 +695,7 @@ flights %>% group_by(origin,month) %>%
 
 3. Qual a porcentagem dos voos em cada destino? Qual destino é o mais comum?
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% group_by(dest) %>% 
   tally() %>%
   mutate(Pct_dest=100*(n/sum(n))) %>%
@@ -704,7 +704,7 @@ flights %>% group_by(dest) %>%
 
 4. Qual a porcentagem do tempo de atraso por companhia aérea em cada aeroporto? Qual é a companhia aérea responsável pelo maior tempo atrasado no aeroporto de Newark (EWR)?
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% group_by(origin, carrier) %>%
   summarize(total_atraso=sum(dep_delay, na.rm=T)) %>%
   group_by(origin) %>%
@@ -714,7 +714,7 @@ flights %>% group_by(origin, carrier) %>%
 
 5. Transforme a ordem de grandeza de todas as variáveis `dep_delay`, `arr_delay` e `air_time` de minutos para horas. Escreva uma função nova para facilitar esta transformação em conjunto com `across()`.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 mins_to_horas <- function(x){
   return(x/60)
 }

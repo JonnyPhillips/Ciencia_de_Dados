@@ -33,6 +33,8 @@ library("tidyverse")
 library("rmarkdown")
 ```
 
+[Clique aqui](https://drive.google.com/file/d/1YyF3blWPqbuHUHPW5LlB1eehGMQy4YYG/view?usp=sharing) para assistir o vídeo da aula online do dia 30 de abril de 2021. E o [chat](https://drive.google.com/file/d/1oIdRr5OnSoXHef72wwvsIiMKt2WN-ozz/view?usp=sharing).
+
 # Tabelas Estáticas
 
 Até agora, trabalhamos com as tabelas padrões fornecidas pelo R e a opção `df_print: paged` no cabeçalho. É só digitar o nome do tibble num chunk e no resultado vai aparecer uma tabela com navegação por página e colunas. Mas existem várias funções de 'formatação' que traduz o conteúdo de um tibble para uma tabela bonita no documento final. Elas funcionam como qualquer outra função do R e ficam no final de nosso fluxo de pipes.
