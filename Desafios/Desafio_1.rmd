@@ -19,7 +19,7 @@ O prazo para entregar Desafio 1 por email com título “[FLS6397] - D1” na mi
 
 <br>
 
-<!-- [Respostas Sugeridas para Desafio 1 aqui](Desafio_1_Suggested_Responses.html) -->
+[Respostas Sugeridas para Desafio 1 aqui](Desafio_1_Suggested_Responses.html)
 
 ## Instruções
 
