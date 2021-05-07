@@ -45,7 +45,7 @@ educ_RO <- educ %>% filter(UF=="Roraima") %>%
 educ_RO %>% write_delim("CENSOESC_2004_RR.csv", delim="|")
 ```
 
-1. Baixe e abra em R o banco de dados aqui: ["CENSOESC_2004_RO.CSV"](https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Desafios/CENSOESC_2004_RR.csv). Incomumente este banco usa o separador "|" entre colunas. O banco nacional é 1GB então já filtramos o banco para o estado de Roraima para deixar ele mais leve e accessível. Os nomes das variáveis são mais ou menos auto-explicativas, e descrevemos alguns em mais detalhe ao longo do desafio.
+1. Baixe e abra em R o banco de dados aqui: ["CENSOESC_2004_RR.CSV"](https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Desafios/CENSOESC_2004_RR.csv). Incomumente este banco usa o separador "|" entre colunas. O banco nacional é 1GB então já filtramos o banco para o estado de Roraima para deixar ele mais leve e accessível. Os nomes das variáveis são mais ou menos auto-explicativas, e descrevemos alguns em mais detalhe ao longo do desafio.
 
 ```{r}
 library(tidyverse)
@@ -149,7 +149,7 @@ educ_RO_long %>% group_by(Nível_Professor) %>%
 ```
 
 9. Usando o banco de dados 'longo' criado na questão 8:  
-    (a) Calcule a média e o total do número de professores em cada nível de ensino *em cada município* (inclua uma tabela)
+    (a) Calcule o total do número de professores e a média por escola em cada nível de ensino *em cada município* (inclua uma tabela)
     (b) Calcule a porcentagem dos professores em cada nível de ensino, por município, em uma tabela. Qual é o município com a maior porcentagem dos seus Professores alocado à nível Fundamental?
     (c) Calcule a porcentagem dos professores em cada município, por nível de ensino, em uma tabela. (Observe que isso é sutilmente diferente da questão em (b) acima). Qual é o município com a maior porcentagem de todos os Professores de Ensino Fundamental no páis?
 
