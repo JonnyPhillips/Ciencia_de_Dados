@@ -21,6 +21,8 @@ navbar:
             href: Estatisticas_Resumidas.html
           - text: "5. Construindo Tabelas"
             href: Tabelas.html
+          - text: "6. Visualizacao de Dados"
+            href: Graficos.html
     - text: "Desafios"
       menu:
           - text: "Desafio 1"

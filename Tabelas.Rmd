@@ -187,7 +187,7 @@ flights %>%
 
 1. Gere uma tabela estática de duração (`air_time`) média dos voos de cada aeoporto de origem, ordenado de menor a maior duração. Inclua um título e a formatação apropriada na sua tabela.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% group_by(origin) %>%
   summarize(media_air_time=mean(air_time,na.rm=T)) %>%
   arrange(media_air_time) %>%
@@ -197,7 +197,7 @@ flights %>% group_by(origin) %>%
 
 2. Identifique os voos de origem 'EWR' no dia 1 de Abril com decolagem antes de 6h. Prepare uma tabela estática que mostra as variáveis `dep_time`, `dep_delay`, `carrier`, `flight`, `dest`, `air_time`, `distance`. Inclua um título e a formatação apropriada.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% filter(month==4 & day==1 & origin=="EWR" & dep_time<600) %>%
   select(dep_time, dep_delay, carrier, flight, dest, air_time, distance) %>%
   kable(caption="Voos de EWR no dia 4 de abril, antes de 6h")
@@ -205,7 +205,7 @@ flights %>% filter(month==4 & day==1 & origin=="EWR" & dep_time<600) %>%
 
 3. Duplique a tabela de questão 2, mas agora mande o resultado para uma tabela interativa de `datatable`. (Não se preocupe com a formatação).
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% filter(month==4 & day==1 & origin=="EWR" & dep_time<600) %>%
   select(dep_time, dep_delay, carrier, flight, dest, air_time, distance) %>%
   datatable(caption="Voos de EWR no dia 4 de abril, antes de 6h")
@@ -332,7 +332,7 @@ Essas duas funções de pivot são mais avançadas, mas as vezes são essenciais
 
 1. Use `pivot_longer` para virar a tabela `flights` mais longa, para que cada voo tem duas observações - uma para a hora de partida (`dep_time`) e uma outra para a hora de chegada (`arr_time`). 
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights_hora_longo <- flights %>% pivot_longer(c(arr_time, dep_time),
                          names_to="Direção",
                          values_to="Hora")
@@ -340,7 +340,7 @@ flights_hora_longo <- flights %>% pivot_longer(c(arr_time, dep_time),
 
 2. Usando o seu resultado de questão 1, gere uma tabela estática de 10 linhas selecionadas aleatoriamente por R, mostrando as variáveis `carrier`, `flight`, `origin`, `dest` e as colunas novas que você gerou na questão 1. 
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights_hora_longo %>% 
   select(carrier, flight, origin, dest, Direção, Hora) %>%
   sample_n(10) %>%
@@ -349,7 +349,7 @@ flights_hora_longo %>%
 
 3. Usando o seu resultado de questão 1, use `pivot_wider` para recuperar o banco de dados original de `flights`. Verifique que os números de colunas e linhas são íguais.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights_recuperado <- flights_hora_longo %>% pivot_wider(names_from="Direção",
                                                          values_from="Hora")
 ```
