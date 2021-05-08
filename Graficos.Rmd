@@ -33,6 +33,8 @@ library("tidyverse")
 library("rmarkdown")
 ```
 
+[Clique aqui](https://drive.google.com/file/d/1WjT4G50xBE8Amr_nC0YF-u7l6b6d2jgt/view?usp=sharing) para assistir o vídeo da aula online do dia 7 de maio de 2021. E o [chat](https://drive.google.com/file/d/1wboO4ZfvxEm7hy7kR4jk164L2Tma4Z7w/view?usp=sharing).
+
 # Gráficos
 
 Já aprendemos muito sobre a 'gramática' de manipulação de dados para produzir tibbles/tabelas conforme os requisitos da nossa análise. Existe uma gramática diferente, mas conectada, que usamos para produzir um gráfico. Note que, em contraste com outras formas de produzir gráficos, não desenhamos os elementos à mão ou individualmente - para produzir gráficos através de programação, temos que definir todos os elementos do gráfico *baseado nas variáveis* em nosso tibble.
