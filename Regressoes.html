@@ -2075,6 +2075,7 @@ Tutoriais
 <a href="Estatisticas_Resumidas.html">4. Calculando Estatisticas Resumidas</a>
 <a href="Tabelas.html">5. Construindo Tabelas</a>
 <a href="Graficos.html">6. Visualizacao de Dados</a>
+<a href="Juntando_Bancos.html">7. Juntando Bancos de Dados</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2086,6 +2087,7 @@ Desafios
 <div class="nav-dropdown-content">
 <a href="Desafios/Desafio_1.html">Desafio 1</a>
 <a href="Desafios/Desafio_2.html">Desafio 2</a>
+<a href="Desafios/Desafio_3_v6.html">Desafio 3</a>
 </div>
 </div>
 <a href="recursos.html">Recursos</a>
@@ -2244,7 +2246,7 @@ W = 0.50308, p-value &lt; 0.00000000000000022</code></pre>
 <p>Este teste exige uma comparação entre os nossos dados e o valor ‘13.4’, então vamos encaminhar o vetor de atrasos para a função <code>t.test()</code>, especificando o argumento <code>mu</code> para a média padrão com que queremos comparar. E não esquecemos de usar <code>tidy()</code> no final para simplificar o resultado:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>teste_media</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>!=</span><span class='st'>"LGA"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>teste_media</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>!=</span><span class='st'>"LGA"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>pull</span><span class='op'>(</span><span class='va'>dep_delay</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></span><span class='op'>(</span>mu<span class='op'>=</span><span class='fl'>13.4</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span>
@@ -2264,7 +2266,7 @@ W = 0.50308, p-value &lt; 0.00000000000000022</code></pre>
 <p>Para comunicar os resultados de t-test, é frequentemente útil gerar gráficos para mostrar a média e o intervalo de confiança. Como podemos construir um gráfico deste tipo? Vamos começar com o parte mais fácil: colocamos a média dos nossos dados (um ponto com <code>geom_point</code>) e uma linha horizontal para indicar o ponto de comparação (com <code>geom_hline</code>):</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>teste_media</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Variavel<span class='op'>=</span><span class='st'>"Atraso na partida"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>teste_media</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Variavel<span class='op'>=</span><span class='st'>"Atraso na partida"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>geom_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>Variavel</span>, y<span class='op'>=</span><span class='va'>estimate</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>geom_hline</span><span class='op'>(</span>yintercept<span class='op'>=</span><span class='fl'>13.4</span>, lty<span class='op'>=</span><span class='fl'>2</span>, color<span class='op'>=</span><span class='st'>"blue"</span><span class='op'>)</span>
@@ -2276,7 +2278,7 @@ W = 0.50308, p-value &lt; 0.00000000000000022</code></pre>
 <p>Agora, vamos adicionar uma linha que mostra o intervalo de confiança (as variáveis ‘conf.low’ e ‘conf.high’), com a geometria <code>geom_errorbar()</code>, que exige três variáveis: <code>x</code>, <code>ymin</code> e <code>ymax</code> para definir os limites da linha baseado nos valores em nosso tibble:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>teste_media</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Variavel<span class='op'>=</span><span class='st'>"Atraso na partida"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>teste_media</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Variavel<span class='op'>=</span><span class='st'>"Atraso na partida"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>geom_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>Variavel</span>, y<span class='op'>=</span><span class='va'>estimate</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>geom_hline</span><span class='op'>(</span>yintercept<span class='op'>=</span><span class='fl'>13.4</span>, lty<span class='op'>=</span><span class='fl'>2</span>, color<span class='op'>=</span><span class='st'>"blue"</span><span class='op'>)</span> <span class='op'>+</span>
@@ -2303,7 +2305,7 @@ W = 0.50308, p-value &lt; 0.00000000000000022</code></pre>
 <p>Vamos realizar o teste para avaliar se a média de atrasos é ígual entre JFK e EWR:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>!=</span><span class='st'>"LGA"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>!=</span><span class='st'>"LGA"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></span><span class='op'>(</span><span class='va'>dep_delay</span> <span class='op'>~</span> <span class='va'>origin</span>, data<span class='op'>=</span><span class='va'>.</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
@@ -2355,7 +2357,7 @@ W = 0.50308, p-value &lt; 0.00000000000000022</code></pre>
 <p>Felizmente, é fácil construir essa tabela de contingência com a função <code>table()</code>, com um <code>select</code> anterior para definir as duas variáveis que queremos comparar:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>origin</span>, <span class='va'>carrier</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>origin</span>, <span class='va'>carrier</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
@@ -2373,7 +2375,7 @@ origin    OO    UA    US    VX    WN    YV
 <p>Faz sentido? A tabela mostra o número de voos de cada aeroporto e cada companhia aérea. É meio-óbvio que a distribuição das companhias é diferente por cada aeroporto, mas vamos testar isso estatisticamente:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>origin</span>, <span class='va'>carrier</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>origin</span>, <span class='va'>carrier</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://rdrr.io/r/stats/chisq.test.html'>chisq.test</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span>
@@ -2432,7 +2434,7 @@ origin    OO    UA    US    VX    WN    YV
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>planes</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>manufacturer</span><span class='op'>==</span><span class='st'>"BOEING"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>planes</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>manufacturer</span><span class='op'>==</span><span class='st'>"BOEING"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>pull</span><span class='op'>(</span><span class='va'>year</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></span><span class='op'>(</span>mu<span class='op'>=</span><span class='fl'>2000</span><span class='op'>)</span>
 </code></pre>
@@ -2443,8 +2445,8 @@ origin    OO    UA    US    VX    WN    YV
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>!=</span><span class='st'>"JFK"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>velocidade<span class='op'>=</span><span class='va'>distance</span><span class='op'>/</span><span class='va'>air_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>!=</span><span class='st'>"JFK"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>velocidade<span class='op'>=</span><span class='va'>distance</span><span class='op'>/</span><span class='va'>air_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></span><span class='op'>(</span><span class='va'>velocidade</span><span class='op'>~</span><span class='va'>origin</span>, data<span class='op'>=</span><span class='va'>.</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
@@ -2455,7 +2457,7 @@ origin    OO    UA    US    VX    WN    YV
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weather</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>!=</span><span class='st'>"EWR"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weather</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>!=</span><span class='st'>"EWR"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/r/stats/cor.test.html'>cor.test</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>temp</span> <span class='op'>+</span> <span class='va'>pressure</span>, data<span class='op'>=</span><span class='va'>.</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
@@ -2466,10 +2468,10 @@ origin    OO    UA    US    VX    WN    YV
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weather</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>!=</span><span class='st'>"EWR"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weather</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>!=</span><span class='st'>"EWR"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/r/stats/cor.test.html'>cor.test</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>temp</span> <span class='op'>+</span> <span class='va'>pressure</span>, data<span class='op'>=</span><span class='va'>.</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Variavel<span class='op'>=</span><span class='st'>"Correlação entre temperatura e pressão"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Variavel<span class='op'>=</span><span class='st'>"Correlação entre temperatura e pressão"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>geom_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>Variavel</span>, y<span class='op'>=</span><span class='va'>estimate</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>geom_hline</span><span class='op'>(</span>yintercept<span class='op'>=</span><span class='fl'>0</span>, lty<span class='op'>=</span><span class='fl'>2</span>, color<span class='op'>=</span><span class='st'>"blue"</span><span class='op'>)</span> <span class='op'>+</span>
@@ -3078,9 +3080,9 @@ F Statistic
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>reg2</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>conf.lo<span class='op'>=</span><span class='va'>estimate</span><span class='op'>-</span><span class='fl'>1.96</span><span class='op'>*</span><span class='va'>std.error</span>,
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>conf.lo<span class='op'>=</span><span class='va'>estimate</span><span class='op'>-</span><span class='fl'>1.96</span><span class='op'>*</span><span class='va'>std.error</span>,
          conf.hi<span class='op'>=</span><span class='va'>estimate</span><span class='op'>+</span><span class='fl'>1.96</span><span class='op'>*</span><span class='va'>std.error</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>term</span><span class='op'>!=</span><span class='st'>"(Intercept)"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>term</span><span class='op'>!=</span><span class='st'>"(Intercept)"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>geom_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>term</span>, y<span class='op'>=</span><span class='va'>estimate</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>geom_errorbar</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>term</span>, y<span class='op'>=</span><span class='va'>estimate</span>, ymin<span class='op'>=</span><span class='va'>conf.lo</span>, ymax<span class='op'>=</span><span class='va'>conf.hi</span><span class='op'>)</span>, width<span class='op'>=</span><span class='fl'>0.1</span><span class='op'>)</span>
@@ -3109,7 +3111,7 @@ F Statistic
 <p>O poder de <code>zelig</code> é facilitando modelos alternativos. Primeiro, vamos ver como a usar um modelo ‘logit’ para variáveis dependentes binárias, por exemplo a presença de um atraso. Precisamos simplesmente especificar <code>model="logit"</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>atraso<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>dep_delay</span><span class='op'>&gt;</span><span class='fl'>0</span><span class='op'>~</span><span class='fl'>1</span>,
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>atraso<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>dep_delay</span><span class='op'>&gt;</span><span class='fl'>0</span><span class='op'>~</span><span class='fl'>1</span>,
                                     <span class='cn'>TRUE</span><span class='op'>~</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/zelig.html'>zelig</a></span><span class='op'>(</span><span class='va'>atraso</span> <span class='op'>~</span> <span class='va'>origin</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"logit"</span><span class='op'>)</span>
 </code></pre>
@@ -3201,11 +3203,11 @@ Contagem (número de eventos em um periódo fixo)
 <p>Agora temos um poder enorme. Para ilustrar, se estajamos interessados em analisar o número de vôos atrasados por mais de quatro horas em cada dia, a variável é um número de eventos então preciseramos de um modelo ‘poisson’. É fácil especificar:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>atraso_serio<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>dep_delay</span><span class='op'>&gt;</span><span class='fl'>240</span> <span class='op'>~</span> <span class='fl'>1</span>,
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>atraso_serio<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>dep_delay</span><span class='op'>&gt;</span><span class='fl'>240</span> <span class='op'>~</span> <span class='fl'>1</span>,
                                            <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>origin</span>, <span class='va'>month</span>, <span class='va'>day</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>origin</span>, <span class='va'>month</span>, <span class='va'>day</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/summarize.html'>summarize</a></span><span class='op'>(</span>atrasos_serios<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>atraso_serio</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span>  <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>ungroup</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/ungroup.html'>ungroup</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/zelig.html'>zelig</a></span><span class='op'>(</span><span class='va'>atrasos_serios</span> <span class='op'>~</span> <span class='va'>origin</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"poisson"</span><span class='op'>)</span>
 </code></pre>
 </div>
@@ -3240,7 +3242,7 @@ Next step: Use &#39;setx&#39; method</code></pre>
 <p>Organizando os resultados de Zelig exige mais um passo para encaminhar os resultados ao Stargazer para criar tabelas, com a função de ajuda <code>from_zelig_model()</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>atraso<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>dep_delay</span><span class='op'>&gt;</span><span class='fl'>0</span><span class='op'>~</span><span class='fl'>1</span>,
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>atraso<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>dep_delay</span><span class='op'>&gt;</span><span class='fl'>0</span><span class='op'>~</span><span class='fl'>1</span>,
                                     <span class='cn'>TRUE</span><span class='op'>~</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/zelig.html'>zelig</a></span><span class='op'>(</span><span class='va'>atraso</span> <span class='op'>~</span> <span class='va'>origin</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"logit"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/from_zelig_model.html'>from_zelig_model</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -3505,7 +3507,7 @@ fd
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>diff_simulacoes</span> <span class='op'>%&gt;%</span> <span class='fu'>as_tibble</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span><span class='st'>"Diff"</span><span class='op'>=</span><span class='va'>`1`</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/rename.html'>rename</a></span><span class='op'>(</span><span class='st'>"Diff"</span><span class='op'>=</span><span class='va'>`1`</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>geom_density</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>Diff</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>ggtitle</span><span class='op'>(</span><span class='st'>"Atraso Média Adicional Estimada para voar as 17h em vez de 5h"</span><span class='op'>)</span> <span class='op'>+</span>
@@ -3571,9 +3573,9 @@ fd
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>model2</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>conf.lo<span class='op'>=</span><span class='va'>estimate</span><span class='op'>-</span><span class='fl'>1.96</span><span class='op'>*</span><span class='va'>std.error</span>,
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>conf.lo<span class='op'>=</span><span class='va'>estimate</span><span class='op'>-</span><span class='fl'>1.96</span><span class='op'>*</span><span class='va'>std.error</span>,
          conf.hi<span class='op'>=</span><span class='va'>estimate</span><span class='op'>+</span><span class='fl'>1.96</span><span class='op'>*</span><span class='va'>std.error</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>term</span><span class='op'>!=</span><span class='st'>"(Intercept)"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>term</span><span class='op'>!=</span><span class='st'>"(Intercept)"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>geom_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>term</span>, y<span class='op'>=</span><span class='va'>estimate</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>geom_errorbar</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>term</span>, y<span class='op'>=</span><span class='va'>estimate</span>, ymin<span class='op'>=</span><span class='va'>conf.lo</span>, ymax<span class='op'>=</span><span class='va'>conf.hi</span><span class='op'>)</span>, width<span class='op'>=</span><span class='fl'>0.1</span><span class='op'>)</span>
@@ -3585,7 +3587,7 @@ fd
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>mais_de_tres_horas<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>air_time</span><span class='op'>&gt;</span><span class='fl'>180</span> <span class='op'>~</span> <span class='fl'>1</span>,
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>mais_de_tres_horas<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>air_time</span><span class='op'>&gt;</span><span class='fl'>180</span> <span class='op'>~</span> <span class='fl'>1</span>,
                                     <span class='cn'>TRUE</span> <span class='op'>~</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/zelig.html'>zelig</a></span><span class='op'>(</span><span class='va'>mais_de_tres_horas</span> <span class='op'>~</span> <span class='va'>dep_time</span> <span class='op'>+</span> <span class='va'>distance</span> <span class='op'>+</span> <span class='va'>origin</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"logit"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/from_zelig_model.html'>from_zelig_model</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -3599,9 +3601,9 @@ fd
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>modelo_tres_horas</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>mais_de_tres_horas<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>air_time</span><span class='op'>&gt;</span><span class='fl'>180</span> <span class='op'>~</span> <span class='fl'>1</span>,
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>modelo_tres_horas</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>mais_de_tres_horas<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>air_time</span><span class='op'>&gt;</span><span class='fl'>180</span> <span class='op'>~</span> <span class='fl'>1</span>,
                                     <span class='cn'>TRUE</span> <span class='op'>~</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>origin<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>origin<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/zelig.html'>zelig</a></span><span class='op'>(</span><span class='va'>mais_de_tres_horas</span> <span class='op'>~</span> <span class='va'>dep_time</span> <span class='op'>+</span> <span class='va'>distance</span> <span class='op'>+</span> <span class='va'>origin</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"logit"</span><span class='op'>)</span>
 
 <span class='va'>modelo_tres_horas</span> <span class='op'>%&gt;%</span>

@@ -40,11 +40,14 @@ library("kableExtra")
 
 A maioria de projetos exigem a combinação de dados de fontes diversas. É assim que criamos a nossa própria contribuição para a pesquisa. Por exemplo, para estudar o efeito de um programa de governo sobre a votação, preciseramos de pelo menos dois bancos de dados, um com os dados da localização do programa e outro sobre os resultados eleitorais. Como podemos juntar estes dois bancos para facilitar a nossa análise?
 
-Primeiro, temos que entender os dois bancos: (i) qual é a unidade de análise de cada observaçao? e (ii) quais são as variáveis chaves em cada banco que identificam unicamente cada observação (evitando duplicações)? 
+Primeiro, temos que entender os dois bancos:  
+(i) qual é a **unidade de análise** de cada observaçao?;
+(ii) quais são os **identificadores únicos** (as variáveis 'chaves') em cada banco que identificam unicamente cada observação (evitando duplicações)?;
+(iii) quais são os **identificadores comuns** presentes em ambos os bancos que permitem cruzar as informações?
 
-No exemplo acima, pode ser que o programa do governo foi executado em alguns municípios e não em outros, então o nosso banco varia por município, identificado unicamente com a variável do código municipal do IBGE. Por outro lado, imagine que temos os dados eleitorais apenas dos prefeitos e queremos avaliar a margem de vitória, então a unidade de análise é cada município, identificado pelo código municipal do IBGE também.
+No exemplo acima, pode ser que o programa do governo foi executado em alguns municípios e não em outros, então o nosso banco varia por município, identificado unicamente com a variável do código municipal do IBGE. Por outro lado, imagine que temos os dados eleitorais resumidos por cada município com o a margem de vitória, então a unidade de análise é cada município, identificado pelo código municipal do IBGE também.
 
-Quando os nossos dois bancos têm a mesma unidade de análise e as mesmas variáveis, a junção dos bancos é mais ou menos fácil. Usamos as variáveis de identificador único e comum para adicionar as colunas de um banco para o outro.
+Quando os nossos dois bancos têm a mesma **unidade de análise** (o municipio) e o mesmo **identificador único** (código IBGE), o **indentificador comum** é óbvio: é o código IBGE. Assim, a junção dos bancos é mais ou menos fácil - usamos as variáveis de identificador único e comum (código IBGE) para cruzar as informações e adicionar as colunas de um banco para o outro.
 
 ![](Merge_Eg_1.png)
 
@@ -52,17 +55,17 @@ Isto é a circunstância mais fácil para cruzar os dois bancos: a mesma unidade
 
 ## Unidades Diferentes
 
-Imagine agora que o banco de dados do programa do governo varia por *estado* em vez do município, então ele tem apenas 27 observações, identificadas por sigla do estado ("AC" etc.). Neste caso em que a unidade de análise e as variáveis variam entre bancos, como é possível juntar os bancos? É essencial que os dois bancos têm a mesma unidade de análise. Primeiro, temos que decidir a unidade de análise desejada do banco de dados final - por estado ou por município? As duas são possíveis. 
+Imagine agora que o banco de dados do programa do governo varia por *estado* em vez do município, então ele tem apenas 27 observações, identificadas por sigla do estado ("AC" etc.). Neste caso em que a unidade de análise e as variáveis variam entre bancos, como é possível juntar os bancos? Primeiro, temos que decidir a unidade de análise desejada do banco de dados final - por estado ou por município? As duas são possíveis. 
 
-**Estratégia 1: Agregando o banco com mais unidades:** Se quissemos uma tabela final por estado, temos que *agregar* os dados eleitorais do nível municipal para o nível estadual com as ferramentas já conhecidas (`%>% group_by(Estado) %>% summarize()`). Isto exige uma decisão sobre como a agregar cada variável municipal para o estadual - a média, a soma, a mediana, o mínimo etc. Com os dois bancos no nível estadual, é fácil executar a junção, e o resultado será um banco de dados com dados eleitorais e do programa por cada estado.
+**Estratégia 1 (por estado): Agregando o banco com mais unidades:** Se quissemos uma tabela final por estado, temos que *agregar* os dados eleitorais do nível municipal para o nível estadual com as ferramentas já conhecidas (`%>% group_by(Estado) %>% summarize()`). Isto exige uma decisão sobre como a agregar cada variável municipal para o estadual - a média, a soma, a mediana, o mínimo etc. Com os dois bancos no nível estadual, é fácil executar a junção, e o resultado será um banco de dados com dados eleitorais e do programa por cada estado.
 
 ![](Merge_Eg_2.png)
 
-**Estratégia 2: Duplicando os dados do banco com menos unidades:** Se quissemos uma tabela final por município, temos que reconhecer que juntando os dois bancos vai *duplicar* os dados estaduais para cada município no estado. Por exemplo, a presença do programa indicado por código '1' em "AC" será reptido para cada município de Acre. Isto faz sentido neste contexto, mas é crucial entender se o programa realmente foi executado assim.
+**Estratégia 2 (por município): Duplicando os dados do banco com menos unidades:** Se quissemos uma tabela final por município, temos que reconhecer que juntando os dois bancos vai *duplicar* os dados estaduais para cada município no estado. Por exemplo, a presença do programa indicado por código '1' em "AC" será reptido para cada município de Acre. Isto faz sentido neste contexto, mas é crucial entender se o programa realmente foi executado assim.
 
 ![](Merge_Eg_3.png)
 
-Porém, existe uma outra dificuldade com qualquer uma das duas estratégias - o identificador único de estados ("AC") não é ígual ao identificador único dos municípios ("1200013"). Como o R vai saber como a cruzar observações de um banco com o outro? Ele precisa saber em qual estado fica cada município. Nós tivemos que adicionar uma nova coluna do estado no Banco eleitoral (Banco B) para facilitar o cruzamento. Em termos gerais, precisamos de um identificador *comum* nos dois bancos.
+Porém, existe uma outra dificuldade com qualquer uma das duas estratégias - o identificador único de estados ("AC") não é ígual ao identificador único dos municípios ("1200013"). Como o R vai saber como a cruzar observações de um banco com o outro? Ele precisa saber em qual estado fica cada município. Então nós temos que encontrar um jeito de adicionar uma nova coluna que indica o estado no Banco eleitoral (Banco B) para facilitar o cruzamento. Em termos gerais, precisamos de um identificador *comum* nos dois bancos.
 
 Pode ser que os dados do estado de cada município já existem no banco, ou pode ser necessário fazer outro cruzamento para importá-los. Em nosso exemplo, a informação do estado está presente nos dois primeiros digitos do código de município, e podemos criar o identificador comum: Temos que separar os primeiros dois dígitos do código municipal que indicam o estado, e depois mapear os dígitos para a sigla. O resultado será uma nova variável, a sigla do estado, para cada município. Agora, temos a sigla do estado no mesmo formato nos dois banco de dados e eles são compatíveis para cruzar. Apenas no final dessa preparação é possível juntar os dois bancos. 
 
@@ -185,7 +188,7 @@ Espero que você não estava nos voos com avião da década 50...
 
 ### Identificando Observações Faltantes
 
-Até agora, assumimos que os dois bancos contém dados completos: que cada avião que existe no banco de dados `flights` existe no banco de dados `planes` (não estamos faltando dados), e que cada avião no banco de dados `planes` existe no banco de dados `flights` (não temos aviões adicionais que não voaram). Entender se isso é verdade é importante para verificar se a junção deu certo.
+Até agora, assumimos que os dois bancos contém dados completos: que cada avião que existe no banco de dados `flights` existe no banco de dados `planes` (não estamos faltando dados), e que cada avião no banco de dados `planes` existe no banco de dados `flights` (não temos aviões que existem mas não voaram). Entender se isso é verdade é importante para verificar se a junção deu certo.
 
 A função útil para identificar as observações que existem em um banco mas não no outro se chama `anti_join`. Ela segue exatamente o mesmo padrão que `left_join()`, mas o resultado não é um tibble combinado, é as observações do primeiro tibble que *não* aparecem no segundo.
 
@@ -271,7 +274,7 @@ flights %>% group_by(carrier) %>%
 
 # Juntando Bancos por Múltiplas Variáveis
 
-Considere um outro banco de dados no pacote `nycflights13`, `weather`, que contém as condições climáticas em cada aeroporto por hora. Como sabemos o tempo para cada voo? Não é suficiente juntar por `origin`, obviamente porque o tempo varia por dia e hora e queremos as condições relevantes na hora da partida do voo. Então é necessário juntar com as variáveis que identificam a unidade de análise comum entre os dois bancos: localização e hora. 
+Considere um outro banco de dados no pacote `nycflights13`, `weather`, que contém as condições climáticas em cada aeroporto por hora. Como sabemos o tempo para cada voo? Não é suficiente juntar por `origin`, obviamente porque o tempo varia por dia e hora e queremos as condições relevantes na hora da partida do voo. Então é necessário realizar a junção com as variáveis que identificam a unidade de análise comum entre os dois bancos: localização e hora. 
 
 Localização é fácil: `origin` existe nos dois bancos. Hora é mais complexo: para definir o momento exato temos que considerar `year`, `month`, `day` e `hour`. Idealmente queremos incluir 'minute' também que existe no banco `flights`,  mas está faltando no banco de `weather`, então não é possível. Para incluir todas essas variáveis como identificadores comuns, é só incluir eles no argumento do `left_join`, usando um vector (`c()`) para designar todas as variáveis relevantes:
 
@@ -624,7 +627,7 @@ flights %>% group_by(tailnum) %>%
 <div class = "green">
 # Exercício 3: Dados Nested
 
-1. Crie um tibble nested em que a unidade de análise é cada combinação de origem e destino, e na coluna de `data` nested todos os detalhes dos voos entre aquele origem e destino.
+1. Crie um tibble nested em que a unidade de análise é cada combinação de origem e destino, e numa outra coluna em mini-tibbles ficam todos os detalhes dos voos entre aquele origem e destino.
 
 ```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% group_by(origin, dest) %>% nest()

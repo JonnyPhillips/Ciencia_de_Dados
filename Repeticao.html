@@ -2073,6 +2073,7 @@ Tutoriais
 <a href="Estatisticas_Resumidas.html">4. Calculando Estatisticas Resumidas</a>
 <a href="Tabelas.html">5. Construindo Tabelas</a>
 <a href="Graficos.html">6. Visualizacao de Dados</a>
+<a href="Juntando_Bancos.html">7. Juntando Bancos de Dados</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2084,6 +2085,7 @@ Desafios
 <div class="nav-dropdown-content">
 <a href="Desafios/Desafio_1.html">Desafio 1</a>
 <a href="Desafios/Desafio_2.html">Desafio 2</a>
+<a href="Desafios/Desafio_3_v6.html">Desafio 3</a>
 </div>
 </div>
 <a href="recursos.html">Recursos</a>
@@ -2197,7 +2199,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
   <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>resultado</span><span class='op'>)</span>
 <span class='op'>}</span>
 
-<span class='va'>resultado_lista</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>dep_delay</span>, <span class='va'>arr_delay</span>, <span class='va'>distance</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<span class='va'>resultado_lista</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>dep_delay</span>, <span class='va'>arr_delay</span>, <span class='va'>distance</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>map</span><span class='op'>(</span><span class='va'>amplitude</span><span class='op'>)</span>
 
 <span class='va'>resultado_lista</span>
@@ -2207,7 +2209,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <p>Muito mais simples! Agora em mais ou menos três linhas. E note quanto fácil seja ampliar para mais variáveis - é só incluir elas dentro de <code>select</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>resultado_lista</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>dep_delay</span>, <span class='va'>arr_delay</span>, <span class='va'>distance</span>, <span class='va'>air_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>resultado_lista</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>dep_delay</span>, <span class='va'>arr_delay</span>, <span class='va'>distance</span>, <span class='va'>air_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>map</span><span class='op'>(</span><span class='va'>amplitude</span><span class='op'>)</span>
 
 <span class='va'>resultado_lista</span>
@@ -2228,7 +2230,7 @@ $air_time
 <p>Qual o formato do resultado de <code>map</code>? Inspecione ele com <code>class()</code>. É uma lista, um formato genérico e flexível que vamos discutir em breve, mas em geral nesse curso sempre preferimos trabalhar com tibbles. Felizmente, existe uma variadade de <code>map</code> que padroniza o resultado da aplicação repetida da função para um tibble, <code>map_df</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>resultado_tibble</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>dep_delay</span>, <span class='va'>arr_delay</span>, <span class='va'>distance</span>, <span class='va'>air_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>resultado_tibble</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>dep_delay</span>, <span class='va'>arr_delay</span>, <span class='va'>distance</span>, <span class='va'>air_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>map_df</span><span class='op'>(</span><span class='va'>amplitude</span><span class='op'>)</span>
 
 <span class='va'>resultado_tibble</span>
@@ -2275,8 +2277,8 @@ air_time
 <p>Observe que a funcionalidade aqui é bem parecida de <code>summarize_at()</code>, permitindo a aplicação de uma função à várias colunas. É verdade, mais o ganho de <code>map</code> é que ela é mais geral e pode ser usado fora do contexto de <code>mutate</code> e <code>summarize</code>, e fora de um tibble único. Por exemplo, imagine que temos um vetor de centenas de arquivos .csv para abrir em R na pasta do nosso projeto - <code>map</code> permite aplicar a função de <code>read_csv</code> para <em>todos</em> os arquivos em uma linha só (gerando dois arquivos de csv primeiramente para ilustrar):</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>day</span><span class='op'>==</span><span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>write_csv</span><span class='op'>(</span><span class='st'>"test1.csv"</span><span class='op'>)</span>
-<span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>day</span><span class='op'>==</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>write_csv</span><span class='op'>(</span><span class='st'>"test2.csv"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>day</span><span class='op'>==</span><span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>write_csv</span><span class='op'>(</span><span class='st'>"test1.csv"</span><span class='op'>)</span>
+<span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>day</span><span class='op'>==</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>write_csv</span><span class='op'>(</span><span class='st'>"test2.csv"</span><span class='op'>)</span>
 
 <span class='va'>arquivos</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test1.csv"</span>, <span class='st'>"test2.csv"</span><span class='op'>)</span>
 
@@ -2303,9 +2305,9 @@ air_time
 <p>Em R, listas são fáceis a construir com <code>list(objeto1, objeto2, ...)</code>. Vamos ver como aparece uma lista de uma mistura de objetos:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>objeto1</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>day</span><span class='op'>==</span><span class='fl'>1</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>objeto1</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>day</span><span class='op'>==</span><span class='fl'>1</span><span class='op'>)</span>
 <span class='va'>objeto2</span> <span class='op'>&lt;-</span> <span class='fl'>3.14</span>
-<span class='va'>objeto3</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>day</span><span class='op'>==</span><span class='fl'>2</span><span class='op'>)</span>
+<span class='va'>objeto3</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>day</span><span class='op'>==</span><span class='fl'>2</span><span class='op'>)</span>
 <span class='va'>objeto4</span> <span class='op'>&lt;-</span> <span class='st'>"teste"</span>
 
 <span class='va'>lista_exemplo</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>objeto1</span>, <span class='va'>objeto2</span>, <span class='va'>objeto3</span>, <span class='va'>objeto4</span><span class='op'>)</span>
@@ -2386,8 +2388,8 @@ air_time
 <p>Para entender o use de <code>map</code> com listas, e especificamente com diversos tibbles, vamos separar o banco de dados de <code>flights</code> em dois meses, organizar eles em uma lista (com a função <code>list()</code>), e aplicar uma função a cada banco (cada tibble). Como exemplo, vamos calcular o atraso média por aeroporto com <code>summarize()</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_jan</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>1</span><span class='op'>)</span>
-<span class='va'>flights_fev</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>2</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_jan</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>flights_fev</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>2</span><span class='op'>)</span>
 
 <span class='va'>flights_jan_fev</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>janeiro<span class='op'>=</span><span class='va'>flights_jan</span>, 
                         fevereiro<span class='op'>=</span><span class='va'>flights_fev</span><span class='op'>)</span>
@@ -2567,9 +2569,9 @@ Tibble
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>EWR</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>==</span><span class='st'>"EWR"</span><span class='op'>)</span>
-<span class='va'>JFK</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>==</span><span class='st'>"JFK"</span><span class='op'>)</span>
-<span class='va'>LGA</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>==</span><span class='st'>"LGA"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>EWR</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>==</span><span class='st'>"EWR"</span><span class='op'>)</span>
+<span class='va'>JFK</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>==</span><span class='st'>"JFK"</span><span class='op'>)</span>
+<span class='va'>LGA</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>==</span><span class='st'>"LGA"</span><span class='op'>)</span>
 
 <span class='va'>flights_por_origem</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>EWR<span class='op'>=</span><span class='va'>EWR</span>,
                            JFK<span class='op'>=</span><span class='va'>JFK</span>,
@@ -2630,7 +2632,7 @@ Tibble
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>dia<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span>,
                        file<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test1.csv"</span>, <span class='st'>"test2.csv"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>conteudo<span class='op'>=</span><span class='fu'>map</span><span class='op'>(</span><span class='va'>file</span>, <span class='va'>read_csv</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>conteudo<span class='op'>=</span><span class='fu'>map</span><span class='op'>(</span><span class='va'>file</span>, <span class='va'>read_csv</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='va'>dados_nested</span>
 </code></pre>
@@ -2643,7 +2645,7 @@ Tibble
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='va'>dados_nested</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>num_voos<span class='op'>=</span><span class='fu'>map</span><span class='op'>(</span><span class='va'>conteudo</span>, <span class='va'>nrow</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>num_voos<span class='op'>=</span><span class='fu'>map</span><span class='op'>(</span><span class='va'>conteudo</span>, <span class='va'>nrow</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2651,7 +2653,7 @@ Tibble
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='va'>dados_nested</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>num_voos<span class='op'>=</span><span class='fu'>map_dbl</span><span class='op'>(</span><span class='va'>conteudo</span>, <span class='va'>nrow</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>num_voos<span class='op'>=</span><span class='fu'>map_dbl</span><span class='op'>(</span><span class='va'>conteudo</span>, <span class='va'>nrow</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2664,7 +2666,7 @@ Tibble
 <span class='op'>}</span>
 
 <span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='va'>dados_nested</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>corr<span class='op'>=</span><span class='fu'>map</span><span class='op'>(</span><span class='va'>conteudo</span>, <span class='va'>corr_function</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>corr<span class='op'>=</span><span class='fu'>map</span><span class='op'>(</span><span class='va'>conteudo</span>, <span class='va'>corr_function</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2678,7 +2680,7 @@ Tibble
 <span class='op'>}</span>
 
 <span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='va'>dados_nested</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>corr<span class='op'>=</span><span class='fu'>map_dbl</span><span class='op'>(</span><span class='va'>conteudo</span>, <span class='va'>corr_function</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>corr<span class='op'>=</span><span class='fu'>map_dbl</span><span class='op'>(</span><span class='va'>conteudo</span>, <span class='va'>corr_function</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2732,10 +2734,10 @@ Coefficients:
 <p>Operações dessa forma exigem que indicamos para <code>map</code> <em>duas</em> colunas para encaminhar a nossa função, uma para cada argumento. É simples: verificamos que as duas colunas com os argumentos desejados existem no tibble, usamos <code>map2</code> em vez de <code>map</code>, e indicamos os nomes das duas colunas no <code>map2</code>, no ordem em que eles são esperados pela função que vamos aplicar.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='va'>dados_nested</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>formula<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"dep_delay ~ dep_time"</span>,
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='va'>dados_nested</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>formula<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"dep_delay ~ dep_time"</span>,
                                   <span class='st'>"arr_delay ~ dep_time"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='va'>dados_nested</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>resultados<span class='op'>=</span><span class='fu'>map2</span><span class='op'>(</span><span class='va'>formula</span>, <span class='va'>conteudo</span>, <span class='va'>lm</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='va'>dados_nested</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>resultados<span class='op'>=</span><span class='fu'>map2</span><span class='op'>(</span><span class='va'>formula</span>, <span class='va'>conteudo</span>, <span class='va'>lm</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2774,7 +2776,7 @@ Coefficients:
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weather_month</span> <span class='op'>&lt;-</span> <span class='va'>weather</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>nest</span><span class='op'>(</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weather_month</span> <span class='op'>&lt;-</span> <span class='va'>weather</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>nest</span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2783,7 +2785,7 @@ Coefficients:
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weather_month</span> <span class='op'>&lt;-</span> <span class='va'>weather_month</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>obs<span class='op'>=</span><span class='fu'>map_dbl</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>nrow</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weather_month</span> <span class='op'>&lt;-</span> <span class='va'>weather_month</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>obs<span class='op'>=</span><span class='fu'>map_dbl</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>nrow</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2802,7 +2804,7 @@ Coefficients:
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weather_month</span> <span class='op'>&lt;-</span> <span class='va'>weather_month</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>temp<span class='op'>=</span><span class='fu'>map</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>pull</span>, <span class='va'>temp</span><span class='op'>)</span>,
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>temp<span class='op'>=</span><span class='fu'>map</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>pull</span>, <span class='va'>temp</span><span class='op'>)</span>,
          normal_temp<span class='op'>=</span><span class='fu'>map</span><span class='op'>(</span><span class='va'>temp</span>, <span class='va'>shapiro.test</span><span class='op'>)</span>,
          normal_temp<span class='op'>=</span><span class='fu'>map</span><span class='op'>(</span><span class='va'>normal_temp</span>, <span class='va'>tidy</span><span class='op'>)</span>,
          normal_temp<span class='op'>=</span><span class='fu'>map_dbl</span><span class='op'>(</span><span class='va'>normal_temp</span>, <span class='va'>pull</span>, <span class='va'>p.value</span><span class='op'>)</span><span class='op'>)</span>

@@ -23,12 +23,16 @@ navbar:
             href: Tabelas.html
           - text: "6. Visualizacao de Dados"
             href: Graficos.html
+          - text: "7. Juntando Bancos de Dados"
+            href: Juntando_Bancos.html
     - text: "Desafios"
       menu:
           - text: "Desafio 1"
             href: Desafios/Desafio_1.html            
           - text: "Desafio 2"
-            href: Desafios/Desafio_2.html            
+            href: Desafios/Desafio_2.html   
+          - text: "Desafio 3"
+            href: Desafios/Desafio_3_v6.html               
     - text: "Recursos"
       href: recursos.html
     - text: "Projeto Final"

@@ -49,9 +49,9 @@ candidatos %>% write_delim("candidatos_2016_RR.csv",
 
 ## Roteiro
 
-1. Vamos trabalher de novo com os dados eleitorais do Tribunal Superior Eleitoral, que disponibiliza dados sobre os resultados eleitorais separadamente dos dados sobre os candidatos. Baixe os dados de Roraima sobre [Resultados](https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Desafios/resultados_2016_RR.csv) e [Candidatos](https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Desafios/candidatos_2016_RR.csv). Observe que os dados são processados (não são os originais) e contém informação apenas sobre vereadores. 
+1. Vamos trabalhar de novo com os dados eleitorais do Tribunal Superior Eleitoral, o qual disponibiliza dados sobre os resultados eleitorais separadamente dos dados sobre os candidatos. Baixe os dados de [Resultados](https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Desafios/resultados_2016_RR.csv) e [Candidatos](https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Desafios/candidatos_2016_RR.csv) de Roraima. Observe que os dados são processados (não sendo os originais) e contém apenas a informação de vereadores. 
 
-2. Abre os dois bancos em R com o separador apropriado (note que o formato é um pouco diferente dos arquivos no desafio 1 - o encoding é o padrão, UTF8 então não precisa mexer nisso). 
+2. Abra os dois bancos em R com o separador apropriado (note que o formato é um pouco diferente dos arquivos no desafio 1 - o encoding é o padrão, UTF8. Logo, não é preciso mexer nisso). 
 
 ```{r}
 library("tidyverse")
@@ -66,13 +66,13 @@ candidatos <- read_delim("candidatos_2016_RR.csv",
 
 3. O nosso objetivo é analisar os resultados eleitorais baseado nas características dos vereadores, então precisamos juntar os dois bancos. 
 
-(a) Identifique a unidade de análise do banco de candidatos - o que repesenta cada observação/linha? Quais variáveis identificam cada linha exclusivamente?
+(a) Identifique a unidade de análise do banco de candidatos - o que representa cada observação/linha? Quais variáveis identificam cada linha exclusivamente?
 
 ```{r, eval=F}
 candidatos %>% distinct(SQ_CANDIDATO)
 ```
 
-(b) Identifique a unidade de análise do banco de resultados - o que repesenta cada observação/linha? Quais variáveis identificam cada linha exclusivamente?
+(b) Identifique a unidade de análise do banco de resultados - o que representa cada observação/linha? Quais variáveis identificam cada linha exclusivamente?
 
 ```{r, eval=F}
 resultados %>% distinct(SQ_CANDIDATO, CD_MUNICIPIO, NR_ZONA) #Pode excluir CD_MUNICIPIO, mas fica mais claro incluir
@@ -84,13 +84,13 @@ resultados %>% distinct(SQ_CANDIDATO, CD_MUNICIPIO, NR_ZONA) #Pode excluir CD_MU
 #SQ_CANDIDATO
 ```
 
-(d) Use `anti_join` para identificador se há resultados que faltam detalhes do seu candidato no banco de dados de candidatos. 
+(d) Use `anti_join` para identificar se há resultados que faltam detalhes do seu candidato no banco de dados de candidatos. 
 
 ```{r, eval=F}
 resultados %>% anti_join(candidatos, by="SQ_CANDIDATO")
 ```
 
-(e) Use `anti_join` para identificador se há candidatos faltando no banco de dados de resultados. Investigando as colunas do resultado de `anti_join`, você pode identificar porque eles não existem no banco de resultados?)
+(e) Use `anti_join` para identificar se há candidatos faltando no banco de dados de resultados. Investigando as colunas do resultado de `anti_join`, você pode identificar porque eles não existem no banco de resultados?)
 
 ```{r, eval=F}
 candidatos %>% anti_join(resultados, by="SQ_CANDIDATO")
@@ -113,15 +113,15 @@ candidatos <- candidatos %>% select(SQ_CANDIDATO, NM_CANDIDATO, NM_UE, SG_PARTID
                                     DS_COR_RACA)
 ```
 
-4. Pretendemos cruzar os dois bancos, mas como você econtrou acima, eles têm unidades de análise diferente. Aqui, vamos ignorar isso e permitir os dados do candidato sejam duplicados para cada resultado do mesmo candidato. Execute um `left_join()` apropriado.
+4. Pretendemos cruzar os dois bancos, mas como você verificou acima, eles têm unidades de análise diferentes. Aqui, vamos ignorar isso e permitir que os dados do candidato sejam duplicados para cada resultado do mesmo candidato. Execute um `left_join()` apropriado.
 
 ```{r, eval=F}
 resultados %>% left_join(candidatos, by="SQ_CANDIDATO")
 ```
 
-5. Agora usaremos uma outra estratégia de junção que evite a duplicação dos dados dos candidatos. Vamos agregar o banco de dados dos resultados para a mesma unidade de análise do banco dos candidatos: uma linha por candidato. 
+5. Agora usaremos uma outra estratégia de junção que evita a duplicação dos dados dos candidatos. Vamos agregar o banco de dados dos resultados para a mesma unidade de análise do banco dos candidatos: uma linha por candidato. 
 
-(a) Soma o voto dos candidatos em diversas zonas para gerar um banco de dados resumido no nível do candidato. (Por favor inclua a variável DS_SIT_TOT_TURNO no seu agrupamento para que ela fica disponível para uso abaixo).
+(a) Some o voto dos candidatos em diversas zonas para gerar um banco de dados resumido no nível do candidato. (Por favor inclua a variável DS_SIT_TOT_TURNO no seu agrupamento para que ela fique disponível para uso abaixo).
 
 ```{r}
 resultados_totais <- resultados %>% group_by(SQ_CANDIDATO, DS_SIT_TOT_TURNO) %>%
@@ -129,13 +129,13 @@ resultados_totais <- resultados %>% group_by(SQ_CANDIDATO, DS_SIT_TOT_TURNO) %>%
   ungroup()
 ```
 
-(b) Usando o seu banco de dados resumido de (a), execute um `left_join()` apropriado para incorporar os dados dos candiddatos.  
+(b) Usando o seu banco de dados resumido de (a), execute um `left_join()` apropriado para incorporar os dados dos candidatos.  
 
 ```{r}
 resultados_totais_candidatos <- resultados_totais %>% left_join(candidatos, by="SQ_CANDIDATO")
 ```
 
-6. (a) O seu de banco de dados de 5(b) contém apenas os candidatos para os quais temos resultados. Execute um join apropriado para produzir uma tabela de todos os candidatos (mesmo aqueles sem resultados) com o seu número de votos. 
+6. (a) O seu banco de dados de 5(b) contém apenas os candidatos para os quais temos resultados. Execute um join apropriado para produzir uma tabela de todos os candidatos (mesmo aqueles sem resultados) com o respectivo número de votos. 
 
 ```{r}
 candidatos_resultados_totais <- candidatos %>% left_join(resultados_totais, by="SQ_CANDIDATO")
@@ -145,7 +145,7 @@ candidatos_resultados_totais <- candidatos %>% left_join(resultados_totais, by="
 candidatos_resultados_totais <- resultados_totais %>% right_join(candidatos, by="SQ_CANDIDATO")
 ```
 
-(b) Como a coluna `QT_VOTOS_NOMINAIS` foi preenchido em 6(a) para os candidatos que não receberam votos no banco resultados? Sabendo que esses candidatos não receberam voto, recodifique a coluna para inserir zero votos nos locais apropriados da coluna `QT_VOTOS_NOMINAIS`.
+(b) Como a coluna `QT_VOTOS_NOMINAIS` foi preenchida em 6(a) para os candidatos que não receberam votos no banco resultados? Sabendo que esses candidatos não receberam voto, recodifique a coluna para inserir zero votos nos locais apropriados da coluna `QT_VOTOS_NOMINAIS`.
 
 ```{r}
 candidatos_resultados_totais <- candidatos_resultados_totais %>% 
@@ -154,7 +154,7 @@ candidatos_resultados_totais <- candidatos_resultados_totais %>%
 ```
 7. A partir de agora, vamos produzir gráficos usando o banco de dados que você criou em Q5(b). Para o nosso primeiro gráfico, vamos apresentar o número de candidatos para vereador por município (variável `NM_UE`). 
 
-(a) Escolhe um tipo de gráfico apropriado e crie o gráfico.
+(a) Escolha um tipo de gráfico apropriado e crie o gráfico.
 
 (b) Adicione um título ao seu gráfico, e rótulos nos eixos. 
 
@@ -182,7 +182,7 @@ resultados_totais_candidatos %>%
   theme_classic()
 ```
 
-9. Gere um gráfico apropriado que mostra o *porcentagem* de candidatos por gênero em cada município. Formate o seu gráfico com títulos, rótulos nos eixos, virando o texto no eixo x, e ajuste a legenda para que ela fique abaixo do gráfico.
+9. Gere um gráfico apropriado que mostra a *porcentagem* de candidatos por gênero em cada município. Formate o seu gráfico com títulos, rótulos nos eixos, virando o texto no eixo x, e ajuste a legenda para que ela fique abaixo do gráfico.
 
 ```{r, eval=F}
 resultados_totais_candidatos %>% group_by(NM_UE, DS_GENERO) %>%
@@ -196,9 +196,9 @@ resultados_totais_candidatos %>% group_by(NM_UE, DS_GENERO) %>%
   theme(legend.position="bottom")
 ```
 
-10. Parece que por conta das cotas não há muita variação no porcentagem de candidatos por genêro. Podemos aprender mais investigando a *taxa de sucesso* de candidatos por gênero. 
+10. Parece que por conta das cotas não há muita variação na porcentagem de candidatos por gênero. Podemos aprender mais investigando a *taxa de sucesso* de candidatos por gênero. 
 
-(a) Gere uma variável binário que indica os vereadores eleitos, baseada na variável `DS_SIT_TOT_TURNO`.
+(a) Gere uma variável binária que indica os vereadores eleitos, baseada na variável `DS_SIT_TOT_TURNO`.
 
 ```{r}
 resultados_totais_candidatos <- resultados_totais_candidatos %>% 
@@ -233,7 +233,7 @@ sucesso_por_genero_mun %>%
   theme(axis.text.x = element_text(angle = 90))
 ```
 
-(d) Extende o seu gráfico para mostrar a taxa de sucesso de homens e mulheres lado a lado, por município. Verifique que o cor das barras varia por gênero.
+(d) Extende o seu gráfico para mostrar a taxa de sucesso de homens e mulheres lado a lado, por município. Verifique que a cor das barras varia por gênero.
 
 ```{r, eval=F}
 sucesso_por_genero_mun %>%
@@ -260,7 +260,7 @@ mun_sucesso_feminino <- sucesso_por_genero_mun %>% filter(Eleito==1) %>%
 
 O município em que as mulheres têm uma maior taxa de sucesso que os homens é `r mun_sucesso_feminino`.
 
-11. Gere um gráfico de 'tile', que mostra o número de candidatos por município e gênero. Aplique uma escala de cores apropriado da sua escolha. Formate o seu gráfico.
+11. Gere um gráfico de 'tile', que mostra o número de candidatos por município e gênero. Aplique uma escala de cores apropriada de sua escolha. Formate o seu gráfico.
 
 ```{r, eval=F}
 resultados_totais_candidatos %>% group_by(NM_UE, DS_GENERO) %>%
@@ -276,7 +276,7 @@ resultados_totais_candidatos %>% group_by(NM_UE, DS_GENERO) %>%
 
 12. Agora exploramos a idade dos candidatos. 
 
-(a) Apresente um gráfico de histograma da idade dos candidatos (`NR_IDADE_DATA_POSSE`). Faça qualquer ajuste necessário para que o seu gráfico faz sentido e incorpora valores de idade possíveis. Formate o seu gráfico.
+(a) Apresente um gráfico de histograma da idade dos candidatos (`NR_IDADE_DATA_POSSE`). Faça qualquer ajuste necessário para que o seu gráfico faça sentido e incorpore valores de idade possíveis. Formate o seu gráfico.
 
 ```{r, eval=F}
 resultados_totais_candidatos %>% 
@@ -305,7 +305,7 @@ resultados_totais_candidatos %>%
   theme_classic()
 ```
 
-(c) Como uma forma alternativa de apresentar os dados, divide o seu gráfico de histograma em facets diferentes, dividido por gênero e raça.
+(c) Como uma forma alternativa de apresentar os dados, divida o seu gráfico de histograma em facets diferentes, dividido por gênero e raça.
 
 ```{r, eval=F}
 resultados_totais_candidatos %>% 
@@ -322,7 +322,7 @@ resultados_totais_candidatos %>%
 
 13. Agora analisamos em mais detalhe os resultados da eleição.
 
-(a) Calcule o porcentagem de votos dos vereadores em cada município.
+(a) Calcule a porcentagem de votos dos vereadores em cada município.
 
 ```{r}
 resultados_totais_candidatos <- resultados_totais_candidatos %>% 
@@ -330,7 +330,7 @@ resultados_totais_candidatos <- resultados_totais_candidatos %>%
   mutate(Pct_Votos=100*(QT_VOTOS_NOMINAIS/sum(QT_VOTOS_NOMINAIS,na.rm=T)))
 ```
 
-(b) Calcule a média do porcentagem de votos dos candidatos por idade.
+(b) Calcule a média da porcentagem de votos dos candidatos por idade.
 
 ```{r}
 candidatos_idade_media_votos <- resultados_totais_candidatos %>% 
@@ -340,7 +340,7 @@ candidatos_idade_media_votos <- resultados_totais_candidatos %>%
   summarize(Media_Pct_Votos=mean(Pct_Votos,na.rm=T)) 
 ```
 
-(c) Mostre num gráfico de linhas o porcentagem média de votos dos candidatos (no eixo y) por idade de candidato (no eixo x). Formate o seu gráfico.
+(c) Mostre num gráfico de linhas a porcentagem média de votos dos candidatos (no eixo y) por idade do candidato (no eixo x). Formate o seu gráfico.
 
 ```{r, eval=F}
 candidatos_idade_media_votos %>%
@@ -352,7 +352,7 @@ candidatos_idade_media_votos %>%
   theme_classic()
 ```
 
-(d) Mostre num gráfico da linhas o porcentagem de votos dos candidatos (no eixo y) por idade do candidato (no eixo x), com linhas separadas por gênero.
+(d) Mostre num gráfico de linhas a porcentagem de votos dos candidatos (no eixo y) por idade do candidato (no eixo x), com linhas separadas por gênero.
 
 ```{r, eval=F}
 candidatos_idade_genero_media_votos <- resultados_totais_candidatos %>% 
@@ -383,7 +383,7 @@ candidatos_idade_genero_media_votos %>%
   paged_table()
 ```
 
-14. (a) Calcule o voto total de cada *partido* (não candidato) em cada município nas eleições para vereador em 2016. Depois, calcular o porcentagem do voto de cada partido em cada município.
+14. (a) Calcule o voto total de cada *partido* (não candidato) em cada município nas eleições para vereador em 2016. Depois, calcule a porcentagem do voto de cada partido em cada município.
 
 ```{r}
 resultados_totais_partidos <- resultados_totais_candidatos %>% group_by(NM_UE, SG_PARTIDO) %>%
@@ -393,7 +393,7 @@ resultados_totais_partidos <- resultados_totais_candidatos %>% group_by(NM_UE, S
   ungroup()
 ```
 
-(b) Use o código abaixo para gerar uma tabela de IDH (Indíce de Desenvolvimento Humano em 2010) por município. 
+(b) Use o código abaixo para gerar uma tabela de IDH (Índice de Desenvolvimento Humano em 2010) por município. 
 
 ```{r, echo=T}
 IDH <- tibble(NM_UE=c("ALTO ALEGRE", "AMAJARI", "BOAVISTA", "BONFIM",
@@ -404,7 +404,7 @@ IDH <- tibble(NM_UE=c("ALTO ALEGRE", "AMAJARI", "BOAVISTA", "BONFIM",
              0.594, 0.650, 0.619, 0.655, 0.649, 0.453))
 ```
 
-(c) Use um `anti_join()` para verificar se existe um identificador comum e completo para os dois bancos de resultados por partido e IDH. Corrija os erros par que todas as observações podem ser cruzadas.
+(c) Use um `anti_join()` para verificar se existe um identificador comum e completo para os dois bancos de resultados por partido e IDH. Corrija os erros para que todas as observações possam ser cruzadas.
 
 ```{r, eval=F}
 resultados_totais_partidos %>% anti_join(IDH, by="NM_UE") %>%
@@ -442,7 +442,7 @@ resultados_totais_partidos_IDH %>%
   theme_classic()
 ```
 
-(e) Ajuste o seu gráfico na questão (d) para que o tamanho de cada ponto mostra o total de votos que o PMDB recebeu no munícipio.
+(e) Ajuste o seu gráfico na questão (d) para que o tamanho de cada ponto mostra o total de votos que o PMDB recebeu no município.
 
 ```{r, eval=F}
 resultados_totais_partidos_IDH %>% 
@@ -455,7 +455,7 @@ resultados_totais_partidos_IDH %>%
   theme_classic()
 ```
 
-(f) Ajuste o seu gráfico na questão (e) para que o cor dos pontos (em vez do tamanho) mostra o total de votos que o PMDB recebeu no munícipio. Aplique uma escala de cores apropriado da sua escolha.
+(f) Ajuste o seu gráfico na questão (e) para que 1 cor dos pontos (em vez do tamanho) mostre o total de votos que o PMDB recebeu no município. Aplique uma escala de cores apropriada de sua escolha.
 
 ```{r, eval=F}
 resultados_totais_partidos_IDH %>% 
