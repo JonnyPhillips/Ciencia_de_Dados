@@ -36,6 +36,8 @@ library("knitr")
 library("kableExtra")
 ```
 
+[Clique aqui](https://drive.google.com/file/d/1OlERbZF3ylM4-3wlMwPSBmQ4QjGbVJCO/view?usp=sharing) para assistir o vídeo da aula online do dia 7 de maio de 2021. E o [chat](https://drive.google.com/file/d/1FnCpfZA9-xtElOKnASpTyjs2J0DA3d1_/view?usp=sharing).
+
 # Unidades de Análise
 
 A maioria de projetos exigem a combinação de dados de fontes diversas. É assim que criamos a nossa própria contribuição para a pesquisa. Por exemplo, para estudar o efeito de um programa de governo sobre a votação, preciseramos de pelo menos dois bancos de dados, um com os dados da localização do programa e outro sobre os resultados eleitorais. Como podemos juntar estes dois bancos para facilitar a nossa análise?
