@@ -24,8 +24,8 @@
   
   
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2020-06-12" />
-  <meta property="article:created" itemprop="dateCreated" content="2020-06-12" />
+  <meta property="article:published" itemprop="datePublished" content="2021-05-19" />
+  <meta property="article:created" itemprop="dateCreated" content="2021-05-19" />
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Desafio 2: Resumindo um Banco de Dados" />
@@ -40,7 +40,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output","date"]}},"value":[{"type":"character","attributes":{},"value":["Desafio 2: Resumindo um Banco de Dados"]},{"type":"character","attributes":{},"value":["distill::distill_article"]},{"type":"character","attributes":{},"value":["06-12-2020"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output","date"]}},"value":[{"type":"character","attributes":{},"value":["Desafio 2: Resumindo um Banco de Dados"]},{"type":"character","attributes":{},"value":["distill::distill_article"]},{"type":"character","attributes":{},"value":["05-19-2021"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1928,7 +1928,7 @@ distill-header .nav a {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Desafio 2: Resumindo um Banco de Dados","authors":[],"publishedDate":"2020-06-12T00:00:00.000-03:00"}
+{"title":"Desafio 2: Resumindo um Banco de Dados","authors":[],"publishedDate":"2021-05-19T00:00:00.000+05:30"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1966,7 +1966,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <pre class="r"><code>
 library(tidyverse)
 library(knitr)
-educ_RO &lt;- read_delim(&quot;CENSOESC_2004_RO.csv&quot;, delim=&quot;|&quot;)</code></pre>
+educ_RO &lt;- read_delim(&quot;CENSOESC_2004_RR.csv&quot;, delim=&quot;|&quot;)</code></pre>
 </div>
 <ol start="2" type="1">
 <li>Os dados contém escolas não-ativas (veja a variável <code>CODFUNC</code>); tire elas do banco de dados. O que representa uma observação no banco de dados agora?</li>
@@ -2449,97 +2449,56 @@ educ_RO %&gt;% group_by(DEP) %&gt;%
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-pct_escolas_labinfo &lt;- educ_RO %&gt;% group_by(CODMUNIC,MUNIC) %&gt;%
-  summarize(Pct_LAB_INFO=100*sum(LAB_INFO, na.rm=T)/n()) %&gt;%
+escol_inform_mun &lt;- educ_RO %&gt;% group_by(CODMUNIC, MUNIC, LAB_INFO) %&gt;%
+  tally() %&gt;%
+  group_by(CODMUNIC, MUNIC) %&gt;%
+  mutate(Pct_LAB_INFO=100*(n/sum(n))) %&gt;%
+  filter(LAB_INFO==1) %&gt;%
   ungroup() %&gt;%
-  select(-CODMUNIC)
+  select(-CODMUNIC, -LAB_INFO, -n)
 
-escol_inform_mun &lt;- educ_RO %&gt;% group_by(CODMUNIC, MUNIC) %&gt;%
-  summarise(LAB_INFO = sum(LAB_INFO, na.rm = T)) %&gt;%
-  ungroup() %&gt;%
-  select(-CODMUNIC) %&gt;%
-  mutate(pct_laborat = 100 * LAB_INFO / sum(LAB_INFO)) %&gt;%
+escol_inform_mun %&gt;%
   kable(caption = &quot;Escolas com Laboratório de Informática por Município&quot;,
-        col.names = c(&quot;Município&quot;, &quot;Número de Laboratórios&quot;, &quot;% Laboratórios&quot;),
-        digits = 1, format.args = list(big.mark = &quot;.&quot;, decimal.mark = &quot;,&quot;))
-
-pct_escolas_labinfo %&gt;%
-  kable(caption=&quot;% de Escolas com Laboratório de Informático por Município&quot;,
-        col.names=c(&quot;Município&quot;, &quot;% de Escolas&quot;),
-        digits=1, format.args=list(big.mark=&quot;.&quot;, decimal.mark=&quot;,&quot;))</code></pre>
+        col.names = c(&quot;Município&quot;, &quot;% Laboratórios&quot;),
+        digits = 1, format.args = list(big.mark = &quot;.&quot;, decimal.mark = &quot;,&quot;))</code></pre>
 <table>
-<caption><span id="tab:unnamed-chunk-11">Table 6: </span>% de Escolas com Laboratório de Informático por Município</caption>
+<caption><span id="tab:unnamed-chunk-11">Table 6: </span>Escolas com Laboratório de Informática por Município</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Município</th>
-<th style="text-align: right;">% de Escolas</th>
+<th style="text-align: right;">% Laboratórios</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">AMAJARI</td>
-<td style="text-align: right;">0,0</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">ALTO ALEGRE</td>
 <td style="text-align: right;">1,8</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">BOA VISTA</td>
 <td style="text-align: right;">22,1</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">PACARAIMA</td>
 <td style="text-align: right;">4,7</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">BONFIM</td>
-<td style="text-align: right;">0,0</td>
-</tr>
 <tr class="even">
-<td style="text-align: left;">CANTA</td>
-<td style="text-align: right;">0,0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">NORMANDIA</td>
-<td style="text-align: right;">0,0</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">UIRAMUTA</td>
-<td style="text-align: right;">0,0</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">CARACARAI</td>
 <td style="text-align: right;">1,7</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">IRACEMA</td>
-<td style="text-align: right;">0,0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">MUCAJAI</td>
 <td style="text-align: right;">2,0</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">CAROEBE</td>
-<td style="text-align: right;">0,0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">RORAINOPOLIS</td>
-<td style="text-align: right;">0,0</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">SAO JOAO DA BALIZA</td>
 <td style="text-align: right;">5,9</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">SAO LUIZ</td>
-<td style="text-align: right;">0,0</td>
 </tr>
 </tbody>
 </table>
 <pre class="r"><code>
-mun_pct_escolas_labinfo_maior &lt;- pct_escolas_labinfo %&gt;% 
+mun_pct_escolas_labinfo_maior &lt;- escol_inform_mun %&gt;% 
+  ungroup() %&gt;%
   top_n(1,Pct_LAB_INFO) %&gt;% 
   pull(MUNIC)</code></pre>
 </div>
@@ -3685,210 +3644,210 @@ educ_RO %&gt;% filter(DEP==&quot;Estadual&quot;) %&gt;%
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">25.602.374</td>
+<td style="text-align: right;">25.602.673</td>
+<td style="text-align: left;">AMAJARI</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">25.602.596</td>
 <td style="text-align: left;">AMAJARI</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 </tr>
-<tr class="even">
-<td style="text-align: right;">25.602.587</td>
-<td style="text-align: left;">AMAJARI</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-</tr>
 <tr class="odd">
-<td style="text-align: right;">25.384.670</td>
-<td style="text-align: left;">ALTO ALEGRE</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">25.602.589</td>
+<td style="text-align: right;">25.384.645</td>
 <td style="text-align: left;">ALTO ALEGRE</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 </tr>
+<tr class="even">
+<td style="text-align: right;">25.384.660</td>
+<td style="text-align: left;">ALTO ALEGRE</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+</tr>
 <tr class="odd">
-<td style="text-align: right;">25.385.043</td>
+<td style="text-align: right;">25.384.725</td>
 <td style="text-align: left;">BOA VISTA</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">10</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">25.602.533</td>
+<td style="text-align: right;">25.384.755</td>
 <td style="text-align: left;">BOA VISTA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">96</td>
-<td style="text-align: right;">124</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">76</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">25.384.752</td>
+<td style="text-align: right;">25.384.768</td>
 <td style="text-align: left;">PACARAIMA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">5</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">25.384.797</td>
-<td style="text-align: left;">PACARAIMA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">25.384.841</td>
-<td style="text-align: left;">BONFIM</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">25.384.716</td>
+<td style="text-align: left;">PACARAIMA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
 <td style="text-align: right;">25.602.558</td>
 <td style="text-align: left;">BONFIM</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">3</td>
 </tr>
+<tr class="even">
+<td style="text-align: right;">25.385.098</td>
+<td style="text-align: left;">BONFIM</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">18</td>
+</tr>
 <tr class="odd">
-<td style="text-align: right;">25.385.045</td>
+<td style="text-align: right;">25.384.838</td>
+<td style="text-align: left;">CANTA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">25.602.457</td>
 <td style="text-align: left;">CANTA</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">3</td>
 </tr>
-<tr class="even">
-<td style="text-align: right;">25.602.365</td>
-<td style="text-align: left;">CANTA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">3</td>
-</tr>
 <tr class="odd">
-<td style="text-align: right;">25.384.892</td>
+<td style="text-align: right;">25.602.630</td>
 <td style="text-align: left;">NORMANDIA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">16</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">25.384.860</td>
-<td style="text-align: left;">NORMANDIA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">27</td>
-<td style="text-align: right;">41</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">25.602.453</td>
-<td style="text-align: left;">UIRAMUTA</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">25.384.887</td>
+<td style="text-align: right;">25.385.093</td>
+<td style="text-align: left;">NORMANDIA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">25.384.858</td>
 <td style="text-align: left;">UIRAMUTA</td>
 <td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">25.384.790</td>
+<td style="text-align: left;">UIRAMUTA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">25</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">25.385.073</td>
+<td style="text-align: left;">CARACARAI</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">25.602.647</td>
+<td style="text-align: left;">CARACARAI</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
 <td style="text-align: right;">7</td>
-<td style="text-align: right;">9</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">25.602.394</td>
-<td style="text-align: left;">CARACARAI</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">25.602.348</td>
-<td style="text-align: left;">CARACARAI</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">29</td>
-<td style="text-align: right;">54</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">25.602.579</td>
-<td style="text-align: left;">IRACEMA</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">25.602.481</td>
 <td style="text-align: left;">IRACEMA</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 </tr>
+<tr class="even">
+<td style="text-align: right;">25.602.586</td>
+<td style="text-align: left;">IRACEMA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
 <tr class="odd">
-<td style="text-align: right;">25.385.077</td>
+<td style="text-align: right;">25.602.559</td>
 <td style="text-align: left;">MUCAJAI</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">25.602.317</td>
+<td style="text-align: right;">25.384.935</td>
 <td style="text-align: left;">MUCAJAI</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">25.384.962</td>
+<td style="text-align: right;">25.384.960</td>
 <td style="text-align: left;">CAROEBE</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">25</td>
-<td style="text-align: right;">39</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">20</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">25.381.555</td>
+<td style="text-align: right;">25.385.089</td>
 <td style="text-align: left;">CAROEBE</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">24</td>
-<td style="text-align: right;">36</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">25.602.387</td>
-<td style="text-align: left;">RORAINOPOLIS</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">25.385.022</td>
-<td style="text-align: left;">RORAINOPOLIS</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">25.602.329</td>
-<td style="text-align: left;">SAO JOAO DA BALIZA</td>
+<td style="text-align: right;">25.385.015</td>
+<td style="text-align: left;">RORAINOPOLIS</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">28</td>
-<td style="text-align: right;">34</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">16</td>
 </tr>
 <tr class="even">
+<td style="text-align: right;">25.385.038</td>
+<td style="text-align: left;">RORAINOPOLIS</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
 <td style="text-align: right;">25.602.417</td>
 <td style="text-align: left;">SAO JOAO DA BALIZA</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1</td>
 </tr>
+<tr class="even">
+<td style="text-align: right;">25.384.972</td>
+<td style="text-align: left;">SAO JOAO DA BALIZA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
 <tr class="odd">
-<td style="text-align: right;">25.602.334</td>
+<td style="text-align: right;">25.602.437</td>
 <td style="text-align: left;">SAO LUIZ</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">29</td>
-<td style="text-align: right;">42</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">38</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">25.385.001</td>
+<td style="text-align: right;">25.385.006</td>
 <td style="text-align: left;">SAO LUIZ</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>

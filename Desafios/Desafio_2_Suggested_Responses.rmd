@@ -45,7 +45,7 @@ educ_RO %>% write_delim("CENSOESC_2004_RO.csv", delim="|")
 ```{r}
 library(tidyverse)
 library(knitr)
-educ_RO <- read_delim("CENSOESC_2004_RO.csv", delim="|")
+educ_RO <- read_delim("CENSOESC_2004_RR.csv", delim="|")
 ```
 
 
@@ -160,26 +160,21 @@ educ_RO %>% group_by(DEP) %>%
 7. Qual é o porcentagem de escolas com laboratório de informático, por município (inclua uma tabela)? Qual é o nome do município com o maior porcentagem de escolas com laboratório de informático?
 
 ```{r}
-pct_escolas_labinfo <- educ_RO %>% group_by(CODMUNIC,MUNIC) %>%
-  summarize(Pct_LAB_INFO=100*sum(LAB_INFO, na.rm=T)/n()) %>%
+escol_inform_mun <- educ_RO %>% group_by(CODMUNIC, MUNIC, LAB_INFO) %>%
+  tally() %>%
+  group_by(CODMUNIC, MUNIC) %>%
+  mutate(Pct_LAB_INFO=100*(n/sum(n))) %>%
+  filter(LAB_INFO==1) %>%
   ungroup() %>%
-  select(-CODMUNIC)
+  select(-CODMUNIC, -LAB_INFO, -n)
 
-escol_inform_mun <- educ_RO %>% group_by(CODMUNIC, MUNIC) %>%
-  summarise(LAB_INFO = sum(LAB_INFO, na.rm = T)) %>%
-  ungroup() %>%
-  select(-CODMUNIC) %>%
-  mutate(pct_laborat = 100 * LAB_INFO / sum(LAB_INFO)) %>%
+escol_inform_mun %>%
   kable(caption = "Escolas com Laboratório de Informática por Município",
-        col.names = c("Município", "Número de Laboratórios", "% Laboratórios"),
+        col.names = c("Município", "% Laboratórios"),
         digits = 1, format.args = list(big.mark = ".", decimal.mark = ","))
 
-pct_escolas_labinfo %>%
-  kable(caption="% de Escolas com Laboratório de Informático por Município",
-        col.names=c("Município", "% de Escolas"),
-        digits=1, format.args=list(big.mark=".", decimal.mark=","))
-
-mun_pct_escolas_labinfo_maior <- pct_escolas_labinfo %>% 
+mun_pct_escolas_labinfo_maior <- escol_inform_mun %>% 
+  ungroup() %>%
   top_n(1,Pct_LAB_INFO) %>% 
   pull(MUNIC)
 ```
