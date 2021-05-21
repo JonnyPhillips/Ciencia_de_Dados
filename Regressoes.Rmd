@@ -33,6 +33,7 @@ library("knitr")
 library("kableExtra")
 library("broom")
 filter <- dplyr::filter
+select <- dplyr::select
 ```
 
 # Introdução
@@ -490,7 +491,7 @@ Uma regressão linear é apenas uma das possibilidades. O tipo de regressão ref
 
 Para acomodar uma variedade de modelos vamos aproveitar do pacote `Zelig` que aceita várias possibilidades. Infelizmente, a instalação exige um pouco mais de código - pode copiar-colar a linha de instalação abaixo:
 
-```{r}
+```{r, eval=F}
 #install.packages("https://cran.r-project.org/src/contrib/Archive/Zelig/Zelig_5.1.6.tar.gz", repos=NULL, type="source")
 library(Zelig)
 ```
@@ -511,7 +512,7 @@ flights %>% mutate(atraso=case_when(dep_delay>0~1,
   zelig(atraso ~ origin, data=., model="logit")
 ```
 
-```{r, echo=F}
+```{r, echo=F, eval=F}
 flights %>% mutate(atraso=case_when(dep_delay>0~1,
                                     TRUE~0)) %>%
   zelig(atraso ~ origin, data=., model="logit", cite=F)
@@ -519,7 +520,7 @@ flights %>% mutate(atraso=case_when(dep_delay>0~1,
 
 A tabela abaixo mostra o modelo sugerido (existem muitos) para cada tipo de dado usando `zelig()`:
 
-```{r, echo=F}
+```{r, echo=F, eval=F}
 tibble(`Tipo de Variável Dependente`=c("Contínuo", "Binário", ">2 Categorias", "Categorias Ordenadas", "Contagem (número de eventos em um periódo fixo)"),
                      `Model em Zelig`=c("`ls`", "`logit`", "`mlogit`", "`ologit`", "`poisson`")) %>%
   kable()
@@ -536,7 +537,7 @@ flights %>% mutate(atraso_serio=case_when(dep_delay>240 ~ 1,
   zelig(atrasos_serios ~ origin, data=., model="poisson")
 ```
 
-```{r, echo=F}
+```{r, echo=F, eval=F}
 flights %>% mutate(atraso_serio=case_when(dep_delay>240 ~ 1,
                                            TRUE ~ 0)) %>%
   group_by(origin, month, day) %>%
@@ -557,7 +558,7 @@ flights %>% mutate(atraso=case_when(dep_delay>0~1,
   stargazer(type="html")
 ```
 
-```{r, results='asis', echo=F}
+```{r, results='asis', echo=F, eval=F}
 flights %>% mutate(atraso=case_when(dep_delay>0~1,
                                     TRUE~0)) %>%
   zelig(atraso ~ origin, data=., model="logit", cite=F) %>%
@@ -592,7 +593,7 @@ flights  %>%
   sim()
 ```
 
-```{r, echo=F}
+```{r, echo=F, eval=F}
 flights  %>%
   zelig(dep_delay ~ dep_time, data=., model="ls", cite=F) %>% 
   setx(dep_time=0500) %>%
@@ -606,14 +607,14 @@ Qual é o resultado? São valores previstos - a linha de 'pv' é a previsão do 
 
 Em contraste, quando especificamos o horário de partido das 17h, o atraso média é 20 minutos. (Note que se tivéssemos mais variáveis explicativas, o `setx` automaticamente fixa os valores na média da variável se não especificamos elas explicitamente.)
 
-```{r, eval=F}
+```{r, eval=F, eval=F}
 flights  %>%
   zelig(dep_delay ~ dep_time, data=., model="ls") %>% 
   setx(dep_time=1700) %>%
   sim()
 ```
 
-```{r, echo=F}
+```{r, echo=F, eval=F}
 flights  %>%
   zelig(dep_delay ~ dep_time, data=., model="ls", cite=F) %>% 
   setx(dep_time=1700) %>%
@@ -630,7 +631,7 @@ flights  %>%
   sim()
 ```
 
-```{r, echo=F}
+```{r, echo=F, eval=F}
 flights  %>%
   zelig(dep_delay ~ dep_time, data=., model="ls", cite=F) %>% 
   setx(dep_time=0500) %>%
@@ -651,7 +652,7 @@ diff_simulacoes <- flights  %>%
   get_qi(xvalue="x1", qi="fd")
 ```
 
-```{r, echo=F}
+```{r, echo=F, eval=F}
 diff_simulacoes <- flights  %>%
   zelig(dep_delay ~ dep_time, data=., model="ls", cite=F) %>% 
   setx(dep_time=0500) %>%
@@ -662,7 +663,7 @@ diff_simulacoes <- flights  %>%
 
 Agora, é fácil visualizar essa distribuição:
 
-```{r}
+```{r, eval=F}
 diff_simulacoes %>% as_tibble() %>% 
   rename("Diff"=`1`) %>%
   ggplot() +

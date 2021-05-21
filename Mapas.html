@@ -18,6 +18,71 @@
  <!--radix_placeholder_import_source-->
  <!--/radix_placeholder_import_source-->
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
   <!--radix_placeholder_meta_tags-->
   <title>Analise de Dados para as Ciencias Sociais: Mapas e Análises Espaciais</title>
   
@@ -42,6 +107,7 @@
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
+  <meta name="distill:offset" content=""/>
   
   <script type="application/javascript">
   
@@ -53,6 +119,7 @@
       var header = $('header').get(0);
       var headerHeight = header.offsetHeight;
       var headroom = new Headroom(header, {
+        tolerance: 5,
         onPin : function() {
           if (window.headroom_prevent_pin) {
             window.headroom_prevent_pin = false;
@@ -101,7 +168,7 @@
   
   .distill-site-nav {
     color: rgba(255, 255, 255, 0.8);
-    background-color: #455a64;
+    background-color: #0F2E3D;
     font-size: 15px;
     font-weight: 300;
   }
@@ -164,6 +231,7 @@
   
   .distill-site-header .title {
     font-size: 18px;
+    min-width: 150px;
   }
   
   .distill-site-header .logo {
@@ -305,7 +373,7 @@
   
   
   @media screen and (max-width: 768px) {
-    .distill-site-header.responsive {position: relative;}
+    .distill-site-header.responsive {position: relative; min-height: 500px; }
     .distill-site-header.responsive a.nav-toggle {
       position: absolute;
       right: 0;
@@ -374,11 +442,277 @@
     top: 0;
   }
   
+  /* adjust viewport for navbar height */
+  /* helps vertically center bootstrap (non-distill) content */
+  .min-vh-100 {
+    min-height: calc(100vh - 100px) !important;
+  }
+  
   </style>
   
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+  <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
+  
+  <script type="application/javascript">
+  
+  function getMeta(metaName) {
+    var metas = document.getElementsByTagName('meta');
+    for (let i = 0; i < metas.length; i++) {
+      if (metas[i].getAttribute('name') === metaName) {
+        return metas[i].getAttribute('content');
+      }
+    }
+    return '';
+  }
+  
+  function offsetURL(url) {
+    var offset = getMeta('distill:offset');
+    return offset ? offset + '/' + url : url;
+  }
+  
+  function createFuseIndex() {
+  
+    // create fuse index
+    var options = {
+      keys: [
+        { name: 'title', weight: 20 },
+        { name: 'categories', weight: 15 },
+        { name: 'description', weight: 10 },
+        { name: 'contents', weight: 5 },
+      ],
+      ignoreLocation: true,
+      threshold: 0
+    };
+    var fuse = new window.Fuse([], options);
+  
+    // fetch the main search.json
+    return fetch(offsetURL('search.json'))
+      .then(function(response) {
+        if (response.status == 200) {
+          return response.json().then(function(json) {
+            // index main articles
+            json.articles.forEach(function(article) {
+              fuse.add(article);
+            });
+            // download collections and index their articles
+            return Promise.all(json.collections.map(function(collection) {
+              return fetch(offsetURL(collection)).then(function(response) {
+                if (response.status === 200) {
+                  return response.json().then(function(articles) {
+                    articles.forEach(function(article) {
+                      fuse.add(article);
+                    });
+                  })
+                } else {
+                  return Promise.reject(
+                    new Error('Unexpected status from search index request: ' +
+                              response.status)
+                  );
+                }
+              });
+            })).then(function() {
+              return fuse;
+            });
+          });
+  
+        } else {
+          return Promise.reject(
+            new Error('Unexpected status from search index request: ' +
+                        response.status)
+          );
+        }
+      });
+  }
+  
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+  
+    // get search element (bail if we don't have one)
+    var searchEl = window.document.getElementById('distill-search');
+    if (!searchEl)
+      return;
+  
+    createFuseIndex()
+      .then(function(fuse) {
+  
+        // make search box visible
+        searchEl.classList.remove('hidden');
+  
+        // initialize autocomplete
+        var options = {
+          autoselect: true,
+          hint: false,
+          minLength: 2,
+        };
+        window.autocomplete(searchEl, options, [{
+          source: function(query, callback) {
+            const searchOptions = {
+              isCaseSensitive: false,
+              shouldSort: true,
+              minMatchCharLength: 2,
+              limit: 10,
+            };
+            var results = fuse.search(query, searchOptions);
+            callback(results
+              .map(function(result) { return result.item; })
+            );
+          },
+          templates: {
+            suggestion: function(suggestion) {
+              var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
+                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+                : '';
+              var html = `
+                <div class="search-item">
+                  <h3>${suggestion.title}</h3>
+                  <div class="search-item-description">
+                    ${suggestion.description || ''}
+                  </div>
+                  <div class="search-item-preview">
+                    ${img}
+                  </div>
+                </div>
+              `;
+              return html;
+            }
+          }
+        }]).on('autocomplete:selected', function(event, suggestion) {
+          window.location.href = offsetURL(suggestion.path);
+        });
+        // remove inline display style on autocompleter (we want to
+        // manage responsive display via css)
+        $('.algolia-autocomplete').css("display", "");
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  
+  });
+  
+  </script>
+  
+  <style type="text/css">
+  
+  .nav-search {
+    font-size: x-small;
+  }
+  
+  /* Algolioa Autocomplete */
+  
+  .algolia-autocomplete {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: sub;
+    background-color: white;
+    color: black;
+    padding: 6px;
+    padding-top: 8px;
+    padding-bottom: 0;
+    border-radius: 6px;
+    border: 1px #0F2E3D solid;
+    width: 180px;
+  }
+  
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-nav .algolia-autocomplete {
+      display: none;
+      visibility: hidden;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete {
+      display: inline-block;
+      visibility: visible;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+      margin-left: 0;
+      width: 400px;
+      max-height: 400px;
+    }
+  }
+  
+  .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+    width: 90%;
+    outline: none;
+    border: none;
+  }
+  
+  .algolia-autocomplete .aa-hint {
+    color: #999;
+  }
+  .algolia-autocomplete .aa-dropdown-menu {
+    width: 550px;
+    max-height: 70vh;
+    overflow-x: visible;
+    overflow-y: scroll;
+    padding: 5px;
+    margin-top: 3px;
+    margin-left: -150px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #999;
+    border-top: none;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+    cursor: pointer;
+    padding: 5px 4px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+    border-bottom: none;
+    margin-bottom: 2px;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+    overflow: hidden;
+    font-size: 0.8em;
+    line-height: 1.4em;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+    font-size: 1rem;
+    margin-block-start: 0;
+    margin-block-end: 5px;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+    display: inline-block;
+    overflow: hidden;
+    height: 2.8em;
+    width: 80%;
+    margin-right: 4%;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+    display: inline-block;
+    width: 15%;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+    height: 3em;
+    width: auto;
+    display: none;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+    display: initial;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+    background-color: #eee;
+  }
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+    font-weight: bold;
+    font-style: normal;
+  }
+  
+  </style>
+  
+  
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
   
@@ -402,6 +736,51 @@
   
   .pagedtable-footer {
     font-size: 15px;
+  }
+  
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+  
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+  
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+  
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+  
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+  
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
   }
   
   .html-widget {
@@ -443,6 +822,7 @@
   }
   
   d-article {
+    padding-top: 2.5rem;
     padding-bottom: 30px;
   }
   
@@ -454,91 +834,48 @@
     width: 100%;
   }
   
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+  
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+  
   d-article iframe {
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 2.0em;
     width: 100%;
   }
   
-  figure img.external {
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
-    padding: 18px;
-    box-sizing: border-box;
+  /* Tweak code blocks */
+  
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   }
   
-  /* CSS for table of contents */
-  
-  .d-toc {
-    color: rgba(0,0,0,0.8);
-    font-size: 0.8em;
-    line-height: 1em;
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
   }
   
-  .d-toc-header {
-    font-size: 0.6rem;
-    font-weight: 400;
-    color: rgba(0, 0, 0, 0.5);
-    text-transform: uppercase;
-    margin-top: 0;
-    margin-bottom: 1.3em;
+  d-article div.sourceCode {
+    background-color: white;
   }
   
-  .d-toc a {
-    border-bottom: none;
-  }
-  
-  .d-toc ul {
-    padding-left: 0;
-  }
-  
-  .d-toc li>ul {
-    padding-top: 0.8em;
-    padding-left: 16px;
-    margin-bottom: 0.6em;
-  }
-  
-  .d-toc ul,
-  .d-toc li {
-    list-style-type: none;
-  }
-  
-  .d-toc li {
-    margin-bottom: 0.9em;
-  }
-  
-  .d-toc-separator {
-    margin-top: 20px;
-    margin-bottom: 2em;
-  }
-  
-  .d-article-with-toc {
-    border-top: none;
-    padding-top: 0;
-  }
-  
-  
-  
-  /* Tweak code blocks (note that this CSS is repeated above in an injection
-     into the d-code shadow dom) */
-  
-  d-code {
-    overflow-x: auto !important;
-  }
-  
-  pre.d-code code.d-code {
+  d-article div.sourceCode pre {
     padding-left: 10px;
     font-size: 12px;
     border-left: 2px solid rgba(0,0,0,0.1);
   }
   
-  pre.text-output {
-  
+  d-article pre {
     font-size: 12px;
     color: black;
     background: none;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    margin-top: 0;
     text-align: left;
     white-space: pre;
     word-spacing: normal;
@@ -556,20 +893,128 @@
     hyphens: none;
   }
   
+  d-article pre a {
+    border-bottom: none;
+  }
+  
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+  
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+  
   @media(min-width: 768px) {
   
-  d-code {
-    overflow-x: visible !important;
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
   }
   
-  pre.d-code code.d-code  {
-      padding-left: 18px;
-      font-size: 14px;
-  }
-  pre.text-output {
+  d-article div.sourceCode pre {
+    padding-left: 18px;
     font-size: 14px;
   }
+  
+  d-article pre {
+    font-size: 14px;
   }
+  
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for d-contents */
+  
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+  
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+  
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+  
+  .d-contents li {
+    list-style-type: none
+  }
+  
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+  
+  .d-contents ul {
+    padding-left: 1em
+  }
+  
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+  
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+  
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+  
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+  
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+  
+  
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+  
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+  
   
   /* Figure */
   
@@ -607,6 +1052,27 @@
     color: rgba(0, 0, 0, 1.0);
   }
   
+  /* Citations */
+  
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+  
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+  
+  /* Citation hover box */
+  
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+  
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
   
   
   /* Tweak 1000px media break to show more text */
@@ -682,6 +1148,91 @@
     word-wrap: break-word;
   }
   
+  /* Include appendix styles here so they can be overridden */
+  
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+  
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+  
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+  
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+  
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+  
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+  
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  d-appendix > * {
+    grid-column: text;
+  }
+  
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+  
+  /* Include footnote styles here so they can be overridden */
+  
+  d-footnote-list {
+    contain: layout style;
+  }
+  
+  d-footnote-list > * {
+    grid-column: text;
+  }
+  
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+  
+  
+  
+  /* Anchor.js */
+  
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
   
   /* Social footer */
   
@@ -726,6 +1277,221 @@
   .article-footer .subscribe {
     font-size: 15px;
     margin-top: 45px;
+  }
+  
+  
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+  
+  /* Styles for posts lists (not auto-injected) */
+  
+  
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+  
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+  
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+  
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+  
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+  
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+  
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+  
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+  
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+  
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+  
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+  
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+  
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+  
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  .posts-list img {
+    opacity: 1;
+  }
+  
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+  
+  .posts-more {
+    clear: both;
+  }
+  
+  
+  .posts-sidebar {
+    font-size: 16px;
+  }
+  
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+  
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+  
+  .categories li>a {
+    border-bottom: none;
+  }
+  
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+  
+  .categories .active {
+    font-weight: 600;
+  }
+  
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+  
+  
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
   }
   
   
@@ -857,6 +1623,12 @@
     hyphens: none;
   }
   
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+  
+  
+  
   </style>
   
   <script type="application/javascript">
@@ -872,6 +1644,13 @@
   
   // show body when load is complete
   function on_load_complete() {
+  
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+  
   
     // set body to visible
     document.body.style.visibility = 'visible';
@@ -918,23 +1697,8 @@
     // create d-appendix
     $('.d-appendix').changeElementType('d-appendix');
   
-    // create d-bibliography
-    var bibliography = $('<d-bibliography></d-bibliography>');
-    $('#distill-bibliography').wrap(bibliography);
-  
     // flag indicating that we have appendix items
     var appendix = $('.appendix-bottom').children('h3').length > 0;
-  
-    // replace citations with <d-cite>
-    $('.citation').each(function(i, val) {
-      appendix = true;
-      var cites = $(this).attr('data-cites').split(" ");
-      var dt_cite = $('<d-cite></d-cite>');
-      dt_cite.attr('key', cites.join());
-      $(this).replaceWith(dt_cite);
-    });
-    // remove refs
-    $('#refs').remove();
   
     // replace footnotes with <d-footnote>
     $('.footnote-ref').each(function(i, val) {
@@ -952,39 +1716,21 @@
     // remove footnotes
     $('.footnotes').remove();
   
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+  
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
     });
     $('h3.appendix').each(function(i, val) {
       var id = $(this).attr('id');
-      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
       appendix = true;
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
     });
   
     // show d-appendix if we have appendix content
     $("d-appendix").css('display', appendix ? 'grid' : 'none');
-  
-    // replace code blocks with d-code
-    $('pre>code').each(function(i, val) {
-      var code = $(this);
-      var pre = code.parent();
-      var clz = "";
-      var language = pre.attr('class');
-      if (language) {
-        // map unknown languages to "clike" (without this they just dissapear)
-        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
-                                 "javascript", "js", "julia", "lua", "markdown",
-                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
-          language = "clike";
-        language = ' language="' + language + '"';
-        var dt_code = $('<d-code block' + language + clz + '></d-code>');
-        dt_code.text(code.text());
-        pre.replaceWith(dt_code);
-      } else {
-        code.addClass('text-output').unwrap().changeElementType('pre');
-      }
-    });
   
     // localize layout chunks to just output
     $('.layout-chunk').each(function(i, val) {
@@ -993,7 +1739,7 @@
       var layout = $(this).attr('data-layout');
   
       // apply layout to markdown level block elements
-      var elements = $(this).children().not('d-code, pre.text-output, script');
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
       elements.each(function(i, el) {
         var layout_div = $('<div class="' + layout + '"></div>');
         if (layout_div.hasClass('shaded')) {
@@ -1010,6 +1756,13 @@
       $(this).children().unwrap();
     });
   
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+  
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+  
     // load distill framework
     load_distill_framework();
   
@@ -1025,12 +1778,26 @@
       if (!have_authors)
         $('d-byline').addClass('hidden');
   
-      // table of contents
-      if (have_authors) // adjust border if we are in authors
-        $('.d-toc').parent().addClass('d-article-with-toc');
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
   
       // strip links that point to #
       $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
   
       // hide elements of author/affiliations grid that have no value
       function hide_byline_column(caption) {
@@ -1080,18 +1847,27 @@
         grid.children('h3:contains("Affiliations")').text('Affiliation');
       }
   
-      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
-      $('d-code').each(function(i, val) {
-        var style = document.createElement('style');
-        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
-                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
-        if (this.shadowRoot)
-          this.shadowRoot.appendChild(style);
-      });
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
   
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
+  
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
   
       // clear polling timer
       clearInterval(tid);
@@ -1123,9 +1899,7 @@
     $('.d-byline a').remove();
   
     // remove toc
-    $('.d-toc-header').remove();
-    $('.d-toc').remove();
-    $('.d-toc-separator').remove();
+    $('.d-contents').remove();
   
     // move appendix elements
     $('h1.appendix, h2.appendix').each(function(i, val) {
@@ -1256,21 +2030,32 @@
   <!--/radix_placeholder_distill-->
   <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
   <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
-  <script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+  <script src="site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
   <script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
   <link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
   <script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
   <link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
-  <script src="site_libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+  <script src="site_libs/proj4-2.6.2/proj4.min.js"></script>
   <script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
   <link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-  <script src="site_libs/leaflet-binding-2.0.2/leaflet.js"></script>
-  <script src="site_libs/leaflet-providers-1.1.17/leaflet-providers.js"></script>
-  <script src="site_libs/leaflet-providers-plugin-2.0.2/leaflet-providers-plugin.js"></script>
+  <script src="site_libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+  <script src="site_libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+  <script src="site_libs/leaflet-providers-plugin-2.0.4.1/leaflet-providers-plugin.js"></script>
+  <script src="site_libs/FlatGeoBuf-3.3.3/fgb.js"></script>
+  <script src="site_libs/FlatGeoBuf-3.3.3/flatgeobuf-geojson.min.js"></script>
+  <script src="site_libs/chromajs-2.1.0/chroma.min.js"></script>
+  <link id="_-1-attachment" rel="attachment" href="site_libs/_-0.0.1/__layer.fgb"/>
   <link href="site_libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
   <script src="site_libs/HomeButton-0.0.1/home-button.js"></script>
   <script src="site_libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
-  <link href="site_libs/PopupTable-0.0.1/popup.css" rel="stylesheet" />
+  <script src="site_libs/clipboard-0.0.1/setClipboardText.js"></script>
+  <link href="site_libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
+  <link href="site_libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
+  <script src="site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="site_libs/distill-2.2.21/template.v2.js"></script>
@@ -1312,6 +2097,7 @@ Tutoriais
 <a href="Tabelas.html">5. Construindo Tabelas</a>
 <a href="Graficos.html">6. Visualizacao de Dados</a>
 <a href="Juntando_Bancos.html">7. Juntando Bancos de Dados</a>
+<a href="Mapas.html">8. Mapas e Analises Espaciais</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1338,13 +2124,16 @@ Desafios
 
 <div class="d-title">
 <h1>Mapas e Análises Espaciais</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
 
 </div>
 
 
 <div class="d-article">
-<h3 class="d-toc-header">Table of Contents</h3>
-<nav class="d-toc" id="TOC">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
 <ul>
 <li><a href="#dados-espaciais">Dados Espaciais</a></li>
 <li><a href="#trabalhando-com-polígonos">Trabalhando com Polígonos</a></li>
@@ -1355,7 +2144,7 @@ Desafios
 <li><a href="#rasters">Rasters</a></li>
 </ul>
 </nav>
-<hr class="d-toc-separator"/>
+</div>
 <style>
 div.green { background-color:#e5f5e0; border-radius: 5px; padding: 20px;}
 </style>
@@ -1373,14 +2162,18 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <p>O que diferencia dados espaciais de outros tipos de dados? Dados espaciais contém variáveis que identificam a localização de cada ponto no mundo, como a latitude e a longitude: 13 <span class="math inline">\(^\circ\)</span> 26’ 22" N, 17 <span class="math inline">\(^\circ\)</span> 8’ 21" E. Estes valores nos permitem localizar um ponto no mundo, comparar com outros pontos, e visualizar os pontos num mapa de duas dimensões.</p>
 <p>Lembre-se do nosso tibble de <code>airports</code> do tutorial passado? Ele contém a localização dos aeroportos nos Estados Unidos nas colunas ‘lat’ e ‘lon’. Como podemos analisar estes dados espaciais?</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-library(&quot;tidyverse&quot;)
-library(&quot;tidylog&quot;)
-library(&quot;nycflights13&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://tidyverse.tidyverse.org'>"tidyverse"</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/elbersb/tidylog/'>"tidylog"</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/hadley/nycflights13'>"nycflights13"</a></span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-airports</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span>
+</code></pre>
+</div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div data-pagedtable="false">
@@ -1389,27 +2182,35 @@ airports</code></pre>
   </script>
 </div>
 </div>
-<p>Para analisar estes dados como dados espaciais precisamos dizer ao R quais são as variáveis de localização. Isto exige uma nova biblioteca: <code>sf</code>, acrônimo para ‘simple features’, o nosso objeto espacial.</p>
+<p>Para analisar estes dados como dados espaciais precisamos dizer ao R quais são as variáveis de localização. Isto exige uma nova biblioteca: <code>sf</code>, acrônimo para ‘simple features’, o nosso objeto espacial. Também recomendo instalar mais dois pacotes</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-#install.packages(&quot;sf&quot;)
-library(&quot;sf&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#install.packages("sf")</span>
+<span class='co'>#install.packages("lwgeom")</span>
+<span class='co'>#install.packages("rgdal")</span>
+
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://r-spatial.github.io/sf/'>"sf"</a></span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>O <code>sf</code> traz mais poder para os nossos tibbles, permitindo eles entenderem dados espaciais. Para facilitar, todas as nossas operações com dados espaciais começam com <code>st_</code> (e não <code>sf</code>…absurdamente). Só temos que indicar para o R quais variáveis do tibble original são a longitude e a latitude das observações, usando a função <code>st_as_sf()</code>. O argumento <code>coords=</code> aceita um vetor com os nomes das duas colunas, longitude e latitude (nesta ordem, pois longitude é o eixo X e latitude é o eixo Y - se pensarmos nas coordenadas como pontos cartesianos).</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-airports_test &lt;- airports %&gt;% st_as_sf(coords=c(&quot;lon&quot;,&quot;lat&quot;))</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports_test</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_as_sf.html'>st_as_sf</a></span><span class='op'>(</span>coords<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"lon"</span>,<span class='st'>"lat"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Como fica o nosso tibble <code>airports_test</code> agora? Abra o tibble para ver. Parece quase igual…e isso é importante - dados espaciais não são muito diferentes de outros dados; eles ainda ficam armazenados num tibble. Cada observação tem várias colunas de dados não-espaciais (‘faa’, ‘name’ etc.). Mas agora há uma nova coluna também, <code>geometry</code>. Ela codifica os dados de longitude e latitude num formato mais complexo que facilita operações e visualizações espaciais. Veja que o valor de cada observação da <code>geometry</code> é o par longitude-latitude e o tipo de dado espacial é um ponto, <code>&lt;POINT&gt;</code>, (vamos ver alternativas em breve).</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-airports_test</code></pre>
-<pre><code>
-Simple feature collection with 1458 features and 6 fields
-geometry type:  POINT
-dimension:      XY
-bbox:           xmin: -176.646 ymin: 19.72137 xmax: 174.1136 ymax: 72.27083
-CRS:            NA
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports_test</span>
+</code></pre>
+</div>
+<pre><code>Simple feature collection with 1458 features and 6 fields
+Geometry type: POINT
+Dimension:     XY
+Bounding box:  xmin: -176.646 ymin: 19.72137 xmax: 174.1136 ymax: 72.27083
+CRS:           NA
 # A tibble: 1,458 x 7
    faa   name         alt    tz dst   tzone                   geometry
    &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;                    &lt;POINT&gt;
@@ -1427,28 +2228,33 @@ CRS:            NA
 </div>
 <p>Verifique o tipo do objeto <code>airports_test</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-class(airports_test)</code></pre>
-<pre><code>
-[1] &quot;sf&quot;         &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span><span class='op'>(</span><span class='va'>airports_test</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>[1] &quot;sf&quot;         &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
 </div>
 <p>Temos vários resultados aqui - é um objeto ‘simple features’, mas também um <em>tbl</em> (tibble) e <em>data.frame</em>! Isso significa que podemos aplicar todas as funções do <code>tidyverse</code> com dados espaciais também.</p>
 <p>O que podemos fazer com o nosso tibble de <code>airports_test</code> extra-poderoso e espacialmente-habilitada? Muitas coisas, e vamos ver as possibilidades abaixo, mas por enquanto, vamos visualizar os nossos dados num mapa simples. A nossa gramática de gráficos <code>ggplot()</code> facilita a visualização de dados espaciais no formato bem conhecido, com uma geometria específica: <code>geom_sf()</code>, e graças a muito trabalho de pessoas desconhecidas, não precisamos especificar nenhum argumento:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-airports_test %&gt;% ggplot() +
-  geom_sf()</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports_test</span> <span class='op'>%&gt;%</span> <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_sf</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
 <p><img src="Mapas_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
 </div>
 <p>É isso mesmo. você já criou o seu primeiro mapa, parabéns! O que está acontecendo no seu gráfico, você consegue interpretar? Veja que o eixo x mostra os valores de longitude, e o eixo y os valores de latitude. Aparece um ponto (a geometria) em cada lugar apropriado.</p>
 <p>A beleza de trabalhar com dados espaciais em nosso formato padrão de um tibble é que podemos aplicar todas as nossas ferramentas normais para transformar e preparar os dados. Por exemplo, vamos limitar o escopo dos dados para os fusos horários dos Estados Unidos continental (e tirando alguns aeroportos específicos mal-codificados).</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-airports_test &lt;- airports_test %&gt;% filter(tz&lt;0 &amp; !(faa %in% c(&quot;EEN&quot;, &quot;SYA&quot;)))
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports_test</span> <span class='op'>&lt;-</span> <span class='va'>airports_test</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>tz</span><span class='op'>&lt;</span><span class='fl'>0</span> <span class='op'>&amp;</span> <span class='op'>!</span><span class='op'>(</span><span class='va'>faa</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"EEN"</span>, <span class='st'>"SYA"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 
-airports_test %&gt;% 
-  ggplot() +
-  geom_sf()</code></pre>
+<span class='va'>airports_test</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_sf</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Faz mais sentido agora, certo?</p>
 <h2 id="sistemas-de-coordenadas">Sistemas de Coordenadas</h2>
@@ -1461,22 +2267,25 @@ airports_test %&gt;%
 
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-airports &lt;- airports %&gt;% st_as_sf(coords=c(&quot;lon&quot;,&quot;lat&quot;), 
-                                  crs=4326) %&gt;% 
-  filter(tz&lt;0 &amp; !(faa %in% c(&quot;EEN&quot;, &quot;SYA&quot;)))</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_as_sf.html'>st_as_sf</a></span><span class='op'>(</span>coords<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"lon"</span>,<span class='st'>"lat"</span><span class='op'>)</span>, 
+                                  crs<span class='op'>=</span><span class='fl'>4326</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>tz</span><span class='op'>&lt;</span><span class='fl'>0</span> <span class='op'>&amp;</span> <span class='op'>!</span><span class='op'>(</span><span class='va'>faa</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"EEN"</span>, <span class='st'>"SYA"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Por que ‘4326’? Idealmente, deveríamos confirmar com o fornecedor dos dados o CRS em que eles foram salvos. Aqui, como a longitude e a latitude parecem estar em graus (entre -180 e 180) é provável que devemos usar o sistema “WGS84” (um sistema de coordenadas geográficas (não projetadas)). Um atalho para especificar o WGS84 é usar o numero <em>4326</em> (tecnicamente, o número ‘epsg’) no argumento <code>crs</code>. Para verificar outros atalhos para sistemas de coordenados, pode aproveitar do site <a href="http://epsg.io/">http://epsg.io/</a>.</p>
 <p>Abre o <code>airports</code> e vai aparecer uma linha de <code>CRS</code> agora na descrição acima da tabela:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-airports</code></pre>
-<pre><code>
-Simple feature collection with 1454 features and 6 fields
-geometry type:  POINT
-dimension:      XY
-bbox:           xmin: -176.646 ymin: 19.72137 xmax: -67.01269 ymax: 71.28545
-CRS:            EPSG:4326
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span>
+</code></pre>
+</div>
+<pre><code>Simple feature collection with 1454 features and 6 fields
+Geometry type: POINT
+Dimension:     XY
+Bounding box:  xmin: -176.646 ymin: 19.72137 xmax: -67.01269 ymax: 71.28545
+Geodetic CRS:  WGS 84
 # A tibble: 1,454 x 7
    faa   name         alt    tz dst   tzone                   geometry
  * &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;                &lt;POINT [°]&gt;
@@ -1495,18 +2304,22 @@ CRS:            EPSG:4326
 <p><strong>2. Escolher o CRS em que queremos visualizar os nossos dados.</strong> Quando chamamos <code>geom_sf</code>, ele usa o CRS definido em nosso tibble. Mas em qualquer momento podemos transformar o CRS atual para um alternativo, por exemplo um CRS que melhor representa um lugar específico no mundo. Usamos <code>st_transform()</code> em nosso pipe de trabalho para alterar o CRS, especificando o novo número da projeção desejada.</p>
 <p>Por exemplo, a projeção Mercator tem número 3857:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-airports %&gt;% st_transform(3857) %&gt;%
-  ggplot() +
-  geom_sf()</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_transform.html'>st_transform</a></span><span class='op'>(</span><span class='fl'>3857</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_sf</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
 <p><img src="Mapas_files/figure-html5/unnamed-chunk-10-1.png" width="624" /></p>
 </div>
 <p>Uma projeçõ focada nos Estados Unidos, 3751:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-airports %&gt;% st_transform(3751) %&gt;%
-  ggplot() +
-  geom_sf()</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_transform.html'>st_transform</a></span><span class='op'>(</span><span class='fl'>3751</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_sf</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
 <p><img src="Mapas_files/figure-html5/unnamed-chunk-11-1.png" width="624" /></p>
 </div>
 <p><strong>3. Que todas as camadas da nossa análise/visualização usem a mesma projeção.</strong> Na mesma forma que não podemos comparar kilometros e milhas diretamente, seria errado comparar dados em CRS diferentes. O mesmo local vai aparece em posições diferentes. Temos que usar <code>st_transform()</code> para padronizar camadas múltiplas antes de visualização.</p>
@@ -1518,13 +2331,14 @@ airports %&gt;% st_transform(3751) %&gt;%
 <p>Dependendo do seu sistema, pode ser necessário instalar o pacote <code>lwgeom</code> antes de usar <code>st_distance()</code>. Se o R reclamar para rodar o código aqui, use <code>install.packages("lwgeom")</code> e <code>library("lwgeom")</code>.</p>
 </aside>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-airports %&gt;% sample_n(10) %&gt;% 
-  st_distance()</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/sample_n.html'>sample_n</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://r-spatial.github.io/sf/reference/geos_measures.html'>st_distance</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>
-Units: [m]
+<pre><code>Units: [m]
            [,1]      [,2]    [,3]      [,4]    [,5]      [,6]    [,7]
  [1,]       0.0  555409.9 4807873 1916337.2 1208110 2319665.8 1567102
  [2,]  555409.9       0.0 4770693 2359526.5 1761214 2718026.0 1033732
@@ -1551,15 +2365,16 @@ Units: [m]
 <p>O resultado é uma ‘matriz’ (um tibble com apenas números), com a unidade da mensuração em metros, especificada no início (‘Units: [m]’). Como lemos o resultado? Entre os aeroportos 1 e 2 há uma distância de 555.409,9 metros, 555km. (Se quiser, pode transformar a matriz em um tibble com <code>...%&gt;% as_tibble()</code>).</p>
 <p>Observe que usando uma projeção diferente gera um resultado diferente, de 702.038,3 metros:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-set.seed(3)
-airports %&gt;% st_transform(3751) %&gt;% 
-  sample_n(10) %&gt;% 
-  st_distance()</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span>
+<span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_transform.html'>st_transform</a></span><span class='op'>(</span><span class='fl'>3751</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/sample_n.html'>sample_n</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://r-spatial.github.io/sf/reference/geos_measures.html'>st_distance</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>
-Units: [m]
+<pre><code>Units: [m]
            [,1]      [,2]    [,3]      [,4]    [,5]      [,6]    [,7]
  [1,]       0.0  702038.3 5213125 2842651.6 1598134 3614011.7 1893157
  [2,]  702038.3       0.0 5114472 3430466.2 2288940 4146583.9 1228230
@@ -1732,22 +2547,25 @@ Germany
 <h1 id="trabalhando-com-polígonos">Trabalhando com Polígonos</h1>
 <p>Áreas administrativas são geralmente representadas como polígonos em mapas. Em geral, obtemos esses polígonos como ‘shapefiles’ produzidos por uma agência oficial. Podemos abrir qualquer tipo de shapefile (pontos, linhas ou polígonos) com a função <code>st_read</code>. Vamos abrir um shapefile (simplificado) dos estados dos Estados Unidos, do link <a href="https://www.arcgis.com/home/item.html?id=f7f805eb65eb4ab787a0a3e1116ca7e5">aqui</a>. Baixe o arquivo e abre com <code>st_read</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-states &lt;- st_read(&quot;states.shp&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>states</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_read.html'>st_read</a></span><span class='op'>(</span><span class='st'>"states.shp"</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <p>Abra o nosso objeto <code>states</code> para ver o conteúdo:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-states</code></pre>
-<pre><code>
-Simple feature collection with 51 features and 5 fields
-geometry type:  MULTIPOLYGON
-dimension:      XY
-bbox:           xmin: -178.2176 ymin: 18.92179 xmax: -66.96927 ymax: 71.40624
-CRS:            4269
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>states</span>
+</code></pre>
+</div>
+<pre><code>Simple feature collection with 51 features and 5 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: -178.2176 ymin: 18.92179 xmax: -66.96927 ymax: 71.40624
+Geodetic CRS:  NAD83
 First 10 features:
      STATE_NAME DRAWSEQ STATE_FIPS         SUB_REGION STATE_ABBR
 1        Hawaii       1         15            Pacific         HI
@@ -1775,82 +2593,92 @@ First 10 features:
 <p>É um tibble do tipo ‘sf’ também! Observe que o ‘geometry type’ agora é ‘MULTIPOLYGON’, e que ele tem um CRS de NAD83, diferente dos nossos pontos de aeropotos. Temos 51 áreas, uma para cada estado (mais o DF), e uma coluna de ‘geometria’.</p>
 <p>Como podemos visualizar este mapa? Exatamente do mesmo modo que antes (pode demorar para abrir):</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-states %&gt;% ggplot() +
-  geom_sf()</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>states</span> <span class='op'>%&gt;%</span> <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_sf</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
 <p><img src="Mapas_files/figure-html5/unnamed-chunk-26-1.png" width="624" /></p>
 </div>
 <p>E se quisermos visualizar ambos os polígonos e os pontos dos aeroportos no mesmo mapa, juntos? Respeitando a nossa regra (3) da lista acima, é essencial padronizar os CRS que estamos trabalhando com a mesma projeção para todas as camadas. Então vamos transformar a projeção de <code>states</code> para o CRS 4326, o mesmo de <code>airports</code>. Sempre que você for trabalhar com diversos dados geográficos a primeira coisa a fazer é padronizar o CRS, para que seja possível visualizar as duas camadas no mesmo mapa e para fazer operações espaciais, como o cálculo da distância.</p>
 <p>Para adicionar a camada de aeroportos, é só especificar mais uma camada de <code>geom_sf()</code> com o argumento opcional de <code>data=airports</code> no início. (Isto é uma estratégia geral para adicionar camadas de mais de um banco de dados num gráfico).</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-states %&gt;% st_transform(4326) %&gt;%
-  ggplot() +
-  geom_sf() +
-  geom_sf(data=airports)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>states</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_transform.html'>st_transform</a></span><span class='op'>(</span><span class='fl'>4326</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_sf</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_sf</span><span class='op'>(</span>data<span class='op'>=</span><span class='va'>airports</span><span class='op'>)</span>
+</code></pre>
+</div>
 <p><img src="Mapas_files/figure-html5/unnamed-chunk-27-1.png" width="624" /></p>
 </div>
 <p>Perfeito! Todos os pontos cabem dentro das bordas do país.</p>
 <h1 id="aperfeiçoando-a-visualização-dos-mapas">Aperfeiçoando a Visualização dos mapas</h1>
 <p>Alterar a apresentação dos nossos mapas depende das mesmas habilidades como todos os outros gráficos de ggplot. Vamos adicionar um título, alterar o tamanho dos pontos, e o cor das bordas:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-states %&gt;% st_transform(4326) %&gt;%
-  ggplot() +
-  geom_sf(colour=&quot;#756bb1&quot;) +
-  geom_sf(data=airports, size=0.5) +
-  ggtitle(&quot;Mapa de Aeroportos e Estados nos EUA&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>states</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_transform.html'>st_transform</a></span><span class='op'>(</span><span class='fl'>4326</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_sf</span><span class='op'>(</span>colour<span class='op'>=</span><span class='st'>"#756bb1"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_sf</span><span class='op'>(</span>data<span class='op'>=</span><span class='va'>airports</span>, size<span class='op'>=</span><span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggtitle</span><span class='op'>(</span><span class='st'>"Mapa de Aeroportos e Estados nos EUA"</span><span class='op'>)</span>
+</code></pre>
+</div>
 <p><img src="Mapas_files/figure-html5/unnamed-chunk-28-1.png" width="624" /></p>
 </div>
 <p>Podemos também alterar a cor da área dos estados dependendo do seu <code>SUB_REGION</code>, com uma escala apropriada, e a cor dos aeroportos dependendo da sua altitude, com uma escala apropriada.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-states %&gt;% st_transform(4326) %&gt;%
-  ggplot() +
-  geom_sf(aes(fill=SUB_REGION), colour=&quot;#756bb1&quot;, alpha=0.2) +
-  scale_fill_brewer(palette=&quot;Set2&quot;) +
-  geom_sf(data=airports, aes(colour=alt), size=0.5) +
-  scale_colour_gradient(low=&quot;#00441b&quot;, high=&quot;#ef3b2c&quot;) +
-  ggtitle(&quot;Mapa de Aeroportos e Estados nos EUA&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>states</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_transform.html'>st_transform</a></span><span class='op'>(</span><span class='fl'>4326</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_sf</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>fill<span class='op'>=</span><span class='va'>SUB_REGION</span><span class='op'>)</span>, colour<span class='op'>=</span><span class='st'>"#756bb1"</span>, alpha<span class='op'>=</span><span class='fl'>0.2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_fill_brewer</span><span class='op'>(</span>palette<span class='op'>=</span><span class='st'>"Set2"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_sf</span><span class='op'>(</span>data<span class='op'>=</span><span class='va'>airports</span>, <span class='fu'>aes</span><span class='op'>(</span>colour<span class='op'>=</span><span class='va'>alt</span><span class='op'>)</span>, size<span class='op'>=</span><span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_colour_gradient</span><span class='op'>(</span>low<span class='op'>=</span><span class='st'>"#00441b"</span>, high<span class='op'>=</span><span class='st'>"#ef3b2c"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggtitle</span><span class='op'>(</span><span class='st'>"Mapa de Aeroportos e Estados nos EUA"</span><span class='op'>)</span>
+</code></pre>
+</div>
 <p><img src="Mapas_files/figure-html5/unnamed-chunk-29-1.png" width="624" /></p>
 </div>
 <p>Com mapas, é frequentemente útil tirar o fundo, os eixos, e os rótulos com <code>theme_minimal()</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-states %&gt;% st_transform(4326) %&gt;%
-  ggplot() +
-  geom_sf(aes(fill=SUB_REGION), colour=&quot;#756bb1&quot;, alpha=0.2) +
-  scale_fill_brewer(palette=&quot;Set2&quot;) +
-  geom_sf(data=airports, aes(colour=alt), size=0.5) +
-  scale_colour_gradient(low=&quot;#00441b&quot;, high=&quot;#ef3b2c&quot;) +
-  ggtitle(&quot;Mapa de Aeroportos e Estados nos EUA&quot;) +
-  theme_minimal()</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>states</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_transform.html'>st_transform</a></span><span class='op'>(</span><span class='fl'>4326</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_sf</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>fill<span class='op'>=</span><span class='va'>SUB_REGION</span><span class='op'>)</span>, colour<span class='op'>=</span><span class='st'>"#756bb1"</span>, alpha<span class='op'>=</span><span class='fl'>0.2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_fill_brewer</span><span class='op'>(</span>palette<span class='op'>=</span><span class='st'>"Set2"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_sf</span><span class='op'>(</span>data<span class='op'>=</span><span class='va'>airports</span>, <span class='fu'>aes</span><span class='op'>(</span>colour<span class='op'>=</span><span class='va'>alt</span><span class='op'>)</span>, size<span class='op'>=</span><span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_colour_gradient</span><span class='op'>(</span>low<span class='op'>=</span><span class='st'>"#00441b"</span>, high<span class='op'>=</span><span class='st'>"#ef3b2c"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>ggtitle</span><span class='op'>(</span><span class='st'>"Mapa de Aeroportos e Estados nos EUA"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
 <p><img src="Mapas_files/figure-html5/unnamed-chunk-30-1.png" width="624" /></p>
 </div>
 <h1 id="georeferenciamento">Georeferenciamento</h1>
 <p>Até agora, os nossos dados espaciais já chegaram quase pronto para usar. O que podemos fazer se não tivermos dados espaciais? Temos que criá-los. Podemos usar um aplicativo de celular para capturar dados com GPS, ou podemos ‘georeferenciar’ descrições de lugares, como endereços.</p>
 <p>Por exemplo, vamos criar um tibble simples com alguns endereços, e usar a função <code>geocode_OSM</code> do pacote <code>tmaptools</code> para converter o endereço em coordenadas de longitude e latitude. A função usa o banco de dados do Open Street Maps. (Note que a função exige usar o <code>$</code> de R base para especificar a coluna relevante).</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-library(tmaptools)
-
-Lugares &lt;- tibble(ID=c(1,2),
-       Endereço=c(&quot;Av. Prof. Luciano Gualberto, 298-460 - Butantã, São Paulo, Brazil&quot;,
-                 &quot;Av. Paulista, 1578 - Bela Vista, São Paulo, Brazil&quot;))
-
-Lugares &lt;- geocode_OSM(Lugares$Endereço, projection=4326, as.sf=T)</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">library</span>(tmaptools)</a>
+<a class="sourceLine" id="cb7-2" title="2"></a>
+<a class="sourceLine" id="cb7-3" title="3">Lugares &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">ID=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb7-4" title="4">       Endereç<span class="dt">o=</span><span class="kw">c</span>(<span class="st">&quot;Av. Prof. Luciano Gualberto, 298-460 - Butantã, São Paulo, Brazil&quot;</span>,</a>
+<a class="sourceLine" id="cb7-5" title="5">                 <span class="st">&quot;Av. Paulista, 1578 - Bela Vista, São Paulo, Brazil&quot;</span>))</a>
+<a class="sourceLine" id="cb7-6" title="6"></a>
+<a class="sourceLine" id="cb7-7" title="7">Lugares &lt;-<span class="st"> </span><span class="kw">geocode_OSM</span>(Lugares<span class="op">$</span>Endereço, <span class="dt">projection=</span><span class="dv">4326</span>, <span class="dt">as.sf=</span>T)</a></code></pre></div>
 </div>
 <p>Note que especificamos o CRS (o <code>projection</code>) em que queremos receber os dados, para que ele seja padronizado com as nossas outras camadas. E usamos <code>as.sf=T</code> para que o resultado já é um tibble de simple features pronto para analisar/visualizar.</p>
 <h2 id="mapas-interativos">Mapas Interativos</h2>
 <p>Como podemos verificar o local dos nossos endereços? É mais fácil com o contexto geográfico, como em google maps, e com um mapa interativo. Geralmente, em relatórios, mapas estáticos são mais apropriados, mas às vezes é útil explorar os nossos dados espaciais interativamente, ou em documentos de HTML. Para isso, usamos a função <code>mapview()</code> no pacote do mesmo nome. É fácil:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-library(leaflet)
-library(mapview)
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/r-spatial/mapview'>mapview</a></span><span class='op'>)</span>
 
-Lugares %&gt;% mapview()</code></pre>
+<span class='va'>Lugares</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/mapview/man/mapView.html'>mapview</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
 <div id="htmlwidget-b6a72f678724c19c6bec" style="width:624px;height:384px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b6a72f678724c19c6bec">{"x":{"options":{"minZoom":1,"maxZoom":100,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",1,"CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter",2,"CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["OpenStreetMap",3,"OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.WorldImagery",4,"Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["OpenTopoMap",5,"OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"createMapPane","args":["point",440]},{"method":"addCircleMarkers","args":[[-23.5623888,-23.569065],[-46.7230794,-46.6469759],6,null,".",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"point","stroke":true,"color":"#333333","weight":2,"opacity":0.9,"fill":true,"fillColor":"#6666FF","fillOpacity":0.6},null,null,["<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"lib/popup/popup.css\"><\/head><body><div class=\"scrollableContainer\"><table class=\"popup scrollable\" id=\"popup\"><tr class='coord'><td><\/td><td><b>Feature ID<\/b><\/td><td align='right'>1&emsp;<\/td><\/tr><tr class='alt'><td>1<\/td><td><b>query&emsp;<\/b><\/td><td align='right'>Av. Prof. Luciano Gualberto, 298-460 - Butantã, São Paulo, Brazil&emsp;<\/td><\/tr><tr><td>2<\/td><td><b>x&emsp;<\/b><\/td><td align='right'>-46.72308&emsp;<\/td><\/tr><tr class='alt'><td>3<\/td><td><b>y&emsp;<\/b><\/td><td align='right'>-23.56239&emsp;<\/td><\/tr><tr><td>4<\/td><td><b>y_min&emsp;<\/b><\/td><td align='right'>-23.56313&emsp;<\/td><\/tr><tr class='alt'><td>5<\/td><td><b>y_max&emsp;<\/b><\/td><td align='right'>-23.56165&emsp;<\/td><\/tr><tr><td>6<\/td><td><b>x_min&emsp;<\/b><\/td><td align='right'>-46.72458&emsp;<\/td><\/tr><tr class='alt'><td>7<\/td><td><b>x_max&emsp;<\/b><\/td><td align='right'>-46.72132&emsp;<\/td><\/tr><tr><td>8<\/td><td><b>geometry&emsp;<\/b><\/td><td align='right'>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div><\/body><\/html>","<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"lib/popup/popup.css\"><\/head><body><div class=\"scrollableContainer\"><table class=\"popup scrollable\" id=\"popup\"><tr class='coord'><td><\/td><td><b>Feature ID<\/b><\/td><td align='right'>2&emsp;<\/td><\/tr><tr class='alt'><td>1<\/td><td><b>query&emsp;<\/b><\/td><td align='right'>Av. Paulista, 1578 - Bela Vista, São Paulo, Brazil&emsp;<\/td><\/tr><tr><td>2<\/td><td><b>x&emsp;<\/b><\/td><td align='right'>-46.64698&emsp;<\/td><\/tr><tr class='alt'><td>3<\/td><td><b>y&emsp;<\/b><\/td><td align='right'>-23.56906&emsp;<\/td><\/tr><tr><td>4<\/td><td><b>y_min&emsp;<\/b><\/td><td align='right'>-23.56950&emsp;<\/td><\/tr><tr class='alt'><td>5<\/td><td><b>y_max&emsp;<\/b><\/td><td align='right'>-23.56882&emsp;<\/td><\/tr><tr><td>6<\/td><td><b>x_min&emsp;<\/b><\/td><td align='right'>-46.64730&emsp;<\/td><\/tr><tr class='alt'><td>7<\/td><td><b>x_max&emsp;<\/b><\/td><td align='right'>-46.64641&emsp;<\/td><\/tr><tr><td>8<\/td><td><b>geometry&emsp;<\/b><\/td><td align='right'>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div><\/body><\/html>"],{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},["1","2"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addHomeButton","args":[-46.7230794,-23.569065,-46.6469759,-23.5623888,"Zoom to .","<strong> . <\/strong>","bottomright"]},{"method":"addLayersControl","args":[["CartoDB.Positron","CartoDB.DarkMatter","OpenStreetMap","Esri.WorldImagery","OpenTopoMap"],".",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addLegend","args":[{"colors":["#6666FF"],"labels":["."],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":".","extra":null,"layerId":null,"className":"info legend","group":"."}]}],"limits":{"lat":[-23.569065,-23.5623888],"lng":[-46.7230794,-46.6469759]}},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      //map.on('click', function (e) {\n      //  var txt = document.querySelector('.lnlt').textContent;\n      //  console.log(txt);\n      //  //txt.innerText.focus();\n      //  //txt.select();\n      //  setClipboardText(txt);\n      //});\n\n      function setClipboardText(text){\n      var id = 'mycustom-clipboard-textarea-hidden-id';\n      var existsTextarea = document.getElementById(id);\n\n      if(!existsTextarea){\n      console.log('Creating textarea');\n      var textarea = document.createElement('textarea');\n      textarea.id = id;\n      // Place in top-left corner of screen regardless of scroll position.\n      textarea.style.position = 'fixed';\n      textarea.style.top = 0;\n      textarea.style.left = 0;\n\n      // Ensure it has a small width and height. Setting to 1px / 1em\n      // doesn't work as this gives a negative w/h on some browsers.\n      textarea.style.width = '1px';\n      textarea.style.height = '1px';\n\n      // We don't need padding, reducing the size if it does flash render.\n      textarea.style.padding = 0;\n\n      // Clean up any borders.\n      textarea.style.border = 'none';\n      textarea.style.outline = 'none';\n      textarea.style.boxShadow = 'none';\n\n      // Avoid flash of white box if rendered for any reason.\n      textarea.style.background = 'transparent';\n      document.querySelector('body').appendChild(textarea);\n      console.log('The textarea now exists :)');\n      existsTextarea = document.getElementById(id);\n      }else{\n      console.log('The textarea already exists :3')\n      }\n\n      existsTextarea.value = text;\n      existsTextarea.select();\n\n      try {\n      var status = document.execCommand('copy');\n      if(!status){\n      console.error('Cannot copy text');\n      }else{\n      console.log('The text is now on the clipboard');\n      }\n      } catch (err) {\n      console.log('Unable to copy.');\n      }\n      }\n\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
+<script type="application/json" data-for="htmlwidget-b6a72f678724c19c6bec">{"x":{"options":{"minZoom":1,"maxZoom":52,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron","CartoDB.Positron","CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter","CartoDB.DarkMatter","CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenStreetMap","OpenStreetMap","OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldImagery","Esri.WorldImagery","Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenTopoMap","OpenTopoMap","OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"createMapPane","args":["point",440]},{"method":"addFlatGeoBuf","args":["_",".",null,true,"mvFeatureId",{"radius":6,"stroke":true,"color":"#333333","weight":1,"opacity":0.9,"fill":true,"fillColor":"#6666FF","fillOpacity":0.6},{"className":"","pane":"point"},"mapview-popup",{"radius":{"to":[3,15],"from":[3,15]},"weight":{"to":[1,10],"from":[1,10]},"opacity":{"to":[0,1],"from":[0,1]},"fillOpacity":{"to":[0,1],"from":[0,1]}}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addHomeButton","args":[-46.7230794,-23.569065,-46.6469759,-23.5623888,".","Zoom to .","<strong> . <\/strong>","bottomright"]},{"method":"addLayersControl","args":[["CartoDB.Positron","CartoDB.DarkMatter","OpenStreetMap","Esri.WorldImagery","OpenTopoMap"],".",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addLegend","args":[{"colors":["#6666FF"],"labels":["."],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"","extra":null,"layerId":null,"className":"info legend","group":"."}]}],"fitBounds":[-23.569065,-46.7230794,-23.5623888,-46.6469759,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      if( strip !==null) strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null},{"code":"function(el, x, data) {\n  return (function(el,x,data){\n           var map = this;\n\n           map.on('keypress', function(e) {\n               console.log(e.originalEvent.code);\n               var key = e.originalEvent.code;\n               if (key === 'KeyE') {\n                   var bb = this.getBounds();\n                   var txt = JSON.stringify(bb);\n                   console.log(txt);\n\n                   setClipboardText('\\'' + txt + '\\'');\n               }\n           })\n        }).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
 </div>
 <div class="green">
 <h2 id="exercício-2-mapas-mais-completos">Exercício 2: Mapas mais Completos</h2>
@@ -1889,78 +2717,99 @@ Lugares %&gt;% mapview()</code></pre>
 <p>Observe que os nossos dados espaciais vêm com uma tabela, e normalmente com um identificador único para cada observação (unidade espacial). Isto abre uma oportunidade - se temos dados não-espaciais que queremos mapear, é fácil torná-los espacial - é só juntar o banco não-espacial com o banco espacial usando o identificador comum, exatamente como discutimos no tutorial anterior. Na prática é muito mais comum pegar um shapefile genêrico de polígonos/pontos, e cruzar com um banco de dados não-espacial.</p>
 <p>Por exemplo, queremos mapear o número de voos de Nova Iorque que chegam em cada aeroporto de destino em 2013. Com apenas o banco de dados <code>flights</code> isso seria impossível. Mas em combinação com o nosso banco de <code>airports</code> espacial, é rápido. Primeiro, qual é a unidade espacial de análise que desejamos? É cada aeroporto de destino, então temos que agregar/resumir o banco de dados de <code>flights</code> para cada destino. Por enquanto, pode ser apenas o número de voos:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-flights_por_dest &lt;- flights %&gt;% group_by(dest) %&gt;% 
-  tally()</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_por_dest</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>dest</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/tally.html'>tally</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Segundo, vamos isolar o identificador comum, neste caso o código de aeroporto destino, <code>dest</code> em um banco, <code>faa</code> no outro, e rodar o <code>left_join()</code> como normal. Uma dica - lembre que <code>left_join()</code> preserva a estrutura e atributos do objeto na esquerda. Dado que queremos o resultado do nosso join manter o seu status espacial (de ‘sf’), é sempre uma boa ideia colocar o objeto espacial na esquerda de <code>left_join()</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-airports_flights &lt;- airports %&gt;% rename(dest=faa) %&gt;%
-  left_join(flights_por_dest, by=&quot;dest&quot;)</code></pre>
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports_flights</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/rename.html'>rename</a></span><span class='op'>(</span><span class='st'>"dest"</span><span class='op'>=</span><span class='st'>"faa"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/left_join.html'>left_join</a></span><span class='op'>(</span><span class='va'>flights_por_dest</span>, by<span class='op'>=</span><span class='st'>"dest"</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Agora, a coluna ‘n’ está disponível no tibble <code>airports_flights</code> para visualização:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-airports_flights %&gt;% ggplot() +
-  geom_sf(aes(colour=n))</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports_flights</span> <span class='op'>%&gt;%</span> <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_sf</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>colour<span class='op'>=</span><span class='va'>n</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
 <p><img src="Mapas_files/figure-html5/unnamed-chunk-41-1.png" width="624" /></p>
 </div>
 <p>Só temos poucos dos aeroportos no banco de dados <code>flights</code>, então pode ser melhor usar um <code>inner_join()</code> para tirar os aeroportos ausentes:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-airports %&gt;% rename(dest=faa) %&gt;%
-  inner_join(flights_por_dest, by=&quot;dest&quot;) %&gt;% 
-  ggplot() +
-  geom_sf(aes(colour=n))</code></pre>
-<p><img src="Mapas_files/figure-html5/unnamed-chunk-42-1.png" width="624" /></p>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/rename.html'>rename</a></span><span class='op'>(</span>dest<span class='op'>=</span><span class='va'>faa</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/inner_join.html'>inner_join</a></span><span class='op'>(</span><span class='va'>flights_por_dest</span>, by<span class='op'>=</span><span class='st'>"dest"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_sf</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>colour<span class='op'>=</span><span class='va'>n</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="Mapas_files/figure-html5/faa-1.png" width="624" /></p>
 </div>
 <h1 id="joins-espaciais">Joins Espaciais</h1>
 <p>O mundo espacial abre um novo tipo de join entre diversos bancos de dados - joins espaciais que são definidos pela localização semelhante e não por uma chave comum nas tabelas de dados. Existe diversos tipos de joins espaciais mas vamos focar sobre um join entre uma camada de polígonos e uma camada de pontos.</p>
 <p>Especificamente, queremos saber quantos aeroportos (pontos) existem em cada estado (polígono). A função para um join espacial é <em>st_join</em>. Como sempre, a regra crucial é que as duas camadas espaciais têm que ter o mesmo CRS, então vamos usar <code>st_transform</code> para padronizar as duas para 4326.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-states &lt;- states %&gt;% st_transform(4326)
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>states</span> <span class='op'>&lt;-</span> <span class='va'>states</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_transform.html'>st_transform</a></span><span class='op'>(</span><span class='fl'>4326</span><span class='op'>)</span>
 
-airports_states &lt;- airports  %&gt;% 
-  st_join(states)</code></pre>
+<span class='va'>airports_states</span> <span class='op'>&lt;-</span> <span class='va'>airports</span>  <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_join.html'>st_join</a></span><span class='op'>(</span><span class='va'>states</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Agora, o objeto <code>airports_states</code> contém todos as aeroportos, com colunas adicionais para os detalhes do estado em que o aeroporto fica (geograficamente). Como não haviam estes dados anteriormente, vamos visualizar os aeroportos por ‘SUB_REGION’, uma variável que apenas existia no banco de <code>states</code>, como exemplo:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-airports_states %&gt;% ggplot() + 
-  geom_sf(aes(colour=SUB_REGION))</code></pre>
-<p><img src="Mapas_files/figure-html5/unnamed-chunk-44-1.png" width="624" /></p>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports_states</span> <span class='op'>%&gt;%</span> <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>geom_sf</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>colour<span class='op'>=</span><span class='va'>SUB_REGION</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="Mapas_files/figure-html5/unnamed-chunk-43-1.png" width="624" /></p>
 </div>
 <p>Qual tipo de unidade espacial é cada observação em <code>airports_states</code>? É um ponto, um aeroporto. Por que não um polígono, como os estados que usamos no <code>st_join</code>? Porque o <code>st_join</code> também faça por padrão um join à esquerda, como <code>left_join</code>, então ele preserva os atributos do objeto na esquerda, neste caso os pontos dos aeroportos.</p>
 <p>Se quisermos juntar os dados por estado e manter a geometria dos polígonos dos estados, apenas temos que inverter a ordem dos objetos no <code>st_join</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-states_airports &lt;- states %&gt;% 
-  st_join(airports)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>states_airports</span> <span class='op'>&lt;-</span> <span class='va'>states</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_join.html'>st_join</a></span><span class='op'>(</span><span class='va'>airports</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Agora, o objeto ‘states_airports’ contém os dados de cada estado e colunas adicionais com dados dos aeroportos que ficam (geograficamente) no estado. Obviamente há vários aeroportos por estado, então cada estado está <em>duplicado</em> em diversas observaçoes. Inspecione as colunas da direita de <code>states_airports</code> para ver que cada observação é um aeroporto diferente.</p>
 <p>Mas o mesmo polígono do estado duplicado muitas vezes para cada aeroporto não ajuda nada - temos que agregar os nossos dados por estado para deixar um polígono por estado. Por exemplo, para calcular o número de aeroportos por estado, e visualizar o resultado:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-states_num_airports &lt;- states_airports %&gt;% group_by(STATE_NAME) %&gt;% 
-  tally() 
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>states_num_airports</span> <span class='op'>&lt;-</span> <span class='va'>states_airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>STATE_NAME</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/tally.html'>tally</a></span><span class='op'>(</span><span class='op'>)</span> 
 
-states_num_airports %&gt;%
-  ggplot() +
-  geom_sf(aes(fill=n))</code></pre>
-<p><img src="Mapas_files/figure-html5/unnamed-chunk-46-1.png" width="624" /></p>
+<span class='va'>states_num_airports</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_sf</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>fill<span class='op'>=</span><span class='va'>n</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="Mapas_files/figure-html5/unnamed-chunk-45-1.png" width="624" /></p>
 </div>
 <p>Os joins espaciais ampliam a nossa criatividade, abrindo comparações novas. Há muitas possibilidades, mas o básico é sempre aquilo que descrevemos aqui.</p>
 <h2 id="outras-operações-espaciais">Outras Operações Espaciais</h2>
 <p>Existem diversas operações espaciais para facilitar análises específicas. O livro <a href="https://geocompr.robinlovelace.net/">aqui, sobretudo capítulos 4 e 5</a> e o <a href="https://github.com/rstudio/cheatsheets/raw/master/sf.pdf">cheatsheet de sf</a> mostram as possibilidades. Por enquanto, vamos ver apenas uma operação que transforma polígonos em pontos. Usamos uma função simples e dedicada, <code>st_centroid()</code>, que calcula o ponto central de cada polígono:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-states_centroid &lt;- states %&gt;% st_centroid()
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>states_centroid</span> <span class='op'>&lt;-</span> <span class='va'>states</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/geos_unary.html'>st_centroid</a></span><span class='op'>(</span><span class='op'>)</span>
 
-states_centroid %&gt;% ggplot() +
-  geom_sf()</code></pre>
-<p><img src="Mapas_files/figure-html5/unnamed-chunk-47-1.png" width="624" /></p>
+<span class='va'>states_centroid</span> <span class='op'>%&gt;%</span> <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_sf</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="Mapas_files/figure-html5/unnamed-chunk-46-1.png" width="624" /></p>
 </div>
 <p>Observe na coluna ‘geometry’ que o nosso objeto sf de polígonos agora se transformou em pontos, com um ponto central para cada país.</p>
 <div class="green">
@@ -1993,29 +2842,36 @@ states_centroid %&gt;% ggplot() +
 <h1 id="rasters">Rasters</h1>
 <p>Existe um outro formato para dados espaciais que não é baseado em formas geométricas (polígonos, pontos e linhas), mas em uma grade regular com valores específicos em cada célula x, y - isto é um ‘raster’ e para trabalhar com ele usamos o pacote ‘raster’. Vamos usar o código abaixo para abrir um arquivo raster de densidade populacional no Camboja do <a href="https://github.com/JonnyPhillips/Curso_R/raw/master/khm_popdenr_landscan_2011.zip">link aqui</a>, que é simplesmente uma imagem com extensão <em>.tif</em>.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-library(raster)
-cambodia &lt;- raster(&quot;khm_popdenr_landscan_2011.tif&quot;)</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#install.packages("raster")</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://rspatial.org/raster'>raster</a></span><span class='op'>)</span>
+<span class='va'>cambodia</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/raster.html'>raster</a></span><span class='op'>(</span><span class='st'>"khm_popdenr_landscan_2011.tif"</span><span class='op'>)</span>
+</code></pre>
+</div>
 </div>
 <p>Para visualizar o nosso raster, precisamos transformar ele em um data.frame simples (não em um tibble infelizmente) e usar o ggplot com a geometria de <em>geom_tile</em>. Não se preocupe com as detalhes, mas experimente com o código abaixo:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-cambodia %&gt;% as(&quot;SpatialPixelsDataFrame&quot;) %&gt;% 
-  as.data.frame() %&gt;% 
-  ggplot() + 
-  geom_tile(aes(x=x,y=y,fill=khm_popdenr_landscan_2011))</code></pre>
-<p><img src="Mapas_files/figure-html5/unnamed-chunk-53-1.png" width="624" /></p>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>cambodia</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/coerce-methods.html'>as</a></span><span class='op'>(</span><span class='st'>"SpatialPixelsDataFrame"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/pkg/raster/man/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>geom_tile</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>x</span>,y<span class='op'>=</span><span class='va'>y</span>,fill<span class='op'>=</span><span class='va'>khm_popdenr_landscan_2011</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="Mapas_files/figure-html5/unnamed-chunk-52-1.png" width="624" /></p>
 </div>
 <p>Este mapa parece bem chato porque os dados são altamente ‘skewed’, com grandes outliers de populaçao muito densa apenas na capital. Frequentemente com rasters é útil transformá-los em uma escala de log para visualizar, com a opção de <code>trans="log"</code> em nossa camada de escala. Vamos também limpar o fundo e adicionar uma escala de cores.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-cambodia %&gt;% as(&quot;SpatialPixelsDataFrame&quot;) %&gt;% 
-  as.data.frame() %&gt;% 
-  ggplot() + 
-  geom_tile(aes(x=x,y=y,fill=khm_popdenr_landscan_2011)) +
-  theme_minimal() +
-  scale_fill_gradient(low=&quot;white&quot;,high=&quot;red&quot;,na.value=&quot;white&quot;, trans=&quot;log&quot;)</code></pre>
-<p><img src="Mapas_files/figure-html5/unnamed-chunk-54-1.png" width="624" /></p>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>cambodia</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/coerce-methods.html'>as</a></span><span class='op'>(</span><span class='st'>"SpatialPixelsDataFrame"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/pkg/raster/man/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>geom_tile</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>x</span>,y<span class='op'>=</span><span class='va'>y</span>,fill<span class='op'>=</span><span class='va'>khm_popdenr_landscan_2011</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_fill_gradient</span><span class='op'>(</span>low<span class='op'>=</span><span class='st'>"white"</span>,high<span class='op'>=</span><span class='st'>"red"</span>,na.value<span class='op'>=</span><span class='st'>"white"</span>, trans<span class='op'>=</span><span class='st'>"log"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="Mapas_files/figure-html5/unnamed-chunk-53-1.png" width="624" /></p>
 </div>
 <p>Neste mapa há como ver os vários centros urbanos e as ruas principais. Um mapa profissional e detalhado em poucas linhas de código!</p>
 <!-- Também podemos criar mapas de raster interativos com mapview. (Adicionamos uma pequena quantidade ao log para evitar valores infinitos e erros). -->
@@ -2028,6 +2884,7 @@ cambodia %&gt;% as(&quot;SpatialPixelsDataFrame&quot;) %&gt;%
 <!--   st_transform(54018) -->
 <!-- JFK <- airports %>% filter(faa=="JFK") -->
 <!-- airports %>% mutate(distance_to_JFK=st_distance(., JFK)) -->
+<div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

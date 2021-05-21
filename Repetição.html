@@ -2074,6 +2074,7 @@ Tutoriais
 <a href="Tabelas.html">5. Construindo Tabelas</a>
 <a href="Graficos.html">6. Visualizacao de Dados</a>
 <a href="Juntando_Bancos.html">7. Juntando Bancos de Dados</a>
+<a href="Mapas.html">8. Mapas e Analises Espaciais</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2192,7 +2193,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
   <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>x</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='va'>x</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
 
-<span class='va'>resultado_lista</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>dep_delay</span>, <span class='va'>arr_delay</span>, <span class='va'>distance</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<span class='va'>resultado_lista</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>dep_delay</span>, <span class='va'>arr_delay</span>, <span class='va'>distance</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>map</span><span class='op'>(</span><span class='va'>amplitude</span><span class='op'>)</span>
 <span class='va'>resultado_lista</span>
 </code></pre>
@@ -2201,7 +2202,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <p>Muito mais simples! Agora em mais ou menos três linhas. Note quanto fácil seja ampliar para mais variáveis - é só incluir elas dentro de <code>select</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>resultado_lista</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>dep_delay</span>, <span class='va'>arr_delay</span>, <span class='va'>distance</span>, <span class='va'>air_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>resultado_lista</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>dep_delay</span>, <span class='va'>arr_delay</span>, <span class='va'>distance</span>, <span class='va'>air_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>map</span><span class='op'>(</span><span class='va'>amplitude</span><span class='op'>)</span>
 <span class='va'>resultado_lista</span>
 </code></pre>
@@ -2210,7 +2211,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <p>Qual o formato do resultado de <code>map</code>? É uma lista, um formato genérico e flexível, mas sempre preferimos trabalhar com tibbles. Felizmente, existe uma variadade de <code>map</code> que padroniza o resultado para um tibble, <code>map_df</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>resultado_tibble</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>dep_delay</span>, <span class='va'>arr_delay</span>, <span class='va'>distance</span>, <span class='va'>air_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>resultado_tibble</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>dep_delay</span>, <span class='va'>arr_delay</span>, <span class='va'>distance</span>, <span class='va'>air_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>map_df</span><span class='op'>(</span><span class='va'>amplitude</span><span class='op'>)</span>
 <span class='va'>resultado_tibble</span>
 </code></pre>
@@ -2405,7 +2406,7 @@ air_time
 <p>Uma forma muito útil de usar <code>map</code> é <em>dentro</em> de <code>mutate</code>. Isso permite inserir os resultados do cálculo repitido em uma nova coluna em nosso tibble. Veja uma forma interessante de abrir os arquivos .csv - podemos gerar um tibble com a primeira coluna documentando os nomes dos arquivos, e vamos usar <code>map</code> para inserir os dados de cada arquivo em uma nova coluna. Note que agora temos que indicar para <code>map</code> para qual coluna queremos aplicar a função <code>read_csv</code> - o ordem é <code>map(coluna, função)</code>. Cada linha reflete um arquivo, e os dados ficam numa lista-coluna (como descobrimos no tutorial 7).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>dia<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span>,
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/tibble.html'>tibble</a></span><span class='op'>(</span>dia<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span>,
                        file<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"test1.csv"</span>, <span class='st'>"test2.csv"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>conteudo<span class='op'>=</span><span class='fu'>map</span><span class='op'>(</span><span class='va'>file</span>, <span class='va'>read_csv</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>

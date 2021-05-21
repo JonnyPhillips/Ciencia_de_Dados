@@ -2079,6 +2079,7 @@ Tutoriais
 <a href="Tabelas.html">5. Construindo Tabelas</a>
 <a href="Graficos.html">6. Visualizacao de Dados</a>
 <a href="Juntando_Bancos.html">7. Juntando Bancos de Dados</a>
+<a href="Mapas.html">8. Mapas e Analises Espaciais</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2378,11 +2379,10 @@ library(&quot;nycflights13&quot;)
 <p>Pode usar o atalho <code>Ctrl+Shift+c</code> para comentar a(s) linha(s) selecionada(a) ou a linha na qual o cursor estiver posicionado. (Observe que isso também funciona para texto simples).</p>
 <div class="layout-chunk" data-layout="l-body-outset">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Nota: O uso de comentário abaixo nos permite notar como foi instalado</span>
-<span class='co'># o pacote, sem rodar o código</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#Nota: O uso de comentário abaixo nos permite notar como foi instalado o pacote, sem rodar o código</span>
 
-<span class='co'># install.packages('nycflights13')</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='http://github.com/hadley/nycflights13'>"nycflights13"</a></span><span class='op'>)</span>
+<span class='co'>#install.packages("nycflights13")</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/hadley/nycflights13'>"nycflights13"</a></span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2433,7 +2433,7 @@ flights
 <pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.Date</a></span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
-<pre><code>[1] &quot;2021-05-14&quot;</code></pre>
+<pre><code>[1] &quot;2021-05-21&quot;</code></pre>
 </div>
 </div>
 <p>Como sabemos o significado de algumas colunas com nomes ambíguos? Podemos acessar o <strong>help</strong> (documentação) do objeto para descobrir uma descrição do que há no <em>data frame</em> chamado <code>flights</code>:</p>
@@ -2503,7 +2503,7 @@ flights
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#install.packages("tidyverse")</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='http://tidyverse.tidyverse.org'>"tidyverse"</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://tidyverse.tidyverse.org'>"tidyverse"</a></span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2718,7 +2718,7 @@ nrow[flights]</p>
 <details>
 <summary>Mostrar Código</summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>flights</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>flights</span><span class='op'>)</span>   
 <span class='co'># Funções exigem parênteses, não colchetes</span>
 </code></pre>
 </div>
@@ -2746,7 +2746,7 @@ v1 &lt;- (“pato”, “cachorro”, “minhoca”, “lagarto”)</p>
 <details>
 <summary>Mostrar Código</summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pato"</span>, <span class='st'>"cachorro"</span>, <span class='st'>"minhoca"</span>, <span class='st'>"lagarto"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pato"</span>, <span class='st'>"cachorro"</span>, <span class='st'>"minhoca"</span>, <span class='st'>"lagarto"</span><span class='op'>)</span>  
 <span class='co'># Criar um vetor exige a função 'c()'</span>
 </code></pre>
 </div>
@@ -2762,9 +2762,9 @@ v2 + 42</p>
 <summary>Mostrar Código</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span><span class='op'>)</span>
-<span class='va'>v2</span> <span class='op'>+</span> <span class='fl'>42</span>
-<span class='co'># Não podemos somar um número a um caractere.  Se quisermos manter v2</span>
-<span class='co'># como variável numérica, precisamos retirar as aspas.</span>
+<span class='va'>v2</span> <span class='op'>+</span> <span class='fl'>42</span>   
+<span class='co'># Não podemos somar um número a um caractere. </span>
+<span class='co'># Se quisermos manter v2 como variável numérica, precisamos retirar as aspas.</span>
 </code></pre>
 </div>
 </details>
@@ -2778,8 +2778,7 @@ v1 &lt;- c(“pato”, “cachorro”, “minhoca”, “lagarto”</p>
 <summary>Mostrar Código</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pato"</span>, <span class='st'>"cachorro"</span>, <span class='st'>"minhoca"</span>, <span class='st'>"lagarto"</span><span class='op'>)</span>
-<span class='co'># Quando esquecemos de fechar os parênteses, o R entende que ainda</span>
-<span class='co'># faltam argumentos na função, então não roda.</span>
+<span class='co'># Quando esquecemos de fechar os parênteses, o R entende que ainda faltam argumentos na função, então não roda.</span>
 </code></pre>
 </div>
 </details>
@@ -2792,7 +2791,7 @@ v3 &lt;- c(33 31 40 25 27 40)</p>
 <details>
 <summary>Mostrar Código</summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>33</span>, <span class='fl'>31</span>, <span class='fl'>40</span>, <span class='fl'>25</span>, <span class='fl'>27</span>, <span class='fl'>40</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>33</span>, <span class='fl'>31</span>, <span class='fl'>40</span>, <span class='fl'>25</span>, <span class='fl'>27</span>, <span class='fl'>40</span><span class='op'>)</span>  
 <span class='co'># Seperamos argumentos e dados com vírgula</span>
 </code></pre>
 </div>
@@ -2806,11 +2805,8 @@ v1 &lt;- c(pato, cachorro, minhoca, lagarto)</p>
 <details>
 <summary>Mostrar Código</summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pato"</span>, <span class='st'>"cachorro"</span>, <span class='st'>"minhoca"</span>, <span class='st'>"lagarto"</span><span class='op'>)</span>
-<span class='co'># Para o R entender que estamos tratando de palavras, precisamos usar</span>
-<span class='co'># aspas. Do contrário, o programa irá procurar objetos nomeados de</span>
-<span class='co'># pato, cachorro, etc. Como eles não existem nesse caso, não é possível</span>
-<span class='co'># formar o vetor</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pato"</span>, <span class='st'>"cachorro"</span>, <span class='st'>"minhoca"</span>, <span class='st'>"lagarto"</span><span class='op'>)</span>  
+<span class='co'># Para o R entender que estamos tratando de palavras, precisamos usar aspas. Do contrário, o programa irá procurar objetos nomeados de pato, cachorro, etc. Como eles não existem nesse caso, não é possível formar o vetor</span>
 </code></pre>
 </div>
 </details>
@@ -2823,7 +2819,7 @@ v1 -&gt; c(“pato”, “cachorro”, “minhoca”, “lagarto”)</p>
 <details>
 <summary>Mostrar Código</summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pato"</span>, <span class='st'>"cachorro"</span>, <span class='st'>"minhoca"</span>, <span class='st'>"lagarto"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pato"</span>, <span class='st'>"cachorro"</span>, <span class='st'>"minhoca"</span>, <span class='st'>"lagarto"</span><span class='op'>)</span>  
 <span class='co'># A direção da seta indica onde queremos salvar os resultados</span>
 </code></pre>
 </div>
@@ -2837,9 +2833,8 @@ v3 &lt;- C(33, 31, 40, 25, 27, 40)</p>
 <details>
 <summary>Mostrar Código</summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>33</span>, <span class='fl'>31</span>, <span class='fl'>40</span>, <span class='fl'>25</span>, <span class='fl'>27</span>, <span class='fl'>40</span><span class='op'>)</span>
-<span class='co'># R é 'case sensitive'. maiúsculo ou minúsculo é uma distinção</span>
-<span class='co'># importante.</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>33</span>, <span class='fl'>31</span>, <span class='fl'>40</span>, <span class='fl'>25</span>, <span class='fl'>27</span>, <span class='fl'>40</span><span class='op'>)</span>  
+<span class='co'># R é 'case sensitive'. maiúsculo ou minúsculo é uma distinção importante.</span>
 </code></pre>
 </div>
 </details>
@@ -2852,9 +2847,8 @@ v1 &lt;- c(“pato”, “cachorro”“,”minhoca“,”lagarto")</p>
 <details>
 <summary>Mostrar Código</summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pato"</span>, <span class='st'>"cachorro"</span>, <span class='st'>"minhoca"</span>, <span class='st'>"lagarto"</span><span class='op'>)</span>
-<span class='co'># Aspas andam sempre em pares. É preciso prestar atenção à ordem deles</span>
-<span class='co'># para não deixar o texto de interesse de fora</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pato"</span>, <span class='st'>"cachorro"</span>, <span class='st'>"minhoca"</span>, <span class='st'>"lagarto"</span><span class='op'>)</span>  
+<span class='co'># Aspas andam sempre em pares. É preciso prestar atenção à ordem deles para não deixar o texto de interesse de fora</span>
 </code></pre>
 </div>
 </details>
@@ -2869,12 +2863,11 @@ myData &lt;- tibble(v1, v4)</p>
 <details>
 <summary>Mostrar Código</summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pato"</span>, <span class='st'>"cachorro"</span>, <span class='st'>"minhoca"</span>, <span class='st'>"lagarto"</span>, <span class='st'>""</span>, <span class='st'>""</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pato"</span>, <span class='st'>"cachorro"</span>, <span class='st'>"minhoca"</span>, <span class='st'>"lagarto"</span>,<span class='st'>""</span>,<span class='st'>""</span><span class='op'>)</span>
 <span class='va'>v4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>33</span>, <span class='fl'>31</span>, <span class='fl'>40</span>, <span class='fl'>25</span>, <span class='fl'>27</span>, <span class='fl'>40</span><span class='op'>)</span>
 <span class='va'>myData</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span><span class='va'>v1</span>, <span class='va'>v4</span><span class='op'>)</span>
-<span class='co'># Tibbles precisam de vetores de tamanhos iguais.  Se não tivermos os</span>
-<span class='co'># dados para alguma observação, precisamos avisar que este valor está</span>
-<span class='co'># faltando, por isso as aspas vazias</span>
+<span class='co'># Tibbles precisam de vetores de tamanhos iguais. </span>
+<span class='co'># Se não tivermos os dados para alguma observação, precisamos avisar que este valor está faltando, por isso as aspas vazias</span>
 </code></pre>
 </div>
 </details>
@@ -2892,9 +2885,7 @@ myData &lt;- tibble(v1 = animal, v4 = idade)</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pato"</span>, <span class='st'>"cachorro"</span>, <span class='st'>"minhoca"</span>, <span class='st'>"lagarto"</span><span class='op'>)</span>
 <span class='va'>v4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>33</span>, <span class='fl'>31</span>, <span class='fl'>40</span>, <span class='fl'>25</span><span class='op'>)</span>
 <span class='va'>myData</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>animal <span class='op'>=</span> <span class='va'>v1</span>, idade <span class='op'>=</span> <span class='va'>v4</span><span class='op'>)</span>
-<span class='co'># Ao criar o tibble, o nome de variável na tabela fica em primeira</span>
-<span class='co'># lugar, seguida por '=' e finalmente o nome do vetor que pretende</span>
-<span class='co'># inserir na tabela.</span>
+<span class='co'># Ao criar o tibble, o nome de variável na tabela fica em primeira lugar, seguida por '=' e finalmente o nome do vetor que pretende inserir na tabela.</span>
 </code></pre>
 </div>
 </details>

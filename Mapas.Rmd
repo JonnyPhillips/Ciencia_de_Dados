@@ -57,10 +57,13 @@ airports
 airports %>% paged_table()
 ```
 
-Para analisar estes dados como dados espaciais precisamos dizer ao R quais são as variáveis de localização. Isto exige uma nova biblioteca: `sf`, acrônimo para 'simple features', o nosso objeto espacial.
+Para analisar estes dados como dados espaciais precisamos dizer ao R quais são as variáveis de localização. Isto exige uma nova biblioteca: `sf`, acrônimo para 'simple features', o nosso objeto espacial. Também recomendo instalar mais dois pacotes 
 
 ```{r}
 #install.packages("sf")
+#install.packages("lwgeom")
+#install.packages("rgdal")
+
 library("sf")
 ```
 
@@ -362,7 +365,6 @@ Note que especificamos o CRS (o `projection`) em que queremos receber os dados, 
 Como podemos verificar o local dos nossos endereços? É mais fácil com o contexto geográfico, como em google maps, e com um mapa interativo. Geralmente, em relatórios, mapas estáticos são mais apropriados, mas às vezes é útil explorar os nossos dados espaciais interativamente, ou em documentos de HTML. Para isso, usamos a função `mapview()` no pacote do mesmo nome. É fácil:
 
 ```{r}
-library(leaflet)
 library(mapview)
 
 Lugares %>% mapview()
@@ -456,8 +458,17 @@ flights_por_dest <- flights %>% group_by(dest) %>%
 
 Segundo, vamos isolar o identificador comum, neste caso o código de aeroporto destino, `dest` em um banco, `faa` no outro, e rodar o `left_join()` como normal. Uma dica - lembre que `left_join()` preserva a estrutura e atributos do objeto na esquerda. Dado que queremos o resultado do nosso join manter o seu status espacial (de 'sf'), é sempre uma boa ideia colocar o objeto espacial na esquerda de `left_join()`. 
 
-```{r}
-airports_flights <- airports %>% rename(dest=faa) %>%
+```{r, echo=F}
+rm(airports)
+library(nycflights13)
+airports <- airports %>% st_as_sf(coords=c("lon","lat"), 
+                                  crs=4326) %>% 
+  filter(tz<0 & name!="Dillant Hopkins Airport" & name!="Eareckson As")
+```
+
+
+```{r chunk_40}
+airports_flights <- airports %>% rename("dest"="faa") %>%
   left_join(flights_por_dest, by="dest")
 ```
 
@@ -470,7 +481,7 @@ airports_flights %>% ggplot() +
 
 Só temos poucos dos aeroportos no banco de dados `flights`, então pode ser melhor usar um `inner_join()` para tirar os aeroportos ausentes:
 
-```{r}
+```{r faa}
 airports %>% rename(dest=faa) %>%
   inner_join(flights_por_dest, by="dest") %>% 
   ggplot() +
@@ -595,6 +606,7 @@ pais_cidades_espacial %>%
 Existe um outro formato para dados espaciais que não é baseado em formas geométricas (polígonos, pontos e linhas), mas em uma grade regular com valores específicos em cada célula x, y - isto é um 'raster' e para trabalhar com ele usamos o pacote 'raster'. Vamos usar o código abaixo para abrir um arquivo raster de densidade populacional no Camboja do [link aqui](https://github.com/JonnyPhillips/Curso_R/raw/master/khm_popdenr_landscan_2011.zip), que é simplesmente uma imagem com extensão _.tif_.
 
 ```{r}
+#install.packages("raster")
 library(raster)
 cambodia <- raster("khm_popdenr_landscan_2011.tif")
 ```

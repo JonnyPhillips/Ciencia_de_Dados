@@ -25,6 +25,8 @@ navbar:
             href: Graficos.html
           - text: "7. Juntando Bancos de Dados"
             href: Juntando_Bancos.html
+          - text: "8. Mapas e Analises Espaciais"
+            href: Mapas.html
     - text: "Desafios"
       menu:
           - text: "Desafio 1"

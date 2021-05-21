@@ -2076,6 +2076,7 @@ Tutoriais
 <a href="Tabelas.html">5. Construindo Tabelas</a>
 <a href="Graficos.html">6. Visualizacao de Dados</a>
 <a href="Juntando_Bancos.html">7. Juntando Bancos de Dados</a>
+<a href="Mapas.html">8. Mapas e Analises Espaciais</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2357,7 +2358,7 @@ W = 0.50308, p-value &lt; 0.00000000000000022</code></pre>
 <p>Felizmente, é fácil construir essa tabela de contingência com a função <code>table()</code>, com um <code>select</code> anterior para definir as duas variáveis que queremos comparar:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>origin</span>, <span class='va'>carrier</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>origin</span>, <span class='va'>carrier</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
@@ -2375,7 +2376,7 @@ origin    OO    UA    US    VX    WN    YV
 <p>Faz sentido? A tabela mostra o número de voos de cada aeroporto e cada companhia aérea. É meio-óbvio que a distribuição das companhias é diferente por cada aeroporto, mas vamos testar isso estatisticamente:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>origin</span>, <span class='va'>carrier</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>origin</span>, <span class='va'>carrier</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://rdrr.io/r/stats/chisq.test.html'>chisq.test</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span>
@@ -3096,14 +3097,14 @@ F Statistic
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#install.packages("https://cran.r-project.org/src/contrib/Archive/Zelig/Zelig_5.1.6.tar.gz", repos=NULL, type="source")</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://cran.r-project.org/package=Zelig'>Zelig</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>Zelig</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <p>A função <code>zelig</code> é bem parecido à <code>lm</code>. Para replicar o modelo linear nos exemplos acima, é só trocar <code>lm</code> para <code>zelig</code> e adicionar `model=“ls”:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/zelig.html'>zelig</a></span><span class='op'>(</span><span class='va'>dep_delay</span> <span class='op'>~</span> <span class='va'>dep_time</span> <span class='op'>+</span> <span class='va'>origin</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"ls"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>zelig</span><span class='op'>(</span><span class='va'>dep_delay</span> <span class='op'>~</span> <span class='va'>dep_time</span> <span class='op'>+</span> <span class='va'>origin</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"ls"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -3113,92 +3114,16 @@ F Statistic
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>atraso<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>dep_delay</span><span class='op'>&gt;</span><span class='fl'>0</span><span class='op'>~</span><span class='fl'>1</span>,
                                     <span class='cn'>TRUE</span><span class='op'>~</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/zelig.html'>zelig</a></span><span class='op'>(</span><span class='va'>atraso</span> <span class='op'>~</span> <span class='va'>origin</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"logit"</span><span class='op'>)</span>
+  <span class='fu'>zelig</span><span class='op'>(</span><span class='va'>atraso</span> <span class='op'>~</span> <span class='va'>origin</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"logit"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>Model: 
 
-Call:
-z5$zelig(formula = formula, data = data, by = by)
-
-Deviance Residuals: 
-    Min       1Q   Median       3Q      Max  
--1.0706  -0.9740  -0.8814   1.2881   1.5057  
-
-Coefficients:
-             Estimate Std. Error z value            Pr(&gt;|z|)
-(Intercept) -0.256505   0.005801  -44.22 &lt;0.0000000000000002
-originJFK   -0.242781   0.008478  -28.64 &lt;0.0000000000000002
-originLGA   -0.488579   0.008799  -55.53 &lt;0.0000000000000002
-
-(Dispersion parameter for binomial family taken to be 1)
-
-    Null deviance: 447727  on 336775  degrees of freedom
-Residual deviance: 444598  on 336773  degrees of freedom
-AIC: 444604
-
-Number of Fisher Scoring iterations: 4
-
-Next step: Use &#39;setx&#39; method</code></pre>
 </div>
 <p>A tabela abaixo mostra o modelo sugerido (existem muitos) para cada tipo de dado usando <code>zelig()</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
-<table>
-<thead>
-<tr>
-<th style="text-align:left;">
-Tipo de Variável Dependente
-</th>
-<th style="text-align:left;">
-Model em Zelig
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Contínuo
-</td>
-<td style="text-align:left;">
-<code>ls</code>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Binário
-</td>
-<td style="text-align:left;">
-<code>logit</code>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-&gt;2 Categorias
-</td>
-<td style="text-align:left;">
-<code>mlogit</code>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Categorias Ordenadas
-</td>
-<td style="text-align:left;">
-<code>ologit</code>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Contagem (número de eventos em um periódo fixo)
-</td>
-<td style="text-align:left;">
-<code>poisson</code>
-</td>
-</tr>
-</tbody>
-</table>
+
 </div>
 <p>Agora temos um poder enorme. Para ilustrar, se estajamos interessados em analisar o número de vôos atrasados por mais de quatro horas em cada dia, a variável é um número de eventos então preciseramos de um modelo ‘poisson’. É fácil especificar:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -3208,35 +3133,12 @@ Contagem (número de eventos em um periódo fixo)
   <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>origin</span>, <span class='va'>month</span>, <span class='va'>day</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/summarize.html'>summarize</a></span><span class='op'>(</span>atrasos_serios<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>atraso_serio</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span>  <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/ungroup.html'>ungroup</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/zelig.html'>zelig</a></span><span class='op'>(</span><span class='va'>atrasos_serios</span> <span class='op'>~</span> <span class='va'>origin</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"poisson"</span><span class='op'>)</span>
+  <span class='fu'>zelig</span><span class='op'>(</span><span class='va'>atrasos_serios</span> <span class='op'>~</span> <span class='va'>origin</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"poisson"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>Model: 
 
-Call:
-z5$zelig(formula = formula, data = data, by = by)
-
-Deviance Residuals: 
-    Min       1Q   Median       3Q      Max  
--1.7501  -1.7106  -1.5368  -0.1709  12.5852  
-
-Coefficients:
-            Estimate Std. Error z value             Pr(&gt;|z|)
-(Intercept)  0.42625    0.04230  10.078 &lt; 0.0000000000000002
-originJFK   -0.26004    0.06410  -4.057            0.0000498
-originLGA   -0.04575    0.06051  -0.756                 0.45
-
-(Dispersion parameter for poisson family taken to be 1)
-
-    Null deviance: 3944.4  on 1094  degrees of freedom
-Residual deviance: 3925.9  on 1092  degrees of freedom
-AIC: 5259.8
-
-Number of Fisher Scoring iterations: 6
-
-Next step: Use &#39;setx&#39; method</code></pre>
 </div>
 <p>Veja nos resultados que atrasos de mais de quatro horas são menos prováveis (coeficiente negativo) em JFK comparando com EWR, mas não tem diferença estatisticamente significativa entre LGA e EWR.</p>
 <p>Organizando os resultados de Zelig exige mais um passo para encaminhar os resultados ao Stargazer para criar tabelas, com a função de ajuda <code>from_zelig_model()</code>:</p>
@@ -3244,146 +3146,14 @@ Next step: Use &#39;setx&#39; method</code></pre>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>atraso<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>dep_delay</span><span class='op'>&gt;</span><span class='fl'>0</span><span class='op'>~</span><span class='fl'>1</span>,
                                     <span class='cn'>TRUE</span><span class='op'>~</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/zelig.html'>zelig</a></span><span class='op'>(</span><span class='va'>atraso</span> <span class='op'>~</span> <span class='va'>origin</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"logit"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/from_zelig_model.html'>from_zelig_model</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>zelig</span><span class='op'>(</span><span class='va'>atraso</span> <span class='op'>~</span> <span class='va'>origin</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"logit"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>from_zelig_model</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/pkg/stargazer/man/stargazer.html'>stargazer</a></span><span class='op'>(</span>type<span class='op'>=</span><span class='st'>"html"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<table style="text-align:center">
-<tr>
-<td colspan="2" style="border-bottom: 1px solid black">
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-<em>Dependent variable:</em>
-</td>
-</tr>
-<tr>
-<td>
-</td>
-<td colspan="1" style="border-bottom: 1px solid black">
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-atraso
-</td>
-</tr>
-<tr>
-<td colspan="2" style="border-bottom: 1px solid black">
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-originJFK
-</td>
-<td>
--0.243<sup>***</sup>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-(0.008)
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-originLGA
-</td>
-<td>
--0.489<sup>***</sup>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-(0.009)
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-Constant
-</td>
-<td>
--0.257<sup>***</sup>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-(0.006)
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td colspan="2" style="border-bottom: 1px solid black">
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-Observations
-</td>
-<td>
-336,776
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-Log Likelihood
-</td>
-<td>
--222,299.000
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-Akaike Inf. Crit.
-</td>
-<td>
-444,604.000
-</td>
-</tr>
-<tr>
-<td colspan="2" style="border-bottom: 1px solid black">
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-<em>Note:</em>
-</td>
-<td style="text-align:right">
-<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
-</td>
-</tr>
-</table>
+
 </div>
 <h2 id="previsões-e-resíduos-de-regressões">Previsões e Resíduos de Regressões</h2>
 <p>Uma regressão também gera novos dados para cada observação - por exemplo, o valor da variável dependente prevista por nossa regressão, ou os <code>resíduos</code> entre o valor atual e o valor previsto. Dado que há um valor para cada observação, faz sentido adicionar estes valores ao nosso banco de dados (tibble) original.</p>
@@ -3407,96 +3177,53 @@ Akaike Inf. Crit.
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span>  <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/zelig.html'>zelig</a></span><span class='op'>(</span><span class='va'>dep_delay</span> <span class='op'>~</span> <span class='va'>dep_time</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"ls"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/setx.html'>setx</a></span><span class='op'>(</span>dep_time<span class='op'>=</span><span class='fl'>0500</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/sim.html'>sim</a></span><span class='op'>(</span><span class='op'>)</span>
+  <span class='fu'>zelig</span><span class='op'>(</span><span class='va'>dep_delay</span> <span class='op'>~</span> <span class='va'>dep_time</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"ls"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>setx</span><span class='op'>(</span>dep_time<span class='op'>=</span><span class='fl'>0500</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>sim</span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>
- sim x :
- -----
-ev
-       mean        sd       50%      2.5%     97.5%
-1 -5.554096 0.1374694 -5.552973 -5.816669 -5.280309
-pv
-          mean       sd       50%      2.5%    97.5%
-[1,] -4.306131 39.53559 -4.689806 -85.39364 70.92373</code></pre>
-<pre><code>
-Call:
-lm(formula = dep_delay ~ dep_time, data = .)
 
-Coefficients:
-(Intercept)     dep_time  
-  -16.27245      0.02143  </code></pre>
 </div>
 <p>Qual é o resultado? São valores previstos - a linha de ‘pv’ é a previsão do atraso se voamos as 5h da manhã, -5.5 minutos na média, que significa decolando cedo.</p>
 <p>Em contraste, quando especificamos o horário de partido das 17h, o atraso média é 20 minutos. (Note que se tivéssemos mais variáveis explicativas, o <code>setx</code> automaticamente fixa os valores na média da variável se não especificamos elas explicitamente.)</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span>  <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/zelig.html'>zelig</a></span><span class='op'>(</span><span class='va'>dep_delay</span> <span class='op'>~</span> <span class='va'>dep_time</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"ls"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/setx.html'>setx</a></span><span class='op'>(</span>dep_time<span class='op'>=</span><span class='fl'>1700</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/sim.html'>sim</a></span><span class='op'>(</span><span class='op'>)</span>
+  <span class='fu'>zelig</span><span class='op'>(</span><span class='va'>dep_delay</span> <span class='op'>~</span> <span class='va'>dep_time</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"ls"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>setx</span><span class='op'>(</span>dep_time<span class='op'>=</span><span class='fl'>1700</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>sim</span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>
- sim x :
- -----
-ev
-      mean         sd      50%    2.5%    97.5%
-1 20.15619 0.08287173 20.15704 19.9925 20.32219
-pv
-        mean       sd      50%      2.5%    97.5%
-[1,] 19.2833 39.01794 18.78197 -57.79337 98.36425</code></pre>
+
 </div>
 <p>Finalmente, podemos avaliar a diferença em atraso entre os dois horários, com a adição da função <code>setx1()</code> para especificar o ponto de comparação com <code>setx()</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span>  <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/zelig.html'>zelig</a></span><span class='op'>(</span><span class='va'>dep_delay</span> <span class='op'>~</span> <span class='va'>dep_time</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"ls"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/setx.html'>setx</a></span><span class='op'>(</span>dep_time<span class='op'>=</span><span class='fl'>0500</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/setx1.html'>setx1</a></span><span class='op'>(</span>dep_time<span class='op'>=</span><span class='fl'>1700</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/sim.html'>sim</a></span><span class='op'>(</span><span class='op'>)</span>
+  <span class='fu'>zelig</span><span class='op'>(</span><span class='va'>dep_delay</span> <span class='op'>~</span> <span class='va'>dep_time</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"ls"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>setx</span><span class='op'>(</span>dep_time<span class='op'>=</span><span class='fl'>0500</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>setx1</span><span class='op'>(</span>dep_time<span class='op'>=</span><span class='fl'>1700</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>sim</span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>
- sim x :
- -----
-ev
-       mean        sd       50%      2.5%     97.5%
-1 -5.555326 0.1310708 -5.555612 -5.808561 -5.306429
-pv
-          mean       sd       50%      2.5%    97.5%
-[1,] -7.751035 37.13392 -8.827568 -78.79152 71.56377
 
- sim x1 :
- -----
-ev
-     mean         sd      50%     2.5%    97.5%
-1 20.1577 0.08197542 20.15792 19.99633 20.31598
-pv
-         mean       sd      50%      2.5%    97.5%
-[1,] 20.85718 39.55475 22.37165 -52.71142 92.35827
-fd
-      mean        sd      50%     2.5%    97.5%
-1 25.71303 0.1614472 25.70702 25.40949 26.03394</code></pre>
 </div>
 <p>Agora, foca-se na linha <code>fd</code>, que mostra uma diferença de 25.7 minutos na média: muito melhor voar cedo!</p>
 <p>Como todas as nossas estimativas de regressões, nunca temos certeza sobre os relacionamentos, e o zelig deixe fácil mostrar isso com mais um passo no fluxo de funções. Com <code>get_qi()</code> podemos gerar uma distribuiçõ simulada - um vetor - de estimativas da diferença média, incorporando o desvío padrão de incerteza.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>diff_simulacoes</span> <span class='op'>&lt;-</span> <span class='va'>flights</span>  <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/zelig.html'>zelig</a></span><span class='op'>(</span><span class='va'>dep_delay</span> <span class='op'>~</span> <span class='va'>dep_time</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"ls"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/setx.html'>setx</a></span><span class='op'>(</span>dep_time<span class='op'>=</span><span class='fl'>0500</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/setx1.html'>setx1</a></span><span class='op'>(</span>dep_time<span class='op'>=</span><span class='fl'>1700</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/sim.html'>sim</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/get_qi.html'>get_qi</a></span><span class='op'>(</span>xvalue<span class='op'>=</span><span class='st'>"x1"</span>, qi<span class='op'>=</span><span class='st'>"fd"</span><span class='op'>)</span>
+  <span class='fu'>zelig</span><span class='op'>(</span><span class='va'>dep_delay</span> <span class='op'>~</span> <span class='va'>dep_time</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"ls"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>setx</span><span class='op'>(</span>dep_time<span class='op'>=</span><span class='fl'>0500</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>setx1</span><span class='op'>(</span>dep_time<span class='op'>=</span><span class='fl'>1700</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>sim</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>get_qi</span><span class='op'>(</span>xvalue<span class='op'>=</span><span class='st'>"x1"</span>, qi<span class='op'>=</span><span class='st'>"fd"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -3514,7 +3241,6 @@ fd
   <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
-<p><img src="Regressoes_files/figure-html5/unnamed-chunk-58-1.png" width="624" /></p>
 </div>
 <div class="green">
 <h2 id="exercício-2-regressões">Exercício 2: Regressões</h2>
@@ -3589,8 +3315,8 @@ fd
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>mais_de_tres_horas<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>air_time</span><span class='op'>&gt;</span><span class='fl'>180</span> <span class='op'>~</span> <span class='fl'>1</span>,
                                     <span class='cn'>TRUE</span> <span class='op'>~</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/zelig.html'>zelig</a></span><span class='op'>(</span><span class='va'>mais_de_tres_horas</span> <span class='op'>~</span> <span class='va'>dep_time</span> <span class='op'>+</span> <span class='va'>distance</span> <span class='op'>+</span> <span class='va'>origin</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"logit"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/from_zelig_model.html'>from_zelig_model</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>zelig</span><span class='op'>(</span><span class='va'>mais_de_tres_horas</span> <span class='op'>~</span> <span class='va'>dep_time</span> <span class='op'>+</span> <span class='va'>distance</span> <span class='op'>+</span> <span class='va'>origin</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"logit"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>from_zelig_model</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/pkg/stargazer/man/stargazer.html'>stargazer</a></span><span class='op'>(</span>title<span class='op'>=</span><span class='st'>"Modelo de Duração, Q3"</span>, 
                                    type<span class='op'>=</span><span class='st'>"html"</span><span class='op'>)</span>
 </code></pre>
@@ -3604,12 +3330,12 @@ fd
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>modelo_tres_horas</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>mais_de_tres_horas<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>air_time</span><span class='op'>&gt;</span><span class='fl'>180</span> <span class='op'>~</span> <span class='fl'>1</span>,
                                     <span class='cn'>TRUE</span> <span class='op'>~</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>origin<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/zelig.html'>zelig</a></span><span class='op'>(</span><span class='va'>mais_de_tres_horas</span> <span class='op'>~</span> <span class='va'>dep_time</span> <span class='op'>+</span> <span class='va'>distance</span> <span class='op'>+</span> <span class='va'>origin</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"logit"</span><span class='op'>)</span>
+  <span class='fu'>zelig</span><span class='op'>(</span><span class='va'>mais_de_tres_horas</span> <span class='op'>~</span> <span class='va'>dep_time</span> <span class='op'>+</span> <span class='va'>distance</span> <span class='op'>+</span> <span class='va'>origin</span>, data<span class='op'>=</span><span class='va'>.</span>, model<span class='op'>=</span><span class='st'>"logit"</span><span class='op'>)</span>
 
 <span class='va'>modelo_tres_horas</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/setx.html'>setx</a></span><span class='op'>(</span>distance<span class='op'>=</span><span class='fl'>700</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/setx1.html'>setx1</a></span><span class='op'>(</span>distance<span class='op'>=</span><span class='fl'>1300</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/Zelig/man/sim.html'>sim</a></span><span class='op'>(</span><span class='op'>)</span>
+  <span class='fu'>setx</span><span class='op'>(</span>distance<span class='op'>=</span><span class='fl'>700</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>setx1</span><span class='op'>(</span>distance<span class='op'>=</span><span class='fl'>1300</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>sim</span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -3638,7 +3364,7 @@ fd
 <!-- install.packages("Zelig") problem -->
 <!-- Add title to stargazer -->
 <!-- ME plots from regression... -->
-<div class="sourceCode" id="cb13"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
