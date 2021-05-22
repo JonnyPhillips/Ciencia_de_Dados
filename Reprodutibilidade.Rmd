@@ -440,6 +440,8 @@ weather %>% group_by(month) %>%
 
 </div>
 
+<!-- renv -->
+
 # Checkpoint
 
 A última ferramanta listada aqui é menos usada, mas atende um problema que já é familiar para vocês - complexidades e conflitos de pacotes de R. Essa seção é optativa porque não é essencial para o seu trabalho pessoal mas pode ser útil para projetos maiores e colaborativos.

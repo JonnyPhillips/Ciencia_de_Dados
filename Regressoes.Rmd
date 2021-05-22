@@ -28,6 +28,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 knitr::opts_chunk$set(echo = T, eval=T, highlight=T)
 library("nycflights13")
 library("tidyverse")
+library("tidylog")
 library("rmarkdown")
 library("knitr")
 library("kableExtra")
@@ -43,15 +44,15 @@ Não se preocupe se você não esteja treinado em métodos quantitativos - não 
 Os pontos cruciais de testes estatísticos são os seguintes:
 
 1. Temos dados de pelo menos uma variável e queremos avaliar se um 'fato' (uma hipótese nula) sobre estes dados é verdade. 
-2. Então comparamos os nossos dados reais com uma distribuição de referência assumindo que este fato/hipótese é verdade. 
-3. Avaliamos a força da evidência, levando em conta a quantidade de observações que temos para fornecer informação. Resumimos a força de evidência com um 'valor p', que estima quanto provável seria observar os nossos dados reais se o fato realmente é verdade, ou seja quanto 'bizarro' seriam os nossos dados. 
+2. Então comparamos os nossos dados reais com uma distribuição de referência assumindo que este fato/hipótese nula é verdade. 
+3. Avaliamos a força da evidência, levando em conta a quantidade de observações que temos para fornecer informação. Resumimos a força de evidência com um 'valor p', que estima quanto provável seria observar os nossos dados reais se o fato realmente é verdade. 
     * Um valor p bem baixo significa que seria muito bizarro observar os nossos dados se o fato seja verdade, então parece mais provável que o fato não seja verdade.
 
 As funções de testes estatísticos e regressões são mais diversas e menos padronizadas que as funções que já discutimos. Assim, é crucial entender o *classe/tipo de objeto* que a função espera, e o resultado que ele produz. A nossa tarefa é usar o nosso pipe para preparar os dados no classe/formato apropriado. 
 
 # Testes de Normalidade
 
-O nosso primeiro teste é um teste de como os nossos dados são distribuidos. Dados contínuos frequentemente formam uma distribuição 'normal' quando temos um número razoável de observações. Podemos avaliar o fato/hipótese nula que se os nossos dados fossem 'normal' com um teste que se chama o teste Shapiro-Wilk. Ele compara os nossos dados com uma distribuição normal perfeita e avalia quanto longe de normal são os nossos dados. 
+O nosso primeiro teste é um teste de como os nossos dados são distribuidos. Dados contínuos frequentemente formam uma distribuição 'normal' quando temos um número razoável de observações (a linha preta no gráfico abaixo). Podemos avaliar o fato/hipótese nula que os nossos dados são distribuido de forma 'normal' com um teste que se chama o teste Shapiro-Wilk. Ele compara os nossos dados com uma distribuição normal perfeita e avalia quanto longe de normal são os nossos dados. 
 
 ```{r, echo=F}
 set.seed(11)
@@ -68,7 +69,7 @@ tibble(Variavel=rnorm(100000, 0, 1)) %>%
 ```
 
 
-Usamos o teste Shapiro-Wilk através da função `shapiro.test()` e ela espera um **vetor** dos valores da variável que queremos testar. Então temos que isolar um vetor (não um tibble) para encaminhar usando a função 'pull'. Vamos avaliar se os atrasos dos vôos são distribuidos normalmente:
+Usamos o teste Shapiro-Wilk através da função `shapiro.test()` e ela espera um **vetor** dos valores da variável que queremos testar. Então temos que isolar um vetor (não um tibble) para encaminhar usando a função `pull()`. Vamos avaliar se os atrasos dos vôos (`dep_delay`) são distribuidos normalmente:
 
 ```{r, eval=F}
 flights %>% 
@@ -95,7 +96,7 @@ teste_normalidade
 
 É um número, sim, um número muito grande ou muito pequeno que o R escolha mostra no formato 'científico'. "2.2e-6" indica o número de dígitos pelo qual temos que mexer o ponto decimal (a vírgula) para chegar no valor final. Aqui é 6 espaços, igual a 0,0000022. Se for "2.2e+6", seria 2200000,0.
 
-Você não precisa fazer nada com os seus dados, o valor é salvo com um número completo com todos os seus dígitos. A diferença é só na *apresentação* do valor na tela. 
+Você não precisa fazer nada com os seus dados, o valor é salvo como um número completo com todos os seus dígitos. A diferença é só na *apresentação* do valor na tela. 
 
 Mas é verdade que às vezes preferimos valores mais fáceis para interpretar. Uma dica para encorajar o R não usar o formato científico é inserir o seguinte código no início do seu script:
 
@@ -122,9 +123,9 @@ Qual foi o tipo de objeto criado pela `shapiro.test()`?
 class(teste_normalidade)
 ```
 
-É do tipo 'htest', que é um formato proprietário que é muito difícil incorporar em nosso texto, ou em uma tabela. Por exemplo, eu quero inserir a frase "O teste Shapiro-Wilk de normalidade da variável dep_delay tem valor 'p' de [X]". Como eu posso inserir 'X' com in-line código?
+É do tipo 'htest', que é um formato proprietário que é muito difícil incorporar em nosso texto, ou em uma tabela. Por exemplo, eu quero inserir no meu relatório final a frase "O teste Shapiro-Wilk de normalidade da variável dep_delay tem valor 'p' de [X]". Como eu posso inserir o valor de 'X' da teste com in-line código?
 
-Pode ser muito chato. Porém, felizmente, existe uma outra biblioteca/função dedicada a ajudar nessa situação, simplificando e padronizando os resultados de testes estatísticos. Qual é o objeto com quem estamos mais acostumados a trabalhar? É o tibble, lembre que quase tudo foi um tibble! Isso é o mágico da biblioteca `broom` e a função `tidy` - ela transforme os resultados de testes estatísticos em um tibble:
+Pode ser muito chato se preciseramos fazer de forma manual. Porém, felizmente, existe uma outra biblioteca/função dedicada a ajudar nessa situação, simplificando e padronizando os resultados de testes estatísticos. Qual é o objeto com quem estamos mais acostumados a trabalhar? É o tibble, lembre que quase tudo foi um tibble! Isso é o mágico da biblioteca `broom` e a função `tidy` - ela transforme os resultados de testes estatísticos em um tibble:
 
 ```{r}
 #install.packages("broom")
@@ -152,13 +153,15 @@ teste_normalidade %>% pull(p.value) %>% round(3)` ``.
 
 O teste Shapiro-Wilk de normalidade da variável dep_delay tem valor 'p' de `r teste_normalidade %>% pull(p.value) %>% round(3)`.
 
+Observe que usamos `round(3)` no final do fluxo para arredondar os valores numéricos.
+
 Nós podemos usar `tidy` depois da maioria de testes estatísticos, e também regressões, para simplificar a apresentação dos resultados.
 
 # Testes de Médias
 
 Uma outra família de testes estatísticos é testes de médias, amplamante conhecidos como 't-tests'. Começamos com um teste simples: a nossa média é estatisticamente diferente de um valor específico? Imagine, por exemplo, que as companhias aéreas tinham um atraso médio de 13.4 minutos em 2012 - o valor média em 2013 foi diferente?
 
-Este teste exige uma comparação entre os nossos dados e o valor '13.4', então vamos encaminhar o vetor de atrasos para a função `t.test()`, especificando o argumento `mu` para a média padrão com que queremos comparar. E não esquecemos de usar `tidy()` no final para simplificar o resultado:
+Este teste exige uma comparação entre os nossos dados e o valor '13.4', então vamos encaminhar o vetor de atrasos para a função `t.test()`, especificando o argumento `mu` para o valor de comparação (o 13.4). E não esquecemos de usar `tidy()` no final para simplificar o resultado:
 
 ```{r, eval=F}
 teste_media <- flights %>% filter(origin!="LGA") %>% 
@@ -179,9 +182,9 @@ teste_media <- flights %>% filter(origin!="LGA") %>%
 teste_media
 ```
 
-Recebemos muitas informações aqui: a média dos nossos dados é 13.66, pouco acima de 13.4, o intervalo de confiança (de 95%) é de 13.49 a 13.83, e o valor 'p' é 0.0018, debaixo da padrão comum de 0.05. Então o restulado fica estatisticamente significativa; parece que o atraso média em 2013 realmente é diferente do valor de 13.4 em 2012. 
+Recebemos muitas informações aqui: a média dos nossos dados é 13.66, pouco acima de 13.4. Mas isso é longe de 13.4 ou próximo? Depende da quantidade de observações. O intervalo de confiança (de 95%) é de 13.49 a 13.83, e o valor 'p' é 0.0018, debaixo da padrão comum de 0.05. Então o restulado fica estatisticamente significativa; parece que o atraso média em 2013 realmente é diferente do valor de 13.4 em 2012. 
 
-Para comunicar os resultados de t-test, é frequentemente útil gerar gráficos para mostrar a média e o intervalo de confiança. Como podemos construir um gráfico deste tipo? Vamos começar com o parte mais fácil: colocamos a média dos nossos dados (um ponto com `geom_point`) e uma linha horizontal para indicar o ponto de comparação (com `geom_hline`):
+Para comunicar os resultados do t-test, é frequentemente útil gerar gráficos para mostrar a média e o intervalo de confiança. Como podemos construir um gráfico deste tipo? Vamos começar com o parte mais fácil: colocamos a média dos nossos dados (um ponto com `geom_point`) e uma linha horizontal para indicar o ponto de comparação (com `geom_hline` que gera uma linha horizontal):
 
 ```{r}
 teste_media %>% mutate(Variavel="Atraso na partida") %>% 
@@ -190,7 +193,7 @@ teste_media %>% mutate(Variavel="Atraso na partida") %>%
   geom_hline(yintercept=13.4, lty=2, color="blue")
 ```
 
-Observe aqui que adicionamos uma coluna com o nome da variável em nosso tibble antes de visualizá-la para que podemos incorporar o nome daquela variável em nosso gráfico. O formato dos resultados num tibble facilita bastante a preparação do gráfico.
+Observe aqui que adicionamos uma coluna com o nome da variável em nosso tibble antes de visualizá-la para que podemos incorporar o nome daquela variável em nosso gráfico. Em breve, quando temos múltiplas variáveis para analisar, podemos nomear eles de forma sistemática. O formato dos resultados num tibble facilita bastante a preparação do gráfico.
 
 Agora, vamos adicionar uma linha que mostra o intervalo de confiança (as variáveis 'conf.low' e 'conf.high'), com a geometria `geom_errorbar()`, que exige três variáveis: `x`, `ymin` e `ymax` para definir os limites da linha baseado nos valores em nosso tibble:
 
@@ -206,7 +209,7 @@ teste_media %>% mutate(Variavel="Atraso na partida") %>%
 
 ## Comparando Médias
 
-Que tal se não temos um ponto de comparação fixa, mas queremos comparar se a média em um grupo é diferente da média num outro grupo? Isso significa que dividimos os nossos dados baseado numa variável categôrica em nosso tibble, e comparamos as duas distribuições pela variável contínua. Por exemplo, queremos comparar se o atraso média do aeroporto 'EWR' é estatisticamente diferente do atraso média no aeroporto 'JFK'.
+Que tal se não temos um ponto de comparação fixa, mas queremos comparar se a média em um grupo é diferente da média num outro grupo? Isso significa que dividimos os nossos dados baseado numa variável categórica em nosso tibble, e comparamos as duas distribuições pela variável contínua. Por exemplo, queremos comparar se o atraso média do aeroporto 'EWR' é estatisticamente diferente do atraso média no aeroporto 'JFK'.
 
 Podemos continuar usando a função `t.test`, mas agora que temos que definir uma variável discreta e uma variável contínua, precisamos encaminhar o nosso tibble completo e não um vetor (uma variável única), então não precisamos do passo de `pull()`. Em vez disso, e dado que estamos usando funções fora do tidyverse, temos que indicar para `t.test` que ela deve trabalhar com os dados que estamos encaminhando pelo pipe com o argumento `data=.`. (Lembre-se que o '.' significa para R usar os dados produzidos no fluxo do pipe anterior). 
 
@@ -252,9 +255,9 @@ Este tipo de teste é muito comum porque sempre queremos comparar entre grupos. 
 
 # Testes de Correlação
 
-Sabemos que existe uma associação entre o atraso média e o aeroporto - entre uma variável contínua e uma variável discreta. Como podemos comparar a associação entre duas variáveis contínuas? Por exemplo, atraso (`dep_delay`) e horário de partida (`dep_time`)? 
+Sabemos que existe uma associação entre o atraso médio e o aeroporto - entre uma variável contínua e uma variável discreta. Como podemos comparar a associação entre duas variáveis contínuas? Por exemplo, atraso (`dep_delay`) e horário de partida (`dep_time`)? 
 
-Associação neste caso se chama 'correlação' e compara todos os valores das duas variáveis contínuas, e não simplesmente as médias. A avaliação do teste de correlação é calcular o coeficiente de correlação (de tipo Pearson, por padrão; basicamente a inclinação da linha entre os pontos no gráfico), que pode ser positivo ou negativo, e comparar com zero. 
+Associação neste caso se chama 'correlação' e compara todos os valores das duas variáveis contínuas, e não simplesmente as médias. A avaliação do teste de correlação é calcular o coeficiente de correlação (de tipo Pearson, por padrão; basicamente a inclinação da linha entre os pontos no gráfico), que pode ser positivo ou negativo, e comparar com zero, pois zero indica nenhuma correlação. 
 
 Rodando o teste é fácil: encaminhamos o nosso tibble para `cor.test()`, com `data=.`, e a fórmula agora tem duas variáveis independentes e nenhuma dependente (dado que estamos tratando as variáveis igualmente). Como sempre, `tidy()` ajuda para organizar os resultados.
 
@@ -273,7 +276,7 @@ flights %>%
 
 Os resultados indicam um coeficiente de correlação de 0.26 (positivo), e um valor 'p' de zero. Interpretando: há uma correlação positiva e estatisticamente significativa entre o horário de partida e o atraso. Ou seja, é melhor voar mais cedo!
 
-É fácil usar um gráfico de pontos e uma linha para mostrar esta correlação positiva visualmente:
+É fácil usar um gráfico de pontos e uma linha (`geom_smooth()`) para mostrar essa correlação positiva visualmente:
 
 ```{r}
 flights %>% sample_n(1000) %>% 
@@ -285,7 +288,7 @@ flights %>% sample_n(1000) %>%
 
 ## Testes de Correlação de Variáveis Categóricas (Chi-squared)
 
-Para completar a tipologia de testes, como podemos comparar duas variáveis categôricas? Por exemplo, queremos comparar as variáveis `dest` (destino) e `carrier` (companhia aérea) para saber - estatisticamente - se as mesmas companhias voam de cada aeroporto.
+Para completar a tipologia de testes, como podemos comparar duas variáveis categóricas? Por exemplo, queremos comparar as variáveis `origin` (origem) e `carrier` (companhia aérea) para saber - estatisticamente - se as mesmas companhias voam de cada aeroporto.
 
 Nesta circunstância, é apropriado aplicar um teste 'chi-squared', usando a função `chisq.test()`. O formato que a função exige é uma 'tabela de contingência' - todas as combinações das duas variáveis possíveis e o número de observações (vôos) para cada combinação.
 
@@ -318,40 +321,34 @@ O valor 'p' de zero indica que realmente existe uma diferença nas companhias qu
 <div class = "green">
 ## Exercício 1: Testes Estatísticos
 
-<aside>
-```{r codefolder1, echo=FALSE, results='asis'}
-codefolder::distill(init = "show")
-```
-</aside>
-
 1. Use a função `rnorm(1000, 0, 1)` para gerar um vetor de 1000 observações aleatoriamente da distribuição normal. Avalie se os valores gerados sejam realmente distribuido normal com um teste Shapiro-Wilk.
 
-```{r, eval=F, echo=T}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 rnorm(1000, 0, 1) %>% 
   shapiro.test() %>%
   tidy()
 ```
 
-2. No banco de dados `planes`, teste se o ano de fabricação dos voos de fabricador Boeing seja diferente de 2000. 
+2. No banco de dados `planes`, teste se a média do ano de fabricação dos voos de fabricador Boeing seja diferente de 2000. 
 
-```{r, eval=F, echo=T}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 planes %>% filter(manufacturer=="BOEING") %>% 
   pull(year) %>%
   t.test(mu=2000)
 ```
 
-3. Avalie com um teste apropriado se a velocidade média de voos de Newark (EWR) seja igual a velocidade de vôos de LaGuardia (LGA). (Lembre-se que tem que calcular velocidade).
+3. Avalie com um teste apropriado se a velocidade média de voos de Newark (EWR) seja igual à velocidade dos vôos de LaGuardia (LGA). (Lembre-se que tem que calcular a variável velocidade).    
 
-```{r, eval=F, echo=T}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% filter(origin!="JFK") %>%
   mutate(velocidade=distance/air_time) %>%
   t.test(velocidade~origin, data=.) %>%
   tidy()
 ```
 
-4. Usando o banco de dados `weather`, qual é a correlação entre temperatura e pressão?
+4. Usando o banco de dados `weather`, qual é a correlação entre temperatura (`temp`) e pressão (`pressure`)?
 
-```{r, eval=F, echo=T}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 weather %>% filter(origin!="EWR") %>%
   cor.test(~temp + pressure, data=.) %>%
   tidy()
@@ -359,7 +356,7 @@ weather %>% filter(origin!="EWR") %>%
 
 5. Crie um gráfico usando `geom_errorbar()` para comunicar o intervalo de confiança da estimativa de correlação em questão 4. Adicione uma linha horizontal para comparar com uma correlação de zero.
 
-```{r, eval=F, echo=T}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 weather %>% filter(origin!="EWR") %>%
   cor.test(~temp + pressure, data=.) %>%
   tidy() %>%
@@ -376,7 +373,7 @@ weather %>% filter(origin!="EWR") %>%
 
 Regressão é correlação. Nada muito mais complexo que isso, então não fica com medo - rodar uma regressão é uma linha única de código, parecido com os testes que executamos acima. Existem variadades infinitas de regressões, e os detalhes ficam fora do curso. Mas é importante entender como a manipular os bancos de dados e os resultados de regressões porque ninguém vai ensinar isso numa disciplina de regressão, e entendendo a preparação de dados facilita bastante o seu foco no entendimento e interpretação de regressão. 
 
-Começamos com a regressão mais simples, um modelo linear, apropriado para variáveis dependentes *contínuas*. A função é `lm()`, e indicando `data=.` podemos passar os nossos dados direitamente para ela. É só inserir a fórmula que define a nossa regressão, como sempre com a variável dependente na esquerda e as variáveis independentes (explicativas) na direita. Por exemplo:
+Começamos com a regressão mais simples, um modelo linear, apropriado para variáveis dependentes *contínuas*. A função é `lm()`, e indicando `data=.` podemos passar os nossos dados diretamente para ela no fluxo de pipe. É só inserir a fórmula que define a nossa regressão, como sempre com a variável dependente na esquerda e as variáveis independentes (explicativas) na direita. Por exemplo:
 
 ```{r}
 flights %>% lm(dep_delay ~ dep_time, data=.)
@@ -405,7 +402,7 @@ flights %>% lm(dep_delay ~ dep_time, data=.) %>%
   tidy() %>% paged_table()
 ```
 
-A segunda opção e geralmente mais útil para relatórios e escolhindo as variáveis/linhas mais interessantes, pois podemos continuar com as nossas funções normais como `filter` e `select` para organizar o resultado. Vamos ver em breve alternativas para gerar direitamente tabelas mais bonitas. 
+A segunda opção e geralmente mais útil para relatórios e escolhindo as variáveis/linhas mais interessantes, pois podemos continuar com as nossas funções normais como `filter` e `select` para organizar o resultado. Vamos ver em breve alternativas para gerar diretamente tabelas mais bonitas. 
 
 Observe que gerando regressões mais complexas só precisa de ajustes na fórmula. Por exemplo para adicionar mais variáveis independentes:
 
@@ -418,7 +415,7 @@ flights %>% lm(dep_delay ~ dep_time + origin, data=.) %>% tidy() %>%
   paged_table()
 ```
 
-Para especificar um relacionamento entre uma variável independente e o dependente *não*-linear, ex. quadrático, temos que usar a função `I()`, por exemplo:
+Para especificar uma relação entre uma variável independente e o dependente *não*-linear, ex. quadrático, temos que usar a função `I()`, por exemplo:
 
 ```{r, eval=F}
 flights %>% lm(dep_delay ~ dep_time + I(dep_time^2), data=.) %>% tidy()
@@ -431,9 +428,9 @@ flights %>% lm(dep_delay ~ dep_time + I(dep_time^2), data=.) %>% tidy() %>%
 
 ## Tabelas de Resultados de Regressões
 
-É muito comum compartilhar os resultados da nossa regressão em uma tabela. Existem várias funções que facilitam este processo; vamos usar `stargazer`, da biblioteca do mesmo nome. Podemos preparar tabelas em vários formatos, para HTML ou para PDF (com latex, que vamos explorar a aula que vem). Se quisemos tabelas de HTML, temos que especificar o argumento `type="html"`. 
+É muito comum compartilhar os resultados da nossa regressão em uma tabela profissional. Existem várias funções que facilitam este processo; vamos usar `stargazer`, da biblioteca do mesmo nome. Podemos preparar tabelas em vários formatos, para HTML ou para PDF (com latex, que vamos explorar na aula que vem). PDF é o padrão então se quisemos tabelas de HTML, temos que especificar o argumento `type="html"`. 
 
-Cuidado: Existe mais uma ajuste necessário. Lembre-se das opções de chunks que especificamos, como `echo=FALSE` para não mostrar o nosso código? Com stargazer temos que especificar `results='asis'` nas opções de chunk para que o resultado saia corretamente quando usamos 'knit'.
+Cuidado: Existe mais uma ajuste necessária. Lembre-se das opções de chunks que especificamos, como `echo=FALSE` para não mostrar o nosso código? Com stargazer temos que especificar `results='asis'` nas opções de chunk para que o resultado saia corretamente quando usamos 'knit'. Veja o exemplo:
 
 ````clike
 ```{r, results='asis'}`r ''`
@@ -472,7 +469,7 @@ list(reg1, reg2) %>% stargazer(type="html")
 
 ## Gráficos de Efeitos Marginais das Regressões
 
-Visualizando os coeficientes de uma regressão é fácil com a combinação de `tidy()` e `ggplot()`. Vamos visualizar as nossas estimativas dos efeitos marginais das duas variáveis explicativas no 'reg2' criado acima. A única coisa que faltamos é um intervalo de confiança pré-calculada, mas isso é fácil calcular: para o intervalo de confiança de 95%, só ajustamos a nossa estimativa central por 1.96 (o valor da distrbuição t apropriado) multiplicado pelo desvio padrão, para acima e para abaixo. Também vou tirar o intercept - observe que tudo isso é fácil usando as nossas funções bem conhecidas como `mutate` e `filter` porque `tidy` nos permite trabalhar com um tibble. 
+As tabelas de regressão ainda exigem bastante esforço para interpretar. Visualizando os coeficientes de uma regressão é fácil com a combinação de `tidy()` e `ggplot()`. Vamos visualizar as nossas estimativas dos efeitos marginais das duas variáveis explicativas no 'reg2' criado acima. A única coisa que faltamos é um intervalo de confiança pré-calculada, mas isso é fácil calcular: para o intervalo de confiança de 95%, só ajustamos a nossa estimativa central por 1.96 (o valor da distrbuição t apropriado) multiplicado pelo desvio padrão, para acima e para abaixo. Também vou tirar o intercept - observe que tudo isso é fácil usando as nossas funções bem conhecidas como `mutate` e `filter` porque `tidy` nos permite trabalhar com um tibble. 
 
 ```{r}
 reg2 %>% tidy() %>%
@@ -481,22 +478,29 @@ reg2 %>% tidy() %>%
   filter(term!="(Intercept)") %>%
   ggplot() +
   geom_point(aes(x=term, y=estimate)) +
-  geom_errorbar(aes(x=term, y=estimate, ymin=conf.lo, ymax=conf.hi), width=0.1)
+  geom_errorbar(aes(x=term, y=estimate, ymin=conf.lo, ymax=conf.hi), width=0.1) +
+  geom_hline(yintercept=0, lty=2)
 ```
 
 
 # Modelos Alternativos
 
+A partir desta seção, não se preocupe se você não tem muita preperação prévia. Pode acompanhar os exemplos mesmo assim, ou pular para o final do tutorial se preferir.
+
 Uma regressão linear é apenas uma das possibilidades. O tipo de regressão reflete o tipo de dado em nossa variável dependente. Usamos uma regressão linear apenas quando a nossa variável dependente é contínua. Por exemplo, variáveis dependentes binárias (0/1) exigem um modelo de regressão de tipo 'logit' (ou 'probit'). 
 
-Para acomodar uma variedade de modelos vamos aproveitar do pacote `Zelig` que aceita várias possibilidades. Infelizmente, a instalação exige um pouco mais de código - pode copiar-colar a linha de instalação abaixo:
+Para acomodar uma variedade de modelos vamos aproveitar do pacote `Zelig` que aceita várias possibilidades.
 
-```{r, eval=F}
-#install.packages("https://cran.r-project.org/src/contrib/Archive/Zelig/Zelig_5.1.6.tar.gz", repos=NULL, type="source")
+```{r, echo=F}
 library(Zelig)
 ```
 
-A função `zelig` é bem parecido à `lm`. Para replicar o modelo linear nos exemplos acima, é só trocar `lm` para `zelig` e adicionar `model="ls":
+```{r, eval=F}
+#install.packages("Zelig")
+library(Zelig)
+```
+
+A função `zelig` é bem parecida à `lm`. Para replicar o modelo linear nos exemplos acima, é só trocar `lm` para `zelig` e adicionar `model="ls":
 
 ```{r, eval=F}
 flights %>% zelig(dep_delay ~ dep_time + origin, data=., model="ls")
@@ -512,7 +516,7 @@ flights %>% mutate(atraso=case_when(dep_delay>0~1,
   zelig(atraso ~ origin, data=., model="logit")
 ```
 
-```{r, echo=F, eval=F}
+```{r, echo=F, eval=T}
 flights %>% mutate(atraso=case_when(dep_delay>0~1,
                                     TRUE~0)) %>%
   zelig(atraso ~ origin, data=., model="logit", cite=F)
@@ -520,8 +524,8 @@ flights %>% mutate(atraso=case_when(dep_delay>0~1,
 
 A tabela abaixo mostra o modelo sugerido (existem muitos) para cada tipo de dado usando `zelig()`:
 
-```{r, echo=F, eval=F}
-tibble(`Tipo de Variável Dependente`=c("Contínuo", "Binário", ">2 Categorias", "Categorias Ordenadas", "Contagem (número de eventos em um periódo fixo)"),
+```{r, echo=F, eval=T}
+tibble(`Tipo de Variável Dependente`=c("Contínuo", "Binário", ">2 Categorias", "Categorias Ordenadas", "Contagem (número de eventos em um período fixo)"),
                      `Model em Zelig`=c("`ls`", "`logit`", "`mlogit`", "`ologit`", "`poisson`")) %>%
   kable()
 ```
@@ -537,7 +541,7 @@ flights %>% mutate(atraso_serio=case_when(dep_delay>240 ~ 1,
   zelig(atrasos_serios ~ origin, data=., model="poisson")
 ```
 
-```{r, echo=F, eval=F}
+```{r, echo=F, eval=T}
 flights %>% mutate(atraso_serio=case_when(dep_delay>240 ~ 1,
                                            TRUE ~ 0)) %>%
   group_by(origin, month, day) %>%
@@ -546,7 +550,7 @@ flights %>% mutate(atraso_serio=case_when(dep_delay>240 ~ 1,
   zelig(atrasos_serios ~ origin, data=., model="poisson", cite=F)
 ```
 
-Veja nos resultados que atrasos de mais de quatro horas são menos prováveis (coeficiente negativo) em JFK comparando com EWR, mas não tem diferença estatisticamente significativa entre LGA e EWR.
+Veja nos resultados que atrasos de mais de quatro horas são menos prováveis (coeficiente negativo) em JFK comparando com EWR (a categoria 'base'), mas não tem diferença estatisticamente significativa entre LGA e EWR.
 
 Organizando os resultados de Zelig exige mais um passo para encaminhar os resultados ao Stargazer para criar tabelas, com a função de ajuda `from_zelig_model()`:
 
@@ -558,7 +562,7 @@ flights %>% mutate(atraso=case_when(dep_delay>0~1,
   stargazer(type="html")
 ```
 
-```{r, results='asis', echo=F, eval=F}
+```{r, results='asis', echo=F, eval=T}
 flights %>% mutate(atraso=case_when(dep_delay>0~1,
                                     TRUE~0)) %>%
   zelig(atraso ~ origin, data=., model="logit", cite=F) %>%
@@ -570,7 +574,7 @@ flights %>% mutate(atraso=case_when(dep_delay>0~1,
 
 Uma regressão também gera novos dados para cada observação - por exemplo, o valor da variável dependente prevista por nossa regressão, ou os `resíduos` entre o valor atual e o valor previsto. Dado que há um valor para cada observação, faz sentido adicionar estes valores ao nosso banco de dados (tibble) original. 
 
-A função `augment()` (do pacote `broom`) permite isso - começando com o nosso modelo rodado acima, `augment()` gera um novo tibble com os dados originais usados na regressão, mais colunas adicionais para atributos da regressão.
+A função `augment()` (do pacote `broom`) permite isso - começando com o nosso modelo rodado acima, `augment()` gera um novo tibble com os dados originais usados na regressão, mais as colunas adicionais com os resultados da regressão.
 
 ```{r, eval=F}
 reg1 %>% augment()
@@ -584,7 +588,7 @@ reg1 %>% augment() %>% paged_table()
 
 Uma regressão é também uma 'maquina' para prever o que vai acontecer com a variável dependente quando as variáveis independentes assumem valores específicos. Claro que a qualidade da previsão pode ser terrível se o modelo não seja correta. 
 
-Com o `zelig`, é fácil gerar essas previsões para valores novos. Seguimos a nossa regressão com uma definição dos valores de variáveis independentes que queremos avaliar usando a função `setx()`, com um valor para cada variável, e depois a função sim(), sem argumento. Por exemplo, se rodamos um modelo linear para prever o atraso com o horário de partida das 5h na manhã:
+Com o `zelig`, é fácil gerar essas previsões para valores novos. Seguimos a nossa regressão com uma definição dos valores de variáveis independentes que queremos avaliar usando a função `setx()`, com um valor para cada variável, e depois a função `sim()`, sem argumento. Por exemplo, se rodamos um modelo linear para prever o atraso com o horário de partida das 5h na manhã:
 
 ```{r, eval=F}
 flights  %>%
@@ -593,7 +597,7 @@ flights  %>%
   sim()
 ```
 
-```{r, echo=F, eval=F}
+```{r, echo=F, eval=T}
 flights  %>%
   zelig(dep_delay ~ dep_time, data=., model="ls", cite=F) %>% 
   setx(dep_time=0500) %>%
@@ -603,7 +607,7 @@ flights  %>%
   lm(dep_delay ~ dep_time, data=.) 
 ```
 
-Qual é o resultado? São valores previstos - a linha de 'pv' é a previsão do atraso se voamos as 5h da manhã, -5.5 minutos na média, que significa decolando cedo. 
+Qual é o resultado? São valores previstos - a linha de 'ev' é a previsão do atraso se voamos as 5h da manhã, -5.5 minutos na média, que significa decolando cedo. 
 
 Em contraste, quando especificamos o horário de partido das 17h, o atraso média é 20 minutos. (Note que se tivéssemos mais variáveis explicativas, o `setx` automaticamente fixa os valores na média da variável se não especificamos elas explicitamente.)
 
@@ -631,7 +635,7 @@ flights  %>%
   sim()
 ```
 
-```{r, echo=F, eval=F}
+```{r, echo=F, eval=T}
 flights  %>%
   zelig(dep_delay ~ dep_time, data=., model="ls", cite=F) %>% 
   setx(dep_time=0500) %>%
@@ -641,7 +645,7 @@ flights  %>%
 
 Agora, foca-se na linha `fd`, que mostra uma diferença de 25.7 minutos na média: muito melhor voar cedo!
 
-Como todas as nossas estimativas de regressões, nunca temos certeza sobre os relacionamentos, e o zelig deixe fácil mostrar isso com mais um passo no fluxo de funções. Com `get_qi()` podemos gerar uma distribuiçõ simulada - um vetor - de estimativas da diferença média, incorporando o desvío padrão de incerteza. 
+Como todas as nossas estimativas de regressões, nunca temos certeza sobre as relações - existe incerteza sobre os nossas estimativas - e o zelig deixa fácil mostrar isso com mais um passo no fluxo de funções. Com `get_qi()` podemos gerar uma distribuiçõ simulada - uma nova variável - de estimativas da diferença média, incorporando o desvío padrão de incerteza. 
 
 ```{r, eval=F}
 diff_simulacoes <- flights  %>%
@@ -652,7 +656,7 @@ diff_simulacoes <- flights  %>%
   get_qi(xvalue="x1", qi="fd")
 ```
 
-```{r, echo=F, eval=F}
+```{r, echo=F, eval=T}
 diff_simulacoes <- flights  %>%
   zelig(dep_delay ~ dep_time, data=., model="ls", cite=F) %>% 
   setx(dep_time=0500) %>%
@@ -663,35 +667,29 @@ diff_simulacoes <- flights  %>%
 
 Agora, é fácil visualizar essa distribuição:
 
-```{r, eval=F}
+```{r, eval=T}
 diff_simulacoes %>% as_tibble() %>% 
   rename("Diff"=`1`) %>%
   ggplot() +
   geom_density(aes(x=Diff)) +
-  ggtitle("Atraso Média Adicional Estimada para voar as 17h em vez de 5h") +
+  ggtitle("Atraso Médio Adicional Estimada para voar as 17h em vez de 5h") +
   theme_minimal()
 ```
 
 <div class = "green">
 ## Exercício 2: Regressões
 
-<aside>
-```{r codefolder2, echo=FALSE, results='asis'}
-codefolder::distill(init = "show")
-```
-</aside>
+1. Usando uma regressão linear, qual é a associação entre precipitação (`precip`, variável dependente) e as três variáveis pressão (`pressure `), temperatura (`temp`) e humidade (`humid`) no banco de dados `weather`? Qual dessas três variáveis tem relação positiva com a variável dependente, e qual uma relação negativa? 
 
-1. Usando uma regressão linear, qual é a associação entre precipitação (variável dependente) e as três variáveis pressão, temperatura e humidade no banco de dados `weather`? Qual dessas três variáveis tem relacionamente positivo com a variável dependente, e qual um relationamento negativo? 
-
-```{r, eval=F, echo=T}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 model1 <- weather %>% lm(precip ~ pressure + temp + humid, data=.) 
 
 model1 %>% tidy()
 ```
 
-2. Rode mais um modelo de regressão adicionando mais uma variável explicativa para o aeroporto de `origin` ao modelo de questão 1. Mostre os seus dois modelos juntos numa tabela apropriada.
+2. Execute mais um modelo de regressão adicionando mais uma variável explicativa do aeroporto de `origin` ao modelo de questão 1. Mostre os seus dois modelos juntos numa tabela apropriada.
 
-```{r, eval=F, echo=T}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 model2 <- weather %>% lm(precip ~ pressure + temp + humid + origin, data=.) 
 
 list(model1, model2) %>% stargazer(title="Modelo de Precipitação, Q2", 
@@ -700,7 +698,7 @@ list(model1, model2) %>% stargazer(title="Modelo de Precipitação, Q2",
 
 3. Crie um gráfico de efeitos marginais para a sua regressão na questão 2.
 
-```{r, eval=F, echo=T}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 model2 %>% tidy() %>%
   mutate(conf.lo=estimate-1.96*std.error,
          conf.hi=estimate+1.96*std.error) %>%
@@ -710,9 +708,9 @@ model2 %>% tidy() %>%
   geom_errorbar(aes(x=term, y=estimate, ymin=conf.lo, ymax=conf.hi), width=0.1)
 ```
 
-4. Execute uma regressão do tipo 'logit' que explica se um vôo dure mais de três horas ou não (gere esta variável) baseado nas variáveis 'dep_time', 'distance' e 'origin'. 
+4. Execute uma regressão do tipo 'logit' que explica se um vôo dure mais de três horas ou não (gere esta variável) baseado nas variáveis `dep_time`, `distance` e `origin`. 
 
-```{r, eval=F, echo=T}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% mutate(mais_de_tres_horas=case_when(air_time>180 ~ 1,
                                     TRUE ~0)) %>%
   zelig(mais_de_tres_horas ~ dep_time + distance + origin, data=., model="logit") %>%
@@ -723,7 +721,7 @@ flights %>% mutate(mais_de_tres_horas=case_when(air_time>180 ~ 1,
 
 5. Use a sua regressão de questão 4 e as funções de `Zelig` para prever quanto mais provável é que um vôo seja mais de três horas de duração quando a distância aumenta de 700 para 1300 kilometros.
 
-```{r, eval=F, echo=T}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 modelo_tres_horas <- flights %>% mutate(mais_de_tres_horas=case_when(air_time>180 ~ 1,
                                     TRUE ~0)) %>%
   mutate(origin=factor(origin)) %>%
@@ -748,19 +746,13 @@ Antes da próxima aula sobre relatórios reproduzíveis com Git e Latex, por fav
 
 2. Crie uma conta no site [github](https://github.com/).
 
-3. Instale o TinyTex (uma versão apropriada de Latex) usando o seguinte código em R:
+3. Instale o TinyTex (uma versão apropriada de Latex) usando o seguinte código em RStudio:
 
 ```{r, echo=T, eval=F}
 install.packages('tinytex')
 tinytex::install_tinytex()
 ```
 
-4. Leia a guia introdutória para Latex [no site de Overleaf](https://www.overleaf.com/learn/latex/Free_online_introduction_to_LaTeX_(part_1))
+4. Leia a guia introdutória para Latex, um sistema e linguagem de preparação de relatórios profissionais [no site de Overleaf](https://www.overleaf.com/learn/latex/Free_online_introduction_to_LaTeX_(part_1))
 
 </div>
-
-<!-- https://stats.idre.ucla.edu/other/mult-pkg/whatstat/ -->
-<!-- install.packages("Zelig") problem -->
-
-<!-- Add title to stargazer -->
-<!-- ME plots from regression... -->
