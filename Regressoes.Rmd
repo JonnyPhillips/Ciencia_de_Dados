@@ -43,16 +43,18 @@ Não se preocupe se você não esteja treinado em métodos quantitativos - não 
 
 Os pontos cruciais de testes estatísticos são os seguintes:
 
-1. Temos dados de pelo menos uma variável e queremos avaliar se um 'fato' (uma hipótese nula) sobre estes dados é verdade. 
+1. Temos dados de pelo menos uma variável e queremos avaliar se um 'fato' (uma hipótese nula) sobre estes dados é verdade/se comprova. 
 2. Então comparamos os nossos dados reais com uma distribuição de referência assumindo que este fato/hipótese nula é verdade. 
-3. Avaliamos a força da evidência, levando em conta a quantidade de observações que temos para fornecer informação. Resumimos a força de evidência com um 'valor p', que estima quanto provável seria observar os nossos dados reais se o fato realmente é verdade. 
-    * Um valor p bem baixo significa que seria muito bizarro observar os nossos dados se o fato seja verdade, então parece mais provável que o fato não seja verdade.
+3. Avaliamos a força dos nossos dados - isto é, da evidência disponível - levando em conta a quantidade de observações que temos para extrair informação. Resumimos a força da evidência com um 'valor p', que estima o quão provável seria observar os nossos dados reais se o fato - nossa hipótese nula - realmente for verdade. 
+    * Um valor p bem baixo significa que seria muito bizarro observar os nossos dados se o fato seja verdade, então parece mais provável que o fatonão seja verdade.
 
-As funções de testes estatísticos e regressões são mais diversas e menos padronizadas que as funções que já discutimos. Assim, é crucial entender o *classe/tipo de objeto* que a função espera, e o resultado que ele produz. A nossa tarefa é usar o nosso pipe para preparar os dados no classe/formato apropriado. 
+Podemos ilustrar com um exemplo: suponha que você é um funcionário do governo e quer avaliar o desempenho de um grupo de alunos participando num programa de apoio, comparando com não-participantes. Mas as notas dos alunos também variam por muitos motivos que não têm nada a ver com o programa. A nota média dos participantes é 72, e dos não-participantes 70. Isso é uma diferença real, ou apenas uma variação aleatória? A hipótese nula que precisamos avaliar é que as duas médias são iguais, e o teste é uma comparação dos dados com a distribuição de valores apropriada - a distribuição 't' neste caso. Observe que a conclusão depende da quantidade e variabilidade dos nossos dados - com 40 alunos em cada grupo, não é uma diferença estatisticamente significativa (ex. um valor p de 0.37), mas com 400 alunos em cada grupo, é diferente (ex. um valor p de 0.002, assumindo um desvio padrão de notas de 10, e um limiar de significância de 0.05).
+
+No R, as funções de testes estatísticos e regressões são mais diversas e menos padronizadas que as funções que já discutimos no resto do curso. Assim, é crucial entender o *classe/tipo de objeto* que a função espera, e o resultado que ela produz. A nossa tarefa é usar o nosso pipe para preparar os dados no classe/formato apropriado. 
 
 # Testes de Normalidade
 
-O nosso primeiro teste é um teste de como os nossos dados são distribuidos. Dados contínuos frequentemente formam uma distribuição 'normal' quando temos um número razoável de observações (a linha preta no gráfico abaixo). Podemos avaliar o fato/hipótese nula que os nossos dados são distribuido de forma 'normal' com um teste que se chama o teste Shapiro-Wilk. Ele compara os nossos dados com uma distribuição normal perfeita e avalia quanto longe de normal são os nossos dados. 
+O nosso primeiro teste é um teste de como os nossos dados são distribuidos. Dados contínuos frequentemente formam uma distribuição 'normal' quando temos um número razoável de observações (a linha preta no gráfico abaixo). Podemos avaliar o fato/hipótese nula que os nossos dados são distribuido de forma 'normal' com um teste que se chama o teste Shapiro-Wilk. Ele compara os nossos dados com uma distribuição normal perfeita e avalia o quão longe da normal são os nossos dados. 
 
 ```{r, echo=F}
 set.seed(11)
@@ -125,7 +127,7 @@ class(teste_normalidade)
 
 É do tipo 'htest', que é um formato proprietário que é muito difícil incorporar em nosso texto, ou em uma tabela. Por exemplo, eu quero inserir no meu relatório final a frase "O teste Shapiro-Wilk de normalidade da variável dep_delay tem valor 'p' de [X]". Como eu posso inserir o valor de 'X' da teste com in-line código?
 
-Pode ser muito chato se preciseramos fazer de forma manual. Porém, felizmente, existe uma outra biblioteca/função dedicada a ajudar nessa situação, simplificando e padronizando os resultados de testes estatísticos. Qual é o objeto com quem estamos mais acostumados a trabalhar? É o tibble, lembre que quase tudo foi um tibble! Isso é o mágico da biblioteca `broom` e a função `tidy` - ela transforme os resultados de testes estatísticos em um tibble:
+Pode ser muito chato se preciseramos fazer de forma manual. Porém, felizmente, existe uma outra biblioteca/função dedicada a ajudar nessa situação, simplificando e padronizando os resultados de testes estatísticos. Qual é o objeto com quem estamos mais acostumados a trabalhar? É o tibble, lembre que quase tudo foi um tibble! Esse é a magia da biblioteca `broom` e a função `tidy` - ela transforme os resultados de testes estatísticos em um tibble:
 
 ```{r}
 #install.packages("broom")
@@ -213,7 +215,7 @@ Que tal se não temos um ponto de comparação fixa, mas queremos comparar se a 
 
 Podemos continuar usando a função `t.test`, mas agora que temos que definir uma variável discreta e uma variável contínua, precisamos encaminhar o nosso tibble completo e não um vetor (uma variável única), então não precisamos do passo de `pull()`. Em vez disso, e dado que estamos usando funções fora do tidyverse, temos que indicar para `t.test` que ela deve trabalhar com os dados que estamos encaminhando pelo pipe com o argumento `data=.`. (Lembre-se que o '.' significa para R usar os dados produzidos no fluxo do pipe anterior). 
 
-Finalmente, há mais uma diferença quando temos que especificar uma variável contínua para dividir baseado numa variável discreta. Vários testes, incluindo `t.test`, exigem que definimos este análise usando uma fórmula, com a variável contínua na esquerda e a variável discreta (os grupos que queremos comparar) na direita: `dep_delay ~ origin`. Pode ler esta fórumla assim: Pega os dados de atrasos, e divida-os por aeroporto de origem.
+Há mais um ajuste necessário: Vários testes, incluindo `t.test`, exigem que definimos este análise usando uma fórmula, com a variável contínua na esquerda e a variável discreta (os grupos que queremos comparar) na direita: `dep_delay ~ origin`. Pode ler esta fórumla assim: Pega os dados de atrasos, e divida-os por aeroporto de origem.
 
 <div class = "blue">
 **Habilidade Básica de Programação: Fórmulas**
@@ -288,7 +290,7 @@ flights %>% sample_n(1000) %>%
 
 ## Testes de Correlação de Variáveis Categóricas (Chi-squared)
 
-Para completar a tipologia de testes, como podemos comparar duas variáveis categóricas? Por exemplo, queremos comparar as variáveis `origin` (origem) e `carrier` (companhia aérea) para saber - estatisticamente - se as mesmas companhias voam de cada aeroporto.
+Para completar a tipologia de testes, como podemos comparar duas variáveis categóricas? Por exemplo, queremos comparar as variáveis `origin` (origem) e `carrier` (companhia aérea) para saber - estatisticamente - se as mesmas companhias voam de cada aeroporto com a mesma frequência.
 
 Nesta circunstância, é apropriado aplicar um teste 'chi-squared', usando a função `chisq.test()`. O formato que a função exige é uma 'tabela de contingência' - todas as combinações das duas variáveis possíveis e o número de observações (vôos) para cada combinação.
 
@@ -321,7 +323,7 @@ O valor 'p' de zero indica que realmente existe uma diferença nas companhias qu
 <div class = "green">
 ## Exercício 1: Testes Estatísticos
 
-1. Use a função `rnorm(1000, 0, 1)` para gerar um vetor de 1000 observações aleatoriamente da distribuição normal. Avalie se os valores gerados sejam realmente distribuido normal com um teste Shapiro-Wilk.
+1. Use a função `rnorm(1000, 0, 1)` para gerar um vetor de 1000 observações aleatoriamente da distribuição normal. Avalie se os valores gerados sejam realmente distribuido de forma normal com um teste Shapiro-Wilk.
 
 ```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 rnorm(1000, 0, 1) %>% 
@@ -402,7 +404,7 @@ flights %>% lm(dep_delay ~ dep_time, data=.) %>%
   tidy() %>% paged_table()
 ```
 
-A segunda opção e geralmente mais útil para relatórios e escolhindo as variáveis/linhas mais interessantes, pois podemos continuar com as nossas funções normais como `filter` e `select` para organizar o resultado. Vamos ver em breve alternativas para gerar diretamente tabelas mais bonitas. 
+A segunda opção é geralmente o mais útil para relatórios, pois podemos continuar com as nossas funções normais como `filter` e `select` para organizar o resultado. Vamos ver em breve alternativas para gerar diretamente tabelas mais bonitas. 
 
 Observe que gerando regressões mais complexas só precisa de ajustes na fórmula. Por exemplo para adicionar mais variáveis independentes:
 
@@ -469,7 +471,7 @@ list(reg1, reg2) %>% stargazer(type="html")
 
 ## Gráficos de Efeitos Marginais das Regressões
 
-As tabelas de regressão ainda exigem bastante esforço para interpretar. Visualizando os coeficientes de uma regressão é fácil com a combinação de `tidy()` e `ggplot()`. Vamos visualizar as nossas estimativas dos efeitos marginais das duas variáveis explicativas no 'reg2' criado acima. A única coisa que faltamos é um intervalo de confiança pré-calculada, mas isso é fácil calcular: para o intervalo de confiança de 95%, só ajustamos a nossa estimativa central por 1.96 (o valor da distrbuição t apropriado) multiplicado pelo desvio padrão, para acima e para abaixo. Também vou tirar o intercept - observe que tudo isso é fácil usando as nossas funções bem conhecidas como `mutate` e `filter` porque `tidy` nos permite trabalhar com um tibble. 
+As tabelas de regressão ainda exigem bastante esforço para interpretar. Visualizando os coeficientes de uma regressão é fácil com a combinação de `tidy()` e `ggplot()`. Vamos visualizar as nossas estimativas dos efeitos marginais das duas variáveis explicativas no 'reg2' criado acima. A única coisa que faltamos é um intervalo de confiança pré-calculada, mas isso é fácil calcular: para o intervalo de confiança de 95%, só ajustamos a nossa estimativa central por 1.96 (o valor correspondente a 95\% na distrbuição t) multiplicado pelo desvio padrão, para acima e para abaixo. Também vou tirar o intercept - observe que tudo isso é fácil usando as nossas funções bem conhecidas como `mutate` e `filter` porque `tidy` nos permite trabalhar com um tibble. 
 
 ```{r}
 reg2 %>% tidy() %>%
@@ -487,7 +489,7 @@ reg2 %>% tidy() %>%
 
 A partir desta seção, não se preocupe se você não tem muita preperação prévia. Pode acompanhar os exemplos mesmo assim, ou pular para o final do tutorial se preferir.
 
-Uma regressão linear é apenas uma das possibilidades. O tipo de regressão reflete o tipo de dado em nossa variável dependente. Usamos uma regressão linear apenas quando a nossa variável dependente é contínua. Por exemplo, variáveis dependentes binárias (0/1) exigem um modelo de regressão de tipo 'logit' (ou 'probit'). 
+Uma regressão linear é apenas uma das possibilidades. O tipo de regressão reflete o tipo de dado em nossa variável dependente. Usamos uma regressão linear apenas quando a nossa variável dependente é contínua. Variáveis dependentes binárias (0/1), por exemplo, exigem um modelo de regressão de tipo 'logit' (ou 'probit'). 
 
 Para acomodar uma variedade de modelos vamos aproveitar do pacote `Zelig` que aceita várias possibilidades.
 
@@ -607,7 +609,7 @@ flights  %>%
   lm(dep_delay ~ dep_time, data=.) 
 ```
 
-Qual é o resultado? São valores previstos - a linha de 'ev' é a previsão do atraso se voamos as 5h da manhã, -5.5 minutos na média, que significa decolando cedo. 
+Qual é o resultado? São valores previstos - a linha de 'ev' é a previsão do atraso se voamos as 5h da manhã, -5.5 minutos na média, que significa que voos nesse horário, em média, decolam 5.5 minutos antes do horário previsto. 
 
 Em contraste, quando especificamos o horário de partido das 17h, o atraso média é 20 minutos. (Note que se tivéssemos mais variáveis explicativas, o `setx` automaticamente fixa os valores na média da variável se não especificamos elas explicitamente.)
 
@@ -719,7 +721,7 @@ flights %>% mutate(mais_de_tres_horas=case_when(air_time>180 ~ 1,
                                    type="html")
 ```
 
-5. Use a sua regressão de questão 4 e as funções de `Zelig` para prever quanto mais provável é que um vôo seja mais de três horas de duração quando a distância aumenta de 700 para 1300 kilometros.
+5. Use a sua regressão de questão 4 e as funções de `Zelig` para prever quanto mais provável é que um vôo tenha mais de três horas de duração quando a distância aumenta de 700 para 1300 kilometros.
 
 ```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 modelo_tres_horas <- flights %>% mutate(mais_de_tres_horas=case_when(air_time>180 ~ 1,

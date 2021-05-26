@@ -2077,7 +2077,6 @@ Tutoriais
 <a href="Graficos.html">6. Visualizacao de Dados</a>
 <a href="Juntando_Bancos.html">7. Juntando Bancos de Dados</a>
 <a href="Mapas.html">8. Mapas e Analises Espaciais</a>
-<a href="Regressoes.html">9. Testes Estatisticos e Regressoes</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2140,16 +2139,17 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <p>Não se preocupe se você não esteja treinado em métodos quantitativos - não discutimos os detalhes de estatística aqui. Mas é comum aplicar um teste simples ou uma regressão aos nossos dados para avaliar alguma hipótese, e sabendo como fazer isto é um bom treinamento para construir fluxos de análise mais complexos para outros objetivos também.</p>
 <p>Os pontos cruciais de testes estatísticos são os seguintes:</p>
 <ol type="1">
-<li>Temos dados de pelo menos uma variável e queremos avaliar se um ‘fato’ (uma hipótese nula) sobre estes dados é verdade.</li>
+<li>Temos dados de pelo menos uma variável e queremos avaliar se um ‘fato’ (uma hipótese nula) sobre estes dados é verdade/se comprova.</li>
 <li>Então comparamos os nossos dados reais com uma distribuição de referência assumindo que este fato/hipótese nula é verdade.</li>
-<li>Avaliamos a força da evidência, levando em conta a quantidade de observações que temos para fornecer informação. Resumimos a força de evidência com um ‘valor p’, que estima quanto provável seria observar os nossos dados reais se o fato realmente é verdade.
+<li>Avaliamos a força dos nossos dados - isto é, da evidência disponível - levando em conta a quantidade de observações que temos para extrair informação. Resumimos a força da evidência com um ‘valor p’, que estima o quão provável seria observar os nossos dados reais se o fato - nossa hipótese nula - realmente for verdade.
 <ul>
-<li>Um valor p bem baixo significa que seria muito bizarro observar os nossos dados se o fato seja verdade, então parece mais provável que o fato não seja verdade.</li>
+<li>Um valor p bem baixo significa que seria muito bizarro observar os nossos dados se o fato seja verdade, então parece mais provável que o fatonão seja verdade.</li>
 </ul></li>
 </ol>
-<p>As funções de testes estatísticos e regressões são mais diversas e menos padronizadas que as funções que já discutimos. Assim, é crucial entender o <em>classe/tipo de objeto</em> que a função espera, e o resultado que ele produz. A nossa tarefa é usar o nosso pipe para preparar os dados no classe/formato apropriado.</p>
+<p>Podemos ilustrar com um exemplo: suponha que você é um funcionário do governo e quer avaliar o desempenho de um grupo de alunos participando num programa de apoio, comparando com não-participantes. Mas as notas dos alunos também variam por muitos motivos que não têm nada a ver com o programa. A nota média dos participantes é 72, e dos não-participantes 70. Isso é uma diferença real, ou apenas uma variação aleatória? A hipótese nula que precisamos avaliar é que as duas médias são iguais, e o teste é uma comparação dos dados com a distribuição de valores apropriada - a distribuição ‘t’ neste caso. Observe que a conclusão depende da quantidade e variabilidade dos nossos dados - com 40 alunos em cada grupo, não é uma diferença estatisticamente significativa (ex. um valor p de 0.37), mas com 400 alunos em cada grupo, é diferente (ex. um valor p de 0.002, assumindo um desvio padrão de notas de 10, e um limiar de significância de 0.05).</p>
+<p>No R, as funções de testes estatísticos e regressões são mais diversas e menos padronizadas que as funções que já discutimos no resto do curso. Assim, é crucial entender o <em>classe/tipo de objeto</em> que a função espera, e o resultado que ela produz. A nossa tarefa é usar o nosso pipe para preparar os dados no classe/formato apropriado.</p>
 <h1 id="testes-de-normalidade">Testes de Normalidade</h1>
-<p>O nosso primeiro teste é um teste de como os nossos dados são distribuidos. Dados contínuos frequentemente formam uma distribuição ‘normal’ quando temos um número razoável de observações (a linha preta no gráfico abaixo). Podemos avaliar o fato/hipótese nula que os nossos dados são distribuido de forma ‘normal’ com um teste que se chama o teste Shapiro-Wilk. Ele compara os nossos dados com uma distribuição normal perfeita e avalia quanto longe de normal são os nossos dados.</p>
+<p>O nosso primeiro teste é um teste de como os nossos dados são distribuidos. Dados contínuos frequentemente formam uma distribuição ‘normal’ quando temos um número razoável de observações (a linha preta no gráfico abaixo). Podemos avaliar o fato/hipótese nula que os nossos dados são distribuido de forma ‘normal’ com um teste que se chama o teste Shapiro-Wilk. Ele compara os nossos dados com uma distribuição normal perfeita e avalia o quão longe da normal são os nossos dados.</p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="Regressoes_files/figure-html5/unnamed-chunk-1-1.png" width="624" /></p>
 </div>
@@ -2213,7 +2213,7 @@ W = 0.50308, p-value &lt; 2.2e-16</code></pre>
 <pre><code>[1] &quot;htest&quot;</code></pre>
 </div>
 <p>É do tipo ‘htest’, que é um formato proprietário que é muito difícil incorporar em nosso texto, ou em uma tabela. Por exemplo, eu quero inserir no meu relatório final a frase “O teste Shapiro-Wilk de normalidade da variável dep_delay tem valor ‘p’ de [X]”. Como eu posso inserir o valor de ‘X’ da teste com in-line código?</p>
-<p>Pode ser muito chato se preciseramos fazer de forma manual. Porém, felizmente, existe uma outra biblioteca/função dedicada a ajudar nessa situação, simplificando e padronizando os resultados de testes estatísticos. Qual é o objeto com quem estamos mais acostumados a trabalhar? É o tibble, lembre que quase tudo foi um tibble! Isso é o mágico da biblioteca <code>broom</code> e a função <code>tidy</code> - ela transforme os resultados de testes estatísticos em um tibble:</p>
+<p>Pode ser muito chato se preciseramos fazer de forma manual. Porém, felizmente, existe uma outra biblioteca/função dedicada a ajudar nessa situação, simplificando e padronizando os resultados de testes estatísticos. Qual é o objeto com quem estamos mais acostumados a trabalhar? É o tibble, lembre que quase tudo foi um tibble! Esse é a magia da biblioteca <code>broom</code> e a função <code>tidy</code> - ela transforme os resultados de testes estatísticos em um tibble:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#install.packages("broom")</span>
@@ -2294,7 +2294,7 @@ W = 0.50308, p-value &lt; 2.2e-16</code></pre>
 <h2 id="comparando-médias">Comparando Médias</h2>
 <p>Que tal se não temos um ponto de comparação fixa, mas queremos comparar se a média em um grupo é diferente da média num outro grupo? Isso significa que dividimos os nossos dados baseado numa variável categórica em nosso tibble, e comparamos as duas distribuições pela variável contínua. Por exemplo, queremos comparar se o atraso média do aeroporto ‘EWR’ é estatisticamente diferente do atraso média no aeroporto ‘JFK’.</p>
 <p>Podemos continuar usando a função <code>t.test</code>, mas agora que temos que definir uma variável discreta e uma variável contínua, precisamos encaminhar o nosso tibble completo e não um vetor (uma variável única), então não precisamos do passo de <code>pull()</code>. Em vez disso, e dado que estamos usando funções fora do tidyverse, temos que indicar para <code>t.test</code> que ela deve trabalhar com os dados que estamos encaminhando pelo pipe com o argumento <code>data=.</code>. (Lembre-se que o ‘.’ significa para R usar os dados produzidos no fluxo do pipe anterior).</p>
-<p>Finalmente, há mais uma diferença quando temos que especificar uma variável contínua para dividir baseado numa variável discreta. Vários testes, incluindo <code>t.test</code>, exigem que definimos este análise usando uma fórmula, com a variável contínua na esquerda e a variável discreta (os grupos que queremos comparar) na direita: <code>dep_delay ~ origin</code>. Pode ler esta fórumla assim: Pega os dados de atrasos, e divida-os por aeroporto de origem.</p>
+<p>Há mais um ajuste necessário: Vários testes, incluindo <code>t.test</code>, exigem que definimos este análise usando uma fórmula, com a variável contínua na esquerda e a variável discreta (os grupos que queremos comparar) na direita: <code>dep_delay ~ origin</code>. Pode ler esta fórumla assim: Pega os dados de atrasos, e divida-os por aeroporto de origem.</p>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Fórmulas</strong></p>
 <p>Uma fórmula é simplesmente uma sintaxe para comparar uma variável dependente (o resultado que queremos comparar) e variáveis independentes (que dividem os nossos dados em grupos ou nós achamos podem correlacionar com a variável dependente).</p>
@@ -2355,7 +2355,7 @@ W = 0.50308, p-value &lt; 2.2e-16</code></pre>
 <p><img src="Regressoes_files/figure-html5/unnamed-chunk-18-1.png" width="624" /></p>
 </div>
 <h2 id="testes-de-correlação-de-variáveis-categóricas-chi-squared">Testes de Correlação de Variáveis Categóricas (Chi-squared)</h2>
-<p>Para completar a tipologia de testes, como podemos comparar duas variáveis categóricas? Por exemplo, queremos comparar as variáveis <code>origin</code> (origem) e <code>carrier</code> (companhia aérea) para saber - estatisticamente - se as mesmas companhias voam de cada aeroporto.</p>
+<p>Para completar a tipologia de testes, como podemos comparar duas variáveis categóricas? Por exemplo, queremos comparar as variáveis <code>origin</code> (origem) e <code>carrier</code> (companhia aérea) para saber - estatisticamente - se as mesmas companhias voam de cada aeroporto com a mesma frequência.</p>
 <p>Nesta circunstância, é apropriado aplicar um teste ‘chi-squared’, usando a função <code>chisq.test()</code>. O formato que a função exige é uma ‘tabela de contingência’ - todas as combinações das duas variáveis possíveis e o número de observações (vôos) para cada combinação.</p>
 <p>Felizmente, é fácil construir essa tabela de contingência com a função <code>table()</code>, com um <code>select</code> anterior para definir as duas variáveis que queremos comparar:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2396,7 +2396,7 @@ origin    OO    UA    US    VX    WN    YV
 <div class="green">
 <h2 id="exercício-1-testes-estatísticos">Exercício 1: Testes Estatísticos</h2>
 <ol type="1">
-<li>Use a função <code>rnorm(1000, 0, 1)</code> para gerar um vetor de 1000 observações aleatoriamente da distribuição normal. Avalie se os valores gerados sejam realmente distribuido normal com um teste Shapiro-Wilk.</li>
+<li>Use a função <code>rnorm(1000, 0, 1)</code> para gerar um vetor de 1000 observações aleatoriamente da distribuição normal. Avalie se os valores gerados sejam realmente distribuido de forma normal com um teste Shapiro-Wilk.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2490,7 +2490,7 @@ F-statistic: 2.386e+04 on 1 and 328519 DF,  p-value: &lt; 2.2e-16</code></pre>
   </script>
 </div>
 </div>
-<p>A segunda opção e geralmente mais útil para relatórios e escolhindo as variáveis/linhas mais interessantes, pois podemos continuar com as nossas funções normais como <code>filter</code> e <code>select</code> para organizar o resultado. Vamos ver em breve alternativas para gerar diretamente tabelas mais bonitas.</p>
+<p>A segunda opção é geralmente o mais útil para relatórios, pois podemos continuar com as nossas funções normais como <code>filter</code> e <code>select</code> para organizar o resultado. Vamos ver em breve alternativas para gerar diretamente tabelas mais bonitas.</p>
 <p>Observe que gerando regressões mais complexas só precisa de ajustes na fórmula. Por exemplo para adicionar mais variáveis independentes:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -3022,7 +3022,7 @@ F Statistic
 </table>
 </div>
 <h2 id="gráficos-de-efeitos-marginais-das-regressões">Gráficos de Efeitos Marginais das Regressões</h2>
-<p>As tabelas de regressão ainda exigem bastante esforço para interpretar. Visualizando os coeficientes de uma regressão é fácil com a combinação de <code>tidy()</code> e <code>ggplot()</code>. Vamos visualizar as nossas estimativas dos efeitos marginais das duas variáveis explicativas no ‘reg2’ criado acima. A única coisa que faltamos é um intervalo de confiança pré-calculada, mas isso é fácil calcular: para o intervalo de confiança de 95%, só ajustamos a nossa estimativa central por 1.96 (o valor da distrbuição t apropriado) multiplicado pelo desvio padrão, para acima e para abaixo. Também vou tirar o intercept - observe que tudo isso é fácil usando as nossas funções bem conhecidas como <code>mutate</code> e <code>filter</code> porque <code>tidy</code> nos permite trabalhar com um tibble.</p>
+<p>As tabelas de regressão ainda exigem bastante esforço para interpretar. Visualizando os coeficientes de uma regressão é fácil com a combinação de <code>tidy()</code> e <code>ggplot()</code>. Vamos visualizar as nossas estimativas dos efeitos marginais das duas variáveis explicativas no ‘reg2’ criado acima. A única coisa que faltamos é um intervalo de confiança pré-calculada, mas isso é fácil calcular: para o intervalo de confiança de 95%, só ajustamos a nossa estimativa central por 1.96 (o valor correspondente a 95% na distrbuição t) multiplicado pelo desvio padrão, para acima e para abaixo. Também vou tirar o intercept - observe que tudo isso é fácil usando as nossas funções bem conhecidas como <code>mutate</code> e <code>filter</code> porque <code>tidy</code> nos permite trabalhar com um tibble.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>reg2</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -3039,7 +3039,7 @@ F Statistic
 </div>
 <h1 id="modelos-alternativos">Modelos Alternativos</h1>
 <p>A partir desta seção, não se preocupe se você não tem muita preperação prévia. Pode acompanhar os exemplos mesmo assim, ou pular para o final do tutorial se preferir.</p>
-<p>Uma regressão linear é apenas uma das possibilidades. O tipo de regressão reflete o tipo de dado em nossa variável dependente. Usamos uma regressão linear apenas quando a nossa variável dependente é contínua. Por exemplo, variáveis dependentes binárias (0/1) exigem um modelo de regressão de tipo ‘logit’ (ou ‘probit’).</p>
+<p>Uma regressão linear é apenas uma das possibilidades. O tipo de regressão reflete o tipo de dado em nossa variável dependente. Usamos uma regressão linear apenas quando a nossa variável dependente é contínua. Variáveis dependentes binárias (0/1), por exemplo, exigem um modelo de regressão de tipo ‘logit’ (ou ‘probit’).</p>
 <p>Para acomodar uma variedade de modelos vamos aproveitar do pacote <code>Zelig</code> que aceita várias possibilidades.</p>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -3382,7 +3382,7 @@ Coefficients:
 (Intercept)     dep_time  
   -16.27245      0.02143  </code></pre>
 </div>
-<p>Qual é o resultado? São valores previstos - a linha de ‘ev’ é a previsão do atraso se voamos as 5h da manhã, -5.5 minutos na média, que significa decolando cedo.</p>
+<p>Qual é o resultado? São valores previstos - a linha de ‘ev’ é a previsão do atraso se voamos as 5h da manhã, -5.5 minutos na média, que significa que voos nesse horário, em média, decolam 5.5 minutos antes do horário previsto.</p>
 <p>Em contraste, quando especificamos o horário de partido das 17h, o atraso média é 20 minutos. (Note que se tivéssemos mais variáveis explicativas, o <code>setx</code> automaticamente fixa os valores na média da variável se não especificamos elas explicitamente.)</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -3486,7 +3486,7 @@ fd
 
 </div>
 <ol start="5" type="1">
-<li>Use a sua regressão de questão 4 e as funções de <code>Zelig</code> para prever quanto mais provável é que um vôo seja mais de três horas de duração quando a distância aumenta de 700 para 1300 kilometros.</li>
+<li>Use a sua regressão de questão 4 e as funções de <code>Zelig</code> para prever quanto mais provável é que um vôo tenha mais de três horas de duração quando a distância aumenta de 700 para 1300 kilometros.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 

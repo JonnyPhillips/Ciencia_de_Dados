@@ -89,8 +89,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   
   
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2021-05-09" />
-  <meta property="article:created" itemprop="dateCreated" content="2021-05-09" />
+  <meta property="article:published" itemprop="datePublished" content="2021-05-25" />
+  <meta property="article:created" itemprop="dateCreated" content="2021-05-25" />
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Desafio 3: Combinação e Visualização de Dados" />
@@ -105,7 +105,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output","date"]}},"value":[{"type":"character","attributes":{},"value":["Desafio 3: Combinação e Visualização de Dados"]},{"type":"character","attributes":{},"value":["distill::distill_article"]},{"type":"character","attributes":{},"value":["05-09-2021"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output","date"]}},"value":[{"type":"character","attributes":{},"value":["Desafio 3: Combinação e Visualização de Dados"]},{"type":"character","attributes":{},"value":["distill::distill_article"]},{"type":"character","attributes":{},"value":["05-25-2021"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -2454,7 +2454,7 @@ distill-header .nav a {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Desafio 3: Combinação e Visualização de Dados","authors":[],"publishedDate":"2021-05-09T00:00:00.000+05:30"}
+{"title":"Desafio 3: Combinação e Visualização de Dados","authors":[],"publishedDate":"2021-05-25T00:00:00.000+05:30"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2490,8 +2490,8 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </div>
 <h2 id="roteiro">Roteiro</h2>
 <ol type="1">
-<li><p>Vamos trabalher de novo com os dados eleitorais do Tribunal Superior Eleitoral, que disponibiliza dados sobre os resultados eleitorais separadamente dos dados sobre os candidatos. Baixe os dados de Roraima sobre <a href="https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Desafios/resultados_2016_RR.csv">Resultados</a> e <a href="https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Desafios/candidatos_2016_RR.csv">Candidatos</a>. Observe que os dados são processados (não são os originais) e contém informação apenas sobre vereadores.</p></li>
-<li><p>Abre os dois bancos em R com o separador apropriado (note que o formato é um pouco diferente dos arquivos no desafio 1 - o encoding é o padrão, UTF8 então não precisa mexer nisso).</p></li>
+<li><p>Vamos trabalhar de novo com os dados eleitorais do Tribunal Superior Eleitoral, o qual disponibiliza dados sobre os resultados eleitorais separadamente dos dados sobre os candidatos. Baixe os dados de <a href="https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Desafios/resultados_2016_RR.csv">Resultados</a> e <a href="https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Desafios/candidatos_2016_RR.csv">Candidatos</a> de Roraima. Observe que os dados são processados (não sendo os originais) e contém apenas a informação de vereadores.</p></li>
+<li><p>Abra os dois bancos em R com o separador apropriado (note que o formato é um pouco diferente dos arquivos no desafio 1 - o encoding é o padrão, UTF8. Logo, não é preciso mexer nisso).</p></li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2500,13 +2500,13 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <li>O nosso objetivo é analisar os resultados eleitorais baseado nas características dos vereadores, então precisamos juntar os dois bancos.</li>
 </ol>
 <ol type="a">
-<li>Identifique a unidade de análise do banco de candidatos - o que repesenta cada observação/linha? Quais variáveis identificam cada linha exclusivamente?</li>
+<li>Identifique a unidade de análise do banco de candidatos - o que representa cada observação/linha? Quais variáveis identificam cada linha exclusivamente?</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="2" type="a">
-<li>Identifique a unidade de análise do banco de resultados - o que repesenta cada observação/linha? Quais variáveis identificam cada linha exclusivamente?</li>
+<li>Identifique a unidade de análise do banco de resultados - o que representa cada observação/linha? Quais variáveis identificam cada linha exclusivamente?</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2518,13 +2518,13 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 
 </div>
 <ol start="4" type="a">
-<li>Use <code>anti_join</code> para identificador se há resultados que faltam detalhes do seu candidato no banco de dados de candidatos.</li>
+<li>Use <code>anti_join</code> para identificar se há resultados que faltam detalhes do seu candidato no banco de dados de candidatos.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="5" type="a">
-<li>Use <code>anti_join</code> para identificador se há candidatos faltando no banco de dados de resultados. Investigando as colunas do resultado de <code>anti_join</code>, você pode identificar porque eles não existem no banco de resultados?)</li>
+<li>Use <code>anti_join</code> para identificar se há candidatos faltando no banco de dados de resultados. Investigando as colunas do resultado de <code>anti_join</code>, você pode identificar porque eles não existem no banco de resultados?)</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2543,36 +2543,36 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 
 </div>
 <ol start="4" type="1">
-<li>Pretendemos cruzar os dois bancos, mas como você econtrou acima, eles têm unidades de análise diferente. Aqui, vamos ignorar isso e permitir os dados do candidato sejam duplicados para cada resultado do mesmo candidato. Execute um <code>left_join()</code> apropriado.</li>
+<li>Pretendemos cruzar os dois bancos, mas como você verificou acima, eles têm unidades de análise diferentes. Aqui, vamos ignorar isso e permitir que os dados do candidato sejam duplicados para cada resultado do mesmo candidato. Execute um <code>left_join()</code> apropriado.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="5" type="1">
-<li>Agora usaremos uma outra estratégia de junção que evite a duplicação dos dados dos candidatos. Vamos agregar o banco de dados dos resultados para a mesma unidade de análise do banco dos candidatos: uma linha por candidato.</li>
+<li>Agora usaremos uma outra estratégia de junção que evita a duplicação dos dados dos candidatos. Vamos agregar o banco de dados dos resultados para a mesma unidade de análise do banco dos candidatos: uma linha por candidato.</li>
 </ol>
 <ol type="a">
-<li>Soma o voto dos candidatos em diversas zonas para gerar um banco de dados resumido no nível do candidato. (Por favor inclua a variável DS_SIT_TOT_TURNO no seu agrupamento para que ela fica disponível para uso abaixo).</li>
+<li>Some o voto dos candidatos em diversas zonas para gerar um banco de dados resumido no nível do candidato. (Por favor inclua a variável DS_SIT_TOT_TURNO no seu agrupamento para que ela fique disponível para uso abaixo).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="2" type="a">
-<li>Usando o seu banco de dados resumido de (a), execute um <code>left_join()</code> apropriado para incorporar os dados dos candiddatos.</li>
+<li>Usando o seu banco de dados resumido de (a), execute um <code>left_join()</code> apropriado para incorporar os dados dos candidatos.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="6" type="1">
 <li><ol type="a">
-<li>O seu de banco de dados de 5(b) contém apenas os candidatos para os quais temos resultados. Execute um join apropriado para produzir uma tabela de todos os candidatos (mesmo aqueles sem resultados) com o seu número de votos.</li>
+<li>O seu banco de dados de 5(b) contém apenas os candidatos para os quais temos resultados. Execute um join apropriado para produzir uma tabela de todos os candidatos (mesmo aqueles sem resultados) com o respectivo número de votos.</li>
 </ol></li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="2" type="a">
-<li>Como a coluna <code>QT_VOTOS_NOMINAIS</code> foi preenchido em 6(a) para os candidatos que não receberam votos no banco resultados? Sabendo que esses candidatos não receberam voto, recodifique a coluna para inserir zero votos nos locais apropriados da coluna <code>QT_VOTOS_NOMINAIS</code>.</li>
+<li>Como a coluna <code>QT_VOTOS_NOMINAIS</code> foi preenchida em 6(a) para os candidatos que não receberam votos no banco resultados? Sabendo que esses candidatos não receberam voto, recodifique a coluna para inserir zero votos nos locais apropriados da coluna <code>QT_VOTOS_NOMINAIS</code>.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2581,7 +2581,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <li>A partir de agora, vamos produzir gráficos usando o banco de dados que você criou em Q5(b). Para o nosso primeiro gráfico, vamos apresentar o número de candidatos para vereador por município (variável <code>NM_UE</code>).</li>
 </ol>
 <ol type="a">
-<li><p>Escolhe um tipo de gráfico apropriado e crie o gráfico.</p></li>
+<li><p>Escolha um tipo de gráfico apropriado e crie o gráfico.</p></li>
 <li><p>Adicione um título ao seu gráfico, e rótulos nos eixos.</p></li>
 <li><p>Use o código da camada <code>+ theme(axis.text.x = element_text(angle = 90))</code> para virar o texto do município vertical e deixar mais visível.</p></li>
 </ol>
@@ -2595,16 +2595,16 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 
 </div>
 <ol start="9" type="1">
-<li>Gere um gráfico apropriado que mostra o <em>porcentagem</em> de candidatos por gênero em cada município. Formate o seu gráfico com títulos, rótulos nos eixos, virando o texto no eixo x, e ajuste a legenda para que ela fique abaixo do gráfico.</li>
+<li>Gere um gráfico apropriado que mostra a <em>porcentagem</em> de candidatos por gênero em cada município. Formate o seu gráfico com títulos, rótulos nos eixos, virando o texto no eixo x, e ajuste a legenda para que ela fique abaixo do gráfico.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="10" type="1">
-<li>Parece que por conta das cotas não há muita variação no porcentagem de candidatos por genêro. Podemos aprender mais investigando a <em>taxa de sucesso</em> de candidatos por gênero.</li>
+<li>Parece que por conta das cotas não há muita variação na porcentagem de candidatos por gênero. Podemos aprender mais investigando a <em>taxa de sucesso</em> de candidatos por gênero.</li>
 </ol>
 <ol type="a">
-<li>Gere uma variável binário que indica os vereadores eleitos, baseada na variável <code>DS_SIT_TOT_TURNO</code>.</li>
+<li>Gere uma variável binária que indica os vereadores eleitos, baseada na variável <code>DS_SIT_TOT_TURNO</code>.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2622,7 +2622,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 
 </div>
 <ol start="4" type="a">
-<li>Extende o seu gráfico para mostrar a taxa de sucesso de homens e mulheres lado a lado, por município. Verifique que o cor das barras varia por gênero.</li>
+<li>Extende o seu gráfico para mostrar a taxa de sucesso de homens e mulheres lado a lado, por município. Verifique que a cor das barras varia por gênero.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2635,7 +2635,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </div>
 <p>O município em que as mulheres têm uma maior taxa de sucesso que os homens é CAROEBE.</p>
 <ol start="11" type="1">
-<li>Gere um gráfico de ‘tile’, que mostra o número de candidatos por município e gênero. Aplique uma escala de cores apropriado da sua escolha. Formate o seu gráfico.</li>
+<li>Gere um gráfico de ‘tile’, que mostra o número de candidatos por município e gênero. Aplique uma escala de cores apropriada de sua escolha. Formate o seu gráfico.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2644,7 +2644,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <li>Agora exploramos a idade dos candidatos.</li>
 </ol>
 <ol type="a">
-<li>Apresente um gráfico de histograma da idade dos candidatos (<code>NR_IDADE_DATA_POSSE</code>). Faça qualquer ajuste necessário para que o seu gráfico faz sentido e incorpora valores de idade possíveis. Formate o seu gráfico.</li>
+<li>Apresente um gráfico de histograma da idade dos candidatos (<code>NR_IDADE_DATA_POSSE</code>). Faça qualquer ajuste necessário para que o seu gráfico faça sentido e incorpore valores de idade possíveis. Formate o seu gráfico.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2656,7 +2656,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 
 </div>
 <ol start="3" type="a">
-<li>Como uma forma alternativa de apresentar os dados, divide o seu gráfico de histograma em facets diferentes, dividido por gênero e raça.</li>
+<li>Como uma forma alternativa de apresentar os dados, divida o seu gráfico de histograma em facets diferentes, dividido por gênero e raça.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2665,25 +2665,25 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <li>Agora analisamos em mais detalhe os resultados da eleição.</li>
 </ol>
 <ol type="a">
-<li>Calcule o porcentagem de votos dos vereadores em cada município.</li>
+<li>Calcule a porcentagem de votos dos vereadores em cada município.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="2" type="a">
-<li>Calcule a média do porcentagem de votos dos candidatos por idade.</li>
+<li>Calcule a média da porcentagem de votos dos candidatos por idade.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="3" type="a">
-<li>Mostre num gráfico de linhas o porcentagem média de votos dos candidatos (no eixo y) por idade de candidato (no eixo x). Formate o seu gráfico.</li>
+<li>Mostre num gráfico de linhas a porcentagem média de votos dos candidatos (no eixo y) por idade do candidato (no eixo x). Formate o seu gráfico.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="4" type="a">
-<li>Mostre num gráfico da linhas o porcentagem de votos dos candidatos (no eixo y) por idade do candidato (no eixo x), com linhas separadas por gênero.</li>
+<li>Mostre num gráfico de linhas a porcentagem de votos dos candidatos (no eixo y) por idade do candidato (no eixo x), com linhas separadas por gênero.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2699,14 +2699,14 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </div>
 <ol start="14" type="1">
 <li><ol type="a">
-<li>Calcule o voto total de cada <em>partido</em> (não candidato) em cada município nas eleições para vereador em 2016. Depois, calcular o porcentagem do voto de cada partido em cada município.</li>
+<li>Calcule o voto total de cada <em>partido</em> (não candidato) em cada município nas eleições para vereador em 2016. Depois, calcule a porcentagem do voto de cada partido em cada município.</li>
 </ol></li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="2" type="a">
-<li>Use o código abaixo para gerar uma tabela de IDH (Indíce de Desenvolvimento Humano em 2010) por município.</li>
+<li>Use o código abaixo para gerar uma tabela de IDH (Índice de Desenvolvimento Humano em 2010) por município.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2720,7 +2720,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </div>
 </div>
 <ol start="3" type="a">
-<li>Use um <code>anti_join()</code> para verificar se existe um identificador comum e completo para os dois bancos de resultados por partido e IDH. Corrija os erros par que todas as observações podem ser cruzadas.</li>
+<li>Use um <code>anti_join()</code> para verificar se existe um identificador comum e completo para os dois bancos de resultados por partido e IDH. Corrija os erros para que todas as observações possam ser cruzadas.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2744,13 +2744,13 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 
 </div>
 <ol start="5" type="a">
-<li>Ajuste o seu gráfico na questão (d) para que o tamanho de cada ponto mostra o total de votos que o PMDB recebeu no munícipio.</li>
+<li>Ajuste o seu gráfico na questão (d) para que o tamanho de cada ponto mostra o total de votos que o PMDB recebeu no município.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="6" type="a">
-<li>Ajuste o seu gráfico na questão (e) para que o cor dos pontos (em vez do tamanho) mostra o total de votos que o PMDB recebeu no munícipio. Aplique uma escala de cores apropriado da sua escolha.</li>
+<li>Ajuste o seu gráfico na questão (e) para que 1 cor dos pontos (em vez do tamanho) mostre o total de votos que o PMDB recebeu no município. Aplique uma escala de cores apropriada de sua escolha.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
