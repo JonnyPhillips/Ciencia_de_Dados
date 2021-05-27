@@ -526,7 +526,8 @@ anti_join(flights, by=c("origin", "year", "month", "day", "hour"))%>%
 (a) Usando um join apropriado, gere um banco de dados que inclui a `visibilidade` em cada hora do ano e o número de voos que decolaram nesta hora.
 
 ```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
-num_voos_per_hora <- flights %>% group_by(year, month, day, hour, origin) %>% tally()
+num_voos_per_hora <- flights %>% group_by(year, month, day, hour, origin) %>% 
+  tally()
 
 weather_num_voos_per_hora <- weather %>% left_join(num_voos_per_hora, 
                                                  by=c("origin", "year", "month",
@@ -661,5 +662,5 @@ Antes da próxima aula, por favor leia [Exemplo de Análise Espacial no Site R-S
 
 O [Desafio 3](Desafios/Desafio_3_v4.html) teste a sua capacidade de juntar bancos de dados e gerar gráficos apropriados e claros.
 
-O prazo para entregar Desafio 3 por email com título “[FLS6397] - D3” à minha conta é **14h, 28/05/2021**, antes da aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
+O prazo para entregar Desafio 3 por email com título “[FLS6397] - D3” à minha conta é **14h, 04/06/2021**, antes da aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
 </div>

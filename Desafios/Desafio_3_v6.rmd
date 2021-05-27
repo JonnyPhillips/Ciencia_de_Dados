@@ -16,7 +16,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </style>
 
 <div class = "purple">
-O prazo para entregar Desafio 3 por email com título “[FLS6397] - D3” à minha conta é **14h, 28/05/2021**, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
+O prazo para entregar Desafio 3 por email com título “[FLS6397] - D3” à minha conta é **14h, 04/06/2021**, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.
 </div>
 
 <br>
