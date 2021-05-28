@@ -223,7 +223,7 @@ cidades <- tibble(Cidade=c("Paris", "London", "Istanbul", "Madrid", "Berlin"),
 cidades %>% kable()
 ```
 
-```{r, eval=T, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=T, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 cidades <- cidades %>% st_as_sf(coords=c("Long","Lat"), 
                                   crs=4326, 
                                   remove=F)
@@ -231,7 +231,7 @@ cidades <- cidades %>% st_as_sf(coords=c("Long","Lat"),
 
 2. Elabore um mapa simples para visualizar os seus dados com `ggplot()`, com uma cor diferente para cada ponto baseado na variável `População`.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 cidades %>% ggplot() +
   geom_sf(aes(colour=População)) +
   theme_minimal()
@@ -239,7 +239,7 @@ cidades %>% ggplot() +
 
 3. Quando estiver criando o seu objeto sf, pode usar o argumento `remove=FALSE` para preservar as colunas de longitude e latitude explicitamente. Use essas duas colunas para adicionar mais uma camada de geometria (`geom_text()`) que imprime os rótulos dos nomes das cidades ao seu mapa. 
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 cidades %>% 
   ggplot() +
   geom_sf(aes(colour=População)) +
@@ -249,7 +249,7 @@ cidades %>%
 
 4. Tire os rótulos dos nomes das cidades e transforme os seus dados para a projeção com CRS 23035, e apresente um novo mapa.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 cidades %>% st_transform(23035) %>% 
   ggplot() +
   geom_sf(aes(colour=População)) +
@@ -258,7 +258,7 @@ cidades %>% st_transform(23035) %>%
 
 5. Calcule a matriz da distância euclidiana entre as cidades.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 cidades %>% st_transform(23035) %>% 
   st_distance() %>% 
   as_tibble()
@@ -399,14 +399,14 @@ Europe <- st_read("Europe.shp", quiet=T)
 
 1. Abra o shapefile dos países da Europa no link [aqui](https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Europe.zip). Elabore um mapa simples usando a projeção 23035
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 Europe %>% st_transform(23035) %>% ggplot() +
   geom_sf()
 ```
 
 2. Adicione os dados das cidades do Exercício 1 ao seu mapa da Europa de Questão 1 e formate o mapa com um tema, título etc. apropriado.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 Europe  %>% st_transform(23035) %>% ggplot() +
   geom_sf() +
   geom_sf(data=cidades  %>% st_transform(23035), 
@@ -417,7 +417,7 @@ Europe  %>% st_transform(23035) %>% ggplot() +
 
 3. Desenvolvendo o mesmo mapa, para cada país da Europa, elabore a visualização da população nacional (variável `POP_EST`) no mapa, com uma escala e legenda apropriada.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 Europe  %>% st_transform(23035) %>% ggplot() +
   geom_sf(aes(fill=POP_EST)) +
   geom_sf(data=cidades  %>% st_transform(23035), 
@@ -429,7 +429,7 @@ Europe  %>% st_transform(23035) %>% ggplot() +
 
 4. Queremos adicionar a próxima cidade na lista, Milão, mas não sabemos a longitude e a latitude da cidade. Georeferencie o endereço de "Piazza del Duomo, 20122 Milano, Italy", e (em vez de juntar com o banco de dados de `cidades`), adicione os resultados como mais uma camada do seu mapa de Questão 43 com a mesma formatação da camada do resto das `cidades`.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 Milan <- geocode_OSM("Piazza del Duomo, 20122 Milano, Italy", projection=4326, as.sf=T)
 
 Europe  %>% st_transform(23035) %>% ggplot() +
