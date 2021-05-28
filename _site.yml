@@ -27,6 +27,8 @@ navbar:
             href: Juntando_Bancos.html
           - text: "8. Mapas e Analises Espaciais"
             href: Mapas.html
+          - text: "9. Testes Estatisticos e Regressoes"
+            href: Regressoes.html
     - text: "Desafios"
       menu:
           - text: "Desafio 1"

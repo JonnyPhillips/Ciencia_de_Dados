@@ -20,26 +20,28 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -48,9 +50,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
@@ -85,39 +87,39 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   <!--radix_placeholder_meta_tags-->
   <title>Analise de Dados para as Ciencias Sociais: Construindo Tabelas</title>
-  
+
   <meta property="description" itemprop="description" content="Comunicando os nossos Dados"/>
-  
-  
-  
+
+
+
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Analise de Dados para as Ciencias Sociais: Construindo Tabelas"/>
   <meta property="og:type" content="article"/>
   <meta property="og:description" content="Comunicando os nossos Dados"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="Analise de Dados para as Ciencias Sociais"/>
-  
+
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
   <meta property="twitter:title" content="Analise de Dados para as Ciencias Sociais: Construindo Tabelas"/>
   <meta property="twitter:description" content="Comunicando os nossos Dados"/>
-  
+
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
-  
+
   <script type="text/json" id="radix-rmarkdown-metadata">
   {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Construindo Tabelas"]},{"type":"character","attributes":{},"value":["Comunicando os nossos Dados\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_float","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[1]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
   <meta name="distill:offset" content=""/>
-  
+
   <script type="application/javascript">
-  
+
     window.headroom_prevent_pin = false;
-  
+
     window.document.addEventListener("DOMContentLoaded", function (event) {
-  
+
       // initialize headroom for banner
       var header = $('header').get(0);
       var headerHeight = header.offsetHeight;
@@ -134,13 +136,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       if(window.location.hash)
         headroom.unpin();
       $(header).addClass('headroom--transition');
-  
+
       // offset scroll location for banner on hash change
       // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
       window.addEventListener("hashchange", function(event) {
         window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
       });
-  
+
       // responsive menu
       $('.distill-site-header').each(function(i, val) {
         var topnav = $(this);
@@ -149,7 +151,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
           topnav.toggleClass('responsive');
         });
       });
-  
+
       // nav dropdowns
       $('.nav-dropbtn').click(function(e) {
         $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
@@ -164,99 +166,99 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       });
     });
   </script>
-  
+
   <style type="text/css">
-  
+
   /* Theme (user-documented overrideables for nav appearance) */
-  
+
   .distill-site-nav {
     color: rgba(255, 255, 255, 0.8);
     background-color: #0F2E3D;
     font-size: 15px;
     font-weight: 300;
   }
-  
+
   .distill-site-nav a {
     color: inherit;
     text-decoration: none;
   }
-  
+
   .distill-site-nav a:hover {
     color: white;
   }
-  
+
   @media print {
     .distill-site-nav {
       display: none;
     }
   }
-  
+
   .distill-site-header {
-  
+
   }
-  
+
   .distill-site-footer {
-  
+
   }
-  
-  
+
+
   /* Site Header */
-  
+
   .distill-site-header {
     width: 100%;
     box-sizing: border-box;
     z-index: 3;
   }
-  
+
   .distill-site-header .nav-left {
     display: inline-block;
     margin-left: 8px;
   }
-  
+
   @media screen and (max-width: 768px) {
     .distill-site-header .nav-left {
       margin-left: 0;
     }
   }
-  
-  
+
+
   .distill-site-header .nav-right {
     float: right;
     margin-right: 8px;
   }
-  
+
   .distill-site-header a,
   .distill-site-header .title {
     display: inline-block;
     text-align: center;
     padding: 14px 10px 14px 10px;
   }
-  
+
   .distill-site-header .title {
     font-size: 18px;
     min-width: 150px;
   }
-  
+
   .distill-site-header .logo {
     padding: 0;
   }
-  
+
   .distill-site-header .logo img {
     display: none;
     max-height: 20px;
     width: auto;
     margin-bottom: -4px;
   }
-  
+
   .distill-site-header .nav-image img {
     max-height: 18px;
     width: auto;
     display: inline-block;
     margin-bottom: -3px;
   }
-  
-  
-  
+
+
+
   @media screen and (min-width: 1000px) {
     .distill-site-header .logo img {
       display: inline-block;
@@ -271,17 +273,17 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       padding-left: 12px;
     }
   }
-  
-  
+
+
   .distill-site-header .nav-toggle {
     display: none;
   }
-  
+
   .nav-dropdown {
     display: inline-block;
     position: relative;
   }
-  
+
   .nav-dropdown .nav-dropbtn {
     border: none;
     outline: none;
@@ -295,7 +297,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     margin-top: 1px;
     z-index: 2;
   }
-  
+
   .nav-dropdown-content {
     display: none;
     position: absolute;
@@ -310,18 +312,18 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     padding-top: 4px;
     padding-bottom: 4px;
   }
-  
+
   .nav-dropdown-content hr {
     margin-top: 4px;
     margin-bottom: 4px;
     border: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .nav-dropdown-active {
     display: block;
   }
-  
+
   .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
     color: black;
     padding: 6px 24px;
@@ -329,7 +331,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     display: block;
     text-align: left;
   }
-  
+
   .nav-dropdown-content .nav-dropdown-header {
     display: block;
     padding: 5px 24px;
@@ -339,21 +341,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     color: #999999;
     white-space: nowrap;
   }
-  
+
   .nav-dropdown:hover .nav-dropbtn {
     color: white;
   }
-  
+
   .nav-dropdown-content a:hover {
     background-color: #ddd;
     color: black;
   }
-  
+
   .nav-right .nav-dropdown-content {
     margin-left: -45%;
     right: 0;
   }
-  
+
   @media screen and (max-width: 768px) {
     .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
     .distill-site-header a.nav-toggle {
@@ -373,8 +375,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       margin-left: 0;
     }
   }
-  
-  
+
+
   @media screen and (max-width: 768px) {
     .distill-site-header.responsive {position: relative; min-height: 500px; }
     .distill-site-header.responsive a.nav-toggle {
@@ -399,9 +401,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       text-align: left;
     }
   }
-  
+
   /* Site Footer */
-  
+
   .distill-site-footer {
     width: 100%;
     overflow: hidden;
@@ -412,19 +414,19 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     padding-bottom: 30px;
     text-align: center;
   }
-  
+
   /* Headroom */
-  
+
   d-title {
     padding-top: 6rem;
   }
-  
+
   @media print {
     d-title {
       padding-top: 4rem;
     }
   }
-  
+
   .headroom {
     z-index: 1000;
     position: fixed;
@@ -432,36 +434,36 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     left: 0;
     right: 0;
   }
-  
+
   .headroom--transition {
     transition: all .4s ease-in-out;
   }
-  
+
   .headroom--unpinned {
     top: -100px;
   }
-  
+
   .headroom--pinned {
     top: 0;
   }
-  
+
   /* adjust viewport for navbar height */
   /* helps vertically center bootstrap (non-distill) content */
   .min-vh-100 {
     min-height: calc(100vh - 100px) !important;
   }
-  
+
   </style>
-  
+
   <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
   <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
   <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
-  
+
   <script type="application/javascript">
-  
+
   function getMeta(metaName) {
     var metas = document.getElementsByTagName('meta');
     for (let i = 0; i < metas.length; i++) {
@@ -471,14 +473,14 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     }
     return '';
   }
-  
+
   function offsetURL(url) {
     var offset = getMeta('distill:offset');
     return offset ? offset + '/' + url : url;
   }
-  
+
   function createFuseIndex() {
-  
+
     // create fuse index
     var options = {
       keys: [
@@ -491,7 +493,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       threshold: 0
     };
     var fuse = new window.Fuse([], options);
-  
+
     // fetch the main search.json
     return fetch(offsetURL('search.json'))
       .then(function(response) {
@@ -521,7 +523,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
               return fuse;
             });
           });
-  
+
         } else {
           return Promise.reject(
             new Error('Unexpected status from search index request: ' +
@@ -530,20 +532,20 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
         }
       });
   }
-  
+
   window.document.addEventListener("DOMContentLoaded", function (event) {
-  
+
     // get search element (bail if we don't have one)
     var searchEl = window.document.getElementById('distill-search');
     if (!searchEl)
       return;
-  
+
     createFuseIndex()
       .then(function(fuse) {
-  
+
         // make search box visible
         searchEl.classList.remove('hidden');
-  
+
         // initialize autocomplete
         var options = {
           autoselect: true,
@@ -592,19 +594,19 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       .catch(function(error) {
         console.log(error);
       });
-  
+
   });
-  
+
   </script>
-  
+
   <style type="text/css">
-  
+
   .nav-search {
     font-size: x-small;
   }
-  
+
   /* Algolioa Autocomplete */
-  
+
   .algolia-autocomplete {
     display: inline-block;
     margin-left: 10px;
@@ -618,8 +620,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     border: 1px #0F2E3D solid;
     width: 180px;
   }
-  
-  
+
+
   @media screen and (max-width: 768px) {
     .distill-site-nav .algolia-autocomplete {
       display: none;
@@ -635,13 +637,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       max-height: 400px;
     }
   }
-  
+
   .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
     width: 90%;
     outline: none;
     border: none;
   }
-  
+
   .algolia-autocomplete .aa-hint {
     color: #999;
   }
@@ -658,30 +660,30 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     border: 1px solid #999;
     border-top: none;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
     cursor: pointer;
     padding: 5px 4px;
     border-bottom: 1px solid #eee;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
     border-bottom: none;
     margin-bottom: 2px;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
     overflow: hidden;
     font-size: 0.8em;
     line-height: 1.4em;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
     font-size: 1rem;
     margin-block-start: 0;
     margin-block-end: 5px;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
     display: inline-block;
     overflow: hidden;
@@ -689,22 +691,22 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     width: 80%;
     margin-right: 4%;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
     display: inline-block;
     width: 15%;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
     height: 3em;
     width: auto;
     display: none;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
     display: initial;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
     background-color: #eee;
   }
@@ -712,47 +714,47 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     font-weight: bold;
     font-style: normal;
   }
-  
+
   </style>
-  
-  
+
+
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
-  
+
   <style type="text/css">
-  
+
   body {
     background-color: white;
   }
-  
+
   .pandoc-table {
     width: 100%;
   }
-  
+
   .pandoc-table>caption {
     margin-bottom: 10px;
   }
-  
+
   .pandoc-table th:not([align]) {
     text-align: left;
   }
-  
+
   .pagedtable-footer {
     font-size: 15px;
   }
-  
+
   d-byline .byline {
     grid-template-columns: 2fr 2fr;
   }
-  
+
   d-byline .byline h3 {
     margin-block-start: 1.5em;
   }
-  
+
   d-byline .byline .authors-affiliations h3 {
     margin-block-start: 0.5em;
   }
-  
+
   .authors-affiliations .orcid-id {
     width: 16px;
     height:16px;
@@ -761,12 +763,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     vertical-align: middle;
     padding-bottom: 2px;
   }
-  
+
   d-title .dt-tags {
     margin-top: 1em;
     grid-column: text;
   }
-  
+
   .dt-tags .dt-tag {
     text-decoration: none;
     display: inline-block;
@@ -780,24 +782,24 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     text-transform: uppercase;
     font-weight: 500;
   }
-  
+
   d-article table.gt_table td,
   d-article table.gt_table th {
     border-bottom: none;
   }
-  
+
   .html-widget {
     margin-bottom: 2.0em;
   }
-  
+
   .l-screen-inset {
     padding-right: 16px;
   }
-  
+
   .l-screen .caption {
     margin-left: 10px;
   }
-  
+
   .shaded {
     background: rgb(247, 247, 247);
     padding-top: 20px;
@@ -805,75 +807,75 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .shaded .html-widget {
     margin-bottom: 0;
     border: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .shaded .shaded-content {
     background: white;
   }
-  
+
   .text-output {
     margin-top: 0;
     line-height: 1.5em;
   }
-  
+
   .hidden {
     display: none !important;
   }
-  
+
   d-article {
     padding-top: 2.5rem;
     padding-bottom: 30px;
   }
-  
+
   d-appendix {
     padding-top: 30px;
   }
-  
+
   d-article>p>img {
     width: 100%;
   }
-  
+
   d-article h2 {
     margin: 1rem 0 1.5rem 0;
   }
-  
+
   d-article h3 {
     margin-top: 1.5rem;
   }
-  
+
   d-article iframe {
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 2.0em;
     width: 100%;
   }
-  
+
   /* Tweak code blocks */
-  
+
   d-article div.sourceCode code,
   d-article pre code {
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   }
-  
+
   d-article pre,
   d-article div.sourceCode,
   d-article div.sourceCode pre {
     overflow: auto;
   }
-  
+
   d-article div.sourceCode {
     background-color: white;
   }
-  
+
   d-article div.sourceCode pre {
     padding-left: 10px;
     font-size: 12px;
     border-left: 2px solid rgba(0,0,0,0.1);
   }
-  
+
   d-article pre {
     font-size: 12px;
     color: black;
@@ -885,50 +887,50 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     word-break: normal;
     word-wrap: normal;
     line-height: 1.5;
-  
+
     -moz-tab-size: 4;
     -o-tab-size: 4;
     tab-size: 4;
-  
+
     -webkit-hyphens: none;
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
   }
-  
+
   d-article pre a {
     border-bottom: none;
   }
-  
+
   d-article pre a:hover {
     border-bottom: none;
     text-decoration: underline;
   }
-  
+
   d-article details {
     grid-column: text;
     margin-bottom: 0.8em;
   }
-  
+
   @media(min-width: 768px) {
-  
+
   d-article pre,
   d-article div.sourceCode,
   d-article div.sourceCode pre {
     overflow: visible !important;
   }
-  
+
   d-article div.sourceCode pre {
     padding-left: 18px;
     font-size: 14px;
   }
-  
+
   d-article pre {
     font-size: 14px;
   }
-  
+
   }
-  
+
   figure img.external {
     background: white;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -936,9 +938,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     padding: 18px;
     box-sizing: border-box;
   }
-  
+
   /* CSS for d-contents */
-  
+
   .d-contents {
     grid-column: text;
     color: rgba(0,0,0,0.8);
@@ -950,7 +952,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     padding-left: 0.25em;
     justify-self: start;
   }
-  
+
   @media(min-width: 1000px) {
     .d-contents.d-contents-float {
       height: 0;
@@ -961,82 +963,82 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       padding-left: 2em;
     }
   }
-  
+
   .d-contents nav h3 {
     font-size: 18px;
     margin-top: 0;
     margin-bottom: 1em;
   }
-  
+
   .d-contents li {
     list-style-type: none
   }
-  
+
   .d-contents nav > ul {
     padding-left: 0;
   }
-  
+
   .d-contents ul {
     padding-left: 1em
   }
-  
+
   .d-contents nav ul li {
     margin-top: 0.6em;
     margin-bottom: 0.2em;
   }
-  
+
   .d-contents nav a {
     font-size: 13px;
     border-bottom: none;
     text-decoration: none
     color: rgba(0, 0, 0, 0.8);
   }
-  
+
   .d-contents nav a:hover {
     text-decoration: underline solid rgba(0, 0, 0, 0.6)
   }
-  
+
   .d-contents nav > ul > li > a {
     font-weight: 600;
   }
-  
+
   .d-contents nav > ul > li > ul {
     font-weight: inherit;
   }
-  
+
   .d-contents nav > ul > li > ul > li {
     margin-top: 0.2em;
   }
-  
-  
+
+
   .d-contents nav ul {
     margin-top: 0;
     margin-bottom: 0.25em;
   }
-  
+
   .d-article-with-toc h2:nth-child(2) {
     margin-top: 0;
   }
-  
-  
+
+
   /* Figure */
-  
+
   .figure {
     position: relative;
     margin-bottom: 2.5em;
     margin-top: 1.5em;
   }
-  
+
   .figure img {
     width: 100%;
   }
-  
+
   .figure .caption {
     color: rgba(0, 0, 0, 0.6);
     font-size: 12px;
     line-height: 1.5em;
   }
-  
+
   .figure img.external {
     background: white;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -1044,42 +1046,42 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     padding: 18px;
     box-sizing: border-box;
   }
-  
+
   .figure .caption a {
     color: rgba(0, 0, 0, 0.6);
   }
-  
+
   .figure .caption b,
   .figure .caption strong, {
     font-weight: 600;
     color: rgba(0, 0, 0, 1.0);
   }
-  
+
   /* Citations */
-  
+
   d-article .citation {
     color: inherit;
     cursor: inherit;
   }
-  
+
   div.hanging-indent{
     margin-left: 1em; text-indent: -1em;
   }
-  
+
   /* Citation hover box */
-  
+
   .tippy-box[data-theme~=light-border] {
     background-color: rgba(250, 250, 250, 0.95);
   }
-  
+
   .tippy-content > p {
     margin-bottom: 0;
     padding: 2px;
   }
-  
-  
+
+
   /* Tweak 1000px media break to show more text */
-  
+
   @media(min-width: 1000px) {
     .base-grid,
     distill-header,
@@ -1095,11 +1097,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
       grid-column-gap: 16px;
     }
-  
+
     .grid {
       grid-column-gap: 16px;
     }
-  
+
     d-article {
       font-size: 1.06rem;
       line-height: 1.7em;
@@ -1108,7 +1110,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       font-size: 13px;
     }
   }
-  
+
   @media(min-width: 1180px) {
     .base-grid,
     distill-header,
@@ -1124,16 +1126,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
       grid-column-gap: 32px;
     }
-  
+
     .grid {
       grid-column-gap: 32px;
     }
   }
-  
-  
+
+
   /* Get the citation styles for the appendix (not auto-injected on render since
      we do our own rendering of the citation appendix) */
-  
+
   d-appendix .citation-appendix,
   .d-appendix .citation-appendix {
     font-size: 11px;
@@ -1150,9 +1152,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     white-space: pre-wrap;
     word-wrap: break-word;
   }
-  
+
   /* Include appendix styles here so they can be overridden */
-  
+
   d-appendix {
     contain: layout style;
     font-size: 0.8em;
@@ -1164,7 +1166,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     padding-top: 60px;
     padding-bottom: 48px;
   }
-  
+
   d-appendix h3 {
     grid-column: page-start / text-start;
     font-size: 15px;
@@ -1173,59 +1175,59 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     margin-bottom: 0;
     color: rgba(0,0,0,0.65);
   }
-  
+
   d-appendix h3 + * {
     margin-top: 1em;
   }
-  
+
   d-appendix ol {
     padding: 0 0 0 15px;
   }
-  
+
   @media (min-width: 768px) {
     d-appendix ol {
       padding: 0 0 0 30px;
       margin-left: -30px;
     }
   }
-  
+
   d-appendix li {
     margin-bottom: 1em;
   }
-  
+
   d-appendix a {
     color: rgba(0, 0, 0, 0.6);
   }
-  
+
   d-appendix > * {
     grid-column: text;
   }
-  
+
   d-appendix > d-footnote-list,
   d-appendix > d-citation-list,
   d-appendix > distill-appendix {
     grid-column: screen;
   }
-  
+
   /* Include footnote styles here so they can be overridden */
-  
+
   d-footnote-list {
     contain: layout style;
   }
-  
+
   d-footnote-list > * {
     grid-column: text;
   }
-  
+
   d-footnote-list a.footnote-backlink {
     color: rgba(0,0,0,0.3);
     padding-left: 0.5em;
   }
-  
-  
-  
+
+
+
   /* Anchor.js */
-  
+
   .anchorjs-link {
     /*transition: all .25s linear; */
     text-decoration: none;
@@ -1236,86 +1238,86 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     text-decoration: none;
     border-bottom: none;
   }
-  
+
   /* Social footer */
-  
+
   .social_footer {
     margin-top: 30px;
     margin-bottom: 0;
     color: rgba(0,0,0,0.67);
   }
-  
+
   .disqus-comments {
     margin-right: 30px;
   }
-  
+
   .disqus-comment-count {
     border-bottom: 1px solid rgba(0, 0, 0, 0.4);
     cursor: pointer;
   }
-  
+
   #disqus_thread {
     margin-top: 30px;
   }
-  
+
   .article-sharing a {
     border-bottom: none;
     margin-right: 8px;
   }
-  
+
   .article-sharing a:hover {
     border-bottom: none;
   }
-  
+
   .sidebar-section.subscribe {
     font-size: 12px;
     line-height: 1.6em;
   }
-  
+
   .subscribe p {
     margin-bottom: 0.5em;
   }
-  
-  
+
+
   .article-footer .subscribe {
     font-size: 15px;
     margin-top: 45px;
   }
-  
-  
+
+
   .sidebar-section.custom {
     font-size: 12px;
     line-height: 1.6em;
   }
-  
+
   .custom p {
     margin-bottom: 0.5em;
   }
-  
+
   /* Styles for listing layout (hide title) */
   .layout-listing d-title, .layout-listing .d-title {
     display: none;
   }
-  
+
   /* Styles for posts lists (not auto-injected) */
-  
-  
+
+
   .posts-with-sidebar {
     padding-left: 45px;
     padding-right: 45px;
   }
-  
+
   .posts-list .description h2,
   .posts-list .description p {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
   }
-  
+
   .posts-list .description h2 {
     font-weight: 700;
     border-bottom: none;
     padding-bottom: 0;
   }
-  
+
   .posts-list h2.post-tag {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     padding-bottom: 12px;
@@ -1324,7 +1326,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     margin-top: 60px;
     margin-bottom: 24px;
   }
-  
+
   .posts-list .post-preview {
     text-decoration: none;
     overflow: hidden;
@@ -1332,29 +1334,29 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding: 24px 0;
   }
-  
+
   .post-preview-last {
     border-bottom: none !important;
   }
-  
+
   .posts-list .posts-list-caption {
     grid-column: screen;
     font-weight: 400;
   }
-  
+
   .posts-list .post-preview h2 {
     margin: 0 0 6px 0;
     line-height: 1.2em;
     font-style: normal;
     font-size: 24px;
   }
-  
+
   .posts-list .post-preview p {
     margin: 0 0 12px 0;
     line-height: 1.4em;
     font-size: 16px;
   }
-  
+
   .posts-list .post-preview .thumbnail {
     box-sizing: border-box;
     margin-bottom: 24px;
@@ -1365,32 +1367,32 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     width: 100%;
     display: block;
   }
-  
+
   .posts-list .metadata {
     font-size: 12px;
     line-height: 1.4em;
     margin-bottom: 18px;
   }
-  
+
   .posts-list .metadata > * {
     display: inline-block;
   }
-  
+
   .posts-list .metadata .publishedDate {
     margin-right: 2em;
   }
-  
+
   .posts-list .metadata .dt-authors {
     display: block;
     margin-top: 0.3em;
     margin-right: 2em;
   }
-  
+
   .posts-list .dt-tags {
     display: block;
     line-height: 1em;
   }
-  
+
   .posts-list .dt-tags .dt-tag {
     display: inline-block;
     color: rgba(0,0,0,0.6);
@@ -1403,24 +1405,24 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     text-transform: uppercase;
     font-weight: 500;
   }
-  
+
   .posts-list img {
     opacity: 1;
   }
-  
+
   .posts-list img[data-src] {
     opacity: 0;
   }
-  
+
   .posts-more {
     clear: both;
   }
-  
-  
+
+
   .posts-sidebar {
     font-size: 16px;
   }
-  
+
   .posts-sidebar h3 {
     font-size: 16px;
     margin-top: 0;
@@ -1428,39 +1430,39 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     font-weight: 400;
     text-transform: uppercase;
   }
-  
+
   .sidebar-section {
     margin-bottom: 30px;
   }
-  
+
   .categories ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
   }
-  
+
   .categories li {
     color: rgba(0, 0, 0, 0.8);
     margin-bottom: 0;
   }
-  
+
   .categories li>a {
     border-bottom: none;
   }
-  
+
   .categories li>a:hover {
     border-bottom: 1px solid rgba(0, 0, 0, 0.4);
   }
-  
+
   .categories .active {
     font-weight: 600;
   }
-  
+
   .categories .category-count {
     color: rgba(0, 0, 0, 0.4);
   }
-  
-  
+
+
   @media(min-width: 768px) {
     .posts-list .post-preview h2 {
       font-size: 26px;
@@ -1496,55 +1498,55 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       padding-bottom: 24px;
     }
   }
-  
-  
+
+
   /* Improve display for browsers without grid (IE/Edge <= 15) */
-  
+
   .downlevel {
     line-height: 1.6em;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
     margin: 0;
   }
-  
+
   .downlevel .d-title {
     padding-top: 6rem;
     padding-bottom: 1.5rem;
   }
-  
+
   .downlevel .d-title h1 {
     font-size: 50px;
     font-weight: 700;
     line-height: 1.1em;
     margin: 0 0 0.5rem;
   }
-  
+
   .downlevel .d-title p {
     font-weight: 300;
     font-size: 1.2rem;
     line-height: 1.55em;
     margin-top: 0;
   }
-  
+
   .downlevel .d-byline {
     padding-top: 0.8em;
     padding-bottom: 0.8em;
     font-size: 0.8rem;
     line-height: 1.8em;
   }
-  
+
   .downlevel .section-separator {
     border: none;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .downlevel .d-article {
     font-size: 1.06rem;
     line-height: 1.7em;
     padding-top: 1rem;
     padding-bottom: 2rem;
   }
-  
-  
+
+
   .downlevel .d-appendix {
     padding-left: 0;
     padding-right: 0;
@@ -1556,11 +1558,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     padding-top: 40px;
     padding-bottom: 48px;
   }
-  
+
   .downlevel .footnotes ol {
     padding-left: 13px;
   }
-  
+
   .downlevel .base-grid,
   .downlevel .distill-header,
   .downlevel .d-title,
@@ -1577,7 +1579,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     padding-left: 40px;
     padding-right: 40px;
   }
-  
+
   @media(min-width: 768px) {
     .downlevel .base-grid,
     .downlevel .distill-header,
@@ -1597,14 +1599,14 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     max-width: 900px;
   }
   }
-  
+
   .downlevel pre code {
     display: block;
     border-left: 2px solid rgba(0, 0, 0, .1);
     padding: 0 0 0 20px;
     font-size: 14px;
   }
-  
+
   .downlevel code, .downlevel pre {
     color: black;
     background: none;
@@ -1615,27 +1617,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     word-break: normal;
     word-wrap: normal;
     line-height: 1.5;
-  
+
     -moz-tab-size: 4;
     -o-tab-size: 4;
     tab-size: 4;
-  
+
     -webkit-hyphens: none;
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
   }
-  
+
   .downlevel .posts-list .post-preview {
     color: inherit;
   }
-  
-  
-  
+
+
+
   </style>
-  
+
   <script type="application/javascript">
-  
+
   function is_downlevel_browser() {
     if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
                                    window.navigator.userAgent)) {
@@ -1644,20 +1646,20 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       return window.load_distill_framework === undefined;
     }
   }
-  
+
   // show body when load is complete
   function on_load_complete() {
-  
+
     // add anchors
     if (window.anchors) {
       window.anchors.options.placement = 'left';
       window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
     }
-  
-  
+
+
     // set body to visible
     document.body.style.visibility = 'visible';
-  
+
     // force redraw for leaflet widgets
     if (window.HTMLWidgets) {
       var maps = window.HTMLWidgets.findAll(".leaflet");
@@ -1670,39 +1672,39 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
         });
       });
     }
-  
+
     // trigger 'shown' so htmlwidgets resize
     $('d-article').trigger('shown');
   }
-  
+
   function init_distill() {
-  
+
     init_common();
-  
+
     // create front matter
     var front_matter = $('<d-front-matter></d-front-matter>');
     $('#distill-front-matter').wrap(front_matter);
-  
+
     // create d-title
     $('.d-title').changeElementType('d-title');
-  
+
     // create d-byline
     var byline = $('<d-byline></d-byline>');
     $('.d-byline').replaceWith(byline);
-  
+
     // create d-article
     var article = $('<d-article></d-article>');
     $('.d-article').wrap(article).children().unwrap();
-  
+
     // move posts container into article
     $('.posts-container').appendTo($('d-article'));
-  
+
     // create d-appendix
     $('.d-appendix').changeElementType('d-appendix');
-  
+
     // flag indicating that we have appendix items
     var appendix = $('.appendix-bottom').children('h3').length > 0;
-  
+
     // replace footnotes with <d-footnote>
     $('.footnote-ref').each(function(i, val) {
       appendix = true;
@@ -1718,10 +1720,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     });
     // remove footnotes
     $('.footnotes').remove();
-  
+
     // move refs into #references-listing
     $('#references-listing').replaceWith($('#refs'));
-  
+
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
     });
@@ -1731,16 +1733,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       appendix = true;
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
     });
-  
+
     // show d-appendix if we have appendix content
     $("d-appendix").css('display', appendix ? 'grid' : 'none');
-  
+
     // localize layout chunks to just output
     $('.layout-chunk').each(function(i, val) {
-  
+
       // capture layout
       var layout = $(this).attr('data-layout');
-  
+
       // apply layout to markdown level block elements
       var elements = $(this).children().not('details, div.sourceCode, pre, script');
       elements.each(function(i, el) {
@@ -1753,40 +1755,40 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
           $(this).wrap(layout_div);
         }
       });
-  
-  
+
+
       // unwrap the layout-chunk div
       $(this).children().unwrap();
     });
-  
+
     // remove code block used to force  highlighting css
     $('.distill-force-highlighting-css').parent().remove();
-  
+
     // remove empty line numbers inserted by pandoc when using a
     // custom syntax highlighting theme
     $('code.sourceCode a:empty').remove();
-  
+
     // load distill framework
     load_distill_framework();
-  
+
     // wait for window.distillRunlevel == 4 to do post processing
     function distill_post_process() {
-  
+
       if (!window.distillRunlevel || window.distillRunlevel < 4)
         return;
-  
+
       // hide author/affiliations entirely if we have no authors
       var front_matter = JSON.parse($("#distill-front-matter").html());
       var have_authors = front_matter.authors && front_matter.authors.length > 0;
       if (!have_authors)
         $('d-byline').addClass('hidden');
-  
+
       // article with toc class
       $('.d-contents').parent().addClass('d-article-with-toc');
-  
+
       // strip links that point to #
       $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
-  
+
       // add orcid ids
       $('.authors-affiliations').find('.author').each(function(i, el) {
         var orcid_id = front_matter.authors[i].orcidID;
@@ -1801,12 +1803,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
           $(this).append(a);
         }
       });
-  
+
       // hide elements of author/affiliations grid that have no value
       function hide_byline_column(caption) {
         $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
       }
-  
+
       // affiliations
       var have_affiliations = false;
       for (var i = 0; i<front_matter.authors.length; ++i) {
@@ -1818,11 +1820,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       }
       if (!have_affiliations)
         $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
-  
+
       // published date
       if (!front_matter.publishedDate)
         hide_byline_column("Published");
-  
+
       // document object identifier
       var doi = $('d-byline').find('h3:contains("DOI")');
       var doi_p = doi.next().empty();
@@ -1842,22 +1844,22 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
            .html(front_matter.doi)
            .appendTo(doi_p);
       }
-  
+
        // change plural form of authors/affiliations
       if (front_matter.authors.length === 1) {
         var grid = $('.authors-affiliations');
         grid.children('h3:contains("Authors")').text('Author');
         grid.children('h3:contains("Affiliations")').text('Affiliation');
       }
-  
+
       // remove d-appendix and d-footnote-list local styles
       $('d-appendix > style:first-child').remove();
       $('d-footnote-list > style:first-child').remove();
-  
+
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
-  
+
       // hoverable references
       $('span.citation[data-cites]').each(function() {
         var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
@@ -1871,39 +1873,39 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
           placement: 'bottom-start'
         });
       });
-  
+
       // clear polling timer
       clearInterval(tid);
-  
+
       // show body now that everything is ready
       on_load_complete();
     }
-  
+
     var tid = setInterval(distill_post_process, 50);
     distill_post_process();
-  
+
   }
-  
+
   function init_downlevel() {
-  
+
     init_common();
-  
+
      // insert hr after d-title
     $('.d-title').after($('<hr class="section-separator"/>'));
-  
+
     // check if we have authors
     var front_matter = JSON.parse($("#distill-front-matter").html());
     var have_authors = front_matter.authors && front_matter.authors.length > 0;
-  
+
     // manage byline/border
     if (!have_authors)
       $('.d-byline').remove();
     $('.d-byline').after($('<hr class="section-separator"/>'));
     $('.d-byline a').remove();
-  
+
     // remove toc
     $('.d-contents').remove();
-  
+
     // move appendix elements
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
@@ -1911,62 +1913,62 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     $('h3.appendix').each(function(i, val) {
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
     });
-  
-  
+
+
     // inject headers into references and footnotes
     var refs_header = $('<h3></h3>');
     refs_header.text('References');
     $('#refs').prepend(refs_header);
-  
+
     var footnotes_header = $('<h3></h3');
     footnotes_header.text('Footnotes');
     $('.footnotes').children('hr').first().replaceWith(footnotes_header);
-  
+
     // move appendix-bottom entries to the bottom
     $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
     $('.appendix-bottom').remove();
-  
+
     // remove appendix if it's empty
     if ($('.d-appendix').children().length === 0)
       $('.d-appendix').remove();
-  
+
     // prepend separator above appendix
     $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
-  
+
     // trim code
     $('pre>code').each(function(i, val) {
       $(this).html($.trim($(this).html()));
     });
-  
+
     // move posts-container right before article
     $('.posts-container').insertBefore($('.d-article'));
-  
+
     $('body').addClass('downlevel');
-  
+
     on_load_complete();
   }
-  
-  
+
+
   function init_common() {
-  
+
     // jquery plugin to change element types
     (function($) {
       $.fn.changeElementType = function(newType) {
         var attrs = {};
-  
+
         $.each(this[0].attributes, function(idx, attr) {
           attrs[attr.nodeName] = attr.nodeValue;
         });
-  
+
         this.replaceWith(function() {
           return $("<" + newType + "/>", attrs).append($(this).contents());
         });
       };
     })(jQuery);
-  
+
     // prevent underline for linked images
     $('a > img').parent().css({'border-bottom' : 'none'});
-  
+
     // mark non-body figures created by knitr chunks as 100% width
     $('.layout-chunk').each(function(i, val) {
       var figures = $(this).find('img, .html-widget');
@@ -1978,35 +1980,35 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
           var fig = $(this);
           fig.css('width', fig.attr('width') + 'px');
         });
-  
+
       }
     });
-  
+
     // auto-append index.html to post-preview links in file: protocol
     // and in rstudio ide preview
     $('.post-preview').each(function(i, val) {
       if (window.location.protocol === "file:")
         $(this).attr('href', $(this).attr('href') + "index.html");
     });
-  
+
     // get rid of index.html references in header
     if (window.location.protocol !== "file:") {
       $('.distill-site-header a[href]').each(function(i,val) {
         $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
       });
     }
-  
+
     // add class to pandoc style tables
     $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
     $('.kable-table').children('table').addClass('pandoc-table');
-  
+
     // add figcaption style to table captions
     $('caption').parent('table').addClass("figcaption");
-  
+
     // initialize posts list
     if (window.init_posts_list)
       window.init_posts_list();
-  
+
     // implmement disqus comment link
     $('.disqus-comment-count').click(function() {
       window.headroom_prevent_pin = true;
@@ -2020,17 +2022,18 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       }
     });
   }
-  
+
   document.addEventListener('DOMContentLoaded', function() {
     if (is_downlevel_browser())
       init_downlevel();
     else
       window.addEventListener('WebComponentsReady', init_distill);
   });
-  
+
   </script>
-  
+
   <!--/radix_placeholder_distill-->
+  <script src="site_libs/header-attrs-2.8/header-attrs.js"></script>
   <script src="site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
   <script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
   <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
@@ -2093,6 +2096,7 @@ Tutoriais
 <a href="Graficos.html">6. Visualizacao de Dados</a>
 <a href="Juntando_Bancos.html">7. Juntando Bancos de Dados</a>
 <a href="Mapas.html">8. Mapas e Analises Espaciais</a>
+<a href="Regressoes.html">9. Testes Estatisticos e Regressoes</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2132,9 +2136,13 @@ Desafios
 <ul>
 <li><a href="#tabelas-estáticas">Tabelas Estáticas</a></li>
 <li><a href="#tabelas-interativas">Tabelas Interativas</a></li>
+<li><a href="#exercício-1-tabelas-bonitas">Exercício 1: Tabelas Bonitas</a></li>
 <li><a href="#mudando-a-unidade-de-observação-pivot_wide-pivot_longer">Mudando a Unidade de Observação (<code>Pivot_wide</code>, <code>Pivot_longer</code>)</a></li>
+<li><a href="#exercício-2-virando-tabelas">Exercício 2: Virando Tabelas</a></li>
 <li><a href="#voltando-ao-r-base-brevemente">Voltando ao R Base Brevemente</a></li>
 <li><a href="#totais-para-tabelas">Totais para Tabelas</a></li>
+<li><a href="#leitura-para-tutorial-6">Leitura para Tutorial 6</a></li>
+<li><a href="#desafio-2">Desafio 2</a></li>
 </ul>
 </nav>
 </div>
@@ -2850,61 +2858,191 @@ velocidade
 7
 </td>
 <td style="text-align:right;">
-1
+20
 </td>
 <td style="text-align:right;">
-NA
+1304
 </td>
 <td style="text-align:right;">
-1055
+1314
 </td>
 <td style="text-align:right;">
-NA
+-10
 </td>
 <td style="text-align:right;">
-NA
+1558
 </td>
 <td style="text-align:right;">
-1235
+1620
 </td>
 <td style="text-align:right;">
-NA
+-22
 </td>
 <td style="text-align:left;">
-MQ
+B6
 </td>
 <td style="text-align:right;">
-3466
+1639
 </td>
 <td style="text-align:left;">
-N738MQ
+N599JB
 </td>
 <td style="text-align:left;">
 LGA
 </td>
 <td style="text-align:left;">
-RDU
+RSW
 </td>
 <td style="text-align:right;">
-NA
+152
 </td>
 <td style="text-align:right;">
-431
+1080
 </td>
 <td style="text-align:right;">
-10
+13
 </td>
 <td style="text-align:right;">
-55
+14
 </td>
 <td style="text-align:left;">
-2013-07-01 10:00:00
+2013-07-20 13:00:00
 </td>
 <td style="text-align:right;">
-NA
+-20
 </td>
 <td style="text-align:right;">
-NA
+7.105263
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2013
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+2204
+</td>
+<td style="text-align:right;">
+1915
+</td>
+<td style="text-align:right;">
+169
+</td>
+<td style="text-align:right;">
+147
+</td>
+<td style="text-align:right;">
+2230
+</td>
+<td style="text-align:right;">
+197
+</td>
+<td style="text-align:left;">
+AA
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:left;">
+N332AA
+</td>
+<td style="text-align:left;">
+JFK
+</td>
+<td style="text-align:left;">
+LAX
+</td>
+<td style="text-align:right;">
+315
+</td>
+<td style="text-align:right;">
+2475
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:left;">
+2013-07-28 19:00:00
+</td>
+<td style="text-align:right;">
+338
+</td>
+<td style="text-align:right;">
+7.857143
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2013
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+1539
+</td>
+<td style="text-align:right;">
+1540
+</td>
+<td style="text-align:right;">
+-1
+</td>
+<td style="text-align:right;">
+1855
+</td>
+<td style="text-align:right;">
+1855
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+UA
+</td>
+<td style="text-align:right;">
+1601
+</td>
+<td style="text-align:left;">
+N17139
+</td>
+<td style="text-align:left;">
+JFK
+</td>
+<td style="text-align:left;">
+LAX
+</td>
+<td style="text-align:right;">
+336
+</td>
+<td style="text-align:right;">
+2475
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:left;">
+2013-05-26 15:00:00
+</td>
+<td style="text-align:right;">
+-2
+</td>
+<td style="text-align:right;">
+7.366071
 </td>
 </tr>
 <tr>
@@ -2915,191 +3053,61 @@ NA
 3
 </td>
 <td style="text-align:right;">
-4
+5
 </td>
 <td style="text-align:right;">
-952
+1227
 </td>
 <td style="text-align:right;">
-1000
+1210
 </td>
 <td style="text-align:right;">
--8
+17
 </td>
 <td style="text-align:right;">
-1122
+1324
 </td>
 <td style="text-align:right;">
-1121
+1315
 </td>
 <td style="text-align:right;">
-1
+9
 </td>
 <td style="text-align:left;">
-US
+WN
 </td>
 <td style="text-align:right;">
-2169
+2236
 </td>
 <td style="text-align:left;">
-N717UW
+N7739A
 </td>
 <td style="text-align:left;">
-LGA
+EWR
 </td>
 <td style="text-align:left;">
-DCA
+BWI
 </td>
 <td style="text-align:right;">
-42
+37
 </td>
 <td style="text-align:right;">
-214
-</td>
-<td style="text-align:right;">
-10
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-2013-03-04 10:00:00
-</td>
-<td style="text-align:right;">
--16
-</td>
-<td style="text-align:right;">
-5.095238
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-2013
+169
 </td>
 <td style="text-align:right;">
 12
 </td>
 <td style="text-align:right;">
-30
-</td>
-<td style="text-align:right;">
-2051
-</td>
-<td style="text-align:right;">
-2101
-</td>
-<td style="text-align:right;">
--10
-</td>
-<td style="text-align:right;">
-2347
-</td>
-<td style="text-align:right;">
-2346
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-B6
-</td>
-<td style="text-align:right;">
-499
-</td>
-<td style="text-align:left;">
-N705JB
-</td>
-<td style="text-align:left;">
-LGA
-</td>
-<td style="text-align:left;">
-MCO
-</td>
-<td style="text-align:right;">
-157
-</td>
-<td style="text-align:right;">
-950
-</td>
-<td style="text-align:right;">
-21
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:left;">
-2013-12-30 21:00:00
-</td>
-<td style="text-align:right;">
--20
-</td>
-<td style="text-align:right;">
-6.050955
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-2013
-</td>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
 10
 </td>
-<td style="text-align:right;">
-28
-</td>
-<td style="text-align:right;">
-2030
-</td>
-<td style="text-align:right;">
-238
-</td>
-<td style="text-align:right;">
-228
-</td>
-<td style="text-align:right;">
-2258
-</td>
-<td style="text-align:right;">
-210
-</td>
 <td style="text-align:left;">
-B6
+2013-03-05 12:00:00
 </td>
 <td style="text-align:right;">
-115
-</td>
-<td style="text-align:left;">
-N197JB
-</td>
-<td style="text-align:left;">
-JFK
-</td>
-<td style="text-align:left;">
-MSY
+34
 </td>
 <td style="text-align:right;">
-158
-</td>
-<td style="text-align:right;">
-1182
-</td>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-30
-</td>
-<td style="text-align:left;">
-2013-04-10 20:00:00
-</td>
-<td style="text-align:right;">
-476
-</td>
-<td style="text-align:right;">
-7.481013
+4.567568
 </td>
 </tr>
 </tbody>
@@ -3155,65 +3163,19 @@ dest
 <tbody>
 <tr>
 <td style="text-align:right;">
-4
+11
 </td>
 <td style="text-align:right;">
-14
+10
 </td>
 <td style="text-align:right;">
-1645
+1118
 </td>
 <td style="text-align:left;">
-B6
+UA
 </td>
 <td style="text-align:right;">
-157
-</td>
-<td style="text-align:left;">
-JFK
-</td>
-<td style="text-align:left;">
-MCO
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-12
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-1312
-</td>
-<td style="text-align:left;">
-B6
-</td>
-<td style="text-align:right;">
-553
-</td>
-<td style="text-align:left;">
-JFK
-</td>
-<td style="text-align:left;">
-PBI
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-21
-</td>
-<td style="text-align:right;">
-1648
-</td>
-<td style="text-align:left;">
-B6
-</td>
-<td style="text-align:right;">
-675
+703
 </td>
 <td style="text-align:left;">
 JFK
@@ -3224,48 +3186,117 @@ LAX
 </tr>
 <tr>
 <td style="text-align:right;">
-1
+6
 </td>
 <td style="text-align:right;">
-26
+15
 </td>
 <td style="text-align:right;">
-600
-</td>
-<td style="text-align:left;">
-EV
-</td>
-<td style="text-align:right;">
-6012
-</td>
-<td style="text-align:left;">
-LGA
-</td>
-<td style="text-align:left;">
-IAD
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-26
-</td>
-<td style="text-align:right;">
-1403
+1813
 </td>
 <td style="text-align:left;">
 UA
 </td>
 <td style="text-align:right;">
-1641
+1177
 </td>
 <td style="text-align:left;">
 EWR
 </td>
 <td style="text-align:left;">
-MCO
+ORD
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+2013
+</td>
+<td style="text-align:left;">
+UA
+</td>
+<td style="text-align:right;">
+1701
+</td>
+<td style="text-align:left;">
+EWR
+</td>
+<td style="text-align:left;">
+FLL
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+1517
+</td>
+<td style="text-align:left;">
+EV
+</td>
+<td style="text-align:right;">
+4580
+</td>
+<td style="text-align:left;">
+EWR
+</td>
+<td style="text-align:left;">
+MKE
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+1110
+</td>
+<td style="text-align:left;">
+AA
+</td>
+<td style="text-align:right;">
+327
+</td>
+<td style="text-align:left;">
+LGA
+</td>
+<td style="text-align:left;">
+ORD
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+1516
+</td>
+<td style="text-align:left;">
+EV
+</td>
+<td style="text-align:right;">
+4684
+</td>
+<td style="text-align:left;">
+EWR
+</td>
+<td style="text-align:left;">
+SDF
 </td>
 </tr>
 <tr>
@@ -3273,68 +3304,45 @@ MCO
 3
 </td>
 <td style="text-align:right;">
-7
+16
 </td>
 <td style="text-align:right;">
-1248
+956
 </td>
 <td style="text-align:left;">
-UA
+US
 </td>
 <td style="text-align:right;">
-1605
-</td>
-<td style="text-align:left;">
-EWR
-</td>
-<td style="text-align:left;">
-BOS
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-23
-</td>
-<td style="text-align:right;">
-1615
-</td>
-<td style="text-align:left;">
-DL
-</td>
-<td style="text-align:right;">
-4
+450
 </td>
 <td style="text-align:left;">
 JFK
 </td>
 <td style="text-align:left;">
-SJU
+PHX
 </td>
 </tr>
 <tr>
 <td style="text-align:right;">
-6
+9
 </td>
 <td style="text-align:right;">
-15
+12
 </td>
 <td style="text-align:right;">
-734
+NA
 </td>
 <td style="text-align:left;">
 EV
 </td>
 <td style="text-align:right;">
-5819
+4193
 </td>
 <td style="text-align:left;">
 EWR
 </td>
 <td style="text-align:left;">
-MHT
+MSP
 </td>
 </tr>
 </tbody>
@@ -3389,137 +3397,91 @@ dest
 7
 </td>
 <td style="text-align:right;">
-2
+21
 </td>
 <td style="text-align:right;">
-1740
+2237
 </td>
 <td style="text-align:left;">
-UA
+MQ
 </td>
 <td style="text-align:right;">
-1100
-</td>
-<td style="text-align:left;">
-EWR
-</td>
-<td style="text-align:left;">
-SEA
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-23
-</td>
-<td style="text-align:right;">
-18
-</td>
-<td style="text-align:left;">
-B6
-</td>
-<td style="text-align:right;">
-30
-</td>
-<td style="text-align:left;">
-JFK
-</td>
-<td style="text-align:left;">
-ROC
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-12
-</td>
-<td style="text-align:right;">
-1656
-</td>
-<td style="text-align:left;">
-UA
-</td>
-<td style="text-align:right;">
-1259
+3317
 </td>
 <td style="text-align:left;">
 LGA
 </td>
 <td style="text-align:left;">
-IAH
+RDU
 </td>
 </tr>
 <tr>
 <td style="text-align:right;">
-5
+11
 </td>
 <td style="text-align:right;">
-13
+15
 </td>
 <td style="text-align:right;">
-1029
-</td>
-<td style="text-align:left;">
-UA
-</td>
-<td style="text-align:right;">
-384
-</td>
-<td style="text-align:left;">
-LGA
-</td>
-<td style="text-align:left;">
-IAH
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-12
-</td>
-<td style="text-align:right;">
-14
-</td>
-<td style="text-align:right;">
-1604
-</td>
-<td style="text-align:left;">
-UA
-</td>
-<td style="text-align:right;">
-1177
-</td>
-<td style="text-align:left;">
-EWR
-</td>
-<td style="text-align:left;">
-ORD
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-13
-</td>
-<td style="text-align:right;">
-758
+1142
 </td>
 <td style="text-align:left;">
 EV
 </td>
 <td style="text-align:right;">
-4297
+3827
 </td>
 <td style="text-align:left;">
 EWR
 </td>
 <td style="text-align:left;">
-DTW
+ORF
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+1456
+</td>
+<td style="text-align:left;">
+9E
+</td>
+<td style="text-align:right;">
+3393
+</td>
+<td style="text-align:left;">
+JFK
+</td>
+<td style="text-align:left;">
+DCA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+1628
+</td>
+<td style="text-align:left;">
+AA
+</td>
+<td style="text-align:right;">
+95
+</td>
+<td style="text-align:left;">
+JFK
+</td>
+<td style="text-align:left;">
+SJU
 </td>
 </tr>
 <tr>
@@ -3527,45 +3489,91 @@ DTW
 9
 </td>
 <td style="text-align:right;">
-20
+19
 </td>
 <td style="text-align:right;">
-918
+859
 </td>
 <td style="text-align:left;">
-B6
+EV
 </td>
 <td style="text-align:right;">
-271
+4087
 </td>
 <td style="text-align:left;">
-LGA
+EWR
 </td>
 <td style="text-align:left;">
-FLL
+IND
 </td>
 </tr>
 <tr>
 <td style="text-align:right;">
-5
+1
 </td>
 <td style="text-align:right;">
-10
+20
 </td>
 <td style="text-align:right;">
-1710
+1928
 </td>
 <td style="text-align:left;">
-AA
+UA
 </td>
 <td style="text-align:right;">
-2019
+1416
 </td>
 <td style="text-align:left;">
-LGA
+EWR
 </td>
 <td style="text-align:left;">
-STL
+IAH
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+1939
+</td>
+<td style="text-align:left;">
+DL
+</td>
+<td style="text-align:right;">
+87
+</td>
+<td style="text-align:left;">
+JFK
+</td>
+<td style="text-align:left;">
+SLC
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1624
+</td>
+<td style="text-align:left;">
+UA
+</td>
+<td style="text-align:right;">
+532
+</td>
+<td style="text-align:left;">
+EWR
+</td>
+<td style="text-align:left;">
+DEN
 </td>
 </tr>
 </tbody>
@@ -3612,80 +3620,28 @@ velocidade
 <tbody>
 <tr>
 <td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-15
-</td>
-<td style="text-align:right;">
-812
-</td>
-<td style="text-align:left;">
-AA
-</td>
-<td style="text-align:right;">
-655
-</td>
-<td style="text-align:left;">
-JFK
-</td>
-<td style="text-align:left;">
-STT
-</td>
-<td style="text-align:right;">
-7.6
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-9
-</td>
-<td style="text-align:right;">
 10
 </td>
 <td style="text-align:right;">
-652
-</td>
-<td style="text-align:left;">
-DL
+19
 </td>
 <td style="text-align:right;">
-2285
+1735
 </td>
 <td style="text-align:left;">
-LGA
+B6
+</td>
+<td style="text-align:right;">
+327
+</td>
+<td style="text-align:left;">
+EWR
 </td>
 <td style="text-align:left;">
 MCO
 </td>
 <td style="text-align:right;">
-7.9
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-602
-</td>
-<td style="text-align:left;">
-AA
-</td>
-<td style="text-align:right;">
-301
-</td>
-<td style="text-align:left;">
-LGA
-</td>
-<td style="text-align:left;">
-ORD
-</td>
-<td style="text-align:right;">
-6.9
+6.6
 </td>
 </tr>
 <tr>
@@ -3693,51 +3649,77 @@ ORD
 11
 </td>
 <td style="text-align:right;">
-20
+10
 </td>
 <td style="text-align:right;">
-1024
+715
 </td>
 <td style="text-align:left;">
-DL
+WN
 </td>
 <td style="text-align:right;">
-1529
+1975
 </td>
 <td style="text-align:left;">
-JFK
+EWR
 </td>
 <td style="text-align:left;">
-LAS
+BNA
 </td>
 <td style="text-align:right;">
-7.1
+6.4
 </td>
 </tr>
 <tr>
 <td style="text-align:right;">
-3
+12
 </td>
 <td style="text-align:right;">
-18
+13
 </td>
 <td style="text-align:right;">
-1721
+1017
 </td>
 <td style="text-align:left;">
-DL
+EV
 </td>
 <td style="text-align:right;">
-329
+4495
 </td>
 <td style="text-align:left;">
-JFK
+EWR
 </td>
 <td style="text-align:left;">
-SJU
+SAV
 </td>
 <td style="text-align:right;">
-8.7
+6.5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+610
+</td>
+<td style="text-align:left;">
+UA
+</td>
+<td style="text-align:right;">
+1654
+</td>
+<td style="text-align:left;">
+EWR
+</td>
+<td style="text-align:left;">
+SFO
+</td>
+<td style="text-align:right;">
+7.4
 </td>
 </tr>
 <tr>
@@ -3745,25 +3727,77 @@ SJU
 2
 </td>
 <td style="text-align:right;">
-28
+21
 </td>
 <td style="text-align:right;">
-1506
+951
 </td>
 <td style="text-align:left;">
-MQ
+WN
 </td>
 <td style="text-align:right;">
-4447
+376
 </td>
 <td style="text-align:left;">
 LGA
 </td>
 <td style="text-align:left;">
-RDU
+BNA
 </td>
 <td style="text-align:right;">
-6.2
+6.3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+703
+</td>
+<td style="text-align:left;">
+DL
+</td>
+<td style="text-align:right;">
+763
+</td>
+<td style="text-align:left;">
+JFK
+</td>
+<td style="text-align:left;">
+LAX
+</td>
+<td style="text-align:right;">
+7.4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+1944
+</td>
+<td style="text-align:left;">
+DL
+</td>
+<td style="text-align:right;">
+1435
+</td>
+<td style="text-align:left;">
+LGA
+</td>
+<td style="text-align:left;">
+TPA
+</td>
+<td style="text-align:right;">
+6.1
 </td>
 </tr>
 <tr>
@@ -3771,51 +3805,25 @@ RDU
 9
 </td>
 <td style="text-align:right;">
-30
+18
 </td>
 <td style="text-align:right;">
-632
+1519
 </td>
 <td style="text-align:left;">
-US
+DL
 </td>
 <td style="text-align:right;">
-2134
+1982
 </td>
 <td style="text-align:left;">
 LGA
 </td>
 <td style="text-align:left;">
-BOS
+MIA
 </td>
 <td style="text-align:right;">
-5.3
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
-22
-</td>
-<td style="text-align:right;">
-848
-</td>
-<td style="text-align:left;">
-UA
-</td>
-<td style="text-align:right;">
-338
-</td>
-<td style="text-align:left;">
-EWR
-</td>
-<td style="text-align:left;">
-IAH
-</td>
-<td style="text-align:right;">
-7.0
+7.5
 </td>
 </tr>
 </tbody>
@@ -3858,25 +3866,25 @@ Destino
 <tbody>
 <tr>
 <td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
-1327
+28
+</td>
+<td style="text-align:right;">
+1834
 </td>
 <td style="text-align:left;">
 AA
 </td>
 <td style="text-align:right;">
-753
+1611
 </td>
 <td style="text-align:left;">
 LGA
 </td>
 <td style="text-align:left;">
-DFW
+MIA
 </td>
 </tr>
 <tr>
@@ -3884,137 +3892,137 @@ DFW
 7
 </td>
 <td style="text-align:right;">
-25
+21
 </td>
 <td style="text-align:right;">
-1101
+724
+</td>
+<td style="text-align:left;">
+WN
+</td>
+<td style="text-align:right;">
+463
+</td>
+<td style="text-align:left;">
+EWR
+</td>
+<td style="text-align:left;">
+BNA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+603
+</td>
+<td style="text-align:left;">
+WN
+</td>
+<td style="text-align:right;">
+3839
+</td>
+<td style="text-align:left;">
+EWR
+</td>
+<td style="text-align:left;">
+MDW
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+746
 </td>
 <td style="text-align:left;">
 B6
 </td>
 <td style="text-align:right;">
-403
+553
 </td>
 <td style="text-align:left;">
-JFK
+EWR
 </td>
 <td style="text-align:left;">
-SJU
+RSW
 </td>
 </tr>
 <tr>
 <td style="text-align:right;">
-12
+10
 </td>
 <td style="text-align:right;">
-30
+27
 </td>
 <td style="text-align:right;">
-1707
+1620
+</td>
+<td style="text-align:left;">
+B6
+</td>
+<td style="text-align:right;">
+1161
+</td>
+<td style="text-align:left;">
+LGA
+</td>
+<td style="text-align:left;">
+PBI
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+1545
 </td>
 <td style="text-align:left;">
 UA
 </td>
 <td style="text-align:right;">
-509
+1624
 </td>
 <td style="text-align:left;">
-LGA
+EWR
 </td>
 <td style="text-align:left;">
-DEN
+FLL
 </td>
 </tr>
 <tr>
 <td style="text-align:right;">
-12
+8
 </td>
 <td style="text-align:right;">
-30
+14
 </td>
 <td style="text-align:right;">
-1543
+1327
 </td>
 <td style="text-align:left;">
-US
+EV
 </td>
 <td style="text-align:right;">
-1767
+4395
 </td>
 <td style="text-align:left;">
-LGA
+EWR
 </td>
 <td style="text-align:left;">
-CLT
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
-11
-</td>
-<td style="text-align:right;">
-1647
-</td>
-<td style="text-align:left;">
-AA
-</td>
-<td style="text-align:right;">
-2223
-</td>
-<td style="text-align:left;">
-LGA
-</td>
-<td style="text-align:left;">
-STL
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-2008
-</td>
-<td style="text-align:left;">
-DL
-</td>
-<td style="text-align:right;">
-1147
-</td>
-<td style="text-align:left;">
-LGA
-</td>
-<td style="text-align:left;">
-ATL
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-7
-</td>
-<td style="text-align:right;">
-1204
-</td>
-<td style="text-align:left;">
-AA
-</td>
-<td style="text-align:right;">
-1855
-</td>
-<td style="text-align:left;">
-LGA
-</td>
-<td style="text-align:left;">
-STL
+IND
 </td>
 </tr>
 <tr>
@@ -4022,22 +4030,22 @@ STL
 6
 </td>
 <td style="text-align:right;">
-12
+23
 </td>
 <td style="text-align:right;">
-2038
+1423
 </td>
 <td style="text-align:left;">
-DL
+MQ
 </td>
 <td style="text-align:right;">
-87
+3669
 </td>
 <td style="text-align:left;">
-JFK
+LGA
 </td>
 <td style="text-align:left;">
-SLC
+ATL
 </td>
 </tr>
 </tbody>
@@ -4084,19 +4092,71 @@ velocidade
 <tbody>
 <tr>
 <td style="text-align:right;">
-9
+2
 </td>
 <td style="text-align:right;">
-22
+21
 </td>
 <td style="text-align:right;">
-1.509
+1.444
 </td>
 <td style="text-align:left;">
 EV
 </td>
 <td style="text-align:right;">
-5.044
+4.353
+</td>
+<td style="text-align:left;">
+EWR
+</td>
+<td style="text-align:left;">
+BUF
+</td>
+<td style="text-align:right;">
+4,9
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1.156
+</td>
+<td style="text-align:left;">
+EV
+</td>
+<td style="text-align:right;">
+4.349
+</td>
+<td style="text-align:left;">
+EWR
+</td>
+<td style="text-align:left;">
+ORF
+</td>
+<td style="text-align:right;">
+5,5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+627
+</td>
+<td style="text-align:left;">
+EV
+</td>
+<td style="text-align:right;">
+4.535
 </td>
 <td style="text-align:left;">
 EWR
@@ -4105,85 +4165,7 @@ EWR
 MSP
 </td>
 <td style="text-align:right;">
-6,9
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-1.653
-</td>
-<td style="text-align:left;">
-DL
-</td>
-<td style="text-align:right;">
-1.499
-</td>
-<td style="text-align:left;">
-LGA
-</td>
-<td style="text-align:left;">
-ATL
-</td>
-<td style="text-align:right;">
-7,3
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-658
-</td>
-<td style="text-align:left;">
-DL
-</td>
-<td style="text-align:right;">
-2.285
-</td>
-<td style="text-align:left;">
-LGA
-</td>
-<td style="text-align:left;">
-MCO
-</td>
-<td style="text-align:right;">
-6,9
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-12
-</td>
-<td style="text-align:right;">
-27
-</td>
-<td style="text-align:right;">
-1.908
-</td>
-<td style="text-align:left;">
-9E
-</td>
-<td style="text-align:right;">
-2.931
-</td>
-<td style="text-align:left;">
-JFK
-</td>
-<td style="text-align:left;">
-PIT
-</td>
-<td style="text-align:right;">
-4,9
+6,3
 </td>
 </tr>
 <tr>
@@ -4191,74 +4173,48 @@ PIT
 7
 </td>
 <td style="text-align:right;">
-5
+10
 </td>
 <td style="text-align:right;">
-2.111
+805
 </td>
 <td style="text-align:left;">
-B6
+EV
 </td>
 <td style="text-align:right;">
-702
+4.583
 </td>
 <td style="text-align:left;">
-JFK
+EWR
 </td>
 <td style="text-align:left;">
-BUF
+PWM
 </td>
 <td style="text-align:right;">
-5,5
+6,3
 </td>
 </tr>
 <tr>
 <td style="text-align:right;">
-12
+3
 </td>
 <td style="text-align:right;">
-8
+1
 </td>
 <td style="text-align:right;">
-2.110
+621
 </td>
 <td style="text-align:left;">
-B6
+MQ
 </td>
 <td style="text-align:right;">
-1.205
-</td>
-<td style="text-align:left;">
-JFK
-</td>
-<td style="text-align:left;">
-PDX
-</td>
-<td style="text-align:right;">
-7,1
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-28
-</td>
-<td style="text-align:right;">
-707
-</td>
-<td style="text-align:left;">
-US
-</td>
-<td style="text-align:right;">
-2.163
+4.576
 </td>
 <td style="text-align:left;">
 LGA
 </td>
 <td style="text-align:left;">
-DCA
+CLT
 </td>
 <td style="text-align:right;">
 5,6
@@ -4266,28 +4222,80 @@ DCA
 </tr>
 <tr>
 <td style="text-align:right;">
-5
+9
 </td>
 <td style="text-align:right;">
-27
+15
 </td>
 <td style="text-align:right;">
-606
+1.240
 </td>
 <td style="text-align:left;">
-US
+B6
 </td>
 <td style="text-align:right;">
-1.447
+1.401
 </td>
 <td style="text-align:left;">
 JFK
 </td>
 <td style="text-align:left;">
-CLT
+FLL
 </td>
 <td style="text-align:right;">
-7,4
+7,5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+824
+</td>
+<td style="text-align:left;">
+B6
+</td>
+<td style="text-align:right;">
+901
+</td>
+<td style="text-align:left;">
+JFK
+</td>
+<td style="text-align:left;">
+FLL
+</td>
+<td style="text-align:right;">
+6,7
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+2.143
+</td>
+<td style="text-align:left;">
+AA
+</td>
+<td style="text-align:right;">
+185
+</td>
+<td style="text-align:left;">
+JFK
+</td>
+<td style="text-align:left;">
+LAX
+</td>
+<td style="text-align:right;">
+7,5
 </td>
 </tr>
 </tbody>
@@ -4296,10 +4304,9 @@ CLT
 <p>Para mais opções de <code>kable</code>, leia <a href="https://bookdown.org/yihui/rmarkdown-cookbook/kable.html">aqui</a>, e para saber mais ainda veja o pacote <code>kableExtra</code> <a href="https://haozhu233.github.io/kableExtra/">aqui</a>.</p>
 <p>Note que existe a opção de gerar tabelas ‘manuais’ diretamente em R markdown, fora de um chunk (detalhes <a href="https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf">aqui</a>). Não recomendo isso porque a sintaxe é chata para digitar, não temos controle de formatação, e não podemos acessar e transformar o conteúdo no futuro. Se você precisa gerar uma tabela rápida, sempre é recomendado que você gera uma pequena tabela com <code>tibble()</code> e manda para <code>kable()</code>, por exemplo:</p>
 <div class="layout-chunk" data-layout="l-body">
-
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">tibble</span>(Funçã<span class="dt">o=</span><span class="kw">c</span>(<span class="st">&quot;kable&quot;</span>,<span class="st">&quot;opção df_print: paged&quot;</span>,<span class="st">&quot;datatable&quot;</span>),</a>
-<a class="sourceLine" id="cb1-2" title="2">       <span class="dt">Utilidade=</span><span class="kw">c</span>(<span class="st">&quot;Word/PDF, relatórios estáticos&quot;</span>,<span class="st">&quot;HTML, relatórios interativos simples&quot;</span>,<span class="st">&quot;HTML, relatórios interativos complexos&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="st">  </span><span class="kw">kable</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(Função <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;kable&quot;</span>, <span class="st">&quot;opção df_print: paged&quot;</span>, <span class="st">&quot;datatable&quot;</span>), <span class="at">Utilidade =</span> <span class="fu">c</span>(<span class="st">&quot;Word/PDF, relatórios estáticos&quot;</span>, </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;HTML, relatórios interativos simples&quot;</span>, <span class="st">&quot;HTML, relatórios interativos complexos&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -4362,7 +4369,7 @@ HTML, relatórios interativos complexos
 </code></pre>
 </div>
 <div id="htmlwidget-af6c6eb8bb4a7781668e" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-af6c6eb8bb4a7781668e">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"],[11,7,10,7,2,6,3,9,4,5,12,11,6,12,2,12,9,7,3,9,9,6,2,10,7,4,8,7,12,9,9,12,11,9,1,10,8,5,3,7,12,3,1,6,11,3,11,5,9,9,12,4,1,4,6,7,6,3,8,1,11,10,7,4,10,1,2,5,4,1,2,9,5,11,8,11,6,4,4,12,12,6,11,10,2,5,3,2,1,8,11,9,7,5,9,10,3,6,12,12],[15,7,24,28,8,10,3,18,25,28,25,27,14,26,4,28,5,7,8,17,18,4,1,16,11,22,3,4,23,7,11,18,15,9,30,16,12,3,14,11,4,31,4,13,4,10,15,28,15,14,9,10,9,25,27,14,10,1,16,13,15,28,4,24,31,11,23,26,3,31,1,8,23,11,29,29,1,12,16,30,21,6,5,22,21,16,19,26,22,29,14,1,24,8,5,31,26,27,18,20],[2009,2303,844,726,null,1832,2059,1622,2235,1031,1444,1956,1110,1439,1619,2100,903,1911,151,911,1701,1437,651,1422,null,1655,1018,912,null,1857,1321,1822,1115,1357,1511,1018,553,1056,857,5,1853,851,802,null,1605,814,1809,926,1113,1704,1947,null,1859,719,846,1019,1558,818,2030,1516,1820,706,836,1456,1250,1024,857,1401,1450,2229,2225,1059,1217,553,836,1309,1506,1436,1616,1204,1041,633,1803,1504,649,1626,1655,1207,858,2000,1824,554,1653,1005,930,639,1928,1605,1129,1141],["B6","EV","US","VX","B6","B6","EV","9E","UA","US","B6","9E","EV","EV","US","B6","AA","UA","B6","UA","DL","DL","UA","UA","EV","DL","US","B6","EV","9E","AA","US","UA","US","B6","MQ","US","US","AA","B6","UA","UA","WN","EV","AA","B6","EV","B6","EV","AA","9E","EV","MQ","UA","US","WN","UA","UA","9E","US","MQ","AA","UA","AA","US","AA","DL","UA","DL","MQ","B6","DL","UA","UA","US","UA","FL","AA","EV","AA","MQ","DL","UA","B6","US","AA","MQ","UA","EV","AA","UA","DL","9E","AA","EV","DL","EV","US","US","AA"],[418,3832,2071,183,30,1307,4543,3448,301,196,325,2925,5273,5373,35,499,1,1259,707,996,1499,1819,1472,1232,4453,1499,604,15,4372,3320,331,1751,703,686,1161,3611,1909,2171,1,2002,693,649,900,5148,343,1305,4131,77,5373,345,2958,4085,4569,1142,1509,1098,1638,1480,3395,2130,3486,1345,492,883,1843,19,120,542,1531,4584,515,2098,1266,1500,2071,1641,604,1635,3819,1143,3466,27,1637,325,2116,565,4540,701,4112,269,360,461,3318,319,5273,1743,5472,2181,707,327],["JFK","EWR","LGA","EWR","JFK","JFK","EWR","JFK","EWR","JFK","JFK","JFK","LGA","LGA","JFK","LGA","JFK","LGA","JFK","EWR","LGA","LGA","EWR","EWR","EWR","LGA","EWR","JFK","EWR","JFK","LGA","EWR","JFK","EWR","LGA","EWR","LGA","LGA","JFK","JFK","LGA","EWR","EWR","EWR","LGA","JFK","EWR","JFK","LGA","LGA","JFK","EWR","LGA","EWR","EWR","LGA","EWR","EWR","JFK","LGA","LGA","JFK","EWR","EWR","LGA","JFK","JFK","EWR","LGA","LGA","EWR","LGA","EWR","LGA","LGA","EWR","LGA","JFK","EWR","LGA","LGA","JFK","EWR","JFK","LGA","JFK","LGA","EWR","EWR","JFK","EWR","LGA","JFK","LGA","LGA","JFK","LGA","LGA","LGA","LGA"],["BOS","SDF","CLT","SFO","ROC","IAD","DSM","CVG","IAH","PHX","TPA","MSY","PIT","GSO","PHX","MCO","LAX","IAH","SJU","LAX","ATL","MSP","DEN","IAH","MCI","ATL","PHX","SFO","DCA","BUF","ORD","CLT","LAX","PHX","PBI","ORD","PHL","DCA","LAX","BUF","ORD","CLE","PHX","ATL","ORD","IAD","RIC","FLL","GSO","ORD","ORF","IND","RDU","BOS","CLT","MKE","CLE","SFO","DCA","BOS","BNA","MIA","SFO","DFW","CLT","LAX","LAX","RSW","RSW","CLT","FLL","MIA","SFO","IAH","CLT","MCO","ATL","SJU","ATL","DFW","RDU","ATL","TPA","TPA","BOS","DFW","DTW","ORD","RIC","SEA","PBI","ATL","BUF","ORD","PIT","ATL","ORF","DCA","CLT","ORD"],[4.92105263157895,6.42,5.23076923076923,7.32857142857143,null,4.6530612244898,6.8255033557047,6.40217391304348,7.14285714285714,7.66192170818505,6.61184210526316,7.20731707317073,6.44230769230769,6.31506849315068,7.32312925170068,6.93430656934307,8.08823529411765,7.26153846153846,8.73224043715847,7.71698113207547,7.32692307692308,6.10778443113772,6.88841201716738,7.10659898477157,null,6.51282051282051,7.72826086956522,8.13207547169811,null,5.67924528301887,6.42982456140351,6.37349397590361,7.38805970149254,7.84191176470588,6.9,6.25217391304348,3.31034482758621,5.09523809523809,7.9073482428115,5.78846153846154,5.91129032258065,6.3125,7.25510204081633,null,6.42982456140351,5.30232558139535,5.54,7.42361111111111,6.88059701492537,6.54464285714286,5.47169811320755,null,5.98611111111111,5.71428571428571,6.96052631578947,7.38,6.84745762711864,7.8680981595092,5.60526315789474,4.27906976744186,6.82142857142857,6.98076923076923,8.35504885993485,6.35185185185185,6.4,7.25806451612903,7.4773413897281,7.36551724137931,6.70807453416149,5.91304347826087,7.05298013245033,7.11688311688312,7.28693181818182,6.80769230769231,6.55421686746988,6.7410071942446,6.92727272727273,8.36649214659686,6.54385964912281,6.74271844660194,5.3875,6.84684684684685,6.97202797202797,5.94674556213018,4.6,7.32105263157895,5.83720930232558,null,4.69491525423729,7.31722054380665,7.20422535211268,7.25714285714286,6.02,7.79787234042553,6.2037037037037,6.60869565217391,6.57777777777778,3.14705882352941,6.32558139534884,5.47014925373134]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>month<\/th>\n      <th>day<\/th>\n      <th>dep_time<\/th>\n      <th>carrier<\/th>\n      <th>flight<\/th>\n      <th>origin<\/th>\n      <th>dest<\/th>\n      <th>velocidade<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,5,8]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-af6c6eb8bb4a7781668e">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"],[9,4,9,4,10,10,8,8,7,6,2,5,9,4,4,5,9,12,4,8,4,2,10,4,12,8,3,12,8,3,6,10,1,7,3,11,9,8,10,5,2,10,9,7,10,4,8,8,10,1,5,11,11,1,1,7,10,9,2,4,9,11,3,4,2,4,12,9,5,9,4,10,5,8,2,2,12,3,12,3,6,11,11,5,10,8,10,8,11,3,11,3,2,10,5,3,3,10,8,7],[16,15,6,4,18,4,1,17,3,4,7,28,17,19,15,7,19,23,30,9,9,5,24,15,25,7,19,19,12,18,28,14,26,9,19,11,22,5,6,14,1,25,14,10,14,20,12,23,25,27,10,18,8,7,28,7,11,29,28,24,21,15,12,30,1,29,10,22,31,28,4,20,19,7,14,13,5,14,11,3,11,14,17,15,17,24,5,4,12,14,11,25,7,7,31,29,16,21,29,17],[1019,1233,1559,2153,1055,653,1730,926,1400,931,618,1954,755,2311,604,836,1554,954,601,null,1738,1453,1028,1929,546,1957,1505,1949,655,806,51,810,1756,1252,1714,1651,1024,727,1812,1630,1919,null,732,1446,657,1337,1809,1816,1033,1451,1714,1314,1359,556,2244,1957,1512,1627,1658,1504,949,1426,840,907,901,1230,1551,754,1202,1900,1653,759,1733,1453,701,602,1622,1703,751,1510,1756,2359,1455,1550,1402,2059,820,1709,2352,811,1257,1559,1550,858,700,1956,911,1620,610,1252],["B6","DL","B6","B6","DL","UA","AA","B6","UA","EV","EV","UA","EV","EV","DL","UA","9E","B6","AA","US","DL","DL","UA","MQ","B6","UA","B6","DL","DL","DL","UA","9E","WN","US","MQ","MQ","UA","B6","DL","MQ","DL","WN","DL","DL","9E","AA","DL","UA","B6","EV","UA","EV","UA","DL","B6","B6","UA","EV","DL","UA","MQ","DL","UA","VX","B6","DL","UA","DL","B6","DL","EV","9E","UA","9E","B6","B6","UA","AA","UA","UA","AA","B6","EV","DL","B6","B6","B6","AA","B6","UA","VX","DL","B6","UA","B6","DL","B6","YV","EV","US"],[53,1375,543,35,1275,537,221,586,1558,4140,4708,695,5242,3826,461,1201,3488,1025,1837,2191,2383,2247,1025,4569,939,998,119,2131,1415,2070,1611,3507,1616,1459,4403,3411,405,1289,83,3695,6,16,183,2247,3769,753,61,1141,518,4572,512,5333,1565,461,112,225,1554,4684,329,1553,3565,1902,999,161,56,1375,287,1959,143,2065,4092,3538,1683,3793,987,145,1139,695,1455,1739,353,1503,5713,95,431,523,219,257,745,393,165,1773,1053,1600,671,1147,885,3771,4533,2175],["JFK","JFK","EWR","JFK","JFK","EWR","JFK","JFK","EWR","EWR","EWR","LGA","LGA","EWR","LGA","JFK","LGA","JFK","LGA","LGA","LGA","LGA","LGA","LGA","JFK","EWR","JFK","LGA","JFK","LGA","EWR","JFK","LGA","LGA","JFK","LGA","LGA","EWR","JFK","EWR","JFK","EWR","JFK","LGA","EWR","LGA","LGA","EWR","JFK","EWR","JFK","LGA","EWR","LGA","JFK","JFK","EWR","EWR","JFK","EWR","LGA","LGA","EWR","EWR","JFK","JFK","EWR","JFK","JFK","JFK","EWR","JFK","EWR","JFK","JFK","JFK","EWR","JFK","EWR","EWR","LGA","JFK","LGA","JFK","LGA","JFK","JFK","JFK","JFK","EWR","EWR","JFK","JFK","EWR","JFK","LGA","JFK","LGA","EWR","LGA"],["PBI","SLC","PBI","PBI","SLC","PBI","MIA","ROC","SFO","ATL","MKE","ORD","GSO","TYS","ATL","LAX","MCI","TPA","MIA","DCA","PWM","ATL","IAH","RDU","BQN","PDX","MSY","DTW","SLC","RSW","IAH","MSY","BNA","CLT","RDU","RDU","DEN","SJU","MIA","ORD","SLC","HOU","SEA","ATL","CVG","DFW","ATL","SFO","BOS","GSP","SFO","CHS","IAH","ATL","BUF","TPA","AUS","SDF","SJU","AUS","CLT","PBI","SAN","LAX","BTV","SLC","AUS","MCO","RSW","FLL","DAY","MSP","LAS","CLT","MCO","PBI","DEN","AUS","LAX","RSW","ORD","SJU","IAD","DTW","SRQ","LAX","CLT","LAS","PSE","ORD","LAX","SLC","PIT","LAX","LAX","ATL","RDU","IAD","BUF","DCA"],[6.99319727891156,6.48208469055375,7.52205882352941,5.71111111111111,7.37037037037037,7.63432835820895,6.80625,4.9811320754717,8.06603773584906,6.84403669724771,5.75396825396825,6.54464285714286,7.09230769230769,5.34745762711864,6.45762711864407,7.734375,null,6.36075949367089,6.98089171974522,null,6.11363636363636,6.74336283185841,6.71090047393365,6.63076923076923,8.25130890052356,6.95428571428571,6.35483870967742,5.90588235294118,6.90972222222222,6.54545454545455,7.25388601036269,7.88,6.52991452991453,6.97435897435897,5.54545454545455,6.33823529411765,7.67772511848341,7.88235294117647,7.77857142857143,6.09322033898305,7.08185053380783,null,8.04651162790698,6.56896551724138,6.54022988505747,6.71014492753623,6.68421052631579,7.77272727272727,4.92105263157895,6.31914893617021,7.67359050445104,7.12222222222222,6.79611650485437,7.05555555555556,5.18965517241379,7.44444444444444,7.33658536585366,6.23300970873786,8.11167512690355,6.2928870292887,6.1123595505618,6.19760479041916,7.55451713395639,7.89067524115756,5.65957446808511,7.37037037037037,6.21487603305785,7.26153846153846,7.45833333333333,8.62096774193548,6.19767441860465,6.43125,7.42333333333333,6.7625,6.33557046979866,6.80794701986755,6.34387351778656,7.45588235294118,6.95184135977337,6.89032258064516,6.37391304347826,8.41052631578947,3.75409836065574,5.98823529411765,6.75483870967742,8.11475409836066,6.7625,7.6986301369863,7.8495145631068,6.7196261682243,7.48170731707317,7.37037037037037,4.85714285714286,7.48170731707317,7.5,7.32692307692308,5.77027027027027,4.97826086956522,6.1304347826087,5.21951219512195]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>month<\/th>\n      <th>day<\/th>\n      <th>dep_time<\/th>\n      <th>carrier<\/th>\n      <th>flight<\/th>\n      <th>origin<\/th>\n      <th>dest<\/th>\n      <th>velocidade<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,5,8]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -4380,22 +4387,25 @@ HTML, relatórios interativos complexos
 </code></pre>
 </div>
 <div id="htmlwidget-bee41e942ff5cf08958f" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-bee41e942ff5cf08958f">{"x":{"filter":"top","filterHTML":"<tr>\n  <td><\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1\" data-max=\"12\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1\" data-max=\"31\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"2\" data-max=\"2312\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"7\" data-max=\"5956\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"4.32608695652174\" data-max=\"8.5\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","caption":"<caption>Tabela de 100 voos aleatórios<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"],[1,2,2,3,4,5,10,3,4,11,3,12,4,7,5,2,12,8,10,7,2,6,10,1,2,2,5,6,8,3,2,5,8,7,7,9,11,1,3,7,2,8,4,6,6,3,1,4,6,2,6,5,7,11,1,11,10,1,4,2,5,7,9,2,9,10,6,10,1,6,6,4,1,2,11,3,4,1,5,1,8,3,1,6,10,11,7,7,2,3,12,7,12,7,8,8,2,2,5,2],[21,23,3,13,25,28,2,24,10,24,10,26,6,31,24,3,2,19,18,5,13,27,27,29,4,3,26,4,17,18,24,22,12,6,24,16,26,17,10,26,17,28,8,1,2,23,26,10,16,28,10,2,30,26,20,18,17,19,18,11,23,2,30,16,4,24,14,17,21,10,20,10,22,25,26,16,8,14,11,7,8,12,10,3,9,12,15,16,23,14,14,16,20,24,18,1,23,1,10,11],[2030,840,1131,1556,714,1858,900,1629,528,725,2209,751,743,625,1548,838,806,1430,1459,1925,1954,633,1720,2028,2017,1004,615,1730,803,641,953,1840,1054,1658,1009,917,1200,655,1552,1601,1024,1913,1527,1910,1657,1716,1021,1242,744,1524,815,1009,1025,654,754,1853,955,1703,1458,1205,740,1700,844,807,1400,1117,1612,1021,637,1535,1332,542,1713,1740,758,2312,1844,1943,2,755,612,1606,805,1036,653,1454,2226,740,1519,1710,1019,2055,1822,708,1817,1926,645,946,1409,635],["EV","MQ","DL","UA","AS","WN","US","MQ","UA","UA","US","WN","UA","EV","UA","9E","DL","MQ","DL","DL","MQ","B6","B6","EV","EV","EV","AA","B6","EV","UA","EV","DL","B6","EV","EV","VX","DL","UA","US","B6","DL","US","9E","DL","B6","AA","B6","DL","B6","9E","DL","US","EV","AA","B6","DL","UA","B6","DL","EV","DL","UA","US","DL","EV","EV","9E","EV","UA","MQ","UA","B6","WN","MQ","UA","B6","9E","9E","B6","UA","WN","DL","B6","UA","UA","B6","B6","B6","B6","MQ","MQ","B6","UA","EV","AS","AA","UA","EV","B6","UA"],[5203,4558,2219,132,21,1545,409,3695,1714,1455,2191,759,203,4334,1101,3405,914,3588,161,1485,4423,1099,415,4108,4312,4175,1895,359,4407,311,5736,1629,403,5824,5747,161,1442,550,2181,543,1031,2158,3325,73,91,575,1026,1375,983,3393,1429,29,4662,305,517,434,276,1176,2347,4250,807,1085,2071,269,5956,3828,3325,4632,421,4525,1122,709,372,4413,561,608,3542,4091,1109,1539,273,1508,203,1120,479,703,425,1717,119,4479,3466,523,341,5068,7,791,816,4140,1275,421],["EWR","LGA","LGA","JFK","EWR","EWR","EWR","EWR","LGA","EWR","LGA","EWR","EWR","EWR","EWR","JFK","LGA","LGA","JFK","LGA","JFK","LGA","JFK","EWR","EWR","EWR","EWR","JFK","EWR","EWR","LGA","JFK","JFK","EWR","LGA","EWR","EWR","LGA","LGA","EWR","LGA","LGA","JFK","JFK","JFK","JFK","JFK","JFK","LGA","JFK","JFK","JFK","EWR","LGA","EWR","JFK","EWR","EWR","LGA","EWR","EWR","EWR","LGA","JFK","LGA","EWR","JFK","EWR","EWR","LGA","EWR","JFK","LGA","LGA","LGA","JFK","JFK","JFK","JFK","EWR","LGA","JFK","JFK","EWR","EWR","JFK","JFK","LGA","JFK","LGA","LGA","JFK","EWR","EWR","EWR","LGA","LGA","EWR","JFK","EWR"],["DTW","CLE","MSP","LAX","SEA","MSY","CLT","ORD","IAH","LAX","DCA","MDW","DEN","CMH","DEN","DCA","DEN","MSP","SEA","MCO","RDU","MCO","SFO","IAD","DCA","IND","MIA","BUR","OMA","DEN","IAD","LAS","SJU","ORF","IAD","LAX","ATL","ORD","DCA","PBI","DTW","BOS","DFW","ATL","OAK","EGE","BOS","SLC","TPA","DCA","LAS","PHX","RDU","ORD","MCO","SFO","BOS","BOS","ATL","IND","ATL","ORD","CLT","ATL","CLE","RDU","DFW","OMA","SFO","XNA","PBI","SJU","STL","XNA","DEN","PWM","MSP","BWI","RDU","DFW","MDW","RSW","LAS","SFO","RSW","SJU","TPA","TPA","MSY","RDU","RDU","LAX","LAX","DTW","SEA","DFW","ORD","ATL","CHS","SFO"],[5.95121951219512,4.6043956043956,6.71052631578947,7.68633540372671,7.3680981595092,7.57792207792208,6.69620253164557,6.04201680672269,6.74285714285714,7.39156626506024,5.63157894736842,6.18260869565217,7.13333333333333,6.43055555555556,7.36238532110092,4.73333333333333,6.8936170212766,7.5,7.29518072289157,7.53968253968254,5.02352941176471,7.72357723577236,7.0655737704918,5.04761904761905,4.32608695652174,6.38613861386139,7.64084507042254,7.60802469135802,7.50993377483444,6.80084745762712,4.77083333333333,7.34640522875817,7.46728971962617,5.68,4.87234042553191,7.52760736196319,5.52592592592593,5.68217054263566,4.75555555555556,7.86923076923077,6.35443037974684,4.84210526315789,6.98994974874372,7.52475247524752,7.80606060606061,6.71538461538462,4.675,7.50943396226415,7.31884057971014,4.84090909090909,7.83275261324042,7.55438596491228,6.11764705882353,5.68217054263566,6.24666666666667,7.0655737704918,5.12820512820513,5,7.32692307692308,5.24390243902439,7.0377358490566,6.25217391304348,6.47619047619048,6.12903225806452,6.75806451612903,5.6986301369863,7.39893617021277,6.3,7.39193083573487,6.95151515151515,7.20422535211268,8.5,6.25352112676056,6.10106382978723,7.10526315789474,6.06666666666667,6.23636363636364,4.48780487804878,5.69333333333333,7.49726775956284,6.47321428571429,6.24418604651163,7.27508090614887,7.72590361445783,6.80254777070064,7.99,8.10483870967742,7.48148148148148,5.54929577464789,6.43283582089552,5.07058823529412,8.27759197324415,6.99145299145299,5.74117647058824,7.41358024691358,7.46774193548387,5.77165354330709,6.0650406504065,6.91304347826087,7.45639534883721]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Mês<\/th>\n      <th>Dia<\/th>\n      <th>Hora de Partida<\/th>\n      <th>Companhia Aérea<\/th>\n      <th>Voo<\/th>\n      <th>Origem<\/th>\n      <th>Destino<\/th>\n      <th>Velocidade<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":8,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 1, 3, \",\", \".\");\n  }"},{"className":"dt-right","targets":[1,2,3,5,8]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[8]; $(this.api().cell(row, 8).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 7 ? \"white\" : \"orange\"});\n}"}},"evals":["options.columnDefs.0.render","options.rowCallback"],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-bee41e942ff5cf08958f">{"x":{"filter":"top","filterHTML":"<tr>\n  <td><\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1\" data-max=\"12\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"2\" data-max=\"31\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"123\" data-max=\"2254\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"15\" data-max=\"5378\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"3.61016949152542\" data-max=\"8.46666666666667\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","caption":"<caption>Tabela de 100 voos aleatórios<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"],[12,3,8,3,11,9,12,7,5,3,12,4,2,3,12,10,8,10,7,6,3,7,6,6,6,11,11,12,6,11,5,10,2,5,3,12,9,7,11,7,5,9,11,11,9,3,12,1,6,5,6,5,6,9,7,12,5,7,11,3,12,11,2,9,7,10,7,10,7,8,11,9,7,10,4,5,8,11,10,2,6,4,9,3,8,1,6,3,10,3,7,9,3,9,11,10,2,12,1,8],[19,17,6,11,23,26,18,2,12,3,12,15,22,22,18,14,23,14,26,23,26,6,12,16,28,3,2,14,7,13,31,29,3,17,22,15,13,18,22,7,26,5,17,27,17,26,25,20,16,3,10,18,30,17,2,12,30,24,20,12,18,4,28,19,26,27,17,15,23,19,17,28,24,15,14,2,22,12,2,10,24,28,4,3,21,21,23,5,2,22,2,13,19,24,15,27,11,3,30,26],[1856,759,1239,1854,1043,808,2148,123,1432,1527,1955,2050,1603,841,758,2228,2017,811,1547,1801,1449,1232,1028,1251,2125,624,818,621,1504,1705,1547,959,2014,858,806,1052,556,1450,2254,2221,853,941,1010,1743,1531,1906,2007,555,1434,849,1233,1742,1918,1330,2131,853,2242,1645,1818,1104,2058,909,1304,1318,1651,741,900,725,1701,2145,1029,2051,1854,2124,701,1752,822,826,1802,1550,1736,1450,859,1725,1242,942,1319,1353,1820,1738,1856,1549,1808,2106,1253,852,1443,743,812,1622],["DL","DL","UA","DL","VX","9E","EV","B6","9E","MQ","DL","US","UA","UA","B6","B6","9E","B6","DL","F9","9E","EV","DL","EV","AA","AA","US","B6","EV","UA","DL","EV","B6","UA","DL","MQ","B6","AA","B6","UA","DL","AA","US","AA","MQ","EV","B6","B6","DL","UA","WN","B6","DL","UA","DL","DL","B6","MQ","DL","US","B6","B6","B6","B6","US","UA","UA","EV","EV","EV","AA","UA","B6","B6","DL","EV","MQ","B6","EV","DL","AA","EV","DL","F9","AA","AA","MQ","B6","DL","B6","UA","EV","AA","UA","EV","AA","MQ","MQ","UA","DL"],[2357,2047,1246,1129,23,3629,4672,839,4205,3823,2131,2144,1705,443,1511,1816,4033,183,2181,837,3318,4118,2343,4660,371,1205,409,2180,3852,375,2143,4255,801,1583,1429,3572,2180,1751,718,1532,2179,1160,604,2351,3433,4153,1201,507,1231,1025,40,359,83,15,2363,970,608,2949,1585,2171,2680,281,32,1307,681,820,309,3821,4202,4276,19,1692,669,1371,763,4658,3363,219,4667,1771,221,4440,181,797,1850,319,3305,602,1854,15,1684,3834,1611,1066,5378,1121,4403,3066,397,402],["JFK","LGA","EWR","LGA","JFK","JFK","EWR","JFK","JFK","JFK","LGA","LGA","EWR","JFK","EWR","JFK","LGA","JFK","LGA","LGA","JFK","EWR","EWR","LGA","LGA","EWR","EWR","EWR","EWR","EWR","JFK","EWR","JFK","EWR","JFK","LGA","EWR","JFK","JFK","EWR","EWR","LGA","EWR","JFK","JFK","EWR","JFK","EWR","LGA","LGA","LGA","JFK","JFK","EWR","JFK","LGA","JFK","JFK","LGA","LGA","EWR","JFK","JFK","JFK","EWR","EWR","EWR","EWR","EWR","EWR","JFK","EWR","JFK","LGA","JFK","EWR","JFK","JFK","EWR","JFK","JFK","EWR","LGA","LGA","JFK","LGA","LGA","JFK","LGA","JFK","EWR","EWR","LGA","EWR","LGA","LGA","JFK","JFK","JFK","JFK"],["SAN","ATL","ATL","PIT","SFO","DTW","STL","BQN","BWI","DCA","DTW","BOS","ORD","LAX","RSW","SYR","TYS","MCO","MCO","DEN","BUF","DTW","ATL","CLE","ORD","MIA","CLT","BOS","BTV","SEA","ATL","CHS","FLL","ORD","LAS","CLE","BOS","TPA","BOS","SFO","DTW","MIA","PHX","MIA","DCA","CLT","FLL","FLL","DTW","IAH","HOU","BUR","MIA","HNL","LAX","FLL","PWM","BNA","MCO","DCA","BOS","HOU","ROC","IAD","PHX","IAH","LAS","GSO","STL","BDL","LAX","MCO","SJC","FLL","LAX","CHS","RDU","CLT","MSP","DTW","MIA","IAD","DTW","DEN","BOS","ORD","RDU","PWM","FLL","FLL","MIA","IAD","MIA","BOS","PIT","DFW","RDU","TPA","SFO","BOS"],[7.19411764705882,8.46666666666667,7.17307692307692,5.234375,6.98918918918919,6.69736842105263,6.05555555555556,7.76354679802956,4.38095238095238,3.61016949152542,5.64044943820225,4.6,5.66141732283465,7.36607142857143,6.75949367088608,5.35897435897436,7.35227272727273,7.67479674796748,7.6,6.8936170212766,5.28070175438596,5.87951807228916,7.38613861386139,5.98571428571429,6.98095238095238,7.69503546099291,5.9438202247191,5.71428571428571,6.04545454545455,7.52978056426332,7.52475247524752,6.82608695652174,7.1744966442953,6.30701754385965,7.15923566878981,5.37179487179487,5.12820512820513,7.5,5.5,7.82012195121951,5.87951807228916,7.71830985915493,6.665625,6.36842105263158,3.87272727272727,6.01136363636364,6.68125,5.91666666666667,6.04819277108434,7.45263157894737,6.73584905660377,7.46969696969697,7.16447368421053,8.08306188925081,8.33333333333333,5.57512953367876,5.93478260869565,6.07142857142857,7.08955223880597,3.82142857142857,4.65116279069767,7.24873096446701,5.17647058823529,5.84615384615385,7.64516129032258,7.21649484536082,8.37218045112782,6.54411764705882,6.41176470588235,4.83333333333333,7.03125,8.14782608695652,7.29829545454545,8.15151515151515,7.38805970149254,6.97777777777778,6.1,5.69473684210526,6.1840490797546,5.35789473684211,7.72340425531915,4.71111111111111,6.51948051948052,7.01298701298701,5.84375,5.5530303030303,6.2463768115942,5.6875,7.57746478873239,5.51030927835052,6.86708860759494,4.24,6.98089171974522,5.55555555555556,5.77586206896552,7.19689119170984,5.20731707317073,7.28260869565217,7.53935860058309,4.92105263157895]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Mês<\/th>\n      <th>Dia<\/th>\n      <th>Hora de Partida<\/th>\n      <th>Companhia Aérea<\/th>\n      <th>Voo<\/th>\n      <th>Origem<\/th>\n      <th>Destino<\/th>\n      <th>Velocidade<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":8,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 1, 3, \",\", \".\");\n  }"},{"className":"dt-right","targets":[1,2,3,5,8]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[8]; $(this.api().cell(row, 8).node()).css({'background-color':isNaN(parseFloat(value)) ? '' : value <= 7 ? \"white\" : \"orange\"});\n}"}},"evals":["options.columnDefs.0.render","options.rowCallback"],"jsHooks":[]}</script>
 </div>
-<div class="green">
-<h1 id="exercício-1-tabelas-bonitas">Exercício 1: Tabelas Bonitas</h1>
+<section id="exercício-1-tabelas-bonitas" class="green">
+<h1>Exercício 1: Tabelas Bonitas</h1>
 <ol type="1">
 <li>Gere uma tabela estática de duração (<code>air_time</code>) média dos voos de cada aeoporto de origem, ordenado de menor a maior duração. Inclua um título e a formatação apropriada na sua tabela.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <details>
-<summary>Mostrar Código</summary>
+<summary>
+Mostrar Código
+</summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/summarize.html'>summarize</a></span><span class='op'>(</span>media_air_time<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>air_time</span>,na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>media_air_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span>digits<span class='op'>=</span><span class='fl'>1</span>, format.args<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>big.mark<span class='op'>=</span><span class='st'>"."</span>, decimal.mark<span class='op'>=</span><span class='st'>","</span><span class='op'>)</span>,
-        caption<span class='op'>=</span><span class='st'>"Duração média dos voos de Nova Iorque em 2013"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/summarize.html'>summarize</a></span><span class='op'>(</span>media_air_time <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>air_time</span>, na.rm <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>media_air_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>1</span>, format.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>big.mark <span class='op'>=</span> <span class='st'>"."</span>, decimal.mark <span class='op'>=</span> <span class='st'>","</span><span class='op'>)</span>, 
+        caption <span class='op'>=</span> <span class='st'>"Duração média dos voos de Nova Iorque em 2013"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </details>
@@ -4405,11 +4415,14 @@ HTML, relatórios interativos complexos
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <details>
-<summary>Mostrar Código</summary>
+<summary>
+Mostrar Código
+</summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>4</span> <span class='op'>&amp;</span> <span class='va'>day</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>origin</span><span class='op'>==</span><span class='st'>"EWR"</span> <span class='op'>&amp;</span> <span class='va'>dep_time</span><span class='op'>&lt;</span><span class='fl'>600</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>dep_time</span>, <span class='va'>dep_delay</span>, <span class='va'>carrier</span>, <span class='va'>flight</span>, <span class='va'>dest</span>, <span class='va'>air_time</span>, <span class='va'>distance</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span>caption<span class='op'>=</span><span class='st'>"Voos de EWR no dia 4 de abril, antes de 6h"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span> <span class='op'>==</span> <span class='fl'>4</span> <span class='op'>&amp;</span> <span class='va'>day</span> <span class='op'>==</span> <span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>origin</span> <span class='op'>==</span> <span class='st'>"EWR"</span> <span class='op'>&amp;</span> <span class='va'>dep_time</span> <span class='op'>&lt;</span> <span class='fl'>600</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>dep_time</span>, <span class='va'>dep_delay</span>, <span class='va'>carrier</span>, <span class='va'>flight</span>, <span class='va'>dest</span>, <span class='va'>air_time</span>, <span class='va'>distance</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span>caption <span class='op'>=</span> <span class='st'>"Voos de EWR no dia 4 de abril, antes de 6h"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </details>
@@ -4419,11 +4432,14 @@ HTML, relatórios interativos complexos
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <details>
-<summary>Mostrar Código</summary>
+<summary>
+Mostrar Código
+</summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>4</span> <span class='op'>&amp;</span> <span class='va'>day</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>origin</span><span class='op'>==</span><span class='st'>"EWR"</span> <span class='op'>&amp;</span> <span class='va'>dep_time</span><span class='op'>&lt;</span><span class='fl'>600</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>dep_time</span>, <span class='va'>dep_delay</span>, <span class='va'>carrier</span>, <span class='va'>flight</span>, <span class='va'>dest</span>, <span class='va'>air_time</span>, <span class='va'>distance</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/DT/man/datatable.html'>datatable</a></span><span class='op'>(</span>caption<span class='op'>=</span><span class='st'>"Voos de EWR no dia 4 de abril, antes de 6h"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span> <span class='op'>==</span> <span class='fl'>4</span> <span class='op'>&amp;</span> <span class='va'>day</span> <span class='op'>==</span> <span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>origin</span> <span class='op'>==</span> <span class='st'>"EWR"</span> <span class='op'>&amp;</span> <span class='va'>dep_time</span> <span class='op'>&lt;</span> <span class='fl'>600</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>dep_time</span>, <span class='va'>dep_delay</span>, <span class='va'>carrier</span>, <span class='va'>flight</span>, <span class='va'>dest</span>, <span class='va'>air_time</span>, <span class='va'>distance</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/DT/man/datatable.html'>datatable</a></span><span class='op'>(</span>caption <span class='op'>=</span> <span class='st'>"Voos de EWR no dia 4 de abril, antes de 6h"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </details>
@@ -4431,7 +4447,7 @@ HTML, relatórios interativos complexos
 <ol start="4" type="1">
 <li>Knit o seu script para HTML e verifique que as tabelas aparecem limpas e claras.</li>
 </ol>
-</div>
+</section>
 <h1 id="mudando-a-unidade-de-observação-pivot_wide-pivot_longer">Mudando a Unidade de Observação (<code>Pivot_wide</code>, <code>Pivot_longer</code>)</h1>
 <p>Nós temos trabalhado com uma distinção entre variáveis (colunas) e observações (linhas) fixa. Mas a distinção na prática é mais flexível, e a estrutura/organização dos nossos dados depende do nosso objetivo. As vezes vamos querer virar a nossa tabela (tibble) para que as variáveis se transformem em observações múltiplas, ou vice-versa. Esse tipo de operação é muito útil quando trabalhamos com ou queremos criar dados em painel, ou para uma tabela específica em nosso relatório.</p>
 <p>É mais fácil demonstar com um exemplo. Veja a tabela de <code>flights</code> com as variáveis <code>origin</code> e <code>dest</code>:</p>
@@ -4517,7 +4533,9 @@ HTML, relatórios interativos complexos
 <p>A função <code>pivot_wider</code> é exatamante o inverso de <code>pivot_longer</code>. Em vez de especificar as colunas que queremos virar, especificamos as colunas de ‘identificação’ que <em>não queremos virar</em> no argumento <code>id_cols</code>; em vez da coluna nova, especificamos a coluna original que contém os nomes das colunas novas, no argumento <code>names_from</code>; e em vez de valores noves, especificamos a coluna de onde vão sair os valores que vão formar as colunas novas (no argumento <code>values_from</code>).</p>
 <p>Note que com <code>pivot_longer</code> os argumentos <code>names_to</code> e <code>values_to</code> precisam de aspas porque são colunas novas que não existem em nosso tibble. No <code>pivot_wider</code> os argumentos <code>names_from</code> e <code>values_from</code> são colunas atuais em nosso tibble, então não precisam de aspas.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">flights_longo <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pivot_wider</span>(<span class="dt">id_cols=</span><span class="kw">c</span>(month, day, dep_time, carrier, flight), <span class="dt">names_from=</span>Direção, <span class="dt">values_from=</span>Aeroporto)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>flights_longo <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> <span class="fu">c</span>(month, day, dep_time, carrier, flight), <span class="at">names_from =</span> Direção, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_from =</span> Aeroporto)</span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div data-pagedtable="false">
@@ -4529,21 +4547,22 @@ HTML, relatórios interativos complexos
 <p>Veja que o resultado aqui tem metade das linhas de <code>flights_longo</code>, e o mesmo número do nosso banco de dados original. O R peguou os valores da coluna ‘Direção’ e criou uma coluna para cada valor único (uma para ‘origin’, uma para ‘dest’). Os valores destas duas novas colunas são preenchidas da coluna ‘Aeroporto’.</p>
 <p>Um atalho para simplificar aqui é quando queremos virar todas as colunas exceto eles mencionados em <code>names_from</code> e <code>values_from</code>, podemos pular a especificação de <code>id_cols</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">flights_longo <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pivot_wider</span>(<span class="dt">names_from=</span>Direção, <span class="dt">values_from=</span>Aeroporto)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>flights_longo <span class="sc">%&gt;%</span> <span class="fu">pivot_wider</span>(<span class="at">names_from=</span>Direção, <span class="at">values_from=</span>Aeroporto)</span></code></pre></div>
 </div>
 <p>Essas duas funções de pivot são mais avançadas, mas as vezes são essenciais para gerar a estrutura e formato da tabela desejada. É comum que o resultado da nossa análise em R é em formato ‘larga’, mas seria mais bonito imprimir no relatório final no formato ‘longo’. Podemos usar <code>pivot_longer</code> para rapidamente produzir a tabela desejada. Similarmente, na semana que vem, aprendemos que os gráficos exigem um formato específico - frequentemente o formato ‘longo’ - e estas novas habilidades ajudam bastante.</p>
-<div class="green">
-<h1 id="exercício-2-virando-tabelas">Exercício 2: Virando Tabelas</h1>
+<section id="exercício-2-virando-tabelas" class="green">
+<h1>Exercício 2: Virando Tabelas</h1>
 <ol type="1">
 <li>Use <code>pivot_longer</code> para virar a tabela <code>flights</code> mais longa, para que cada voo tem duas observações - uma para a hora de partida (<code>dep_time</code>) e uma outra para a hora de chegada (<code>arr_time</code>).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <details>
-<summary>Mostrar Código</summary>
+<summary>
+Mostrar Código
+</summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_hora_longo</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/pivot_longer.html'>pivot_longer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>arr_time</span>, <span class='va'>dep_time</span><span class='op'>)</span>,
-                         names_to<span class='op'>=</span><span class='st'>"Direção"</span>,
-                         values_to<span class='op'>=</span><span class='st'>"Hora"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_hora_longo</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/pivot_longer.html'>pivot_longer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>arr_time</span>, <span class='va'>dep_time</span><span class='op'>)</span>, names_to <span class='op'>=</span> <span class='st'>"Direção"</span>, values_to <span class='op'>=</span> <span class='st'>"Hora"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </details>
@@ -4553,11 +4572,13 @@ HTML, relatórios interativos complexos
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <details>
-<p><summary>Mostrar Código</summary></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">flights_hora_longo <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="st">  </span><span class="kw">select</span>(carrier, flight, origin, dest, Direção, Hora) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="st">  </span><span class="kw">sample_n</span>(<span class="dv">10</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="st">  </span><span class="kw">kable</span>(<span class="dt">caption=</span><span class="st">&quot;Tabela de cada Partida e Chegada&quot;</span>)</a></code></pre></div>
+<summary>
+Mostrar Código
+</summary>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>flights_hora_longo <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(carrier, flight, origin, dest, Direção, Hora) <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample_n</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">&quot;Tabela de cada Partida e Chegada&quot;</span>)</span></code></pre></div>
 </details>
 </div>
 <ol start="3" type="1">
@@ -4565,15 +4586,17 @@ HTML, relatórios interativos complexos
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <details>
-<summary>Mostrar Código</summary>
+<summary>
+Mostrar Código
+</summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_recuperado</span> <span class='op'>&lt;-</span> <span class='va'>flights_hora_longo</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/pivot_wider.html'>pivot_wider</a></span><span class='op'>(</span>names_from<span class='op'>=</span><span class='st'>"Direção"</span>,
-                                                         values_from<span class='op'>=</span><span class='st'>"Hora"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_recuperado</span> <span class='op'>&lt;-</span> <span class='va'>flights_hora_longo</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/pivot_wider.html'>pivot_wider</a></span><span class='op'>(</span>names_from <span class='op'>=</span> <span class='st'>"Direção"</span>, values_from <span class='op'>=</span> <span class='st'>"Hora"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </details>
 </div>
-</div>
+</section>
 <h1 id="voltando-ao-r-base-brevemente">Voltando ao R Base Brevemente</h1>
 <p>As funçoes de <code>filter</code>, <code>select</code>, <code>mutate</code> etc. e o nosso pipe <code>%&gt;%</code> que compõem o tidyverse têm cerca de 5 anos de idade, mas o R tem mais de 25 anos de idade. O que os usuários fizeram antes do tidyverse?</p>
 <p>Existem várias formas de interagir e manipular dados em R, mas nada muda os básicos: existem um script, objetos que podemos salvar, e funções que transformam objetos. Também trabalhamos mais frequentemente com um data.frame, que é um tibble um pouco mais básico.</p>
@@ -4672,16 +4695,16 @@ HTML, relatórios interativos complexos
 </div>
 </div>
 <p><br></p>
-<div class="orange">
-<h1 id="leitura-para-tutorial-6">Leitura para Tutorial 6</h1>
+<section id="leitura-para-tutorial-6" class="orange">
+<h1>Leitura para Tutorial 6</h1>
 <p>Antes da próxima aula, por favor leia <a href="https://r4ds.had.co.nz/data-visualisation.html">R 4 Data Science, Capítulo 3</a> e <a href="https://ggplot2-book.org/">ggplot2: Elegant Graphics for Data Analysis, Capítulos 1-5</a></p>
-</div>
+</section>
 <p><br></p>
-<div class="purple">
-<h1 id="desafio-2">Desafio 2</h1>
+<section id="desafio-2" class="purple">
+<h1>Desafio 2</h1>
 <p>O <a href="Desafios/Desafio_2.html">Desafio 2</a> teste a sua capacidade de organizar, resumir, agrupar, e apresentar um banco de dados para produzir um relatório bonito e claro em HTML.</p>
 <p>O prazo para entregar Desafio 2 por email com título “[FLS6397] - D2” à minha conta é <strong>14h, 14/05/2021</strong>, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.</p>
-</div>
+</section>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
