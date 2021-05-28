@@ -92,6 +92,7 @@ teste_normalidade
 Ótimo - veja o resultado do teste: Há um estatístico de teste 'W' e um valor 'p' para avaliar a significância do teste. O valor 'p' é bem pequeno aqui, indicando que tem pouco chance que os nossos dados são normais. 
 
 <div class = "blue">
+
 **Habilidade Básica de Programação: Números Científicos**
 
 Às vezes parece que os nossos números foram corrompidos, sobretudo com testes estatísticos: Qual espécie de número é "2.2e-6"?? 
@@ -218,6 +219,7 @@ Podemos continuar usando a função `t.test`, mas agora que temos que definir um
 Há mais um ajuste necessário: Vários testes, incluindo `t.test`, exigem que definimos este análise usando uma fórmula, com a variável contínua na esquerda e a variável discreta (os grupos que queremos comparar) na direita: `dep_delay ~ origin`. Pode ler esta fórumla assim: Pega os dados de atrasos, e divida-os por aeroporto de origem.
 
 <div class = "blue">
+
 **Habilidade Básica de Programação: Fórmulas**
 
 Uma fórmula é simplesmente uma sintaxe para comparar uma variável dependente (o resultado que queremos comparar) e variáveis independentes (que dividem os nossos dados em grupos ou nós achamos podem correlacionar com a variável dependente). 
@@ -320,8 +322,10 @@ flights %>% select(origin, carrier) %>%
 
 O valor 'p' de zero indica que realmente existe uma diferença nas companhias que voam de cada aeroport. 
 
-<div class = "green">
 ## Exercício 1: Testes Estatísticos
+
+<div class = "green">
+
 
 1. Use a função `rnorm(1000, 0, 1)` para gerar um vetor de 1000 observações aleatoriamente da distribuição normal. Avalie se os valores gerados sejam realmente distribuido de forma normal com um teste Shapiro-Wilk.
 
@@ -678,8 +682,9 @@ diff_simulacoes %>% as_tibble() %>%
   theme_minimal()
 ```
 
-<div class = "green">
 ## Exercício 2: Regressões
+
+<div class = "green">
 
 1. Usando uma regressão linear, qual é a associação entre precipitação (`precip`, variável dependente) e as três variáveis pressão (`pressure `), temperatura (`temp`) e humidade (`humid`) no banco de dados `weather`? Qual dessas três variáveis tem relação positiva com a variável dependente, e qual uma relação negativa? 
 
@@ -739,8 +744,9 @@ modelo_tres_horas %>%
 
 <br>
 
-<div class = "orange">
 # Preparação para Tutorial 10
+
+<div class = "orange">
 
 Antes da próxima aula sobre relatórios reproduzíveis com Git e Latex, por favor tente preparar o seu computador:
 
