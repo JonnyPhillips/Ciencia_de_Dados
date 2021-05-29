@@ -2120,7 +2120,7 @@ Desafios
 <li><a href="#compilando-scripts-de-r-markdown-para-pdf">Compilando Scripts de R Markdown para PDF</a></li>
 <li><a href="#relatórios-escritos-em-latex-e-compilados-para-pdf">Relatórios escritos em Latex e compilados para PDF</a></li>
 <li><a href="#controle-de-versões-com-git">Controle de Versões com Git</a></li>
-<li><a href="#checkpoint">Checkpoint</a></li>
+<li><a href="#bibliotecas-reproduzíveis-renv">Bibliotecas Reproduzíveis: Renv</a></li>
 <li><a href="#leitura-para-tutorial-11">Leitura para Tutorial 11</a></li>
 </ul>
 </nav>
@@ -2138,34 +2138,31 @@ div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </style>
 <h1 id="introdução">Introdução</h1>
-<p>Nesse tutorial, vamos ampliar o nosso conhecimento das ferramentas que funcionam com R para facilitar relatórios reproduzíveis. Tudo fica no mundo de programas abertos (‘open-source’) então podemos aproveitar sem custo do mesmo ambiente como milhões de outros pesquisadores.</p>
+<p>Neste tutorial, vamos ampliar o nosso conhecimento das ferramentas que funcionam com R para facilitar relatórios reproduzíveis. Tudo fica no mundo de programas abertos (‘open-source’) então podemos aproveitar sem custo do mesmo ambiente como milhões de outros pesquisadores.</p>
 <p>A primeira ferramenta é Latex, um programa que compila scripts para o formato bem conhecido de PDF. A maior vantagem é a profissionalização dos nossos relatórios - PDF é um formato comum para compartilhar relatórios finais porque eles não podem ser fácilmente editados, e - em contraste com HTML - têm páginas distintas.</p>
-<p>Para instalar Latex no seu computador, o jeito mais fácil é rodar o seguinte código em R (existem muitas versões/distribuições; não precisa instalar se já tinha instalado):</p>
+<p>Para instalar Latex no seu computador, o jeito mais fácil é rodar o seguinte código em R (existem muitas versões/distribuições; você não precisa o instalar se já tinha instalado):</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>'tinytex'</span><span class='op'>)</span>
-<span class='fu'>tinytex</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/tinytex/man/install_tinytex.html'>install_tinytex</a></span><span class='op'>(</span>repos <span class='op'>=</span> <span class='st'>'http://ctan.mirrors.hoobly.com/systems/texlive/tlnet'</span><span class='op'>)</span>
+<span class='fu'>tinytex</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/tinytex/man/install_tinytex.html'>install_tinytex</a></span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
-<aside>
-(Normalmente não precisamos especificar o repositório, mas parece que existe um problema temporário com um servidor).
-</aside>
-<p>Segue as instruções - por exemplo, vai aparecer alguns ‘erros’ mas não são problemáticos, então pode continuar sem problema. Depois da instalação, feche o seu R e abra de novo.</p>
+<p>Segue as instruções - por exemplo, vai aparecer alguns ‘erros’ mas não são problemáticas, então pode continuar sem problema. Depois da instalação, feche o seu R e abra de novo.</p>
 <p>Um passo adicional para verificar que tudo esteja configurado bem é accessar em RStudio Tools -&gt; Global Options -&gt; Sweave -&gt; ‘Weave Rnw files using:’ e escolhe ‘knitr’.</p>
 <h1 id="compilando-scripts-de-r-markdown-para-pdf">Compilando Scripts de R Markdown para PDF</h1>
-<p>A nossa primeira tarefa não exige nenhuma programação adicional. Na mesma forma que compilamos os nossos documentos com ‘Knit para HTML’ ou ‘Knit para Doc’, a instalação de Latex automaticamente habilita uma nova opção ‘Knit para PDF’.</p>
-<p>Pegue um script anterior seu que compila bem para HTML e Knit para PDF. Fácil, sim? Como aparece o novo documento? Mais profissional, eu espero.</p>
+<p>A nossa primeira tarefa não exige nenhuma programação adicional. Na mesma forma que compilamos os nossos documentos com ‘Knit para HTML’ ou ‘Knit para Doc’, a instalação de Latex habilita uma nova opção ‘Knit para PDF’.</p>
+<p>Abre um script anterior seu de R Markdown (.Rmd) que compila bem para HTML e Knit para PDF. Fácil, sim? Como aparece o novo documento? Mais profissional, eu espero.</p>
 <p>No futuro, você fica em controle: pode compilar para qualquer formato é o mais apropriado para o seu relatório.</p>
 <h1 id="relatórios-escritos-em-latex-e-compilados-para-pdf">Relatórios escritos em Latex e compilados para PDF</h1>
 <p>O que acontece quando compilamos o nosso R Markdown para PDF? O R traduz o nosso script de R Markdown para a <em>linguagem</em> de Latex - literalmente ele gera um arquivo com extensão “.tex” - e depois o programa de Latex interpreta e compila este .tex para PDF.</p>
-<p>Isso funciona bem, mas nós estamos constrangidos para preparar os nossos documentos na linguagem de R Markdown, que é bom e muito fácil de aprender, mas limitado. Por exemplo, se quiser controlar em detalhe a formatação ou a paginação, não é possível em R Markdown. Então existe uma segunda forma de usar Latex: preparando o nosso script direitamente na linguagem de Latex, e pulando a etapa de R Markdown. O custo é a necessidade de aprender a linguagem de Latex. Dado o uso frequente de Latex no mundo acadêmico para a preparação de manuscritos, artigos e slides, oferecemos aqui uma guia preliminar.</p>
+<p>Isso funciona bem, mas nós estamos constrangidos para preparar os nossos documentos na linguagem de R Markdown, que é bom e muito fácil de aprender, mas limitado. Por exemplo, se quiser controlar em detalhe a formatação ou a paginação, não é possível em R Markdown. Então existe uma segunda forma de usar Latex: preparando o nosso script diretamente na linguagem de Latex, e pulando a etapa de R Markdown. O custo é a necessidade de aprender a linguagem de Latex. Dado o uso frequente de Latex no mundo acadêmico para a preparação de manuscritos, artigos e slides, oferecemos aqui uma guia preliminar.</p>
 <p>O nome para a combinação de R + Latex é ‘Knitr’. Há quatro diferenças fundamentais em usar Knitr em vez de R Markdown.</p>
 <h3 id="o-tipo-de-arquivo">1. O Tipo de Arquivo</h3>
-<p>Os nossos scripts de R Markdown tem extensão “.Rmd” e um cabeçalho simples. Quando preparamos um script direitamente em Latex, ele precisa uma extensão “.Rnw”. É sempre melhor começar com um modelo, então começa com “File -&gt; New File -&gt; R Sweave” (ignore o significativo de ‘Sweave’, é um nome velho).</p>
+<p>Os nossos scripts de R Markdown tem extensão “.Rmd” e um cabeçalho simples. Quando preparamos um script diretamente em Latex, ele precisa uma extensão “.Rnw”. É sempre melhor começar com um modelo, então começa com “File -&gt; New File -&gt; R Sweave” (ignore o significativo de ‘Sweave’, é um nome velho).</p>
 <p>O documento abre com três linhas de texto; os mínimos necesários para um documento de Latex:</p>
 <p><strong>\documentclass{article}</strong> - O tipo de documento que queremos gerar, o mais comum é um article (artigo). Vamos ver embaixo como a gerar apresentações.</p>
-<p><strong>\begin{document}</strong> - um indicador da começa do conteúdo a ser inserido no documento final. Antes disso podemos inserir pacotes e parâmetros. Depois, digite direitamento o seu texto na gramática de latex.</p>
+<p><strong>\begin{document}</strong> - um indicador da começa do conteúdo a ser inserido no documento final. Antes disso podemos inserir pacotes e parâmetros. Depois, digite diretamento o seu texto na gramática de Latex.</p>
 <p><strong>\end{document}</strong> - um indicador do fim do documento. Texto depois será ignorado.</p>
 <h3 id="compilando-o-documento-pdf">2. Compilando o Documento PDF</h3>
 <p>Escreve algo simples (eg. Hello World!) depois de <code>\begin{document}</code>. Já é um script de Latex/Knitr válido. Como criamos o nosso PDF final à partir desse script? Observe que quando abrimos um arquivo “.Rnw” não há a opção ‘Knit’ em Rstudio. O equivalente é “Compile PDF”. Experimente! Pode demorar para compilar a primeira vez, mas deve produzir um PDF, salvo na pasta do seu projeto.</p>
@@ -2204,11 +2201,11 @@ x
 \item Texto 1<br />
 \item Texto 2<br />
 \end{enumerate}</p>
-<p>Títulos e Secões numerados:<br />
+<p>Títulos e Secões numeradas:<br />
 \section{Titulo 1}<br />
 \subsection{Subtitulo 1}<br />
 \subsubsection{Subsubtitulo 1}</p>
-<p>Títulos e Secões não numerados:<br />
+<p>Títulos e Secões não numeradas:<br />
 \section*{Titulo 1}<br />
 \subsection*{Subtitulo 1}<br />
 \subsubsection*{Subsubtitulo 1}</p>
@@ -2218,16 +2215,8 @@ x
 <code>$$\frac{\sqrt{1}}{2} * \frac{a}{2b} = \frac{a}{4b}$$</code> <span class="math display">\[\frac{\sqrt{1}}{2} * \frac{a}{2b} = \frac{a}{4b}\]</span> <code>$$\sum_0^{10} x = ...$$</code> <span class="math display">\[\sum_0^{10} x = ...\]</span></p>
 <p>Mais detalhes <a href="https://www.caam.rice.edu/~heinken/latex/symbols.pdf">aqui</a>.</p>
 <h4 id="acentos-em-latex">Acentos em Latex</h4>
-<p>Para inserir acentos, temos duas opções. Primeira opção, abrir um pacote antes de begin{document} e digitar como normal:</p>
+<p>Para inserir acentos, basta abrir um pacote antes de begin{document} e digitar como normal:</p>
 <p>\usepackage[latin1]{inputenc}</p>
-<p>Segunda opção é usar a formatação especifíca para cada acento, ex:</p>
-<ul>
-<li>\’{e} - é</li>
-<li>\`{a} - à</li>
-<li>\~{o} - õ</li>
-<li>\^{a} - â</li>
-<li>\c{c} - ç</li>
-</ul>
 <h4 id="página-inicial-do-documento">Página inicial do documento</h4>
 <p>O nosso típo de documento ‘article’ nos permitem especificar um título e várias outras características <em>antes</em> de \begin{document}.</p>
 <p>\title{Relatório}<br />
@@ -2238,7 +2227,7 @@ x
 <p>\maketitle</p>
 <p>Agora, deve compilar um documento muito profissional.</p>
 <h4 id="tabelas-em-knitr">Tabelas em Knitr</h4>
-<p>Latex tem uma gramática de tabelas chato de preparar. Mas nunca precisamos digitar ele direitamente. Como em R Markdown, o jeito mais fácil de gerar uma tabela é criar um tibble em R e passar para a função <em>kable</em>. Insere-lo dentro de um chunk no seu documento <em>.Rnw</em> e precisamos fazer apenas mais uma coisa para que ele aperece bonito: adicione o parâmetro <em>results=‘asis’</em> no header do chunk, como já fizemos com as tabelas de regressão com <code>stargazer</code>.</p>
+<p>Latex tem uma gramática de tabelas chato de preparar. Mas nunca precisamos digitar ele manualmente. Como em R Markdown, o jeito mais fácil de gerar uma tabela é criar um tibble em R e passar para a função <code>kable()</code>. Insere-lo dentro de um chunk no seu documento .Rnw e precisamos fazer apenas mais uma coisa para que ele aperece bonito: adicione o parâmetro <code>results='asis'</code> no header do chunk, como já fizemos com as tabelas de regressão com <code>stargazer</code> no tutorial anterior.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&lt;</span><span class="er">&lt;</span>results<span class="ot">=</span><span class="st">&#39;asis&#39;</span><span class="sc">&gt;</span><span class="er">&gt;=</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
@@ -2317,13 +2306,13 @@ Figure 1: Titulo de Figura
 Texto, conteúdo normal<br />
 Mais texto<br />
 \end{frame}</p>
-<p>Temos que repetir esta estrutura para cada slide, então 10 slides vão precisar de 10 <code>\begin{frame}</code>. Se quiser inserir uma pausa, aguardando o usuário para avançar, é só inserir <code>\\pause</code> no local apropriado no slide.</p>
+<p>Temos que repetir esta estrutura para cada slide, então 10 slides vão precisar de 10 <code>\begin{frame}</code> e 10 <code>\end{frame}</code>. Se quiser inserir uma pausa, aguardando o usuário para avançar, é só inserir <code>\pause</code> no local apropriado no slide.</p>
 <p>Para incluir imagens de um arquivo local na mesma pasta do seu script <em>.Rnw</em> coloque:</p>
 <p>\usepackage{graphicx} - <em>antes de \begin{document}</em></p>
-<p>\includegraphics[width=\linewidth]{image.png} - <em>na página/slide onde o imagem deve aparecer</em></p>
+<p>\includegraphics[width=\linewidth]{image.png} - <em>na página/slide onde a imagem deve aparecer</em></p>
 <h4 id="bibliografias">Bibliografias</h4>
 <p>Um elemento central da pesquisa é a citação dos nossos fontes. Uma citação é simplesmente um conjunto de dados sobre um livro/artigo ou outro fonte que colocamos numa nota de rodapé ou apêndice, e um atalho para a citação no texto (frequentemente autor-ano, ex. ‘(Arrow 1961)’).</p>
-<p>Felizmente, existe um formato meia-padrão para o armazenamento das citações - num arquivo com extensão ‘.bib’. Várias programas (Zotero, Mendeley, EndNote etc.) podem te ajudar gestar as citações e geram arquivos ‘.bib’ então não precisamos nos preocupar com o conteúdo deles, mas para referência eles contém conteúdo tipo:</p>
+<p>Felizmente, existe um formato meia-padrão para o armazenamento das citações - num arquivo com extensão ‘.bib’. Várias programas (Zotero, Mendeley, EndNote etc.) podem te ajudar gestar as citações e geram arquivos ‘.bib’ que listam todas as citações, então não precisamos nos preocupar com o conteúdo deles, mas para referência eles contém conteúdo tipo:</p>
 <p>@article{Arrow1961,<br />
 author={Arrow, Kenneth J. and Leonid Hurwicz and Hirofumi Uzawa},<br />
 title={Constraint qualifications in maximization problems},<br />
@@ -2332,7 +2321,7 @@ volume={8},<br />
 year=1961,<br />
 pages={175-191}<br />
 }</p>
-<p>O elemento crucial aqui é a primeira entrada depois de <code>{</code>, ‘Arrow1961’ - isso é o atalho que vamos usar para citar este artigo para não repetir toda essa informação cada vez que queremos citar o mesmo artigo.</p>
+<p>O elemento crucial aqui é a primeira entrada depois do primeiro <code>{</code>: ‘Arrow1961’ - isso é o atalho que vamos usar para citar este artigo para não repetir toda essa informação cada vez que queremos citar o mesmo artigo.</p>
 <p>Em <strong>R Markdown</strong>, o uso de bibliografias é assim:</p>
 <ul>
 <li>Salve o arquivo “.bib” na pasta do seu projeto.</li>
@@ -2354,19 +2343,17 @@ pages={175-191}<br />
 <li>Salve o arquivo “.bib” na pasta do seu projeto.</li>
 <li>Antes de ‘\begin{document}’ coloque o segunite código:</li>
 </ul>
-<p><code>\usepackage[backend = biber, style=alphabetic, citestyle=authoryear]{biblatex}</code> <code>\bibliography{nome_do_arquivo}</code> (sem “.bib”)</p>
 <ul>
-<li>No lugar apropriado no seu texto simples, quando quiser fazer referência à citação, insera <code>\cite{Arrow1961}</code>, ou <code>\citep{Arrow1961}</code> se quiser a citação em parênteses, com o atalho apropriado para a citação desejada.</li>
+<li>No lugar apropriado no seu texto simples, quando quiser fazer referência à citação, insera <code>\cite{Arrow1961}</code>, ou <code>\parencite{Arrow1961}</code> se quiser a citação em parênteses, com o atalho apropriado para a citação desejada.</li>
 <li>No final do seu documento (imediatamente antes de ‘\end{document}’), coloque <code>\printbibliography</code>.</li>
-<li>Uma restrição chata: Não podemos usar a botão de ‘Compile in PDF’; temos que chamar a compilação do código pelo console (na aba embaixo de RStudio) (e não no seu script), como no código abaixo, onde ‘script.Rnw’ é o nome do seu script (e não o arquivo da bibliografio):</li>
+<li>Compile o seu script para PDF <em>duas vezes</em>, para o R consegue incorporar as citações.</li>
 </ul>
-<p><code>knitr::knit2pdf("script.Rnw", bib_engine = "biber")</code></p>
-<section id="exercício-1-praticando-latex" class="green">
-<h2>Exercício 1: Praticando Latex</h2>
+<h2 id="exercício-1-praticando-latex">Exercício 1: Praticando Latex</h2>
+<div class="green">
 <ol type="1">
-<li><p>Usando o formato “.Rnw”, crie um PDF com texto simples usando pelo menos cinco das formatações acima.</p></li>
-<li><p>Adicione a famosa equação de Pythagoras.</p></li>
-<li><p>Adicione uma tabela simples usando o banco de dados de <code>weather</code> que mostra o total de precipitação por mês:</p></li>
+<li><p>Usando o formato “.Rnw”, crie um PDF com texto simples usando pelo menos cinco das formatações acima (bold, itálico, etc.).</p></li>
+<li><p>Adicione a famosa equação de Pythagoras ao seu documento.</p></li>
+<li><p>Adicione uma tabela simples ao PDF usando o banco de dados de <code>weather</code> que mostra o total de precipitação por mês:</p></li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2378,39 +2365,39 @@ pages={175-191}<br />
 
 </div>
 <ol start="5" type="1">
-<li><p>Verifique que o seu documento compila bem para PDF.</p></li>
+<li><p>Verifique que o seu documento compila sem erro para PDF.</p></li>
 <li><p>Ajuste o seu script “.Rnw” acima para gerar uma apresentão do class ‘beamer’ e coloca o texto, a equação, a tabela, e o gráfico em slides diferentes. Compile para PDF de novo.</p></li>
 </ol>
-</section>
+</div>
 <h1 id="controle-de-versões-com-git">Controle de Versões com Git</h1>
-<p>Você já criou um arquivo com nome ‘Final_v23_depois_edits_4b_final_final_v2.doc’? Dois anos depois, você poderia identificar a versão do documento que você enviou para uma colega? Rastreando mudanças em nossos scripts é desafiador, sobretudo com análises complexos. Felizmente, programadores desenvolveram várias ferramentas para ajudar: Vamos usar ‘Git’ em conjunto com Github, o parceiro online de Git.</p>
+<p>Você já criou um arquivo com nome ‘Final_v23_depois_edits_4b_final_final_v2.doc’? Dois anos depois, você poderia identificar qual versão do documento você enviou para uma colega?? Rastreando mudanças em nossos scripts é desafiador, sobretudo com análises complexos. Felizmente, programadores desenvolveram várias ferramentas para ajudar: Vamos usar ‘Git’ em conjunto com Github, o parceiro online de Git.</p>
 <p>Git/Github é um sistema de controle de versões com três objetivos:</p>
 <ol type="1">
 <li>Um backup online dos seus arquivos;</li>
 <li>Controlando as versões dos scripts e rastreando mudanças;</li>
-<li>Divulgação/colaboração com outros.</li>
+<li>Divulgação/colaboração online com colegas.</li>
 </ol>
-<p>Em preparação:<br />
+<p>Em preparação (se ainda não executei):<br />
 1. <a href="https://git-scm.com/downloads">Instale git</a> no seu computador.<br />
 2. Crie uma conta no site <a href="https://github.com/">github</a>.<br />
 3. Em R, encontre a aba de ‘Terminal’ ao lado de ‘Console’ e ‘R Markdown’. No terminal, digite o seguinte (duas linhas separadas), substituindo os valores de usuário e email com eles que você usou para abrir a conta de Github online:</p>
-<p><code>git config --global user.name 'yourGitHubUsername'</code><br />
-<code>git config --global user.email 'name@provider.com'</code></p>
+<p><code>git config --global user.name 'usuario_de_github'</code><br />
+<code>git config --global user.email 'nome@email.com'</code></p>
 <h2 id="a-lógica-de-git">A Lógica de Git</h2>
 <p>Git é poderoso e complexo, mas podemos usar apenas as capabilidades relevantes para nos. A ideia pode ser separada em dois fluxos de trabalho:</p>
 <ol type="1">
-<li><p><strong>Controle de Versões:</strong> Vamos organizar cada mudança substancial em nosso código em um pacote, e indica para Git uma descrição rápida das mudanças. Ex. “Criando gráfico de pontos dos vôos”. No futuro, podemos identificar o pacote relevente pela sua descrição e ver linha por linha as mudanças feitas em cada pacote. Definindo um pacote com Git se chama um <code>commit</code>.</p></li>
-<li><p><strong>Backup/Colaboraçao Online:</strong> Vamos enviar cada pacote para um servidor online (um ‘repositório’) de Github, que podemos compartilhar com colegas, ou acessar de um outro computador. Enviando código ao repositório em Git se chame um <code>push</code>.</p></li>
+<li><p><strong>Controle de Versões:</strong> Vamos organizar cada mudança substancial em nosso código em um pacote, e indica para Git uma descrição rápida das mudanças feitas. Ex. “Criando gráfico de pontos dos vôos”. No futuro, podemos identificar o pacote relevente pela sua descrição e ver linha por linha as mudanças feitas em cada pacote. Definindo um pacote com Git se chama um <code>commit</code>.</p></li>
+<li><p><strong>Backup/Colaboraçao Online:</strong> Vamos enviar todos os pacotes do mesmo projeto para um servidor online (um ‘repositório’) de Github, que podemos compartilhar com colegas, ou acessar de um outro computador. Enviando código ao repositório em Git se chame um <code>push</code>.</p></li>
 </ol>
 <p>Quando temos mais de uma pessoa trabalhando no mesmo script, o nosso repositório serve como a versão ‘atual’ do script. Isso exige um pouco mais de esforço - temos que baixar a versão atual do repositório antes de trabalher nele - fazer um <code>pull</code> em Git - e subir as nossas mudanças - com <code>push</code> - quando terminado para disponibilizar para outros.</p>
 <p>O gráfico abaixo mostra como funciona o fluxo de código com as várias comandas:</p>
 <p><img src="git_diag.jpg" /></p>
 <p>Antes de descrever o que fazer em RStudio, recomendamos o seguinte fluxo de trabalho simples para trabalhar com Git. Cada vez que querer trabalhar no seu projeto:</p>
 <ol type="1">
-<li>Abre o projeto (Git apenas funciona dentro de um projeto)</li>
-<li><code>Pull</code> a versão mais atual do repositório do Github</li>
-<li>Faça as suas mudanças no código/relatório</li>
-<li>Quando complete uma tarefa discreta, <code>Commit</code> o pacote de mudanças com uma descrição</li>
+<li>Abre o projeto em RStudio (Git apenas funciona dentro de um projeto)</li>
+<li><code>Pull</code> a versão mais recente do repositório do Github</li>
+<li>Faça as suas mudanças no código/relatório em RStudio</li>
+<li>Quando completar uma tarefa discreta, <code>Commit</code> o pacote de mudanças com uma descrição</li>
 <li><code>Push</code> o seu pacote/commit para o repositório online</li>
 <li>Feche o projeto</li>
 </ol>
@@ -2446,8 +2433,8 @@ pages={175-191}<br />
 <p>Se você tenha uma conta paga, ou uma <a href="https://education.github.com/pack">conta estudantil</a>, pode tornar a sua conta privada e adicionar apenas os colaboradores desejados - em Github vai para Settings -&gt; Make Private.</p>
 </div>
 <p><br></p>
-<section id="exercício-2-usando-git" class="green">
-<h2>Exercício 2: Usando Git</h2>
+<h2 id="exercício-2-usando-git">Exercício 2: Usando Git</h2>
+<div class="green">
 <ol type="1">
 <li><p>Crie um novo repositório na sua conta de Github e conectar (‘clonar’) com um novo projeto no seu RStudio.</p></li>
 <li><p>Copiar o seu script de Exercício 1 (o .Rnw) para a pasta local do seu projeto novo criado no passo anterior.</p></li>
@@ -2460,21 +2447,28 @@ pages={175-191}<br />
 <li><p><code>Commit</code> a versão atualizada com uma descrição apropriada.</p></li>
 <li><p><code>Push</code> as mudanças para o seu repositório de Github. Verifique que o novo arquivo está atualizado no repositório da sua conta de Github.</p></li>
 </ol>
-</section>
+</div>
 <!-- renv -->
-<h1 id="checkpoint">Checkpoint</h1>
-<p>A última ferramanta listada aqui é menos usada, mas atende um problema que já é familiar para vocês - complexidades e conflitos de pacotes de R. Essa seção é optativa porque não é essencial para o seu trabalho pessoal mas pode ser útil para projetos maiores e colaborativos.</p>
-<p>O que vai acontecer se mandamos o nosso script de R Markdown para uma colega? Vai funcionar? Será reprodutível? Frequentemente não. Mesmo que eles tem exatamente os mesmos arquivos e usa a mesma versão de R e RStudio, não podemos garantir que eles terão acesso às mesmas funções que usamos para fazer nosso script. Lembre-se que tivemos que instalar cada um dos nossos pacotes (<code>install.packages()</code>) - se o receptor não tiver feito o mesmo ou tiver uma versão diferente de um pacote, nosso código vai quebrar.</p>
-<p>Para resolver isso, podemos usar o pacote <code>checkpoint</code> para garantir reprodutibilidade de pacotes. Num site online, o checkpoint salva cada dia todos os pacotes disponíveis em R (de CRAN). Nós só precisamos escolher uma data para o nosso código para que ele usa o conjunto consistente de pacotes salvos nessa data sempre que o código seja executado. Como aproveitamos? Apenas coloque o seguinte código (com sua data preferida) no início do seu código:</p>
+<h1 id="bibliotecas-reproduzíveis-renv">Bibliotecas Reproduzíveis: Renv</h1>
+<p>A última ferramanta listada aqui é menos usada, mas atende um problema que já é familiar para vocês - complexidades e conflitos de bibliotecas e funções de R. Essa seção é optativa porque não é essencial para o seu trabalho pessoal, mas pode ser útil para projetos maiores e colaborativos.</p>
+<p>O que vai acontecer se mandamos o nosso script de R Markdown para uma colega? Vai funcionar? Será reprodutível? Frequentemente não. Mesmo que eles tem exatamente os mesmos arquivos e usa a mesma versão de R e RStudio, não podemos garantir que eles terão acesso às mesmas funções que usamos para fazer nosso script. Lembre-se que tivemos que instalar cada uma das nossas bibliotecas (<code>install.packages()</code>) - se o receptor não tiver feito o mesmo ou tiver uma versão diferente de uma biblioteca (eles estão atualizados frequentemente), nosso código vai quebrar.</p>
+<p>Para resolver isso, podemos usar o pacote <code>renv</code> para garantir reprodutibilidade de bibliotecas. O <code>renv</code> salva as bibliotecas na pasta do seu projeto, e documenta as versões que estão sendo usadas. No modo interativo, rodamos a função <code>init()</code> quando começamos um novo projeto. Em seguida, quando você quer gravar o status da sua biblioteca (normalmente depois de abrir novas bibliotecas com <code>library()</code>) pode usar <code>snapshot()</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#install.packages("checkpoint")</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/RevolutionAnalytics/checkpoint'>checkpoint</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/pkg/checkpoint/man/checkpoint.html'>checkpoint</a></span><span class='op'>(</span><span class='st'>"2020-05-10"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#install.packages("renv")</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>renv</span><span class='op'>)</span>
+<span class='fu'>init</span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
-<p>Desde que o checkpoint vai salvar uma copia dos pacotes localmente, funciona melhor dentro de um projeto de R.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
+<span class='fu'>snapshot</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Se você mande o seu script para uma outra pessoa, ou outra maquina, para recuperar exatamente as bibliotecas e versões que você tinha instalada, é só rodar <code>restore()</code> na nova maquina e tudo será instalada de forma idêntica.</p>
 <section id="leitura-para-tutorial-11" class="orange">
 <h1>Leitura para Tutorial 11</h1>
 <p>Antes da próxima aula, por favor leia <a href="https://r4ds.had.co.nz/vectors.html">R 4 Data Science, Capítulos 20 r 21 sobre Vetores e Iteração</a></p>

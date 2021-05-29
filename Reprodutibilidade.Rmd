@@ -37,30 +37,26 @@ filter <- dplyr::filter
 
 # Introdução
 
-Nesse tutorial, vamos ampliar o nosso conhecimento das ferramentas que funcionam com R para facilitar relatórios reproduzíveis. Tudo fica no mundo de programas abertos ('open-source') então podemos aproveitar sem custo do mesmo ambiente como milhões de outros pesquisadores.
+Neste tutorial, vamos ampliar o nosso conhecimento das ferramentas que funcionam com R para facilitar relatórios reproduzíveis. Tudo fica no mundo de programas abertos ('open-source') então podemos aproveitar sem custo do mesmo ambiente como milhões de outros pesquisadores.
 
 A primeira ferramenta é Latex, um programa que compila scripts para o formato bem conhecido de PDF. A maior vantagem é a profissionalização dos nossos relatórios - PDF é um formato comum para compartilhar relatórios finais porque eles não podem ser fácilmente editados, e - em contraste com HTML - têm páginas distintas.
 
-Para instalar Latex no seu computador, o jeito mais fácil é rodar o seguinte código em R (existem muitas versões/distribuições; não precisa instalar se já tinha instalado):
+Para instalar Latex no seu computador, o jeito mais fácil é rodar o seguinte código em R (existem muitas versões/distribuições; você não precisa o instalar se já tinha instalado):
 
 ```{r, echo=T, eval=F}
 install.packages('tinytex')
-tinytex::install_tinytex(repos = 'http://ctan.mirrors.hoobly.com/systems/texlive/tlnet')
+tinytex::install_tinytex()
 ```
 
-<aside>
-(Normalmente não precisamos especificar o repositório, mas parece que existe um problema temporário com um servidor).
-</aside>
-
-Segue as instruções - por exemplo, vai aparecer alguns 'erros' mas não são problemáticos, então pode continuar sem problema. Depois da instalação, feche o seu R e abra de novo. 
+Segue as instruções - por exemplo, vai aparecer alguns 'erros' mas não são problemáticas, então pode continuar sem problema. Depois da instalação, feche o seu R e abra de novo. 
 
 Um passo adicional para verificar que tudo esteja configurado bem é accessar em RStudio Tools -> Global Options -> Sweave -> 'Weave Rnw files using:' e escolhe 'knitr'. 
 
 # Compilando Scripts de R Markdown para PDF
 
-A nossa primeira tarefa não exige nenhuma programação adicional. Na mesma forma que compilamos os nossos documentos com 'Knit para HTML' ou 'Knit para Doc', a instalação de Latex automaticamente habilita uma nova opção 'Knit para PDF'. 
+A nossa primeira tarefa não exige nenhuma programação adicional. Na mesma forma que compilamos os nossos documentos com 'Knit para HTML' ou 'Knit para Doc', a instalação de Latex habilita uma nova opção 'Knit para PDF'. 
 
-Pegue um script anterior seu que compila bem para HTML e Knit para PDF. Fácil, sim? Como aparece o novo documento? Mais profissional, eu espero.
+Abre um script anterior seu de R Markdown (.Rmd) que compila bem para HTML e Knit para PDF. Fácil, sim? Como aparece o novo documento? Mais profissional, eu espero.
 
 No futuro, você fica em controle: pode compilar para qualquer formato é o mais apropriado para o seu relatório. 
 
@@ -69,19 +65,19 @@ No futuro, você fica em controle: pode compilar para qualquer formato é o mais
 O que acontece quando compilamos o nosso R Markdown para PDF? O R traduz o nosso script de R Markdown para a *linguagem* de Latex - literalmente ele gera um arquivo com extensão ".tex" - e depois o programa de Latex interpreta e compila este .tex para PDF.
 
 Isso funciona bem, mas nós estamos constrangidos para preparar os nossos documentos na linguagem de R Markdown, que é bom e muito fácil de aprender, mas limitado. Por exemplo, se quiser controlar em detalhe a formatação ou a paginação, não é possível em R Markdown. 
-Então existe uma segunda forma de usar Latex: preparando o nosso script direitamente na linguagem de Latex, e pulando a etapa de R Markdown. O custo é a necessidade de aprender a linguagem de Latex. Dado o uso frequente de Latex no mundo acadêmico para a preparação de manuscritos, artigos e slides, oferecemos aqui uma guia preliminar.
+Então existe uma segunda forma de usar Latex: preparando o nosso script diretamente na linguagem de Latex, e pulando a etapa de R Markdown. O custo é a necessidade de aprender a linguagem de Latex. Dado o uso frequente de Latex no mundo acadêmico para a preparação de manuscritos, artigos e slides, oferecemos aqui uma guia preliminar.
 
 O nome para a combinação de R + Latex é 'Knitr'. Há quatro diferenças fundamentais em usar Knitr em vez de R Markdown.
 
 ### 1. O Tipo de Arquivo
 
-Os nossos scripts de R Markdown tem extensão ".Rmd" e um cabeçalho simples. Quando preparamos um script direitamente em Latex, ele precisa uma extensão ".Rnw". É sempre melhor começar com um modelo, então começa com "File -> New File -> R Sweave" (ignore o significativo de 'Sweave', é um nome velho). 
+Os nossos scripts de R Markdown tem extensão ".Rmd" e um cabeçalho simples. Quando preparamos um script diretamente em Latex, ele precisa uma extensão ".Rnw". É sempre melhor começar com um modelo, então começa com "File -> New File -> R Sweave" (ignore o significativo de 'Sweave', é um nome velho). 
 
 O documento abre com três linhas de texto; os mínimos necesários para um documento de Latex:  
 
 **\\documentclass{article}** - O tipo de documento que queremos gerar, o mais comum é um article (artigo). Vamos ver embaixo como a gerar apresentações.
 
-**\\begin{document}** - um indicador da começa do conteúdo a ser inserido no documento final. Antes disso podemos inserir pacotes e parâmetros. Depois, digite direitamento o seu texto na gramática de latex.
+**\\begin{document}** - um indicador da começa do conteúdo a ser inserido no documento final. Antes disso podemos inserir pacotes e parâmetros. Depois, digite diretamento o seu texto na gramática de Latex.
 
 **\\end{document}** - um indicador do fim do documento. Texto depois será ignorado.
 
@@ -141,12 +137,12 @@ Para gerar listas ordenadas:
 \\item Texto 2  
 \\end{enumerate}
 
-Títulos e Secões numerados:  
+Títulos e Secões numeradas:  
 \\section{Titulo 1}  
 \\subsection{Subtitulo 1}  
 \\subsubsection{Subsubtitulo 1}
 
-Títulos e Secões não numerados:  
+Títulos e Secões não numeradas:  
 \\section\*{Titulo 1}  
 \\subsection\*{Subtitulo 1}  
 \\subsubsection\*{Subsubtitulo 1}
@@ -163,17 +159,9 @@ Mais detalhes [aqui](https://www.caam.rice.edu/~heinken/latex/symbols.pdf).
 
 #### Acentos em Latex
 
-Para inserir acentos, temos duas opções. Primeira opção, abrir um pacote antes de begin{document} e digitar como normal:
+Para inserir acentos, basta abrir um pacote antes de begin{document} e digitar como normal:
 
 \\usepackage[latin1]{inputenc}
-
-Segunda opção é usar a formatação especifíca para cada acento, ex:
-
-- \\'{e} - é
-- \\`{a} - à 
-- \\~{o} - õ
-- \\^{a} - â
-- \\c{c} - ç
 
 #### Página inicial do documento
 
@@ -193,7 +181,7 @@ Agora, deve compilar um documento muito profissional.
 
 #### Tabelas em Knitr
 
-Latex tem uma gramática de tabelas chato de preparar. Mas nunca precisamos digitar ele direitamente. Como em R Markdown, o jeito mais fácil de gerar uma tabela é criar um tibble em R e passar para a função _kable_. Insere-lo dentro de um chunk no seu documento _.Rnw_ e precisamos fazer apenas mais uma coisa para que ele aperece bonito: adicione o parâmetro _results='asis'_ no header do chunk, como já fizemos com as tabelas de regressão com `stargazer`. 
+Latex tem uma gramática de tabelas chato de preparar. Mas nunca precisamos digitar ele manualmente. Como em R Markdown, o jeito mais fácil de gerar uma tabela é criar um tibble em R e passar para a função `kable()`. Insere-lo dentro de um chunk no seu documento .Rnw e precisamos fazer apenas mais uma coisa para que ele aperece bonito: adicione o parâmetro `results='asis'` no header do chunk, como já fizemos com as tabelas de regressão com `stargazer` no tutorial anterior. 
 
 ```{r, eval=F}
 <<results='asis'>>=
@@ -251,19 +239,19 @@ Texto, conteúdo normal
 Mais texto  
 \\end{frame}
 
-Temos que repetir esta estrutura para cada slide, então 10 slides vão precisar de 10 `\begin{frame}`. Se quiser inserir uma pausa, aguardando o usuário para avançar, é só inserir `\\pause` no local apropriado no slide.
+Temos que repetir esta estrutura para cada slide, então 10 slides vão precisar de 10 `\begin{frame}` e 10 `\end{frame}`. Se quiser inserir uma pausa, aguardando o usuário para avançar, é só inserir `\pause` no local apropriado no slide.
 
 Para incluir imagens de um arquivo local na mesma pasta do seu script _.Rnw_ coloque:
 
 \\usepackage{graphicx} - *antes de \\begin{document}*
 
-\\includegraphics[width=\\linewidth]{image.png} - *na página/slide onde o imagem deve aparecer*
+\\includegraphics[width=\\linewidth]{image.png} - *na página/slide onde a imagem deve aparecer*
 
 #### Bibliografias
 
 Um elemento central da pesquisa é a citação dos nossos fontes. Uma citação é simplesmente um conjunto de dados sobre um livro/artigo ou outro fonte que colocamos numa nota de rodapé ou apêndice, e um atalho para a citação no texto (frequentemente autor-ano, ex. '(Arrow 1961)'). 
 
-Felizmente, existe um formato meia-padrão para o armazenamento das citações - num arquivo com extensão '.bib'. Várias programas (Zotero, Mendeley, EndNote etc.) podem te ajudar gestar as citações e geram arquivos '.bib' então não precisamos nos preocupar com o conteúdo deles, mas para referência eles contém conteúdo tipo:
+Felizmente, existe um formato meia-padrão para o armazenamento das citações - num arquivo com extensão '.bib'. Várias programas (Zotero, Mendeley, EndNote etc.) podem te ajudar gestar as citações e geram arquivos '.bib' que listam todas as citações, então não precisamos nos preocupar com o conteúdo deles, mas para referência eles contém conteúdo tipo:
 
 \@article{Arrow1961,  
    author={Arrow, Kenneth J. and Leonid Hurwicz and Hirofumi Uzawa},  
@@ -274,7 +262,7 @@ Felizmente, existe um formato meia-padrão para o armazenamento das citações -
    pages={175-191}  
 }
 
-O elemento crucial aqui é a primeira entrada depois de `{`, 'Arrow1961' - isso é o atalho que vamos usar para citar este artigo para não repetir toda essa informação cada vez que queremos citar o mesmo artigo.
+O elemento crucial aqui é a primeira entrada depois do primeiro `{`: 'Arrow1961' - isso é o atalho que vamos usar para citar este artigo para não repetir toda essa informação cada vez que queremos citar o mesmo artigo.
 
 Em **R Markdown**, o uso de bibliografias é assim:
 
@@ -297,39 +285,38 @@ Em **Knitr (com Latex)** o uso de bibliografias é um pouco mais complexo infeli
 * Salve o arquivo ".bib" na pasta do seu projeto. 
 * Antes de '\begin{document}' coloque o segunite código:
 
-`\usepackage[backend = biber, style=alphabetic, citestyle=authoryear]{biblatex}`
-`\bibliography{nome_do_arquivo}` (sem ".bib")
+\usepackage[backend=bibtex, style=authoryear]{biblatex} 
+\addbibresource{Nome_do_Arquivo.bib}
 
-* No lugar apropriado no seu texto simples, quando quiser fazer referência à citação, insera `\cite{Arrow1961}`,  ou `\citep{Arrow1961}` se quiser a citação em parênteses, com o atalho apropriado para a citação desejada.
+* No lugar apropriado no seu texto simples, quando quiser fazer referência à citação, insera `\cite{Arrow1961}`,  ou `\parencite{Arrow1961}` se quiser a citação em parênteses, com o atalho apropriado para a citação desejada.
 * No final do seu documento (imediatamente antes de '\end{document}'), coloque `\printbibliography`.
-* Uma restrição chata: Não podemos usar a botão de 'Compile in PDF'; temos que chamar a compilação do código pelo console (na aba embaixo de RStudio) (e não no seu script), como no código abaixo, onde 'script.Rnw' é o nome do seu script (e não o arquivo da bibliografio):
+* Compile o seu script para PDF *duas vezes*, para o R consegue incorporar as citações.
 
-`knitr::knit2pdf("script.Rnw", bib_engine = "biber")`
-
-<div class = "green">
 ## Exercício 1: Praticando Latex
 
-1. Usando o formato ".Rnw", crie um PDF com texto simples usando pelo menos cinco das formatações acima.
+<div class = "green">
 
-2. Adicione a famosa equação de Pythagoras.
+1. Usando o formato ".Rnw", crie um PDF com texto simples usando pelo menos cinco das formatações acima (bold, itálico, etc.).
 
-3. Adicione uma tabela simples usando o banco de dados de `weather` que mostra o total de precipitação por mês:
+2. Adicione a famosa equação de Pythagoras ao seu documento.
 
-```{r, echo=F, eval=F}
+3. Adicione uma tabela simples ao PDF usando o banco de dados de `weather` que mostra o total de precipitação por mês:
+
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 weather %>% group_by(month) %>%
   summarize(precip=sum(precip, na.rm=T))
 ```
 
 4. Adicione um gráfico simples usando o banco de dados `weather` que mostra a temperatura média por aeroporto.
 
-```{r, echo=F, eval=F}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 weather %>% group_by(month) %>%
   summarize(temp=mean(temp, na.rm=T)) %>%
   ggplot() +
   geom_line(aes(x=month, y=temp, group=1))
 ```
 
-5. Verifique que o seu documento compila bem para PDF.
+5. Verifique que o seu documento compila sem erro para PDF.
 
 6. Ajuste o seu script ".Rnw" acima para gerar uma apresentão do class 'beamer' e coloca o texto, a equação, a tabela, e o gráfico em slides diferentes. Compile para PDF de novo.
 
@@ -338,29 +325,29 @@ weather %>% group_by(month) %>%
 
 # Controle de Versões com Git
 
-Você já criou um arquivo com nome 'Final_v23_depois_edits_4b_final_final_v2.doc'? Dois anos depois, você poderia identificar a versão do documento que você enviou para uma colega? Rastreando mudanças em nossos scripts é desafiador, sobretudo com análises complexos. Felizmente, programadores desenvolveram várias ferramentas para ajudar: Vamos usar 'Git' em conjunto com Github, o parceiro online de Git.
+Você já criou um arquivo com nome 'Final_v23_depois_edits_4b_final_final_v2.doc'? Dois anos depois, você poderia identificar qual versão do documento você enviou para uma colega?? Rastreando mudanças em nossos scripts é desafiador, sobretudo com análises complexos. Felizmente, programadores desenvolveram várias ferramentas para ajudar: Vamos usar 'Git' em conjunto com Github, o parceiro online de Git.
 
 Git/Github é um sistema de controle de versões com três objetivos:
 
 1. Um backup online dos seus arquivos;
 2. Controlando as versões dos scripts e rastreando mudanças;
-3. Divulgação/colaboração com outros.
+3. Divulgação/colaboração online com colegas.
 
-Em preparação:  
+Em preparação (se ainda não executei):  
 1. [Instale git](https://git-scm.com/downloads) no seu computador.  
 2. Crie uma conta no site [github](https://github.com/).  
 3. Em R, encontre a aba de 'Terminal' ao lado de 'Console' e 'R Markdown'. No terminal, digite o seguinte (duas linhas separadas), substituindo os valores de usuário e email com eles que você usou para abrir a conta de Github online:
 
-`git config --global user.name 'yourGitHubUsername'`  
-`git config --global user.email 'name@provider.com'`
+`git config --global user.name 'usuario_de_github'`  
+`git config --global user.email 'nome@email.com'`
 
 ## A Lógica de Git
 
 Git é poderoso e complexo, mas podemos usar apenas as capabilidades relevantes para nos. A ideia pode ser separada em dois fluxos de trabalho:
 
-1. **Controle de Versões:** Vamos organizar cada mudança substancial em nosso código em um pacote, e indica para Git uma descrição rápida das mudanças. Ex. "Criando gráfico de pontos dos vôos". No futuro, podemos identificar o pacote relevente pela sua descrição e ver linha por linha as mudanças feitas em cada pacote. Definindo um pacote com Git se chama um `commit`. 
+1. **Controle de Versões:** Vamos organizar cada mudança substancial em nosso código em um pacote, e indica para Git uma descrição rápida das mudanças feitas. Ex. "Criando gráfico de pontos dos vôos". No futuro, podemos identificar o pacote relevente pela sua descrição e ver linha por linha as mudanças feitas em cada pacote. Definindo um pacote com Git se chama um `commit`. 
 
-2. **Backup/Colaboraçao Online:** Vamos enviar cada pacote para um servidor online (um 'repositório') de Github, que podemos compartilhar com colegas, ou acessar de um outro computador. Enviando código ao repositório em Git se chame um `push`. 
+2. **Backup/Colaboraçao Online:** Vamos enviar todos os pacotes do mesmo projeto para um servidor online (um 'repositório') de Github, que podemos compartilhar com colegas, ou acessar de um outro computador. Enviando código ao repositório em Git se chame um `push`. 
 
 Quando temos mais de uma pessoa trabalhando no mesmo script, o nosso repositório serve como a versão 'atual' do script. Isso exige um pouco mais de esforço - temos que baixar a versão atual do repositório antes de trabalher nele - fazer um `pull` em Git - e subir as nossas mudanças - com `push` - quando terminado para disponibilizar para outros.
 
@@ -370,20 +357,22 @@ O gráfico abaixo mostra como funciona o fluxo de código com as várias comanda
 
 Antes de descrever o que fazer em RStudio, recomendamos o seguinte fluxo de trabalho simples para trabalhar com Git. Cada vez que querer trabalhar no seu projeto:
 
-1. Abre o projeto (Git apenas funciona dentro de um projeto)
-2. `Pull` a versão mais atual do repositório do Github
-3. Faça as suas mudanças no código/relatório
-4. Quando complete uma tarefa discreta, `Commit` o pacote de mudanças com uma descrição
+1. Abre o projeto em RStudio (Git apenas funciona dentro de um projeto)
+2. `Pull` a versão mais recente do repositório do Github
+3. Faça as suas mudanças no código/relatório em RStudio
+4. Quando completar uma tarefa discreta, `Commit` o pacote de mudanças com uma descrição
 5. `Push` o seu pacote/commit para o repositório online 
 6. Feche o projeto
 
 ## Preparando Git/Github em RStudio
 
-Existe um pequeno custo fixo para configurar um projeto para trabalhar com Git/Github. O primeiro passo é criar um repositório online no Github. Pode criar o seu próprio repositório com a opção 'New Repository' no site e copiar o link (URL) do repositório listada na botão verde 'Clone or Download'. (Ou se dê problema, pode usar o link [https://github.com/JonnyPhillips/repositorio_clone.git](https://github.com/JonnyPhillips/repositorio_clone.git).)
+Existe um pequeno custo fixo para configurar um projeto para trabalhar com Git/Github. O primeiro passo é criar um repositório online no Github. Pode login no [https://github.com](https://github.com), vá para a aba 'respositories', e crie o seu próprio repositório com a opção 'New' no site. Dê o repositório um nome e descrição, e criá-lo. Deve aparecer na página principal do seu repositório um link, tipo "https://github.com/Usuario/repositorio.git" que você deve copiar. (Se não veja o link, tente clicar na botão verde 'Code' e deve aparecer). 
 
-Agora, vamos usar o link para conectar o Github com RStudio. Abre RStudio e vamos 'clonar' este repositório para um projeto local no seu computador: File -> New Project -> Version Control -> Git. Agora, colar o link do repositório de Github como 'Repository URL', e escolha o nome e a pasta onde o repositório/projeto será baixado no seu computador. 
+Uma alternativa é baixar um repositório de outra pessoa (se dá problema acima, por exemplo) - pode usar um repositório do meu github no link [https://github.com/JonnyPhillips/repositorio_clone.git](https://github.com/JonnyPhillips/repositorio_clone.git).
 
-Agora, temos um projeto ligado com o nosso repositório de Github. Na aba 'files' em RStudio agora aparece a lista de arquivos no repositório/projeto. Crie um novo script de Rmd. Neste arquivo, coloca o código seguinte para produzir um gráfico. Salve com nome "teste.Rmd" na mesma pasta do seu projeto/repositório (deve ser a pasta padrão).
+Agora, vamos usar o link para conectar o Github com RStudio. Abre RStudio e vamos 'clonar' este repositório online para um projeto local no seu computador: File -> New Project -> Version Control -> Git. Agora, colar o link do repositório de Github como 'Repository URL', e escolha o nome da pasta onde o repositório/projeto será baixado no seu computador. 
+
+Agora, temos um projeto ligado com o nosso repositório de Github. Na aba 'files' em RStudio agora aparece a lista de arquivos no repositório/projeto. Crie um novo script de R Markdown (.Rmd). Neste arquivo, coloca o código seguinte para produzir um gráfico super simples. Salve com nome "teste.Rmd" na mesma pasta do seu projeto/repositório (deve ser a pasta padrão).
 
 ```{r}
 library("tidyverse")
@@ -394,11 +383,11 @@ flights %>% ggplot() +
   xlim(0, 100)
 ```
 
-Vá para o repositório na sua conta no github - veja que o arquivo 'teste.Rmd' não está presente e só fica no seu computador local. Para sincronizar e 'atualizar' o repositório do github com as nossa mudanças locais, temos que fazer o seguinte:
+Vá para o repositório na sua conta no github - veja que o arquivo 'teste.Rmd' não está presente e só fica no seu computador local. Para sincronizar e 'atualizar' o repositório online do github com as nossa mudanças locais, temos que fazer o seguinte:
 
 - Abre a aba 'Git' em Rstudio (normalmente na mesma região de 'Environment')
 - Clique o checkbox ao lado de cada arquivo que você quer atualizar, incluindo 'teste.Rmd'. O 'Status' vai mudar para "A" (que significa 'Adicionado'), ou se você esteja atualizando um arquivo já existente, "M" (que significan 'Modificado'). Cada vez que você ajuste e salva um arquivo no projeto local, o arquivo vai aparecer na lista nessa aba de Git.
-- Clique 'Commit' na aba de Git e vai abrir uma caixa que mostra todas as diferenças entre o nosso código local e o código do arquivo no github online: aditivos em verde e remoções em vermelha. A única coisa que temos que fazer nessa caixa é adicionar uma mensagem que descreve o conteúdo da mudança feita, ex. "Adicionar gráfico de atrasos", e clique em `Commit`. Quando terminado, feche as caixas. Deve ver que a aba de Git está vazia agora, com a notícia de "Your branch is ahead of 'origin/master' by 1 commit". Isso significa que o seu novo script foi cadastrado no fluxo de trabalho do projeto (o controle de versão), mas ainda não foi sincronizado online. 
+- Clique 'Commit' na aba de Git e vai abrir uma caixa que mostra todas as diferenças entre o nosso código local e o código do arquivo no github online: aditivos em verde e remoções em vermelha. A única coisa que temos que fazer nessa caixa é adicionar uma mensagem que descreve o conteúdo da mudança feita, ex. "Adicionar gráfico de atrasos", e clique em `Commit`. Quando terminado, feche as caixas. A aba de Git deve estar vazia agora, com a notícia de "Your branch is ahead of 'origin/master' by 1 commit". Isso significa que o seu novo script foi cadastrado no fluxo de trabalho do projeto (o controle de versão), mas ainda não foi sincronizado online. 
 - O passo final é clicar `Push` na aba 'Git' em RStudio (a seta verde). Isso sincroniza as mudançãs contidas no `commit` com a versão dos arquivos online, disponibilizando elas para as suas colegas.
 
 Agora vá para o repositório na sua conta no Github online, atualize a página, e confirme que o novo arquivo 'teste.Rmd' aparece. (É possível que tem que aguardar alguns minutos para ele aparecer, mas normalmente é imediato). Se entrar no link de '1 commit' na página do seu relatório, pode ver todos os commits anteriores, e os detalhes de mudanças de código em cada um. 
@@ -418,8 +407,9 @@ Se você tenha uma conta paga, ou uma [conta estudantil](https://education.githu
 
 <br>
 
-<div class = "green">
 ## Exercício 2: Usando Git
+
+<div class = "green">
 
 1. Crie um novo repositório na sua conta de Github e conectar ('clonar') com um novo projeto no seu RStudio.
 
@@ -427,7 +417,7 @@ Se você tenha uma conta paga, ou uma [conta estudantil](https://education.githu
 
 3. Adicione mais um gráfico ao seu script, mostrando a humidade média por mês.
 
-```{r, echo=F, eval=F}
+```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
 weather %>% group_by(month) %>%
   summarize(humid=mean(humid, na.rm=T)) %>%
   ggplot() +
@@ -442,21 +432,26 @@ weather %>% group_by(month) %>%
 
 <!-- renv -->
 
-# Checkpoint
+# Bibliotecas Reproduzíveis: Renv
 
-A última ferramanta listada aqui é menos usada, mas atende um problema que já é familiar para vocês - complexidades e conflitos de pacotes de R. Essa seção é optativa porque não é essencial para o seu trabalho pessoal mas pode ser útil para projetos maiores e colaborativos.
+A última ferramanta listada aqui é menos usada, mas atende um problema que já é familiar para vocês - complexidades e conflitos de bibliotecas e funções de R. Essa seção é optativa porque não é essencial para o seu trabalho pessoal, mas pode ser útil para projetos maiores e colaborativos.
 
-O que vai acontecer se mandamos o nosso script de R Markdown para uma colega? Vai funcionar? Será reprodutível? Frequentemente não. Mesmo que eles tem exatamente os mesmos arquivos e usa a mesma versão de R e RStudio, não podemos garantir que eles terão acesso às mesmas funções que usamos para fazer nosso script. Lembre-se que tivemos que instalar cada um dos nossos pacotes (`install.packages()`) - se o receptor não tiver feito o mesmo ou tiver uma versão diferente de um pacote, nosso código vai quebrar.
+O que vai acontecer se mandamos o nosso script de R Markdown para uma colega? Vai funcionar? Será reprodutível? Frequentemente não. Mesmo que eles tem exatamente os mesmos arquivos e usa a mesma versão de R e RStudio, não podemos garantir que eles terão acesso às mesmas funções que usamos para fazer nosso script. Lembre-se que tivemos que instalar cada uma das nossas bibliotecas (`install.packages()`) - se o receptor não tiver feito o mesmo ou tiver uma versão diferente de uma biblioteca (eles estão atualizados frequentemente), nosso código vai quebrar.
 
-Para resolver isso, podemos usar o pacote `checkpoint` para garantir reprodutibilidade de pacotes. Num site online, o checkpoint salva cada dia todos os pacotes disponíveis em R (de CRAN). Nós só precisamos escolher uma data para o nosso código para que ele usa o conjunto consistente de pacotes salvos nessa data sempre que o código seja executado. Como aproveitamos? Apenas coloque o seguinte código (com sua data preferida) no início do seu código:
+Para resolver isso, podemos usar o pacote `renv` para garantir reprodutibilidade de bibliotecas. O `renv` salva as bibliotecas na pasta do seu projeto, e documenta as versões que estão sendo usadas. No modo interativo, rodamos a função `init()` quando começamos um novo projeto. Em seguida, quando você quer gravar o status da sua biblioteca (normalmente depois de abrir novas bibliotecas com `library()`) pode usar `snapshot()`. 
 
 ```{r, eval=FALSE}
-#install.packages("checkpoint")
-library(checkpoint)
-checkpoint("2020-05-10")
+#install.packages("renv")
+library(renv)
+init()
 ```
 
-Desde que o checkpoint vai salvar uma copia dos pacotes localmente, funciona melhor dentro de um projeto de R.
+```{r, eval=F}
+library(tidyverse)
+snapshot()
+```
+
+Se você mande o seu script para uma outra pessoa, ou outra maquina, para recuperar exatamente as bibliotecas e versões que você tinha instalada, é só rodar `restore()` na nova maquina e tudo será instalada de forma idêntica. 
 
 <div class = "orange">
 # Leitura para Tutorial 11
