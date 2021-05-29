@@ -1,0 +1,14 @@
+\documentclass{article}
+
+\usepackage[backend=bibtex, style=authoryear]{biblatex} 
+\addbibresource{Library_all_4.bib}
+
+\begin{document}
+
+Test
+
+\cite{Meagher2007}
+
+\printbibliography
+
+\end{document}

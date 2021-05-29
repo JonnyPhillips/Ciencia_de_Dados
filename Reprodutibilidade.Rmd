@@ -387,12 +387,12 @@ Vá para o repositório na sua conta no github - veja que o arquivo 'teste.Rmd' 
 
 - Abre a aba 'Git' em Rstudio (normalmente na mesma região de 'Environment')
 - Clique o checkbox ao lado de cada arquivo que você quer atualizar, incluindo 'teste.Rmd'. O 'Status' vai mudar para "A" (que significa 'Adicionado'), ou se você esteja atualizando um arquivo já existente, "M" (que significan 'Modificado'). Cada vez que você ajuste e salva um arquivo no projeto local, o arquivo vai aparecer na lista nessa aba de Git.
-- Clique 'Commit' na aba de Git e vai abrir uma caixa que mostra todas as diferenças entre o nosso código local e o código do arquivo no github online: aditivos em verde e remoções em vermelha. A única coisa que temos que fazer nessa caixa é adicionar uma mensagem que descreve o conteúdo da mudança feita, ex. "Adicionar gráfico de atrasos", e clique em `Commit`. Quando terminado, feche as caixas. A aba de Git deve estar vazia agora, com a notícia de "Your branch is ahead of 'origin/master' by 1 commit". Isso significa que o seu novo script foi cadastrado no fluxo de trabalho do projeto (o controle de versão), mas ainda não foi sincronizado online. 
+- Clique 'Commit' na aba de Git e vai abrir uma caixa que mostra todas as diferenças entre o nosso código local e o código do arquivo no github online: aditivos em verde e remoções em vermelha. A única coisa que temos que fazer nessa caixa é adicionar uma mensagem que descreve o conteúdo da mudança feita, ex. "Adicionar gráfico de atrasos", e clique em `Commit`. Quando terminado, feche as caixas. A aba de Git deve mostrar a notícia de "Your branch is ahead of 'origin/master' by 1 commit". Isso significa que o seu novo script foi cadastrado no fluxo de trabalho do projeto (o controle de versão), mas ainda não foi sincronizado online. 
 - O passo final é clicar `Push` na aba 'Git' em RStudio (a seta verde). Isso sincroniza as mudançãs contidas no `commit` com a versão dos arquivos online, disponibilizando elas para as suas colegas.
 
-Agora vá para o repositório na sua conta no Github online, atualize a página, e confirme que o novo arquivo 'teste.Rmd' aparece. (É possível que tem que aguardar alguns minutos para ele aparecer, mas normalmente é imediato). Se entrar no link de '1 commit' na página do seu relatório, pode ver todos os commits anteriores, e os detalhes de mudanças de código em cada um. 
+Agora vá para o repositório na sua conta no Github online, atualize a página, e confira que o novo arquivo 'teste.Rmd' aparece. (É possível que tem que aguardar alguns minutos para ele aparecer, mas normalmente é imediato). Se entrar no link de '1 commit' na linha azul na página do seu repositório, pode ver todos os commits anteriores, e os detalhes de mudanças de código em cada um. Ou pode clicar em cada arquivo e depois 'History' (história) rastrear todas as mudanças anteriores. 
 
-Parabéns, agora o seu trabalho está seguro com um backup online, documentado com a história de versões rastreável, e accessível por suas colegas!
+Parabéns, agora o seu trabalho está seguro com um backup online, documentado com a história de versões rastreável, e accessível por seus colegas!
 
 <br>
 
@@ -401,7 +401,7 @@ Parabéns, agora o seu trabalho está seguro com um backup online, documentado c
 
 O default para Github é que os repositórios ficam abertos para todo o mundo acessar, encorajando transparência e reprodutibilidade. Mas tome cuidado que o seu projeto não contém dados confidenciais ou informação pessoal. 
 
-Se você tenha uma conta paga, ou uma [conta estudantil](https://education.github.com/pack), pode tornar a sua conta privada e adicionar apenas os colaboradores desejados - em Github vai para Settings -> Make Private.
+Se você tenha uma conta paga, ou uma [conta estudantil](https://education.github.com/pack), pode tornar a sua conta privada e adicionar apenas os colaboradores desejados - em Github vá para Settings -> Make Private.
 
 </div>
 
@@ -413,7 +413,7 @@ Se você tenha uma conta paga, ou uma [conta estudantil](https://education.githu
 
 1. Crie um novo repositório na sua conta de Github e conectar ('clonar') com um novo projeto no seu RStudio.
 
-2. Copiar o seu script de Exercício 1 (o .Rnw) para a pasta local do seu projeto novo criado no passo anterior. 
+2. Copiar o seu script de Exercício 1 acima (o .Rnw) para a pasta local do seu projeto novo criado no passo anterior. 
 
 3. Adicione mais um gráfico ao seu script, mostrando a humidade média por mês.
 
@@ -424,21 +424,19 @@ weather %>% group_by(month) %>%
   geom_line(aes(x=month, y=humid, group=1))
 ```
 
-4. `Commit` a versão atualizada com uma descrição apropriada.
+4. Usando a aba de Git, `Commit` a versão atualizada do script Rnw com uma descrição apropriada.
 
-5. `Push` as mudanças para o seu repositório de Github. Verifique que o novo arquivo está atualizado no repositório da sua conta de Github.
+5. `Push` as mudanças para o seu repositório de Github online. Verifique que o novo arquivo está atualizado no repositório da sua conta de Github.
 
 </div>
-
-<!-- renv -->
 
 # Bibliotecas Reproduzíveis: Renv
 
 A última ferramanta listada aqui é menos usada, mas atende um problema que já é familiar para vocês - complexidades e conflitos de bibliotecas e funções de R. Essa seção é optativa porque não é essencial para o seu trabalho pessoal, mas pode ser útil para projetos maiores e colaborativos.
 
-O que vai acontecer se mandamos o nosso script de R Markdown para uma colega? Vai funcionar? Será reprodutível? Frequentemente não. Mesmo que eles tem exatamente os mesmos arquivos e usa a mesma versão de R e RStudio, não podemos garantir que eles terão acesso às mesmas funções que usamos para fazer nosso script. Lembre-se que tivemos que instalar cada uma das nossas bibliotecas (`install.packages()`) - se o receptor não tiver feito o mesmo ou tiver uma versão diferente de uma biblioteca (eles estão atualizados frequentemente), nosso código vai quebrar.
+O que vai acontecer se mandamos o nosso script de R Markdown para uma colega? Vai funcionar? Será reprodutível? Frequentemente não. Mesmo que eles tem exatamente os mesmos arquivos e usa a mesma versão de R e RStudio, não podemos garantir que eles terão acesso às mesmas funções que usamos para fazer nosso script. Lembre-se que tivemos que instalar cada uma das nossas bibliotecas (`install.packages()`) mas essas linhas de instalação não ficam em nosso script - se o receptor não tiver feito o mesmo ou tiver uma versão diferente de uma biblioteca (eles estão atualizadas frequentemente), nosso código vai quebrar.
 
-Para resolver isso, podemos usar o pacote `renv` para garantir reprodutibilidade de bibliotecas. O `renv` salva as bibliotecas na pasta do seu projeto, e documenta as versões que estão sendo usadas. No modo interativo, rodamos a função `init()` quando começamos um novo projeto. Em seguida, quando você quer gravar o status da sua biblioteca (normalmente depois de abrir novas bibliotecas com `library()`) pode usar `snapshot()`. 
+Para resolver isso, podemos usar o pacote `renv` para garantir reprodutibilidade de bibliotecas. O `renv` salva as bibliotecas na pasta do seu projeto, e documenta as versões que estão sendo usadas. No modo interativo, rodamos a função `init()` uma vez quando começamos um novo projeto. Em seguida, quando você quer gravar o status das suas bibliotecas (normalmente depois de abrir novas bibliotecas com `library()`) pode usar `snapshot()`. 
 
 ```{r, eval=FALSE}
 #install.packages("renv")
@@ -452,6 +450,8 @@ snapshot()
 ```
 
 Se você mande o seu script para uma outra pessoa, ou outra maquina, para recuperar exatamente as bibliotecas e versões que você tinha instalada, é só rodar `restore()` na nova maquina e tudo será instalada de forma idêntica. 
+
+Muita coisa, mas em combinação, o R, Latex, Git e Renv permitem relatórios reproduzíveis que garante a história e integridade do seu relatório ou artigo profissional. 
 
 <div class = "orange">
 # Leitura para Tutorial 11
