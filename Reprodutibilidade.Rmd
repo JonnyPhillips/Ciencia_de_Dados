@@ -453,8 +453,9 @@ Se você mande o seu script para uma outra pessoa, ou outra maquina, para recupe
 
 Muita coisa, mas em combinação, o R, Latex, Git e Renv permitem relatórios reproduzíveis que garante a história e integridade do seu relatório ou artigo profissional. 
 
-<div class = "orange">
 # Leitura para Tutorial 11
+
+<div class = "orange">
 
 Antes da próxima aula, por favor leia [R 4 Data Science, Capítulos 20 r 21 sobre Vetores e Iteração](https://r4ds.had.co.nz/vectors.html)
 
