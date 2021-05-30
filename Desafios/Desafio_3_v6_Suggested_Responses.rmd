@@ -4,7 +4,7 @@ output: distill::distill_article
 ---
 
 ```{r, echo=F}
-knitr::opts_chunk$set(echo = F, eval=T, highlight=T)
+knitr::opts_chunk$set(echo = T, eval=T, highlight=T, include=T)
 library(tidyverse)
 library(knitr)
 library(rmarkdown)
@@ -160,7 +160,7 @@ candidatos_resultados_totais <- candidatos_resultados_totais %>%
 
 (c) Use o código da camada `+ theme(axis.text.x = element_text(angle = 90))` para virar o texto do município vertical e deixar mais visível.
 
-```{r, eval=F}
+```{r}
 resultados_totais_candidatos %>% 
   ggplot() +
   geom_bar(aes(x=NM_UE)) +
@@ -172,7 +172,7 @@ resultados_totais_candidatos %>%
 
 8. Agora, a nossa questão de pesquisa é o número de candidatos por gênero (variável `DS_GENERO`) no estado inteiro. Prepare um gráfico apropriado, com título, rótulos nos eixos e aplique um tema simples da sua escolha.
 
-```{r, eval=F}
+```{r}
 resultados_totais_candidatos %>% 
   ggplot() +
   geom_bar(aes(x=DS_GENERO)) +
@@ -184,7 +184,7 @@ resultados_totais_candidatos %>%
 
 9. Gere um gráfico apropriado que mostra a *porcentagem* de candidatos por gênero em cada município. Formate o seu gráfico com títulos, rótulos nos eixos, virando o texto no eixo x, e ajuste a legenda para que ela fique abaixo do gráfico.
 
-```{r, eval=F}
+```{r}
 resultados_totais_candidatos %>% group_by(NM_UE, DS_GENERO) %>%
   tally() %>%
   ggplot() +
@@ -221,7 +221,7 @@ sucesso_por_genero_mun <- resultados_totais_candidatos %>%
 
 (c) Mostre um gráfico de barras da taxa de sucesso (% eleito) dos candidatos femininos por município, com formatação apropriada. 
 
-```{r, eval=F}
+```{r}
 sucesso_por_genero_mun %>%
   filter(DS_GENERO=="FEMININO" & Eleito==1) %>%
   ggplot() +
@@ -235,7 +235,7 @@ sucesso_por_genero_mun %>%
 
 (d) Extende o seu gráfico para mostrar a taxa de sucesso de homens e mulheres lado a lado, por município. Verifique que a cor das barras varia por gênero.
 
-```{r, eval=F}
+```{r}
 sucesso_por_genero_mun %>%
   filter(Eleito==1) %>%
   ggplot() +
@@ -262,7 +262,7 @@ O município em que as mulheres têm uma maior taxa de sucesso que os homens é 
 
 11. Gere um gráfico de 'tile', que mostra o número de candidatos por município e gênero. Aplique uma escala de cores apropriada de sua escolha. Formate o seu gráfico.
 
-```{r, eval=F}
+```{r}
 resultados_totais_candidatos %>% group_by(NM_UE, DS_GENERO) %>%
   tally() %>%
   ggplot() +
@@ -278,7 +278,7 @@ resultados_totais_candidatos %>% group_by(NM_UE, DS_GENERO) %>%
 
 (a) Apresente um gráfico de histograma da idade dos candidatos (`NR_IDADE_DATA_POSSE`). Faça qualquer ajuste necessário para que o seu gráfico faça sentido e incorpore valores de idade possíveis. Formate o seu gráfico.
 
-```{r, eval=F}
+```{r}
 resultados_totais_candidatos %>% 
   mutate(NR_IDADE_DATA_POSSE=case_when(NR_IDADE_DATA_POSSE==999~NA_real_,
                                        TRUE~NR_IDADE_DATA_POSSE)) %>%
@@ -292,7 +292,7 @@ resultados_totais_candidatos %>%
 
 (b) Apresente o mesmo gráfico de histograma da idade dos candidatos, mas agora separado por gênero.
 
-```{r, eval=F}
+```{r}
 resultados_totais_candidatos %>% 
   mutate(NR_IDADE_DATA_POSSE=case_when(NR_IDADE_DATA_POSSE==999~NA_real_,
                                        TRUE~NR_IDADE_DATA_POSSE)) %>%
@@ -307,7 +307,7 @@ resultados_totais_candidatos %>%
 
 (c) Como uma forma alternativa de apresentar os dados, divida o seu gráfico de histograma em facets diferentes, dividido por gênero e raça.
 
-```{r, eval=F}
+```{r}
 resultados_totais_candidatos %>% 
   mutate(NR_IDADE_DATA_POSSE=case_when(NR_IDADE_DATA_POSSE==999~NA_real_,
                                        TRUE~NR_IDADE_DATA_POSSE)) %>%
@@ -342,7 +342,7 @@ candidatos_idade_media_votos <- resultados_totais_candidatos %>%
 
 (c) Mostre num gráfico de linhas a porcentagem média de votos dos candidatos (no eixo y) por idade do candidato (no eixo x). Formate o seu gráfico.
 
-```{r, eval=F}
+```{r}
 candidatos_idade_media_votos %>%
   ggplot() +
   geom_line(aes(x=NR_IDADE_DATA_POSSE, y=Media_Pct_Votos)) +
@@ -354,7 +354,7 @@ candidatos_idade_media_votos %>%
 
 (d) Mostre num gráfico de linhas a porcentagem de votos dos candidatos (no eixo y) por idade do candidato (no eixo x), com linhas separadas por gênero.
 
-```{r, eval=F}
+```{r}
 candidatos_idade_genero_media_votos <- resultados_totais_candidatos %>% 
 mutate(NR_IDADE_DATA_POSSE=case_when(NR_IDADE_DATA_POSSE==999~NA_real_,
                                        TRUE~NR_IDADE_DATA_POSSE)) %>% 
@@ -375,7 +375,7 @@ candidatos_idade_genero_media_votos %>%
   top_n(1, Media_Pct_Votos)
 ```
 
-```{r, echo=F, eval=F}
+```{r, echo=F}
 candidatos_idade_genero_media_votos %>%
   group_by(DS_GENERO) %>%
   arrange(DS_GENERO, -Media_Pct_Votos) %>%
@@ -411,7 +411,7 @@ resultados_totais_partidos %>% anti_join(IDH, by="NM_UE") %>%
   distinct(NM_UE) #Boa Vista e Roraionopolis não cruzados
 ```
 
-```{r, echo=F, eval=F}
+```{r, echo=F}
 resultados_totais_partidos %>% anti_join(IDH, by="NM_UE") %>%
   distinct(NM_UE) %>%
   paged_table()
@@ -431,7 +431,7 @@ resultados_totais_partidos_IDH <- resultados_totais_partidos %>%
 ```
 (e) Crie um gráfico de pontos do IDH do município no eixo X por porcentagem de votos do partido PMDB no eixo Y. Adicione um título e rótulos nos eixos. 
 
-```{r, eval=F}
+```{r}
 resultados_totais_partidos_IDH %>% 
   filter(SG_PARTIDO=="PMDB") %>%
   ggplot() + 
@@ -444,7 +444,7 @@ resultados_totais_partidos_IDH %>%
 
 (e) Ajuste o seu gráfico na questão (d) para que o tamanho de cada ponto mostra o total de votos que o PMDB recebeu no município.
 
-```{r, eval=F}
+```{r}
 resultados_totais_partidos_IDH %>% 
   filter(SG_PARTIDO=="PMDB") %>%
   ggplot() + 
@@ -457,7 +457,7 @@ resultados_totais_partidos_IDH %>%
 
 (f) Ajuste o seu gráfico na questão (e) para que 1 cor dos pontos (em vez do tamanho) mostre o total de votos que o PMDB recebeu no município. Aplique uma escala de cores apropriada de sua escolha.
 
-```{r, eval=F}
+```{r}
 resultados_totais_partidos_IDH %>% 
   filter(SG_PARTIDO=="PMDB") %>%
   ggplot() + 
