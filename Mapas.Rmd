@@ -553,7 +553,7 @@ Observe na coluna 'geometry' que o nosso objeto sf de polígonos agora se transf
 
 1. Junte os dois bancos de Cidades e Países Europeus usando **o nome do país**. O resultado deve ser os **pontos** das cidades. (Uma das nossas tabelas tem que ser um tibble simples (não `sf`), então use a função `st_drop_geometry()` para voltar a uma tabela simples). Mostre num mapa a população dos países de cada cidade.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 cidades_pais <- cidades %>% 
   left_join(Europe %>% rename(Pais=NAME) %>% 
               st_drop_geometry(), by="Pais")
@@ -566,7 +566,7 @@ cidades_pais %>%
 
 2. Junte os dois bancos de cidades e países Europeus usando **um join espacial**. O resultado deve ser os pontos das cidades. Reproduza o mapa de Questão 1.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 cidades_pais_espacial <- cidades %>%
   st_join(Europe %>% st_transform(4326))
 
@@ -578,7 +578,7 @@ cidades_pais_espacial %>%
 
 3. Junte os dois bancos de cidades e países Europeus usando **o nome do país**. O resultado deve ser os **polígonos** dos países. Mostre num mapa a população das cidades metropolitanas.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 pais_cidades <- Europe %>% rename(Pais=NAME) %>% 
   left_join(cidades %>% st_drop_geometry(), by="Pais")
 
@@ -590,7 +590,7 @@ pais_cidades %>%
 
 4. Junte os dois bancos de cidades e países Europeus usando **um join espacial**. Reproduza o mapa de Questão 3.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 pais_cidades_espacial <- Europe %>% st_transform(4326) %>%
   st_join(cidades)
 
