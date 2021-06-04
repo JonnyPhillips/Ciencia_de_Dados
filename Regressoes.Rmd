@@ -333,7 +333,7 @@ O valor 'p' de zero indica que realmente existe uma diferença nas companhias qu
 
 1. Use a função `rnorm(1000, 0, 1)` para gerar um vetor de 1000 observações aleatoriamente da distribuição normal. Avalie se os valores gerados sejam realmente distribuido de forma normal com um teste Shapiro-Wilk.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 rnorm(1000, 0, 1) %>% 
   shapiro.test() %>%
   tidy()
@@ -341,7 +341,7 @@ rnorm(1000, 0, 1) %>%
 
 2. No banco de dados `planes`, teste se a média do ano de fabricação dos voos de fabricador Boeing seja diferente de 2000. 
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 planes %>% filter(manufacturer=="BOEING") %>% 
   pull(year) %>%
   t.test(mu=2000)
@@ -349,7 +349,7 @@ planes %>% filter(manufacturer=="BOEING") %>%
 
 3. Avalie com um teste apropriado se a velocidade média de voos de Newark (EWR) seja igual à velocidade dos vôos de LaGuardia (LGA). (Lembre-se que tem que calcular a variável velocidade).    
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% filter(origin!="JFK") %>%
   mutate(velocidade=distance/air_time) %>%
   t.test(velocidade~origin, data=.) %>%
@@ -358,7 +358,7 @@ flights %>% filter(origin!="JFK") %>%
 
 4. Usando o banco de dados `weather`, qual é a correlação entre temperatura (`temp`) e pressão (`pressure`)?
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 weather %>% filter(origin!="EWR") %>%
   cor.test(~temp + pressure, data=.) %>%
   tidy()
@@ -366,7 +366,7 @@ weather %>% filter(origin!="EWR") %>%
 
 5. Crie um gráfico usando `geom_errorbar()` para comunicar o intervalo de confiança da estimativa de correlação em questão 4. Adicione uma linha horizontal para comparar com uma correlação de zero.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 weather %>% filter(origin!="EWR") %>%
   cor.test(~temp + pressure, data=.) %>%
   tidy() %>%
@@ -692,7 +692,7 @@ diff_simulacoes %>% as_tibble() %>%
 
 1. Usando uma regressão linear, qual é a associação entre precipitação (`precip`, variável dependente) e as três variáveis pressão (`pressure `), temperatura (`temp`) e humidade (`humid`) no banco de dados `weather`? Qual dessas três variáveis tem relação positiva com a variável dependente, e qual uma relação negativa? 
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 model1 <- weather %>% lm(precip ~ pressure + temp + humid, data=.) 
 
 model1 %>% tidy()
@@ -700,7 +700,7 @@ model1 %>% tidy()
 
 2. Execute mais um modelo de regressão adicionando mais uma variável explicativa do aeroporto de `origin` ao modelo de questão 1. Mostre os seus dois modelos juntos numa tabela apropriada.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 model2 <- weather %>% lm(precip ~ pressure + temp + humid + origin, data=.) 
 
 list(model1, model2) %>% stargazer(title="Modelo de Precipitação, Q2", 
@@ -709,7 +709,7 @@ list(model1, model2) %>% stargazer(title="Modelo de Precipitação, Q2",
 
 3. Crie um gráfico de efeitos marginais para a sua regressão na questão 2.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 model2 %>% tidy() %>%
   mutate(conf.lo=estimate-1.96*std.error,
          conf.hi=estimate+1.96*std.error) %>%
@@ -721,7 +721,7 @@ model2 %>% tidy() %>%
 
 4. Execute uma regressão do tipo 'logit' que explica se um vôo dure mais de três horas ou não (gere esta variável) baseado nas variáveis `dep_time`, `distance` e `origin`. 
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 flights %>% mutate(mais_de_tres_horas=case_when(air_time>180 ~ 1,
                                     TRUE ~0)) %>%
   zelig(mais_de_tres_horas ~ dep_time + distance + origin, data=., model="logit") %>%
@@ -732,7 +732,7 @@ flights %>% mutate(mais_de_tres_horas=case_when(air_time>180 ~ 1,
 
 5. Use a sua regressão de questão 4 e as funções de `Zelig` para prever quanto mais provável é que um vôo tenha mais de três horas de duração quando a distância aumenta de 700 para 1300 kilometros.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 modelo_tres_horas <- flights %>% mutate(mais_de_tres_horas=case_when(air_time>180 ~ 1,
                                     TRUE ~0)) %>%
   mutate(origin=factor(origin)) %>%
