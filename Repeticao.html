@@ -86,26 +86,26 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>Analise de Dados para as Ciencias Sociais: Funções e Repetição</title>
+  <title>Analise de Dados para as Ciencias Sociais: Repetição</title>
 
 
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Analise de Dados para as Ciencias Sociais: Funções e Repetição"/>
+  <meta property="og:title" content="Analise de Dados para as Ciencias Sociais: Repetição"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="Analise de Dados para as Ciencias Sociais"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Analise de Dados para as Ciencias Sociais: Funções e Repetição"/>
+  <meta property="twitter:title" content="Analise de Dados para as Ciencias Sociais: Repetição"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Funções e Repetição"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_float","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[1]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Repetição"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["toc","toc_float","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[1]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2050,7 +2050,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Funções e Repetição","authors":[]}
+{"title":"Repetição","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2106,7 +2106,7 @@ Desafios
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Funções e Repetição</h1>
+<h1>Repetição</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2120,9 +2120,9 @@ Desafios
 <ul>
 <li><a href="#introdução">Introdução</a></li>
 <li><a href="#funções-customizadas">Funções Customizadas</a></li>
-<li><a href="#repitindo-a-aplicação-de-funções-map-map_df">Repitindo a aplicação de funções (<code>map</code>, <code>map_df</code>)</a></li>
-<li><a href="#repitindo-a-aplicação-de-funções-para-vetores-fora-de-um-tibble">Repitindo a aplicação de funções para vetores fora de um tibble</a></li>
-<li><a href="#repitindo-a-aplicação-de-funções-para-uma-lista">Repitindo a aplicação de funções para uma lista</a></li>
+<li><a href="#repetindo-a-aplicação-de-funções-map-map_df">Repetindo a aplicação de funções (<code>map</code>, <code>map_df</code>)</a></li>
+<li><a href="#repetindo-a-aplicação-de-funções-para-vetores-fora-de-um-tibble">Repetindo a aplicação de funções para vetores fora de um tibble</a></li>
+<li><a href="#repetindo-a-aplicação-de-funções-para-uma-lista">Repetindo a aplicação de funções para uma lista</a></li>
 <li><a href="#gerando-novas-colunas-com-map-e-mutate">Gerando Novas Colunas com <code>map</code> e <code>mutate</code></a></li>
 <li><a href="#leitura-para-tutorial-12">Leitura para Tutorial 12</a></li>
 </ul>
@@ -2141,8 +2141,8 @@ div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </style>
 <h1 id="introdução">Introdução</h1>
-<p>Usar scripts de programação para a análise de dados tem várias vantagens: transparência, reprodutibilidade, etc. Mas uma vantagem fundamental é a capacidade para escalar e repetir as nossas análises várias vezes sem repetir o código. A ideia é que podemos preparar uma análise para produzir uma estatística, uma tabela, um gráfico, um teste estatístico ou uma regressão para variáveis e valores específicos, e indicar para R refazer a análise várias vezes, deixando alguns elementos da análise fixos e permitindo outros a variar.</p>
-<p>Por exemplo, imagine que nos queremos calcular a amplitude de uma variável: o máximo menos o mínimo. E queremos rodar a análise para três variáveis:</p>
+<p>Usar scripts de programação para a análise de dados tem várias vantagens: transparência, reprodutibilidade, etc. Mas uma vantagem fundamental é a capacidade para ganhar escala e para repetição das nossas análises várias vezes, sem repetir o código. A ideia é que podemos preparar uma análise para produzir uma estatística, uma tabela, um gráfico, um teste estatístico ou uma regressão para variáveis e valores específicos, e indicar para R refazer a análise várias vezes, deixando alguns elementos da análise fixos e permitindo a outros variarem.</p>
+<p>Por exemplo, imagine que nós queremos calcular a amplitude de uma variável: o máximo menos o mínimo. E queremos rodar a análise para três variáveis:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/hadley/nycflights13'>"nycflights13"</a></span><span class='op'>)</span>
@@ -2162,10 +2162,10 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </code></pre>
 </div>
 </div>
-<p>Veja quanto do código aqui é repetido! Nove linhas e a única coisa que varia é o nome da variável… Não é simplesmente o esforço de digitação que é problemático aqui - mesmo que copiamos e colamos, temos que lembrar quais elementos a atualizar. Se esqueçamos apenas uma mudança, a nossa análise fica errada. Isso é responsável para uma grande parcela de erros na análise de dados. Vocês já identificaram o erro no código acima??</p>
+<p>Veja quanto do código aqui é repetido! Nove linhas e a única coisa que varia é o nome da variável… Não é simplesmente o esforço de digitação que é problemático aqui - mesmo que copiemos e colemos, temos que lembrar quais elementos precisamos atualizar. Se esquecermos apenas uma mudança, a nossa análise estará errada. Isso é responsável por uma grande parcela de erros na análise de dados. Vocês já identificaram o erro no código acima??</p>
 <h1 id="funções-customizadas">Funções Customizadas</h1>
-<p>O uso de repetição exige uma separação clara dos dois elementos fundamentais de programação em R: <strong>Objetos</strong> (tibbles, vetores, valores únicos), e <strong>Funções</strong> (ações que recebem insumos e geram produtos). Com repetição, normalmente fixamos as funções e ajustamos os objetos, para que os insumos às funções variem, e avaliamos a variação nos produtos finais. A função só percisa ser escrita uma vez, evitando a repetição manual do cálculo.</p>
-<p>Podemos gerar uma função que aceita um vetor (uma coluna de nosso tibble), e encaminhar várias colunas para a nossa função. (Revise a introduçao a funções em <a href="https://jonnyphillips.github.io/Ciencia_de_Dados/Estatisticas_Resumidas.html">Tutorial 4</a> se ajudar). Com o exemplo de calcular amplitude:</p>
+<p>O uso de repetição exige uma separação clara dos dois elementos fundamentais de programação em R: <strong>Objetos</strong> (tibbles, vetores, valores únicos), e <strong>Funções</strong> (ações que recebem insumos e geram produtos). Com repetição, normalmente fixamos as funções e ajustamos os objetos, para que os insumos às funções variem, e avaliamos a variação nos produtos finais. A função só precisa ser escrita uma vez, evitando a repetição manual do cálculo.</p>
+<p>Podemos gerar uma função que aceita um vetor (uma coluna de nosso tibble), e encaminhar várias colunas para a nossa função. (Revise a introdução a funções em <a href="https://jonnyphillips.github.io/Ciencia_de_Dados/Estatisticas_Resumidas.html">Tutorial 4</a> se ajudar). Com o exemplo de calcular amplitude:</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
@@ -2182,7 +2182,8 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </code></pre>
 </div>
 </div>
-<p>O uso da função já acelera a análise bastante! E também deixa fácil ajustar o cálculo no futuro. Por exemplo, para arredondar os resultados, é só incoporar uma vez na função, e vai afetar todos os cálculos seguintes:</p>
+<p>O código aqui gera uma nova função chamada <code>amplitude</code> que recebe um vetor (o <code>x</code>). Dentro dos chaves (<code>{</code>, <code>}</code>) colocamos o nosso cálculo de amplitude - o máximo do vetor <code>x</code> menos o mínimo de <code>x</code> que salvamos como objeto <code>resultado</code>. E finalmente indicamos para a função devolver o valor de <code>resultado</code> como o produto da função. Assim, <code>amplitude</code> fica disponível como qualquer outra função de R para aplicaçõ às variáveis de interesse.</p>
+<p>O uso da função já acelera bastante a análise! E também deixa fácil ajustar o cálculo no futuro. Por exemplo, para arredondar os resultados, é só incorporar uma vez na função, e vai afetar todos os cálculos seguintes:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>amplitude</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
@@ -2196,10 +2197,10 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </code></pre>
 </div>
 </div>
-<h1 id="repitindo-a-aplicação-de-funções-map-map_df">Repitindo a aplicação de funções (<code>map</code>, <code>map_df</code>)</h1>
-<p>O parte chato do código acima é que não salvamos tantas linhas de código - temos 6 linhas - e ainda precisamos repetir as linhas finais para aplicar a função à cada variável, abrindo oportunidades para erros.</p>
+<h1 id="repetindo-a-aplicação-de-funções-map-map_df">Repetindo a aplicação de funções (<code>map</code>, <code>map_df</code>)</h1>
+<p>A parte chata do código acima é que não economizamos tantas linhas de código - temos 6 linhas - e ainda precisamos repetir as linhas finais para aplicar a função à cada variável, abrindo oportunidades para erros.</p>
 <p>É possível automatizar a <em>aplicação</em> da função? Sim! A função <code>map</code> é bem flexível e permite a aplicação de uma função à uma série de objetos. Os objetos podem ser listas - vamos ver exemplos disso em breve - ou vetores, por exemplo as colunas do nosso tibble. O argumento de <code>map</code> é o nome da função que queremos aplicar.</p>
-<p>Em nosso exemplo de amplitude, podemos <code>select</code> as colunas para as quais queremos calcular o amplitude, e <code>map</code> a função amplitude para cada coluna:</p>
+<p>Em nosso exemplo de amplitude, podemos <code>select</code> as colunas para as quais queremos calcular a amplitude, e <code>map</code> a função amplitude para cada coluna:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>amplitude</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
@@ -2211,7 +2212,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </code></pre>
 </div>
 </div>
-<p>Muito mais simples! Agora em mais ou menos quatro linhas. E note quanto fácil seja ampliar a análise para mais variáveis - é só incluir elas dentro de <code>select</code>:</p>
+<p>Muito mais simples! Agora em mais ou menos quatro linhas. E note o quanto é fácil ampliar a análise para mais variáveis - é só incluí-las dentro de <code>select</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>dep_delay</span>, <span class='va'>arr_delay</span>, <span class='va'>distance</span>, <span class='va'>air_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
@@ -2230,7 +2231,7 @@ $distance
 $air_time
 [1] 675</code></pre>
 </div>
-<p>Qual o formato do resultado de <code>map</code>? Inspecione ele com <code>class()</code>. É uma lista, um formato genérico e flexível que vamos discutir em breve, mas em geral nesse curso sempre preferimos trabalhar com tibbles. Felizmente, existe uma variadade de <code>map</code> que padroniza o resultado da aplicação repetida da função para um tibble, <code>map_df</code>:</p>
+<p>Qual o formato do resultado de <code>map</code>? Inspecione ele com <code>class()</code>. É uma lista, um formato genérico e flexível que vamos discutir em breve, mas em geral nesse curso sempre preferimos trabalhar com tibbles. Felizmente, existe uma variedade de <code>map</code> que padroniza o resultado da aplicação repetida da função para um tibble, <code>map_df</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>dep_delay</span>, <span class='va'>arr_delay</span>, <span class='va'>distance</span>, <span class='va'>air_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
@@ -2274,8 +2275,8 @@ air_time
 </tbody>
 </table>
 </div>
-<h1 id="repitindo-a-aplicação-de-funções-para-vetores-fora-de-um-tibble">Repitindo a aplicação de funções para vetores fora de um tibble</h1>
-<p>Observe que a funcionalidade aqui é bem parecida de <code>summarize(across())</code> do Tutorial 4, permitindo a aplicação de uma função à várias colunas. É verdade, mais o ganho de <code>map</code> é que ela é mais geral e pode ser usado fora do contexto de <code>mutate</code> e <code>summarize</code>, e fora de um tibble único. Por exemplo, imagine que temos um vetor de centenas de arquivos .csv para abrir em R na pasta do nosso projeto - <code>map</code> permite aplicar a função de <code>read_csv</code> para <em>todos</em> os arquivos em uma linha só (gerando dois arquivos de csv primeiramente para ilustrar):</p>
+<h1 id="repetindo-a-aplicação-de-funções-para-vetores-fora-de-um-tibble">Repetindo a aplicação de funções para vetores fora de um tibble</h1>
+<p>Observe que a funcionalidade aqui é bem parecida de <code>summarize(across())</code> do Tutorial 4, permitindo a aplicação de uma função à várias colunas. É verdade, mas o ganho de <code>map</code> é que ela é mais geral e pode ser usada fora do contexto de <code>mutate</code> e <code>summarize</code>, e fora de um tibble único. Por exemplo, imagine que temos um vetor de centenas de arquivos .csv para abrir em R na pasta do nosso projeto - <code>map</code> permite aplicar a função de <code>read_csv</code> para <em>todos</em> os arquivos em uma linha só (gerando dois arquivos de csv primeiramente para ilustrar):</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>day</span><span class='op'>==</span><span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>write_csv</span><span class='op'>(</span><span class='st'>"test1.csv"</span><span class='op'>)</span>
@@ -2287,7 +2288,7 @@ air_time
 </code></pre>
 </div>
 </div>
-<p>A iteração aqui não é sobre mútliplas colunas, mas sobre cada elemento do vetor ‘arquivos’. O resultado ‘dados’ é uma lista. Dentro da lista existem, separadamente, dois tibbles. Temos duas opções para juntar os dois tibbles em um. Podemos substituir <code>map_df</code> para <code>map</code>, como já aprendemos acima. Ou podemos manter <code>map</code> e seguir com <code>bind_rows()</code> que junta tibbles verticalmente:</p>
+<p>A repetição (‘iteração’) aqui não é sobre múltiplas colunas, mas sobre cada elemento do vetor ‘arquivos’. O resultado ‘dados’ é uma lista. Dentro da lista existem, separadamente, dois tibbles. Temos duas opções para juntar os dois tibbles em um. Podemos substituir <code>map_df</code> para <code>map</code>, como já aprendemos acima. Ou podemos manter <code>map</code> e seguir com <code>bind_rows()</code> que junta tibbles verticalmente:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados</span> <span class='op'>&lt;-</span> <span class='va'>arquivos</span> <span class='op'>%&gt;%</span> <span class='fu'>map_df</span><span class='op'>(</span><span class='va'>read_csv</span><span class='op'>)</span>
@@ -2297,13 +2298,13 @@ air_time
 </code></pre>
 </div>
 </div>
-<h1 id="repitindo-a-aplicação-de-funções-para-uma-lista">Repitindo a aplicação de funções para uma lista</h1>
+<h1 id="repetindo-a-aplicação-de-funções-para-uma-lista">Repetindo a aplicação de funções para uma lista</h1>
 <p>Até agora, utilizamos <code>map</code> para transformar um vetor (fora de um tibble como vetor mesmo, ou como uma coluna dentro de um tibble) em uma lista ou um tibble. Existe mais uma combinação possível - usar uma lista como o <em>insumo</em> de <code>map</code>. O grande valor aqui é quando queremos trabalhar com <strong>múltiplos tibbles</strong>.</p>
 <p><code>map</code> funciona com vetores ou listas, aplicando a função a cada elemento do vetor/lista. Listas são úteis porque eles podem conter uma variedade de outros objetos - valores únicos, vetores, tibbles, outra listas. Se tivermos vários tibbles - por exemplo bancos de dados de anos distintos - podemos organizar eles em uma lista.</p>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Listas</strong></p>
-<p>Uma lista é um conjunto de objetos diversos organizado verticalmente. Não é um tibble com linhas e colunas, listas só tem ‘elementos’, caixas vazias para guardar qualquer tipo de objeto - valores únicos, tibbles ou outra listas.</p>
-<p>Em R, listas são fáceis a construir com <code>list(objeto1, objeto2, ...)</code>. Vamos ver como aparece uma lista de uma mistura de objetos:</p>
+<p>Uma lista é um conjunto de objetos diversos organizados verticalmente. Não é um tibble com linhas e colunas, listas só têm ‘elementos’, caixas vazias para guardar qualquer tipo de objeto - valores únicos, tibbles ou outras listas. Vetores também são objetos unidimensionais, mas diferem de listas porque vetores apenas contém objetos simples - valores únicos - e de um único tipo (numérico, caracter, lógico etc.).</p>
+<p>Em R, listas são fáceis de construir com <code>list(objeto1, objeto2, ...)</code>. Vamos ver como parece uma lista de uma mistura de objetos:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>objeto1</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>day</span><span class='op'>==</span><span class='fl'>1</span><span class='op'>)</span>
@@ -2361,7 +2362,11 @@ air_time
 [[4]]
 [1] &quot;teste&quot;</code></pre>
 </div>
-<p><code>lista_exemplo</code> mostra o seu conteúdo com quatro elementos, designado com o sintáxe: <code>[[1]]</code>, <code>[[2]]</code> etc. Os colchetes duplos indicam um elemento de uma lista.</p>
+<p>Se você abre o objeto <code>lista_exemplo</code> no seu Environment, vai aparecer assim, deixando claro os quatro elementos de vários tipos:</p>
+<figure>
+<img src="lista_imagem.png" alt="A estrutura de uma lista" /><figcaption aria-hidden="true">A estrutura de uma lista</figcaption>
+</figure>
+<p>Se rodar o código <code>lista_exemplo</code> no Console, o R vai mostrar o seu conteúdo com quatro elementos, designado com o sintaxe: <code>[[1]]</code>, <code>[[2]]</code> etc. Os colchetes duplos indicam um elemento de uma lista.</p>
 <p>Para acessar um elemento único de uma lista, é só indicar qual elemento deseja com os colchetes:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2386,7 +2391,7 @@ air_time
 <p>Note que as ações do tidyverse (<code>select</code>, <code>filter</code>, <code>slice</code> etc.) não funcionam com listas. Temos que trabalhar com as ferramentas básicas de R, ou aplicar funções com <code>map</code> como ilustrado neste tutorial.</p>
 </div>
 <p><br></p>
-<p>Para entender o use de <code>map</code> com listas, e especificamente com diversos tibbles, vamos separar o banco de dados de <code>flights</code> em dois meses, organizar eles em uma lista (com a função <code>list()</code>), e aplicar uma função a cada banco (cada tibble). Como exemplo, vamos calcular o atraso médiaopor aeroporto com <code>summarize()</code>.</p>
+<p>Para entender o uso de <code>map</code> com listas, e especificamente com diversos tibbles, vamos separar o banco de dados de <code>flights</code> em dois meses, organizar eles em uma lista (com a função <code>list()</code>), e aplicar uma função a cada banco (cada tibble). Como exemplo, vamos calcular o atraso médiao por aeroporto com <code>summarize()</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_jan</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>month</span><span class='op'>==</span><span class='fl'>1</span><span class='op'>)</span>
@@ -2410,7 +2415,9 @@ $fevereiro
       &lt;dbl&gt;
 1      10.8</code></pre>
 </div>
-<p>Fácil, sim? Não tem tanta diferença entre <code>list()</code>, criando uma lista, e <code>c()</code>, criando um vetor: a diferença é simplesmente que cada elemento de <code>c()</code> tem que ser um valor único, enquanto <code>list()</code> é mais flexível, aceitando qualquer tipo e tamanho de objeto, incluindo tibbles. O resultado seria mais claro e accessível se forçamos a produção de um tibble:</p>
+<p>Fácil, sim? Não tem tanta diferença entre <code>list()</code>, criando uma lista, e <code>c()</code>, criando um vetor: a diferença é simplesmente que cada elemento de <code>c()</code> tem que ser um valor único, enquanto <code>list()</code> é mais flexível, aceitando qualquer tipo e tamanho de objeto, incluindo tibbles.</p>
+<p>As listas também facilitam a aplicação de nomes aos elementos, que torna mais intuitivo o acesso aos elementos no futuro, e de forma automatizada com outras funções.</p>
+<p>O resultado seria ainda mais claro e acessível se forçamos a produção de um tibble em vez de uma lista:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights_jan_fev</span> <span class='op'>%&gt;%</span> <span class='fu'>map_df</span><span class='op'>(</span><span class='va'>summarize</span>, dep_delay<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>dep_delay</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span>
@@ -2430,7 +2437,7 @@ $fevereiro
 </code></pre>
 </div>
 </div>
-<p>Agora, vale a pena resumir os usos de <code>map</code>, porque estamos trabalhando num nível mais abstrato e mais flexível, com uma variadade grande de opções:</p>
+<p>Agora, vale a pena resumir os usos de <code>map</code>, porque estamos trabalhando num nível mais abstrato e mais flexível, com uma variedade grande de opções:</p>
 <div class="layout-chunk" data-layout="l-body">
 <table>
 <caption>
@@ -2520,16 +2527,16 @@ Tibble
 </table>
 </div>
 <p>Tanta flexibilidade exige cuidado por nosso lado - temos que entender bem qual é o tipo de objeto que contém os itens sobre os quais queremos repetir a função, e qual é o produto desejado.</p>
-<p>A família de funções de <code>map</code> ajudam bastante na repetição porque eles automatizam o processo de substiuição de cada insumo na função, e a organização do resultado. Porém, é uma família nova, e historicamente repetição foi realizada com uma ferramenta mais manual, o ‘<code>for</code> loop’. Recemendamos trabalhar com <code>map</code> quando possível para simplicidade, mas é útil e pedagogicamente interessante entender os <code>for</code> loops, então incluimos uma introdução rápida na caixa abaixo.</p>
+<p>A família de funções de <code>map</code> ajuda bastante na repetição porque elas automatizam o processo de substituição de cada insumo na função, e a organização do resultado. Porém, é uma família nova, e historicamente a repetição foi realizada com uma ferramenta mais manual, o ‘<code>for</code> loop’. Recomendamos trabalhar com <code>map</code> quando possível para simplicidade, mas é útil e pedagogicamente interessante entender os <code>for</code> loops, então incluímos uma introdução rápida na caixa abaixo.</p>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: For Loops</strong></p>
-<p>Uma forma alternativa para repetir ações em R é o uso de ‘for’ loops. Eles são muito comuns em programação, então é bom conhecer, mas se você consiga usar <code>map</code>, é normalmente mais eficiente.</p>
+<p>Uma forma alternativa para repetir ações em R é o uso de ‘for’ loops. Eles são muito comuns em programação, então é bom conhecer. Mas se você conseguir usar <code>map</code>, normalmente é mais eficiente.</p>
 <p>Um <code>for</code> loop literalmente repete uma ação várias vezes, substituindo um valor novo cada vez. Há quatro elementos num ‘for’ loop:</p>
 <ol type="1">
 <li><strong>A função para repetir</strong> - <code>flights %&gt;% pull(i) %&gt;% amplitude()</code>. o <code>i</code> significa o valor/a variável que queremos ajustar cada iteração.</li>
 <li><strong>Uma definição num vetor dos valores para substituir na função no lugar de ‘i’</strong> - <code>elementos &lt;- c("dep_delay", "arr_delay", "distance")</code>.</li>
-<li><strong>A definição do loop mesmo</strong> - <code>for (i in elementos) { }</code>. Isso significa que a função dentro das chaves repete para cada valor do vetor elementos, cada vez substituindo <code>i</code> na função com o valor de <code>elementos</code> atual.</li>
-<li><strong>Um objeto final para guardar os resultados</strong> - Devido que vamos repetir a função várias vezes, precisamos de um objeto que aceita múltiplos valores, ou seja, um vetor. Podemos criar anteriormente um vetor vazio com <code>resultado &lt;- c()</code>, e dentro da função salva a amplitude calculado com nome do elemento atual <code>i</code>.</li>
+<li><strong>A definição do loop mesmo</strong> - <code>for (i in elementos) { }</code>. Isso significa que a função dentro das chaves se repete para cada valor do vetor <code>elementos</code>, cada vez substituindo o <code>i</code> na função pelo valor correspondente de <code>elementos</code>.</li>
+<li><strong>Um objeto final para guardar os resultados</strong> - Dado que vamos repetir a função várias vezes, precisamos de um objeto que aceita múltiplos valores, ou seja, um vetor. Podemos criar anteriormente um vetor vazio com <code>resultado &lt;- c()</code>, e dentro da função salva a amplitude calculada com nome do elemento atual <code>i</code>.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2543,54 +2550,58 @@ Tibble
 </code></pre>
 </div>
 </div>
-<p>Veja de novo a lógica do ‘for’ loop: a linha da função contém duas instâncias de ‘i’: o indíce do destino no resultado e a variável para analisar dentro de <code>pull()</code>. A questão é simplesmente quais variáveis para substituir para ‘i’. Elas são definidas pela linha anterior: <code>i in elementos</code> - todas as variáveis definidas no vetor ‘elementos’ .</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>dep_delay arr_delay  distance 
+     1344      1358      4966 </code></pre>
+</div>
+<p>Veja de novo a lógica do ‘for’ loop: a linha da função contém duas instâncias de ‘i’: o índice do destino no resultado e a variável para analisar dentro de <code>pull()</code>. A questão é simplesmente quais variáveis para substituir para ‘i’. Elas são definidas pela linha anterior: <code>i in elementos</code> - todas as variáveis definidas no vetor ‘elementos’ .</p>
 </div>
 <aside>
 <p>Mais uma alternativa: Se você não saiba o número de repetições necessárias, pode repetir até que uma condição seja atendida com um <code>while</code> loop, por exemplo:</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (condição) {</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a> ...</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (condição) {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a> ...</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 </aside>
 <p><br></p>
 <h2 id="exercício-1-repetição">Exercício 1: Repetição</h2>
 <div class="green">
 <ol type="1">
-<li>Gere três tibbles seperados derivados do banco de dados <code>flights</code>, um para cada aeroporto de origem (<code>origin</code>). Em seguida, coloque os três tibbles em uma lista única (<code>list()</code>), com o nome de cada elemento da lista a sigla do aeroporto.</li>
+<li>Gere três tibbles separados derivados do banco de dados <code>flights</code>, um para cada aeroporto de origem (<code>origin</code>). Em seguida, coloque os três tibbles em uma lista única (<code>list()</code>), com o nome de cada elemento da lista a sigla do aeroporto.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="2" type="1">
-<li>Use <code>map</code> para calcular o número de observações (vôos) em cada tibble usando a função <code>nrow</code>.</li>
+<li>Use <code>map</code> para calcular o número de observações (voos) em cada tibble usando a função <code>nrow</code>.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="3" type="1">
-<li>Filtre os três bancos de questão 1 para vôos com destino ‘SFO’ (San Francisco) usando <code>map</code>. Quantos vôos (observações) têm cada aeroporto de Nova Iorque para SFO?</li>
+<li>Filtre os três bancos de questão 1 para vôos com destino ‘SFO’ (San Francisco) usando <code>map</code>. Quantos voos (observações) têm cada aeroporto de Nova Iorque para SFO?</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="4" type="1">
-<li>Para cada um dos três bancos de dados de questão 1, calcule a velocidade de cada vôo usando <code>map</code>.</li>
+<li>Para cada um dos três bancos de dados de questão 1, calcule a velocidade de cada voo usando <code>map</code>.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="5" type="1">
-<li>Baseado no seu resultado de questão 4, resume cada um dos três bancos para calcular a média da velocidade dos vôos usando uma função da família <code>map</code>. O resultado deve ser um tibble com todos os detalhes apropriados.</li>
+<li>Baseado no seu resultado da questão 4, resuma cada um dos três bancos para calcular a média da velocidade dos voos usando uma função da família <code>map</code>. O resultado deve ser um tibble com todos os detalhes apropriados.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 </div>
 <h1 id="gerando-novas-colunas-com-map-e-mutate">Gerando Novas Colunas com <code>map</code> e <code>mutate</code></h1>
-<p>Todas as aplicações de <code>map</code> acima produzem <em>novos</em> tibbles ou listas. Mas quando os resultados da aplicação da função cabe com o tamanho do nosso tibble original - por exemplo, cada linha do tibble é um estado e temos um resultado por cada estado - é desejável manter os resultados dentro do tibble original, e apenas adicionar mais uma coluna.</p>
-<p>Neste caso, uma forma muito útil de usar <code>map</code> é <em>dentro</em> de <code>mutate</code>. Isso permite inserir os resultados do cálculo repitido em uma nova coluna em nosso tibble. Veja uma forma interessante de abrir os arquivos .csv - podemos gerar um tibble com a primeira coluna documentando os <em>nomes dos arquivos</em>, e depois usar <code>map</code> conjunto com <code>read_csv</code> para inserir os <em>dados</em> de cada arquivo em uma nova coluna. O nosso tibble agora é mais parecido com um armário de arquivos, com cada gaveta bem marcado.</p>
-<p>Note que agora temos que indicar para <code>map</code> para qual coluna queremos aplicar a função <code>read_csv</code> - o ordem é <code>map(coluna, função)</code>. Cada linha reflete um arquivo, e os dados - literalmente os tibbles - ficam ‘nested’ numa lista-coluna (como descobrimos no tutorial 7).</p>
+<p>Todas as aplicações de <code>map</code> acima produzem <em>novos</em> tibbles ou listas. Mas quando os resultados da aplicação da função cabem no tibble original - por exemplo, cada linha do tibble é um estado e temos um resultado por cada estado - é desejável manter os resultados dentro do tibble original, e apenas adicionar mais uma coluna.</p>
+<p>Neste caso, uma forma muito útil de usar <code>map</code> é <em>dentro</em> de <code>mutate</code>. Isso permite inserir os resultados do cálculo repetido em uma nova coluna em nosso tibble. Veja uma forma interessante de abrir os arquivos .csv - podemos gerar um tibble com a primeira coluna documentando os <em>nomes dos arquivos</em>, e depois usar <code>map</code> conjunto com <code>read_csv</code> para inserir os <em>dados</em> de cada arquivo em uma nova coluna. O nosso tibble agora é mais parecido com um armário de arquivos, com cada gaveta bem marcada.</p>
+<p>Note que agora temos que indicar para <code>map</code> para qual coluna queremos aplicar a função <code>read_csv</code> - a ordem é <code>map(coluna, função)</code>. Cada linha reflete um arquivo, e os dados - literalmente os tibbles - ficam ‘nested’ numa lista-coluna (como descobrimos no tutorial 7).</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
@@ -2609,10 +2620,10 @@ Tibble
 1     1 test1.csv &lt;spec_tbl_df [842 x 19]&gt;
 2     2 test2.csv &lt;spec_tbl_df [943 x 19]&gt;</code></pre>
 </div>
-<p>Este procedimento pode ajudar para organizar bases de dados grandes, pois podemos trabalhar com uma tabela simples de resumo, e não múltiplas tabelas inteiras.</p>
+<p>Este procedimento pode ajudar a organizar bases de dados grandes, pois podemos trabalhar com uma tabela simples de resumo, e não múltiplas tabelas inteiras.</p>
 <h2 id="repetindo-funções-com-tibbles-nested">Repetindo Funções com Tibbles Nested</h2>
-<p>Qual é o classe da coluna de ‘<code>conteudo</code>’ no tibble <code>dados_nested</code>? É uma lista, uma lista de tibbles. Então o nosso fluxo de análise não precisa parar aqui. Podemos continuar usando <code>map</code> para aplicar uma função para cada tibble separadamente.</p>
-<p>Por exemplo, vamos adicionar uma nova coluna no tibble de resumo com o número de vôos (o número de observações) em cada banco/linha.</p>
+<p>Qual é a classe da coluna de ‘<code>conteudo</code>’ no tibble <code>dados_nested</code>? É uma lista, uma lista de tibbles. Então o nosso fluxo de análise não precisa parar aqui. Podemos continuar usando <code>map</code> para aplicar uma função para cada tibble separadamente.</p>
+<p>Por exemplo, vamos adicionar uma nova coluna no tibble de resumo com o número de voos (o número de observações) em cada banco/linha.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='va'>dados_nested</span> <span class='op'>%&gt;%</span> 
@@ -2620,7 +2631,7 @@ Tibble
 </code></pre>
 </div>
 </div>
-<p>Pare, como aparece <code>dados_nested</code> agora? Na coluna <code>num_voos</code> temos uma coisa estranha <code>&lt;int [1]&gt;</code> - isso significa que existe um número dentro da lista, mas não está sendo apresentado. Isso acontece porque <code>map</code> produz uma lista-coluna por padrão. É melhor usar uma variadade de <code>map</code> para resultados que são valores únicos numéricos: <code>map_dbl</code> (de ‘double’, o tipo de variável numérica).</p>
+<p>Pare, Como aparece <code>dados_nested</code> agora? Na coluna <code>num_voos</code> temos uma coisa estranha <code>&lt;int [1]&gt;</code> - isso significa que existe um número dentro da lista, mas não está sendo apresentado. Isso acontece porque <code>map</code> produz uma lista-coluna por padrão. É melhor usar uma variedade de <code>map</code> para resultados que são valores únicos numéricos: <code>map_dbl</code> (de ‘double’, o tipo de variável numérica).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='va'>dados_nested</span> <span class='op'>%&gt;%</span> 
@@ -2656,7 +2667,7 @@ Tibble
 </div>
 </div>
 <h2 id="repetindo-análises">Repetindo Análises</h2>
-<p>É comum em análises empíricas executar várias estimativas. Por exemplo, com regressões podemos ajustar o banco de dados para estimar resultados em amostras diversas. Vamos usar este exemplo para aprender como a executar múltiplas regressões em uma linha única de código.</p>
+<p>É comum em análises empíricas executar várias estimativas. Por exemplo, com regressões podemos ajustar o banco de dados para estimar resultados em amostras diversas. Vamos usar este exemplo para aprender como executar múltiplas regressões em uma única linha de código.</p>
 <p>Começamos com uma regressão simples:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2671,38 +2682,38 @@ Coefficients:
 (Intercept)     dep_time  
   -16.27245      0.02143  </code></pre>
 </div>
-<p>A nossa primeira tarefa é repitir a regressão para vários bancos de dados. Vamos aproveitar da nossa tabela <code>dados_nested</code>. Inserindo a regressão <code>lm</code> dentro de <code>map</code> e <code>mutate</code> aplica a regressão para o banco de dados em cada linha (na coluna ‘conteudo’), e guarda os resultados em uma nova coluna.</p>
+<p>A nossa primeira tarefa é repetir a regressão para vários bancos de dados. Vamos aproveitar da nossa tabela <code>dados_nested</code>. Inserindo a regressão <code>lm</code> dentro de <code>map</code> e <code>mutate</code> aplica a regressão para o banco de dados em cada linha (na coluna ‘conteudo’), e guarda os resultados em uma nova coluna.</p>
 <p>Porém, em vez de especificar uma função customizada para aplicação com <code>map</code>, vamos gerar a função de regressão ‘na hora’ (‘anonimamente’) diretamente dentro de <code>map</code> com o uso de til <code>~</code> antes da função. É apenas um atalho para facilitar; claro que fica melhor definir uma função explícita anteriormente para cálculos mais complexos.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dados_nested <span class="ot">&lt;-</span> dados_nested <span class="sc">%&gt;%</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(regressão<span class="ot">=</span><span class="fu">map</span>(conteudo, <span class="sc">~</span><span class="fu">lm</span>(dep_delay <span class="sc">~</span> dep_time, <span class="at">data=</span>.)))</span></code></pre></div>
-</div>
-<p>Agora temos o resultado básico da regressão em nosso tibble. Provavalmente queremos limpar isso para tornar o resultado principal mais accessível. Por exemplo, podemos aplicar <code>tidy</code> com mais uma chamada de <code>mutate</code> e <code>map</code> para gerar um tibble dos resultados:</p>
-<div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dados_nested <span class="ot">&lt;-</span> dados_nested <span class="sc">%&gt;%</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(regressão<span class="ot">=</span><span class="fu">map</span>(regressão, tidy))</span></code></pre></div>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(regressão<span class="ot">=</span><span class="fu">map</span>(conteudo, <span class="sc">~</span><span class="fu">lm</span>(dep_delay <span class="sc">~</span> dep_time, <span class="at">data=</span>.)))</span></code></pre></div>
+</div>
+<p>Agora temos o resultado básico da regressão em nosso tibble. Provavelmente queremos limpar isso para tornar o resultado principal mais acessível. Por exemplo, podemos aplicar <code>tidy</code> com mais uma chamada de <code>mutate</code> e <code>map</code> para gerar um tibble dos resultados:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dados_nested <span class="ot">&lt;-</span> dados_nested <span class="sc">%&gt;%</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(regressão<span class="ot">=</span><span class="fu">map</span>(regressão, tidy))</span></code></pre></div>
 </div>
 <p>E se quisermos extrair um coeficiente de interesse para o tibble de resumo:</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dados_nested <span class="ot">&lt;-</span> dados_nested <span class="sc">%&gt;%</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">coef=</span><span class="fu">map</span>(regressão, filter, term<span class="sc">==</span><span class="st">&quot;dep_time&quot;</span>),</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">coef=</span><span class="fu">map_dbl</span>(coef, pull, estimate))</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dados_nested <span class="ot">&lt;-</span> dados_nested <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">coef=</span><span class="fu">map</span>(regressão, filter, term<span class="sc">==</span><span class="st">&quot;dep_time&quot;</span>),</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">coef=</span><span class="fu">map_dbl</span>(coef, pull, estimate))</span></code></pre></div>
 </div>
-<p>Observe um ponto importante aqui - quando aplicamos uma função com <code>map</code> sem o uso de <code>~</code>, os argumentos adicionais à função não ficam em paranteses, mas depois de uma vírgula.</p>
-<p>Na situação em que começamos com um banco de dados inteiro e quer aplicar uma regressão por grupo, em que o grupo é definido por uma variável, é só usar <code>group_by</code> e <code>nest</code> para preparar o tibble apropriado. Por exemplo, aplicando regresões distintas por aeroporto de origem:</p>
+<p>Observe um ponto importante aqui - quando aplicamos uma função com <code>map</code> sem o uso de <code>~</code>, os argumentos adicionais à função não ficam em parênteses, mas depois de uma vírgula.</p>
+<p>Na situação em que começamos com um banco de dados inteiro e queremos aplicar uma regressão por grupo, em que o grupo é definido por uma variável, é só usar <code>group_by</code> e <code>nest</code> para preparar o tibble apropriado. Por exemplo, aplicando regressões distintas por aeroporto de origem:</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>flights_reg_por_origem <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(origin) <span class="sc">%&gt;%</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(regressão<span class="ot">=</span><span class="fu">map</span>(data, <span class="sc">~</span><span class="fu">lm</span>(dep_delay <span class="sc">~</span> dep_time, <span class="at">data=</span>.)),</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>         regressão<span class="ot">=</span><span class="fu">map</span>(regressão, tidy),</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">coef=</span><span class="fu">map</span>(regressão, filter, term<span class="sc">==</span><span class="st">&quot;dep_time&quot;</span>),</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">coef=</span><span class="fu">map_dbl</span>(coef, pull,estimate))</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>flights_reg_por_origem <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(origin) <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(regressão<span class="ot">=</span><span class="fu">map</span>(data, <span class="sc">~</span><span class="fu">lm</span>(dep_delay <span class="sc">~</span> dep_time, <span class="at">data=</span>.)),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>         regressão<span class="ot">=</span><span class="fu">map</span>(regressão, tidy),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">coef=</span><span class="fu">map</span>(regressão, filter, term<span class="sc">==</span><span class="st">&quot;dep_time&quot;</span>),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">coef=</span><span class="fu">map_dbl</span>(coef, pull,estimate))</span></code></pre></div>
 </div>
 <p>Preparando, executando, e resumindo três regressões em uma única linha de código., parabéns!</p>
 <h3 id="mapeando-argumentos-múltiplos">Mapeando argumentos múltiplos</h3>
-<p>Não é apenas o banco de dados que é possível ajustar numa regressão - o <code>lm</code> aceita vários argumentos: ‘data’, mas também ‘formula’, o modelo da regressão. Isso é comum - funções aceitam vários argumentos e às vezes queremos variar mais que um argumento ao longa da nossa repetição. Por exemplo, eu queria rodar modelos A e B para banco de dados X e Y, modelo C para banco de dados Y e Z, e modelo D para banco de dados Z.</p>
-<p>Operações desta forma exigem que indicamos para <code>map</code> <em>duas</em> colunas para encaminhar a nossa função, uma para cada argumento. É simples: verificamos que as duas colunas desejadas existem no tibble, usamos <code>map2</code> em vez de <code>map</code>, e indicamos os nomes das duas colunas no <code>map2</code>, no ordem em que eles são esperados pela função que vamos aplicar.</p>
+<p>Não é apenas o banco de dados que é possível ajustar numa regressão - o <code>lm</code> aceita vários argumentos: ‘data’, mas também ‘formula’, o modelo da regressão. Isso é comum - funções aceitam vários argumentos e às vezes queremos variar mais que um argumento ao longo da nossa repetição. Por exemplo, eu queria rodar modelos A e B para banco de dados X e Y, modelo C para banco de dados Y e Z, e modelo D para banco de dados Z.</p>
+<p>Operações desta forma exigem que indiquemos para <code>map</code> <em>duas</em> colunas para encaminhar a nossa função, uma para cada argumento. É simples: verificamos que as duas colunas desejadas existem no tibble, usamos <code>map2</code> em vez de <code>map</code>, e indicamos os nomes das duas colunas no <code>map2</code>, no ordem em que eles são esperados pela função que vamos aplicar.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados_nested</span> <span class='op'>&lt;-</span> <span class='va'>dados_nested</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>formula<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"dep_delay ~ dep_time"</span>,
@@ -2712,7 +2723,7 @@ Coefficients:
 </code></pre>
 </div>
 </div>
-<p>Agora, os dois resultados refletam ambos uma amostra (banco de dados) e uma fórmula diferente para cada linha do tibble original (cada aeroporto de origem).</p>
+<p>Agora, os dois resultados refletem ambos uma amostra (banco de dados) e uma fórmula diferente para cada linha do tibble original (cada aeroporto de origem).</p>
 <p>Com as funções de tidyverse básico e a família de <code>map</code>, agora você consegue executar quase qualquer tarefa de análise de dados - são um conjunto de ferramentas muito poderoso. As possibilidades são infinitas- para mais informação e operações mais complexas, veja <a href="https://github.com/rstudio/cheatsheets/blob/master/purrr.pdf">o cheatsheet aqui</a>.</p>
 <h2 id="exercício-2-programação-funcional">Exercício 2: Programação Funcional</h2>
 <div class="green">
@@ -2746,7 +2757,7 @@ Coefficients:
 <div class="orange">
 <p>Antes da próxima aula, por favor leia <a href="https://r4ds.had.co.nz/vectors.html">R 4 Data Science, Capítulo 14 sobre Strings</a> e <a href="https://www.tidytextmining.com/tidytext.html">Tidy Text Mining Capítulo 1</a></p>
 </div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

@@ -2359,13 +2359,34 @@ pages={175-191}<br />
 <li><p>Adicione uma tabela simples no PDF usando o banco de dados de <code>weather</code>, resumindo o total de precipitação por mês.</p></li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<details>
+<summary>
+Mostrar Código
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weather</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>month</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>summarize</span><span class='op'>(</span>precip <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>precip</span>, na.rm <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
 </div>
 <ol start="4" type="1">
 <li>Adicione um gráfico simples usando o banco de dados <code>weather</code>, ilustrando temperatura média por aeroporto.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<details>
+<summary>
+Mostrar Código
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weather</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>month</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>summarize</span><span class='op'>(</span>temp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>temp</span>, na.rm <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>geom_line</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>month</span>, y <span class='op'>=</span> <span class='va'>temp</span>, group <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
 </div>
 <ol start="5" type="1">
 <li><p>Verifique que o seu documento compila sem erro para PDF.</p></li>
@@ -2445,7 +2466,18 @@ pages={175-191}<br />
 <li><p>Adicione mais um gráfico ao seu script, mostrando a umidade média por mês do banco de dados de <code>weather</code>.</p></li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<details>
+<summary>
+Mostrar Código
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weather</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>month</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>summarize</span><span class='op'>(</span>humid <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>humid</span>, na.rm <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>geom_line</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>month</span>, y <span class='op'>=</span> <span class='va'>humid</span>, group <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
 </div>
 <ol start="4" type="1">
 <li><p>Usando a aba de Git, execute <code>Commit</code> com a versão atualizada do script Rnw, atribuindo uma descrição apropriada.</p></li>

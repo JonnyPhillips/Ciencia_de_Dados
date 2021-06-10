@@ -359,7 +359,7 @@ flights %>% filter(origin!="JFK") %>%
 4. Usando o banco de dados `weather`, qual é a correlação entre temperatura (`temp`) e pressão (`pressure`)?
 
 ```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
-weather %>% filter(origin!="EWR") %>%
+weather %>% 
   cor.test(~temp + pressure, data=.) %>%
   tidy()
 ```

@@ -304,14 +304,14 @@ Em **Knitr (com o Latex)** o uso de bibliografias é um pouco mais complexo infe
 
 3. Adicione uma tabela simples no PDF usando o banco de dados de `weather`, resumindo o total de precipitação por mês.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 weather %>% group_by(month) %>%
   summarize(precip=sum(precip, na.rm=T))
 ```
 
 4. Adicione um gráfico simples usando o banco de dados `weather`, ilustrando  temperatura média por aeroporto.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 weather %>% group_by(month) %>%
   summarize(temp=mean(temp, na.rm=T)) %>%
   ggplot() +
@@ -419,7 +419,7 @@ Se você tiver uma conta paga, ou uma [conta estudantil](https://education.githu
 
 3. Adicione mais um gráfico ao seu script, mostrando a umidade média por mês do banco de dados de `weather`.
 
-```{r, eval=F, echo=F, tidy=TRUE, code_folding="Mostrar Código"}
+```{r, eval=F, echo=T, tidy=TRUE, code_folding="Mostrar Código"}
 weather %>% group_by(month) %>%
   summarize(humid=mean(humid, na.rm=T)) %>%
   ggplot() +
