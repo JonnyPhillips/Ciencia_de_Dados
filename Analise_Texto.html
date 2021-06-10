@@ -2146,8 +2146,9 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/hadley/nycflights13'>"nycflights13"</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://tidyverse.tidyverse.org'>"tidyverse"</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/elbersb/tidylog/'>"tidylog"</a></span><span class='op'>)</span>
 
-<span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>
+<span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>
 </code></pre>
 </div>
 <pre><code>[1] &quot;Lansdowne Airport&quot;</code></pre>
@@ -2155,22 +2156,22 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <p>O pacote <code>stringr</code> fornece uma variedade de funções para trabalhar com strings, todos começando com <code>str_</code>. O mais fácil é medir o número de caracteres com <code>str_length()</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>caracteres<span class='op'>=</span><span class='fu'>str_length</span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>caracteres<span class='op'>=</span><span class='fu'>str_length</span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <p>Uma tarefa comum é identificar a <em>presença</em> de um string com <code>str_detect()</code>. Por exemplo, queremos identificar os aeroportos que contém a palavra ‘field’ (a descrição de um aeroporto pequeno):</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>string_field<span class='op'>=</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"Field"</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>string_field<span class='op'>=</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"Field"</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <p>Observe que o resultado aqui é verdade/falsa (<code>TRUE</code>/<code>FALSE</code>). Quantos “field”s temos nos Estados Unidos - podemos usar a nova coluna para contar.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>string_field</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>tally</span><span class='op'>(</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>string_field</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/tally.html'>tally</a></span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2212,9 +2213,9 @@ TRUE
 <p>Identificando strings é um tema de programação enorme, pois não precisamos usar uma palavra exata e fixa; podemos usar um ‘modelo’ genérica para capturar uma variadade de possibilidades. Isso se chama um ‘regex’, uma ‘expressão regular’. Por exemplo, para capturar aeroportos que contém ‘Regional’ <em>ou</em> ‘Rgnl’, usamos o símbolo ‘|’ (como em <code>filter</code>).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>string_regional<span class='op'>=</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"Regional|Rgnl"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>string_regional</span><span class='op'>==</span><span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>select</span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>string_regional<span class='op'>=</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"Regional|Rgnl"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>string_regional</span><span class='op'>==</span><span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2284,9 +2285,9 @@ Augusta Rgnl At Bush Fld
 <p>Que tal identificamos os nomes que <em>começam</em> com ‘Z’. Para detectar caracteres apenas no <em>início</em> do string, usamos ‘^’. Para detectar caracteres apenas no final do string, usamos ‘$’ depois do caracter.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>string_z<span class='op'>=</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"^Z"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>string_z</span><span class='op'>==</span><span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>select</span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>string_z<span class='op'>=</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"^Z"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>string_z</span><span class='op'>==</span><span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2316,9 +2317,9 @@ Zamperini Field Airport
 <p>As possibilidades são complexas - por exemplo, é possível identificar os nomes que contém pelo menos dois ’f’s ou ’g’s juntos com o modelo abaixo:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>string_ffgg<span class='op'>=</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"[fg]{2,}"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>string_ffgg</span><span class='op'>==</span><span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>select</span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>string_ffgg<span class='op'>=</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"[fg]{2,}"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>string_ffgg</span><span class='op'>==</span><span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2407,34 +2408,34 @@ Coffman Cove Seaplane Base
 <p>Por exemplo, vamos substituir as instâncias de ‘Rgnl’ com ‘Regional’ com <code>str_replace</code> para deixar os strings mais consistente. Os argumentos são a coluna do tibble que contém os strings, o modelo (um regex) de caracteres para identificar, e, em seguida, o string para substituir.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>name<span class='op'>=</span><span class='fu'>str_replace</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"Rgnl"</span>, <span class='st'>"Regional"</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>name<span class='op'>=</span><span class='fu'>str_replace</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"Rgnl"</span>, <span class='st'>"Regional"</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <p>Ou, por exemplo, podemos substituir os hífens com um espaço para padronizar os strings, alguns que usam hífens e outros não:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>name<span class='op'>=</span><span class='fu'>str_replace</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"-"</span>, <span class='st'>" "</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>name<span class='op'>=</span><span class='fu'>str_replace</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"-"</span>, <span class='st'>" "</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <p>Observe que os nomes dos aeroportos são geralmente compostos por várias palavras - se quisemos manter apenas a primeira palavra, temos que dividir o string único em vários partes. Nessa situação, usamos a função <code>str_split</code>, especificando um string (um regex) para o local da divisão. Por exemplo, para separar cada palavra temos que dividir por espaço:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>nome_parcial<span class='op'>=</span><span class='fu'>str_split</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>" "</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>nome_parcial<span class='op'>=</span><span class='fu'>str_split</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>" "</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <p>Como fica o resultado? Cada linha tem um <em>vetor</em> com os palavras únicas separadas. Note que o cumprimento do vetor varia para cada linha - pode ter 1, 2, 3 ou mais elementos, dependendo do número de espaços no string original. Podemos selecionar, por exemplo, a primeira palavra, aproveitando da função <code>map</code> do tutorial passado, e usando ‘1’ para pedir o primeiro elemento do vetor, ou <code>tail</code> para pedir o último elemento:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>nome_parcial_primeiro<span class='op'>=</span><span class='fu'>map_chr</span><span class='op'>(</span><span class='va'>nome_parcial</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>nome_parcial_primeiro<span class='op'>=</span><span class='fu'>map_chr</span><span class='op'>(</span><span class='va'>nome_parcial</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>nome_parcial_final<span class='op'>=</span><span class='fu'>map_chr</span><span class='op'>(</span><span class='va'>nome_parcial</span>, <span class='va'>tail</span>, n<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>nome_parcial_final<span class='op'>=</span><span class='fu'>map_chr</span><span class='op'>(</span><span class='va'>nome_parcial</span>, <span class='va'>tail</span>, n<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2469,82 +2470,33 @@ Coffman Cove Seaplane Base
 <aside>
 <p>Para mais controle de apresentação, é possível criar o wordcloud em <code>ggplot</code> com um pouco mais de esforço: veja o pacote <code>ggwordcloud</code>.</p>
 </aside>
-<section id="exercício-1-trabalhando-com-strings" class="green">
-<h2>Exercício 1: Trabalhando com Strings</h2>
-<aside>
-<div class="layout-chunk" data-layout="l-body">
-<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
-<script>
-  function codefolder(query) {
-
-    var x = document.querySelectorAll(query);
-    if (x.length === 0) return;
-
-    function toggle_vis(o) {
-      var d = o.style.display;
-      o.style.display = (d === 'block' || d === '') ? 'none':'block';
-    }
-
-    for (i = 0; i < x.length; i++) {
-      var y = x[i];
-      toggle_vis(y);
-    }
-
-    var elem = document.getElementById("codefolder-button");
-    if (elem.value === "Hide Code") elem.value = "Show Code";
-    else elem.value = "Hide Code";
-  }
-</script>
-</div>
-</aside>
+<h2 id="exercício-1-trabalhando-com-strings">Exercício 1: Trabalhando com Strings</h2>
+<div class="green">
 <ol type="1">
 <li>No banco de dados <code>airlines</code> do pacote <code>nycflights13</code>, qual porcentagem dos nomes das companhias aéreas contém a palavra ‘Airlines’ e qual porcentagem contém a palavra ‘Airways’?</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airlines</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>airlines<span class='op'>=</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"Airlines"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>airlines</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>tally</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span>Pct<span class='op'>=</span><span class='fl'>100</span><span class='op'>*</span><span class='op'>(</span><span class='va'>n</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='va'>airlines</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>airlines<span class='op'>=</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"Airways"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>airlines</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>tally</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span>Pct<span class='op'>=</span><span class='fl'>100</span><span class='op'>*</span><span class='op'>(</span><span class='va'>n</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
 </div>
 <ol start="2" type="1">
 <li>No mesmo banco, Substitua os nomes das companhias aéreas que contém ‘Inc.’ com ‘Incorporated’, e eles que contém ‘Co.’ com ‘Company’. (Observe que ‘.’ é um caracter especial, então tem que buscar ele com ‘\\.’).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airlines</span>
-<span class='va'>airlines</span> <span class='op'>&lt;-</span> <span class='va'>airlines</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>name<span class='op'>=</span><span class='fu'>str_replace</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"Inc\\."</span>, <span class='st'>"Incorporated"</span><span class='op'>)</span>,
-                    name<span class='op'>=</span><span class='fu'>str_replace</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"Co\\."</span>, <span class='st'>"Company"</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
+
 </div>
 <ol start="3" type="1">
 <li>Gere um nome curto para cada companhia aérea, refletindo apenas a primeira palavra do nome.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airlines</span> <span class='op'>&lt;-</span> <span class='va'>airlines</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>nome_curto<span class='op'>=</span><span class='fu'>str_split</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>" "</span><span class='op'>)</span>,
-                                nome_curto<span class='op'>=</span><span class='fu'>map_chr</span><span class='op'>(</span><span class='va'>nome_curto</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
+
 </div>
 <ol start="4" type="1">
 <li>Crie um ‘wordcloud’ dos nomes das companhias aéreas.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airlines</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/wordcloud/man/wordcloud.html'>wordcloud</a></span><span class='op'>(</span><span class='op'>)</span>
-</code></pre>
+
 </div>
 </div>
-</section>
 <h1 id="tokenizer-e-padronizar-o-texto-unnest_tokens">Tokenizer e Padronizar o Texto (<code>unnest_tokens</code>)</h1>
 <!-- Por isso, é importante padronizar e  simplificar strings antes de realizar uma análise empírica.  -->
 <p>Para os fins de análise de texto queremos simplificar e padronizar as milhões de variedades que cada língua permite para que podemos reconhecer a presença das mesmas palavras/sentidos mesmo em contextos diferentes. Por exemplo, a mesma palavra pode aparecer em vários formatos: ‘Regional’, ‘regional’, ‘Rgnl’, ‘Region’, ‘region’, ‘Regionally’, ‘regionally’ etc. Mas todos representam o mesmo ‘conceito’ e queremos reconhecer que eles estão falando do mesmo conceito quando analisamos o texto.</p>
@@ -2566,9 +2518,9 @@ Coffman Cove Seaplane Base
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis</span> <span class='op'>&lt;-</span> <span class='va'>Assis</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>mutate</span><span class='op'>(</span>text<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/iconv.html'>iconv</a></span><span class='op'>(</span><span class='va'>text</span>, from <span class='op'>=</span> <span class='st'>"latin1"</span>, to <span class='op'>=</span> <span class='st'>"UTF-8"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>gutenberg_id</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>21</span><span class='op'>:</span><span class='fl'>8549</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>text<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/iconv.html'>iconv</a></span><span class='op'>(</span><span class='va'>text</span>, from <span class='op'>=</span> <span class='st'>"latin1"</span>, to <span class='op'>=</span> <span class='st'>"UTF-8"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>gutenberg_id</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>21</span><span class='op'>:</span><span class='fl'>8549</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>rownames_to_column</span><span class='op'>(</span><span class='st'>"Linha"</span><span class='op'>)</span> 
 </code></pre>
 </div>
@@ -2628,11 +2580,11 @@ Coffman Cove Seaplane Base
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>stopwords</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tidytext/man/get_stopwords.html'>get_stopwords</a></span><span class='op'>(</span>language<span class='op'>=</span><span class='st'>"pt"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>rename</span><span class='op'>(</span>palavra<span class='op'>=</span><span class='va'>word</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/rename.html'>rename</a></span><span class='op'>(</span>palavra<span class='op'>=</span><span class='va'>word</span><span class='op'>)</span>
 
 <span class='va'>stopwords</span>
 
-<span class='va'>Assis_palavras</span> <span class='op'>&lt;-</span> <span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'>anti_join</span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span>
+<span class='va'>Assis_palavras</span> <span class='op'>&lt;-</span> <span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/anti_join.html'>anti_join</a></span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2735,7 +2687,7 @@ snowball
 <p>Lembrando que queremos manter as linhas em ‘Assis_palavras’ que não existem no banco de <code>get_stopwords()</code>, o jeito mais eficiente é usar um <code>anti_join()</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>&lt;-</span> <span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'>anti_join</span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>&lt;-</span> <span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/anti_join.html'>anti_join</a></span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2744,7 +2696,7 @@ snowball
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>stopwords</span> <span class='op'>&lt;-</span> <span class='va'>stopwords</span> <span class='op'>%&gt;%</span> <span class='fu'>add_row</span><span class='op'>(</span>palavra<span class='op'>=</span><span class='st'>"é"</span>, lexicon<span class='op'>=</span><span class='st'>"pessoal"</span><span class='op'>)</span>
 
-<span class='va'>Assis_palavras</span> <span class='op'>&lt;-</span> <span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'>anti_join</span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span>
+<span class='va'>Assis_palavras</span> <span class='op'>&lt;-</span> <span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/anti_join.html'>anti_join</a></span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2753,15 +2705,15 @@ snowball
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>&lt;-</span> <span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>stem<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/textstem/man/stem_words.html'>stem_words</a></span><span class='op'>(</span><span class='va'>palavra</span>, language<span class='op'>=</span><span class='st'>"pt"</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>&lt;-</span> <span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>stem<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/textstem/man/stem_words.html'>stem_words</a></span><span class='op'>(</span><span class='va'>palavra</span>, language<span class='op'>=</span><span class='st'>"pt"</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <p>Agora veja a coluna ‘stem’ do tibble: observe o contraste entre ‘palavra’, e ‘stem’. Por exemplo, ambos ‘encontrei’ e ‘encontrou’ se tornam ‘encontr’. A padronização simplifica o base de dados bastante - de 8.728 a 4.824 palavras distintas.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>palavra</span><span class='op'>)</span>
-<span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>stem</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/distinct.html'>distinct</a></span><span class='op'>(</span><span class='va'>palavra</span><span class='op'>)</span>
+<span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/distinct.html'>distinct</a></span><span class='op'>(</span><span class='va'>stem</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2770,7 +2722,7 @@ snowball
 <p>Podemos visualizar a frequência das raizes (stems) das palavras com um wordcloud, como mostramos acima. (Vamos pedir uma amostra das linhas para acelerar o processamento).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'>sample_n</span><span class='op'>(</span><span class='fl'>2000</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/sample_n.html'>sample_n</a></span><span class='op'>(</span><span class='fl'>2000</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>pull</span><span class='op'>(</span><span class='va'>stem</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://rdrr.io/pkg/wordcloud/man/wordcloud.html'>wordcloud</a></span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
@@ -2780,8 +2732,8 @@ snowball
 <p>Também podemos identificar as palavras (os ‘stems’ na verdade) mais frequentes usando as nossas habilidades bem conhecidas do tidyverse.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>stem</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>tally</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>stem</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/tally.html'>tally</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>arrange</span><span class='op'>(</span><span class='op'>-</span><span class='va'>n</span><span class='op'>)</span>
 </code></pre>
 </div>
@@ -2885,10 +2837,10 @@ fal
 <p>Observe que alguns dessas palavras não são interessantes e não descreve bem o conteúdo do texto então podem ser bons candidatos para tirar na lista de stopwords, por exemplo ‘á’. E para visualizar os resultados num gráfico de barras:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>stem</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>tally</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>top_n</span><span class='op'>(</span><span class='fl'>10</span>, <span class='va'>n</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span>stem<span class='op'>=</span><span class='fu'>fct_reorder</span><span class='op'>(</span><span class='va'>stem</span>, <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>stem</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/tally.html'>tally</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/top_n.html'>top_n</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='va'>n</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>stem<span class='op'>=</span><span class='fu'>fct_reorder</span><span class='op'>(</span><span class='va'>stem</span>, <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>geom_col</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>y<span class='op'>=</span><span class='va'>stem</span>, x<span class='op'>=</span><span class='va'>n</span><span class='op'>)</span>, fill<span class='op'>=</span><span class='st'>"blue"</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span>
@@ -2899,7 +2851,7 @@ fal
 <p>Finalmente, podemos interrogar o banco de texto para a presença de uma palavra específica, por exemplo o stem ‘govern’:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>stem</span><span class='op'>==</span><span class='st'>"govern"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>stem</span><span class='op'>==</span><span class='st'>"govern"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2971,10 +2923,10 @@ govern
 <p>O ‘Dom Casmurro’ é um livro otimista ou pessimista? Cada palavra tem um significando complexo, sútil e contextual. Porém, existem bancos de dados que avaliam o ‘sentimento’ de cada palavra. O pacote <code>lexiconPT</code> fornece o banco <code>oplexicon_v3.0</code>. Nós precisamos apenas juntar o banco de dados de sentimentos com o nosso banco de palavras:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sentimento</span> <span class='op'>&lt;-</span> <span class='va'>oplexicon_v3.0</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='va'>term</span>, <span class='va'>polarity</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>rename</span><span class='op'>(</span>palavra<span class='op'>=</span><span class='va'>term</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sentimento</span> <span class='op'>&lt;-</span> <span class='va'>oplexicon_v3.0</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>term</span>, <span class='va'>polarity</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/rename.html'>rename</a></span><span class='op'>(</span>palavra<span class='op'>=</span><span class='va'>term</span><span class='op'>)</span>
 
-<span class='va'>Assis_palavras</span> <span class='op'>&lt;-</span> <span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>sentimento</span>, by<span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span>
+<span class='va'>Assis_palavras</span> <span class='op'>&lt;-</span> <span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/left_join.html'>left_join</a></span><span class='op'>(</span><span class='va'>sentimento</span>, by<span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -3143,7 +3095,7 @@ NA
 <p>Observe que muitas palavras - as palavras ‘neutras’ - não existem no banco de dados de sentimentos, então a coluna ‘polarity’ tem valor <code>NA</code>. Podemos avaliar o sentimento ‘média’ do livro com <code>summarize</code>. Um valor positivo significa um texto mais otimisto na média, e um valor negativo um texto mais pessimisto na média:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'>summarize</span><span class='op'>(</span>sentimento<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>polarity</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/summarize.html'>summarize</a></span><span class='op'>(</span>sentimento<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>polarity</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -3168,11 +3120,11 @@ sentimento
 <p>O resultado positivo sugere que o livro é mais otimisto do que pessimisto na média. A análise também permite identificar as linhas mais otimistas e pessimistas do livro inteiro se agrupamos por linha e calcula a soma dos sentimentos contidos na linha (palavras positivas menos palavras negativas):</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>Linha<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>summarize</span><span class='op'>(</span>polarity<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>polarity</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Linha<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/summarize.html'>summarize</a></span><span class='op'>(</span>polarity<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>polarity</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>arrange</span><span class='op'>(</span><span class='op'>-</span><span class='va'>polarity</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1</span>, <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -3211,12 +3163,12 @@ polarity
 <p>Ok, mas quais são as linhas 7500 e 1403? Temos que voltar ao banco de dados de linhas ‘Assis’ (não ‘Assis_palavras’) e filtrar por essas linhas:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>==</span><span class='fl'>7500</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>text</span><span class='op'>)</span> <span class='co'>#Linha mais otimista</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>==</span><span class='fl'>7500</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>text</span><span class='op'>)</span> <span class='co'>#Linha mais otimista</span>
 </code></pre>
 </div>
 <pre><code>[1] &quot;activo, coração recto, amigo, bom amigo, digno da esposa amantissima&quot;</code></pre>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>==</span><span class='fl'>1403</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>text</span><span class='op'>)</span> <span class='co'>#Linha mais pessimista</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>==</span><span class='fl'>1403</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>text</span><span class='op'>)</span> <span class='co'>#Linha mais pessimista</span>
 </code></pre>
 </div>
 <pre><code>[1] &quot;pouco, um intrigante, um bajulador, um especulador, e, apezar da casca&quot;</code></pre>
@@ -3224,9 +3176,9 @@ polarity
 <p>Faz sentido, sim? Os nossos dados permitem responder a mais uma pergunta interessante: Como desenvolve o sentimento ao longo do livro? Podemos usar o nosso resumo por linha, completar as linhas faltandas (que faltam palavras em nosso banco de dados de sentimentos) com <code>complete</code>, e encaminhar para <code>ggplot</code> para criar um gráfico de linhas.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>Linha<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>summarize</span><span class='op'>(</span>polarity<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>polarity</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Linha<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/summarize.html'>summarize</a></span><span class='op'>(</span>polarity<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>polarity</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>complete</span><span class='op'>(</span>Linha<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>8527</span>, fill<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>polarity<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>geom_line</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>Linha</span>, y<span class='op'>=</span><span class='va'>polarity</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
@@ -3240,11 +3192,11 @@ polarity
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://zoo.R-Forge.R-project.org/'>"zoo"</a></span><span class='op'>)</span>
-<span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>Linha<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>summarize</span><span class='op'>(</span>polarity<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>polarity</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Linha<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/summarize.html'>summarize</a></span><span class='op'>(</span>polarity<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>polarity</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>complete</span><span class='op'>(</span>Linha<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>8527</span>, fill<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>polarity<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span>polarity_rolling<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/zoo/man/rollapply.html'>rollapply</a></span><span class='op'>(</span><span class='va'>polarity</span>, <span class='fl'>1000</span>, <span class='va'>mean</span>, align<span class='op'>=</span><span class='st'>'right'</span>, fill<span class='op'>=</span><span class='cn'>NA</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>polarity_rolling<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/zoo/man/rollapply.html'>rollapply</a></span><span class='op'>(</span><span class='va'>polarity</span>, <span class='fl'>1000</span>, <span class='va'>mean</span>, align<span class='op'>=</span><span class='st'>'right'</span>, fill<span class='op'>=</span><span class='cn'>NA</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>geom_line</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>Linha</span>, y<span class='op'>=</span><span class='va'>polarity_rolling</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>theme_classic</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> 
@@ -3268,8 +3220,8 @@ polarity
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_bigrams</span> <span class='op'>&lt;-</span> <span class='va'>Assis_bigrams</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>separate</span><span class='op'>(</span><span class='va'>bigram</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"palavra1"</span>, <span class='st'>"palavra2"</span><span class='op'>)</span>, sep<span class='op'>=</span><span class='st'>" "</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>anti_join</span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"palavra1"</span><span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>anti_join</span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"palavra2"</span><span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/anti_join.html'>anti_join</a></span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"palavra1"</span><span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/anti_join.html'>anti_join</a></span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"palavra2"</span><span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>unite</span><span class='op'>(</span><span class='st'>"bigram"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>palavra1</span>, <span class='va'>palavra2</span><span class='op'>)</span>, sep<span class='op'>=</span><span class='st'>" "</span>, remove<span class='op'>=</span><span class='cn'>F</span><span class='op'>)</span>
 </code></pre>
 </div>
@@ -3277,8 +3229,8 @@ polarity
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_bigrams</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>bigram</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>tally</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>bigram</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/tally.html'>tally</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>arrange</span><span class='op'>(</span><span class='op'>-</span><span class='va'>n</span><span class='op'>)</span>
 </code></pre>
 </div>
@@ -3383,14 +3335,14 @@ alguma cousa
 <p>Trabalhando com bigrams ajuda identificar ao lado de quais outras palavras uma palavra aparece. Por exemplo, quais palavras aparecem ao lada da palavra ‘familia’?</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_bigrams</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>palavra1</span><span class='op'>==</span><span class='st'>"familia"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>palavra2</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_bigrams</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>palavra1</span><span class='op'>==</span><span class='st'>"familia"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>palavra2</span><span class='op'>)</span>
 </code></pre>
 </div>
 <pre><code> [1] &quot;padua&quot;     &quot;elle&quot;      &quot;certa&quot;     &quot;dizia&quot;     &quot;fernandes&quot;
  [6] &quot;tornar&quot;    &quot;imitar&quot;    &quot;saía&quot;      &quot;lembro&quot;    &quot;avisa&quot;    
 [11] &quot;hoje&quot;      &quot;pendura&quot;  </code></pre>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_bigrams</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>palavra2</span><span class='op'>==</span><span class='st'>"familia"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>palavra1</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_bigrams</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>palavra2</span><span class='op'>==</span><span class='st'>"familia"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>palavra1</span><span class='op'>)</span>
 </code></pre>
 </div>
 <pre><code>[1] &quot;mesma&quot;</code></pre>
@@ -3404,9 +3356,9 @@ alguma cousa
 
 <span class='va'>Assis_trigrams</span> <span class='op'>&lt;-</span> <span class='va'>Assis_trigrams</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>separate</span><span class='op'>(</span><span class='va'>trigram</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"palavra1"</span>, <span class='st'>"palavra2"</span>, <span class='st'>"palavra3"</span><span class='op'>)</span>, sep<span class='op'>=</span><span class='st'>" "</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>anti_join</span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"palavra1"</span><span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>anti_join</span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"palavra2"</span><span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>anti_join</span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"palavra3"</span><span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/anti_join.html'>anti_join</a></span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"palavra1"</span><span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/anti_join.html'>anti_join</a></span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"palavra2"</span><span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/anti_join.html'>anti_join</a></span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"palavra3"</span><span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>unite</span><span class='op'>(</span><span class='st'>"trigram"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>palavra1</span>, <span class='va'>palavra2</span>, <span class='va'>palavra3</span><span class='op'>)</span>, sep<span class='op'>=</span><span class='st'>" "</span>, remove<span class='op'>=</span><span class='cn'>F</span><span class='op'>)</span>
 </code></pre>
 </div>
@@ -3414,8 +3366,8 @@ alguma cousa
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_trigrams</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>trigram</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>tally</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>trigram</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/tally.html'>tally</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>arrange</span><span class='op'>(</span><span class='op'>-</span><span class='va'>n</span><span class='op'>)</span>
 </code></pre>
 </div>
@@ -3517,89 +3469,33 @@ póde ser tambem
 </table>
 </div>
 <p>Um dos trigrams mais comuns é “josé dias achou”.</p>
-<section id="exercício-2-analisando-um-documento" class="green">
-<h2>Exercício 2: Analisando um Documento</h2>
-<aside>
-<div class="layout-chunk" data-layout="l-body">
-<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
-<script>
-  function codefolder(query) {
-
-    var x = document.querySelectorAll(query);
-    if (x.length === 0) return;
-
-    function toggle_vis(o) {
-      var d = o.style.display;
-      o.style.display = (d === 'block' || d === '') ? 'none':'block';
-    }
-
-    for (i = 0; i < x.length; i++) {
-      var y = x[i];
-      toggle_vis(y);
-    }
-
-    var elem = document.getElementById("codefolder-button");
-    if (elem.value === "Hide Code") elem.value = "Show Code";
-    else elem.value = "Hide Code";
-  }
-</script>
-</div>
-</aside>
+<h2 id="exercício-2-analisando-um-documento">Exercício 2: Analisando um Documento</h2>
+<div class="green">
 <ol type="1">
 <li>Escolhe um livro da sua preferência <a href="https://www.gutenberg.org/browse/languages/pt">no site de Projeto Gutenberg</a>, e abre ele em R usando o código do projeto.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Branco</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://docs.ropensci.org/gutenbergr/reference/gutenberg_download.html'>gutenberg_download</a></span><span class='op'>(</span><span class='fl'>26913</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>mutate</span><span class='op'>(</span>text<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/iconv.html'>iconv</a></span><span class='op'>(</span><span class='va'>text</span>, from <span class='op'>=</span> <span class='st'>"latin1"</span>, to <span class='op'>=</span> <span class='st'>"UTF-8"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>gutenberg_id</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>rownames_to_column</span><span class='op'>(</span><span class='st'>"Linha"</span><span class='op'>)</span> 
-</code></pre>
-</div>
+
 </div>
 <ol start="2" type="1">
 <li>‘Tokenizar’ o seu livro em palavras, tirando a puntuação, os números, os stopwords, virando as caracteres em minúsculo, e as palavras em seus stems (raízes).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Branco_palavras</span> <span class='op'>&lt;-</span> <span class='va'>Branco</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidytext/man/unnest_tokens.html'>unnest_tokens</a></span><span class='op'>(</span><span class='va'>palavra</span>, <span class='va'>text</span>, strip_numeric<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>anti_join</span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span>stem<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/textstem/man/stem_words.html'>stem_words</a></span><span class='op'>(</span><span class='va'>palavra</span>, language<span class='op'>=</span><span class='st'>"pt"</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
+
 </div>
 <ol start="3" type="1">
 <li>Identifique os dez stems mais frequentes no seu livro.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Branco_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>stem</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>tally</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>top_n</span><span class='op'>(</span><span class='fl'>10</span>, <span class='va'>n</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>arrange</span><span class='op'>(</span><span class='op'>-</span><span class='va'>n</span><span class='op'>)</span>
-</code></pre>
-</div>
+
 </div>
 <ol start="4" type="1">
 <li>Aplique uma análise de sentimento ao texto para identificar as linhas mais otimistas e mais pessimistas do texto.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Branco_palavras</span> <span class='op'>&lt;-</span> <span class='va'>Branco_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>sentimento</span>, by<span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span>
 
-<span class='va'>Branco_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>Linha<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>summarize</span><span class='op'>(</span>polarity<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>polarity</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>arrange</span><span class='op'>(</span><span class='op'>-</span><span class='va'>polarity</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1</span>, <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>kable</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='va'>Branco</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>==</span><span class='fl'>594</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>text</span><span class='op'>)</span> <span class='co'>#Linha mais otimista</span>
-<span class='va'>Branco</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>==</span><span class='fl'>2881</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>text</span><span class='op'>)</span> <span class='co'>#Linha mais pessimista</span>
-</code></pre>
 </div>
 </div>
-</section>
 <h1 id="comparando-documentos">Comparando Documentos</h1>
 <p>É possível trabalhar além de uma descrição de um livro único e <em>comparar</em> o conteúdo de documentos distintos. Para isso, precisamos distinguir <em>documentos</em> (livros ou artigos distintos) e <em>termos</em> (palavras ou ngrams em um documento). O jeito mais fácil de realizar isso é juntar vários documentos no mesmo tibble, com uma coluna adicional que indica com qual documento cada palavra é associada.</p>
 <p>Primeiramente, temos que abrir mais um documento para comparar com o livre de Machado de Assis. Vamos pegar o livro português de Jules Verne, ‘Da terra á lua’ de Projeto Gutenberg:</p>
@@ -3608,9 +3504,9 @@ póde ser tambem
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#http://www.gutenberg.org/cache/epub/28341/pg28341.txt #Jules Verne, 'Da terra à lua'</span>
 
 <span class='va'>Verne</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://docs.ropensci.org/gutenbergr/reference/gutenberg_download.html'>gutenberg_download</a></span><span class='op'>(</span><span class='fl'>28341</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>mutate</span><span class='op'>(</span>text<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/iconv.html'>iconv</a></span><span class='op'>(</span><span class='va'>text</span>, from <span class='op'>=</span> <span class='st'>"latin1"</span>, to <span class='op'>=</span> <span class='st'>"UTF-8"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='va'>gutenberg_id</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>71</span><span class='op'>:</span><span class='fl'>7229</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>text<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/iconv.html'>iconv</a></span><span class='op'>(</span><span class='va'>text</span>, from <span class='op'>=</span> <span class='st'>"latin1"</span>, to <span class='op'>=</span> <span class='st'>"UTF-8"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>gutenberg_id</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>71</span><span class='op'>:</span><span class='fl'>7229</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>rownames_to_column</span><span class='op'>(</span><span class='st'>"Linha"</span><span class='op'>)</span>
 </code></pre>
 </div>
@@ -3619,8 +3515,8 @@ póde ser tambem
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Verne_palavras</span> <span class='op'>&lt;-</span> <span class='va'>Verne</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidytext/man/unnest_tokens.html'>unnest_tokens</a></span><span class='op'>(</span><span class='va'>palavra</span>, <span class='va'>text</span>, strip_numeric<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>anti_join</span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span>stem<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/textstem/man/stem_words.html'>stem_words</a></span><span class='op'>(</span><span class='va'>palavra</span>, language<span class='op'>=</span><span class='st'>"pt"</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/anti_join.html'>anti_join</a></span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>stem<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/textstem/man/stem_words.html'>stem_words</a></span><span class='op'>(</span><span class='va'>palavra</span>, language<span class='op'>=</span><span class='st'>"pt"</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -3628,14 +3524,14 @@ póde ser tambem
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_prep</span> <span class='op'>&lt;-</span> <span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>palavra</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>tally</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span>document<span class='op'>=</span><span class='st'>"Assis"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>palavra</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/tally.html'>tally</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>document<span class='op'>=</span><span class='st'>"Assis"</span><span class='op'>)</span>
 
 <span class='va'>Verne_prep</span> <span class='op'>&lt;-</span> <span class='va'>Verne_palavras</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>palavra</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>tally</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span>document<span class='op'>=</span><span class='st'>"Verne"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>palavra</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/tally.html'>tally</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>document<span class='op'>=</span><span class='st'>"Verne"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -3660,8 +3556,8 @@ póde ser tambem
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_Verne_idf</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>document</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>top_n</span><span class='op'>(</span><span class='fl'>5</span>, <span class='va'>tf_idf</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>document</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/top_n.html'>top_n</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='va'>tf_idf</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -3986,8 +3882,8 @@ Verne
 <p>Agora, podemos identificar as palavras mais frequentes em cada tópico:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_Verne_LDA_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>topic</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>top_n</span><span class='op'>(</span><span class='fl'>5</span>, <span class='va'>beta</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_Verne_LDA_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>topic</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/top_n.html'>top_n</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='va'>beta</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>arrange</span><span class='op'>(</span><span class='va'>topic</span>, <span class='op'>-</span><span class='va'>beta</span><span class='op'>)</span>
 </code></pre>
 </div>
@@ -4233,91 +4129,39 @@ ardan
 </div>
 <p>A nossa tarefa agora é resumir qual tópico é representada, por exemplo, pelo conjunto de palavras ‘capitú’, ‘elle’, ‘dias’, ‘mãe’, e ‘ser’ - pode ser que eles aparecem frequentemente em diálogo que envolvem o personagem ‘capitú’ e a sua mãe, por exemplo. Cada tópico não é óbvio, mas para o computador parece que eles formam tópicos coerentes presentes nos dois livros.</p>
 <p>Em outras aplicações o modelagem de tópicos é uma forma poderosa de identificar temas pareceidas em conjuntos grandes de documentos sem ter que ler todos os documentos.</p>
-<section id="exercício-3-comparando-documentos" class="green">
-<h2>Exercício 3: Comparando Documentos</h2>
-<aside>
-<div class="layout-chunk" data-layout="l-body">
-<input onclick="codefolder(&#39;d-code&#39;);" type="button" value="Hide Code" id="codefolder-button" style=""/>
-<script>
-  function codefolder(query) {
-
-    var x = document.querySelectorAll(query);
-    if (x.length === 0) return;
-
-    function toggle_vis(o) {
-      var d = o.style.display;
-      o.style.display = (d === 'block' || d === '') ? 'none':'block';
-    }
-
-    for (i = 0; i < x.length; i++) {
-      var y = x[i];
-      toggle_vis(y);
-    }
-
-    var elem = document.getElementById("codefolder-button");
-    if (elem.value === "Hide Code") elem.value = "Show Code";
-    else elem.value = "Hide Code";
-  }
-</script>
-</div>
-</aside>
+<h2 id="exercício-3-comparando-documentos">Exercício 3: Comparando Documentos</h2>
+<div class="green">
 <ol type="1">
 <li>Copiar-colar um texto que você mesmo escreveu de pelo menos um parágrafo e salve ele dentro de um tibble em R.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>meu_texto</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>text <span class='op'>=</span> <span class='st'>[1053 chars quoted with '"']</span><span class='op'>)</span>
-</code></pre>
-</div>
+
 </div>
 <ol start="2" type="1">
 <li>‘Tokenizar’ o seu texto em palavras, tirando a puntuação, os números, os stopwords, virando as caracteres em minúsculo, e as palavras em seus raízes (stems).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>meu_texto_palavras</span> <span class='op'>&lt;-</span> <span class='va'>meu_texto</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidytext/man/unnest_tokens.html'>unnest_tokens</a></span><span class='op'>(</span><span class='va'>palavra</span>, <span class='va'>text</span>, strip_numeric<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>anti_join</span><span class='op'>(</span><span class='va'>stopwords</span>, by<span class='op'>=</span><span class='st'>"palavra"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span>stem<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/textstem/man/stem_words.html'>stem_words</a></span><span class='op'>(</span><span class='va'>palavra</span>, language<span class='op'>=</span><span class='st'>"pt"</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
+
 </div>
 <ol start="3" type="1">
 <li>Junte dois textos tokenizados em um tibble com uma coluna que diferencia o documento e uma coluna que conta a frequência de cada palavra: (i) o texto seu que você identificou acima em questão 1, e (ii) o livro que você usou em exercício 2.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Branco_prep</span> <span class='op'>&lt;-</span> <span class='va'>Branco_palavras</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>palavra</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>tally</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span>document<span class='op'>=</span><span class='st'>"Branco"</span><span class='op'>)</span>
 
-<span class='va'>meu_texto_prep</span> <span class='op'>&lt;-</span> <span class='va'>meu_texto_palavras</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>palavra</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>tally</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span>document<span class='op'>=</span><span class='st'>"Meu Texto"</span><span class='op'>)</span>
-
-<span class='va'>dois_textos</span> <span class='op'>&lt;-</span> <span class='va'>Branco_prep</span> <span class='op'>%&gt;%</span> <span class='fu'>bind_rows</span><span class='op'>(</span><span class='va'>meu_texto_prep</span><span class='op'>)</span> 
-</code></pre>
-</div>
 </div>
 <ol start="4" type="1">
 <li>Calcule a medida ‘tf_idf’ para identificar as 5 palavras mais distintas de cada documento. Em qual sentido o seu documento é diferente do livro?</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dois_textos</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidytext/man/bind_tf_idf.html'>bind_tf_idf</a></span><span class='op'>(</span><span class='va'>palavra</span>, <span class='va'>document</span>, <span class='va'>n</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>document</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>top_n</span><span class='op'>(</span><span class='fl'>5</span>, <span class='va'>tf_idf</span><span class='op'>)</span>
-</code></pre>
+
 </div>
 </div>
-</section>
 <p><br></p>
-<section id="desafio-5" class="purple">
-<h1>Desafio 5</h1>
+<h1 id="desafio-5">Desafio 5</h1>
+<div class="purple">
 <p>O <a href="Desafios/Desafio_5_v1.html">Desafio 5</a> teste a sua capacidade de juntar bancos de dados e e gerar gráficos apropriados e claros.</p>
-<p>O prazo para entregar Desafio 5 por email com título “[FLS6397] - D5” à minha conta é <strong>26/06/2020</strong>, antes da aula. Por favor entregue (i) o arquivo .Rmd (ou .Rnw se preferir), e (ii) o arquivo .html ou .PDF.</p>
-</section>
+<p>O prazo para entregar Desafio 5 por email com título “[FLS6397] - D5” à minha conta é <strong>02/07/2021</strong>, antes da aula. Por favor entregue (i) o arquivo .Rmd (ou .Rnw se preferir), e (ii) o arquivo .html ou .PDF.</p>
+</div>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
