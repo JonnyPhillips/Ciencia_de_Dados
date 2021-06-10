@@ -21,7 +21,7 @@ O prazo para entregar Desafio 3 por email com título “[FLS6397] - D3” à mi
 
 <br>
 
-<!-- [Respostas Sugeridas para Desafio 3 aqui](Desafio_3_Suggested_Responses.html) -->
+[Respostas Sugeridas para Desafio 3 aqui](Desafio_3_Suggested_Responses.html)
 
 ## Instruções
 

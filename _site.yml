@@ -31,7 +31,6 @@ navbar:
             href: Regressoes.html
           - text: "10. Relatorios Reproduziveis"
             href: Reprodutibilidade.html
-
     - text: "Desafios"
       menu:
           - text: "Desafio 1"
