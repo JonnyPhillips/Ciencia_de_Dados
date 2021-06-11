@@ -143,15 +143,22 @@ flights %>% select(dep_delay, arr_delay, distance, air_time) %>%
 Observe que a funcionalidade aqui é bem parecida de `summarize(across())` do Tutorial 4, permitindo a aplicação de uma função à várias colunas. É verdade, mas o ganho de `map` é que ela é mais geral e pode ser usada fora do contexto de `mutate` e `summarize`, e fora de um tibble único. Por exemplo, imagine que temos um vetor de centenas de arquivos .csv para abrir em R na pasta do nosso projeto - `map` permite aplicar a função de `read_csv` para *todos* os arquivos em uma linha só (gerando dois arquivos de csv primeiramente para ilustrar):
 
 ```{r}
-flights %>% filter(month==1 & day==1) %>% write_csv("test1.csv")
-flights %>% filter(month==1 & day==2) %>% write_csv("test2.csv")
+flights %>% filter(month==1 & day==1) %>% write_csv("flights_jan_01.csv")
+flights %>% filter(month==1 & day==2) %>% write_csv("flights_jan_02.csv")
 
-arquivos <- c("test1.csv", "test2.csv")
+arquivos <- c("flights_jan_01.csv", "flights_jan_02.csv")
 
 dados <- arquivos %>% map(read_csv)
 ```
 
-A repetição ('iteração') aqui não é sobre múltiplas colunas, mas sobre cada elemento do vetor 'arquivos'. O resultado 'dados' é uma lista. Dentro da lista existem, separadamente, dois tibbles. Temos duas opções para juntar os dois tibbles em um. Podemos substituir `map_df` para `map`, como já aprendemos acima. Ou podemos manter `map` e seguir com `bind_rows()` que junta tibbles verticalmente:
+A repetição ('iteração') aqui não é sobre múltiplas colunas, mas sobre cada elemento do vetor 'arquivos'. O resultado 'dados' é uma lista. Dentro da lista existem, separadamente, dois tibbles. Para rastrear as diferenças entre os elementos da lista é sempre uma boa ideia nomear os elementos - realizamos isso com a função `set_names()` antes de uso de `map`:
+
+```{r}
+dados <- arquivos %>% set_names() %>% 
+  map(read_csv)
+```
+
+Temos duas opções para juntar os dois tibbles em um tibble. Podemos substituir `map_df` para `map`, como já aprendemos acima. Ou podemos manter `map` e seguir com `bind_rows()` que junta tibbles verticalmente:
 
 ```{r}
 dados <- arquivos %>% map_df(read_csv)
@@ -237,11 +244,11 @@ O resultado seria ainda mais claro e acessível se forçamos a produção de um 
 flights_jan_fev %>% map_df(summarize, dep_delay=mean(dep_delay, na.rm=T))
 ```
 
-Há apenas um problema com o resultado aqui - não sabemos qual valor descreve qual aeroporto! É importante manter a identificação dos nossos resultados, e seria útil ter uma coluna com o nome do aeroporto dentro do tibble. Isso é possível a partir de um argumento adicional em `map_df`: especificando o nome da coluna no argumento `.id="nome_de_coluna"`
+Há apenas um problema com o resultado aqui - não sabemos qual valor descreve qual mês! É importante manter a identificação dos nossos resultados, e seria útil ter uma coluna com o nome do mês dentro do tibble. Isso é possível a partir dos nomes dos elementos da lista (os tibbles) que contém os detalhes de cada mês. Apenas especificamos um argumento adicional em `map_df`: o nome da nova coluna no argumento `.id="nome_de_coluna"`.
 
-```{r, eval=F}
+```{r, eval=T}
 flights_jan_fev %>% map_df(summarize, dep_delay=mean(dep_delay, na.rm=T),
-                           .id="Aeroporto")
+                           .id="Mês")
 ```
 
 Agora, vale a pena resumir os usos de `map`, porque estamos trabalhando num nível mais abstrato e mais flexível, com uma variedade grande de opções:
@@ -363,13 +370,15 @@ Note que agora temos que indicar para `map` para qual coluna queremos aplicar a 
 
 ```{r, echo=F}
 dados_nested <- tibble(dia=c(1, 2),
-                       file=c("test1.csv", "test2.csv")) %>% 
+                       file=c("flights_jan_01.csv", 
+                              "flights_jan_02.csv")) %>% 
   mutate(conteudo=map(file, read_csv))
 ```
 
 ```{r, eval=T}
 dados_nested <- tibble(dia=c(1, 2),
-                       file=c("test1.csv", "test2.csv")) %>% 
+                       file=c("flights_jan_01.csv", 
+                              "flights_jan_02.csv")) %>% 
   mutate(conteudo=map(file, read_csv))
 
 dados_nested
