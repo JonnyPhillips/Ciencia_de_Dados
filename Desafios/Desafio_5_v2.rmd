@@ -17,10 +17,6 @@ O prazo para entregar Desafio 5 por email com título “[FLS6397] - D5” à mi
 
 <br>
 
-# Respostas Sugeridas
-
-<br>
-
 ## Instruções
 
 Siga as instruções abaixo. Documente *todos* os seus passos em um script. Comente no seu script *todos* os seus passos e explique a si mesma(o) suas escolhas e estratégias. Se você se beneficiou da assistência de outra pessoa, sempre reconheça isso em comentários no código.
