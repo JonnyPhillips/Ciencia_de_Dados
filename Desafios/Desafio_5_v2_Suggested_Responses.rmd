@@ -1,0 +1,194 @@
+---
+title: "Desafio 5: Análises Avançados de Tipos de Dados Diversos"
+output: distill::distill_article
+---
+
+```{r, echo=F}
+knitr::opts_chunk$set(echo = T, eval=T, highlight=T, warning=F, message=F)
+```
+
+<style>
+div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
+</style>
+
+<div class = "purple">
+O prazo para entregar Desafio 5 por email com título “[FLS6397] - D5” à minha conta é **09/07/2021**. Por favor entregue (i) o arquivo .Rmd (ou .Rnw se preferir), e (ii) o arquivo .html ou .PDF.
+</div>
+
+<br>
+
+# Respostas Sugeridas
+
+<br>
+
+## Instruções
+
+Siga as instruções abaixo. Documente *todos* os seus passos em um script. Comente no seu script *todos* os seus passos e explique a si mesma(o) suas escolhas e estratégias. Se você se beneficiou da assistência de outra pessoa, sempre reconheça isso em comentários no código.
+
+## Roteiro
+
+**Análise Espacial**
+
+1. Instale e abre [o pacote `geobr` do IBGE](https://github.com/ipeaGIT/geobr). Leia as instruções no site de github do pacote e use a função `read_municipality()` para acessar todos os municípios do estado de São Paulo em 2018. 
+
+```{r, results='hide'}
+# install.packages("geobr")
+library("tidyverse")
+library("sf")
+library("geobr")
+library("rmarkdown")
+library("knitr")
+
+muns_SP <- read_municipality(code_muni="SP", year=2018)
+```
+
+2. Use a funcionalidade da família de `map` para aplicar a função `read_municipality` para os cinco estados seguintes em uma linha única de código: SP, RJ, MT, RS e RN (todos para o ano de 2018). 
+
+```{r, results='hide'}
+estados <- c("SP", "RJ", "MT", "RS", "RN")
+
+muns_estados <- estados %>% map(read_municipality, year=2018)
+```
+
+3. Baixe, unzip e abre em R o arquivo da população paulista em 2010 [do site do IBGE](https://www.ibge.gov.br/estatisticas/downloads-estatisticas.html), 'Censos' -> 'Censo_Demografico_2010' -> 'resultados' -> 'total_populacao_sao_paulo.zip'. 
+
+```{r}
+library("readxl")
+
+popn_sp <- read_excel("total_populacao_sao_paulo/total_populacao_sao_paulo.xls")
+
+# obs: se não limpar as planilhas, as duas últimas linhas contém dados "errados": o total do estado e o link do site do IBGE de onde a planilha foi tirada
+```
+
+4. Queremos mapear dados da população por município. Identifique o chave apropriado, e cruze o banco de população com o banco das fronteiras dos municípios de SP. 
+
+```{r}
+popn_sp <- popn_sp %>% mutate(code_muni=as.numeric(`Código do município`))
+
+muns_SP <- muns_SP %>% left_join(popn_sp, by="code_muni")
+```
+
+5. Usando o seu banco de dados de Questão 5, calcule a proporção da população urbana na população total em cada município e visualize um mapa bem-formatado dessa taxa por município em 2010. Aplique uma escala de cores desejada.
+
+```{r}
+muns_SP <- muns_SP %>% mutate(taxa_urbana=100*(`Total da população urbana`/`Total da população 2010`)) 
+
+muns_SP %>%
+  ggplot() +
+  geom_sf(aes(fill=taxa_urbana)) +
+  scale_fill_gradient2(name="% Urbana", low="dark green", mid="white", high="red", midpoint=50) +
+  theme_void() +
+  ggtitle("População Urbana por Município de São Paulo")
+```
+
+**Testes Estatístos e Regressões**
+
+6. Faça um teste de shapiro para avaliar se a taxa urbana municipal é distribuida de forma normal.
+
+```{r}
+muns_SP %>% pull(taxa_urbana) %>% shapiro.test()
+```
+
+7. Execute uma regressão para avaliar se a taxa urbana (a variável dependente) é associada com a população total do município (a variável independente). Apresente o resultado numa tabela bem-formatada.
+
+```{r, results='asis'}
+library("stargazer")
+
+muns_SP %>% lm(taxa_urbana ~  + `Total da população 2010`, data=.)  %>% 
+  stargazer(type="html", title="Preditores da Taxa Urbana por Município")
+```
+
+8. Mostre um gráfico do efeito marginal (o coeficiente) da variável da população na regressão em Questão 8 e o intervalo de confiança da coeficiente.
+
+```{r}
+library("broom")
+muns_SP %>% lm(taxa_urbana ~  + `Total da população 2010`, data=.) %>% 
+  tidy() %>%
+  mutate(conf.lo=estimate-1.96*std.error,
+         conf.hi=estimate+1.96*std.error) %>%
+  filter(term!="(Intercept)") %>%
+  ggplot() +
+  geom_point(aes(x=term, y=estimate)) +
+  geom_errorbar(aes(x=term, y=estimate, ymin=conf.lo, ymax=conf.hi), width=0.1) +
+  geom_hline(yintercept=0, lty=2) +
+  theme_classic() +
+  ggtitle("Efeito Marginal do Coefficiente da Regressão de Questão 8") +
+  xlab("Variável") +
+  ylab("Coeficiente")
+```
+
+
+**Análise de Texto**
+
+9. Use [o link aqui](https://escriba.camara.leg.br/escriba-servicosweb/pdf/59638) para acessar em R um PDF da discussão na Camara dos Deputados no dia 21 de Maio de 2020. Transforme o PDF em texto simples.
+
+```{r}
+library("pdftools")
+
+text <- tibble(páginas=pdf_text("https://escriba.camara.leg.br/escriba-servicosweb/pdf/59638"))
+```
+
+10. Precisamos processar e preparar o texto para a análise. Segue os seguintes passos:
+    a. Insera o texto num tibble
+    b. No PDF é possível ver que as falas dos deputados distintos sempre começam com 'O SR.' ou 'A SRA.' então vamos usar estes strings para dividir o texto por Deputado. Use `str_split` para dividir o texto baseado nos strings 'O SR.' ou 'A SRA.' e salve os resultados numa nova coluna. 
+    c. Em seguida, `unnest()` os dados para que cada fala de cada deputado é uma linha separada no tibble.
+    d. Use `separate` para dividir a fala de cada deputado em duas colunas: O nome do Deputado, e o Discurso, usando o seguinte string como divisor: `"\\) - "`
+    e. O resultado deve conter umas linhas em que a coluna 'Deputado' não é uma pessoa, mas começa com "Sessão". Use `filter` para tirar essas linhas que começam com "Sessão" na coluna de 'Deputado'. 
+    f. Ainda, o nome do deputado fica desarrumado por causa de conteúdo em parenteses. Para identificar os deputados únicos, use `separate` para dividir a coluna do nome de Deputado em o nome e o conteúdo nos parenteses (que não importa para nos), usando o seguinte string como divisor: `" \\("`.
+    g. Tire as colunas desnecessárias para que temos apenas as duas colunas: Nome do Deputado, e Discurso.
+    
+```{r}
+text2 <- text %>% mutate(split=str_split(páginas, "O SR.|A SRA.")) %>%
+  select(-páginas) %>%
+  unnest() %>%
+  separate(split, "\\) - ", into=c("Deputado", "Discurso")) %>%
+  filter(!(str_detect(Deputado, "^Sessão"))) %>%
+  separate(Deputado, " \\(", into=c("Deputado", "Ignorar")) %>%
+  select(-Ignorar)
+```
+
+11. Agora, com o tibble produzido em Questão 17, vamos desaggregar e padronizar os discursos:
+    a. 'Tokenizar' os discursos dos deputados em palavras únicas para que o seu tibble contém uma linha por palavra.
+    b. Tire os stopwords de português. Se quiser, pode incluir mais stopwords que você acha não relevante para a análise.
+    c. Transforme as palavras em suas raízes, os 'stems'.
+
+```{r}
+library("tidytext")
+library("textstem")
+library("lexiconPT")
+
+stopwords <- get_stopwords(language="pt") %>%
+  rename(palavra=word)
+
+text3 <- text2 %>% unnest_tokens(palavra, Discurso, strip_numeric=TRUE) %>%
+  anti_join(stopwords, by="palavra") %>%
+  mutate(stem=stem_words(palavra, language="pt"))
+```
+
+```{r}
+text2 %>% paged_table()
+```
+
+12. Gere um 'wordcloud' dos stems das palavras usadas pelos Deputados.
+
+```{r}
+library("wordcloud")
+text3 %>% pull(stem) %>% wordcloud()
+```
+
+13. Execute uma análise de sentimento para identificar no documento inteiro qual Deputado usa as palavras mais otimistas e qual Deputado usa as palavras mais pessimistas.
+
+```{r}
+data("oplexicon_v3.0") #Abrir o banco de dados de sentimentos
+
+sentimento <- oplexicon_v3.0 %>% select(term, polarity) %>%
+  rename(palavra=term)
+
+text3 <- text3 %>% left_join(sentimento, by="palavra")
+
+text3 %>% group_by(Deputado) %>% 
+  summarize(sentimento=sum(polarity, na.rm=T)) %>%
+  arrange(-sentimento) %>%
+  slice(1, n()) %>%
+  kable()
+```
