@@ -2142,7 +2142,7 @@ div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </style>
 <h1 id="o-que-há-em-uma-palavra-str_length-str_detect">O que há em uma palavra? (<code>str_length</code>, <code>str_detect</code>)</h1>
-<p>Palavras e conjuntos de caracteres são coisas complexas que podemos manipular e transformar da mesma forma que processamos números. É importante entender que R trata todas os textos/as palavras como ‘strings’: conjuntos sequencias de caracteres específicas. Por exemplo, veja o string do nome do primeiro aeroporto no banco de dados <code>airports</code> de <code>nycflights13</code>.</p>
+<p>Palavras e conjuntos de caracteres são coisas complexas que podemos manipular e transformar da mesma forma que processamos números. É importante entender que o R trata todos os textos e as palavras como ‘strings’: conjuntos sequenciais de caracteres específicos. Por exemplo, veja o string do nome do primeiro aeroporto no banco de dados <code>airports</code> de <code>nycflights13</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/hadley/nycflights13'>"nycflights13"</a></span><span class='op'>)</span>
@@ -2154,7 +2154,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </div>
 <pre><code>[1] &quot;Lansdowne Airport&quot;</code></pre>
 </div>
-<p>O pacote <code>stringr</code> fornece uma variedade de funções para trabalhar com strings, todos começando com <code>str_</code>. O mais fácil é medir o número de caracteres com <code>str_length()</code>:</p>
+<p>O pacote <code>stringr</code> fornece uma variedade de funções para trabalhar com strings, todos começando com <code>str_</code>. Uma das funções mais úteis e fáceis é medir o número de caracteres com <code>str_length()</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>caracteres<span class='op'>=</span><span class='fu'>str_length</span><span class='op'>(</span><span class='va'>name</span><span class='op'>)</span><span class='op'>)</span>
@@ -2168,7 +2168,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </code></pre>
 </div>
 </div>
-<p>Observe que o resultado aqui é verdade/falsa (<code>TRUE</code>/<code>FALSE</code>). Quantos “field”s temos nos Estados Unidos - podemos usar a nova coluna para contar.</p>
+<p>Observe que o resultado aqui é verdade/falsa (<code>TRUE</code>/<code>FALSE</code>). Para identificar quantos “field”s temos nos Estados Unidos podemos usar a nova coluna para contar.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>string_field</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -2209,9 +2209,9 @@ TRUE
 </table>
 </div>
 <aside>
-<p>Tome cuidado com letras minúsculas vs. maiúsculas - são tratados diferentemente!</p>
+<p>Tome cuidado com letras minúsculas vs. maiúsculas - elas são tratadas diferentemente!</p>
 </aside>
-<p>Identificando strings é um tema de programação enorme, pois não precisamos usar uma palavra exata e fixa; podemos usar um ‘modelo’ genérica para capturar uma variadade de possibilidades. Isso se chama um ‘regex’, uma ‘expressão regular’. Por exemplo, para capturar aeroportos que contém ‘Regional’ <em>ou</em> ‘Rgnl’, usamos o símbolo ‘|’ (como em <code>filter</code>).</p>
+<p>Identificar strings é um tema de programação enorme, pois não precisamos usar uma palavra exata e fixa; podemos usar um ‘modelo’ genérico para capturar uma variedade de possibilidades. Isso se chama um ‘regex’, uma ‘expressão regular’. Por exemplo, para capturar aeroportos que contém ‘Regional’ <em>ou</em> ‘Rgnl’, usamos o símbolo ‘|’ (como em <code>filter</code>).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>string_regional<span class='op'>=</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"Regional|Rgnl"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -2283,7 +2283,7 @@ Augusta Rgnl At Bush Fld
 </tbody>
 </table>
 </div>
-<p>Que tal identificamos os nomes que <em>começam</em> com ‘Z’. Para detectar caracteres apenas no <em>início</em> do string, usamos ‘^’. Para detectar caracteres apenas no final do string, usamos ‘$’ depois do caracter.</p>
+<p>Que tal identificarmos os nomes que <em>começam</em> com ‘Z’? Para detectar caracteres apenas no <em>início</em> do string, usamos ‘^’. Para detectar caracteres apenas no final do string, usamos ‘$’ depois do caracter.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>string_z<span class='op'>=</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"^Z"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -2315,7 +2315,7 @@ Zamperini Field Airport
 </tbody>
 </table>
 </div>
-<p>As possibilidades são complexas - por exemplo, é possível identificar os nomes que contém pelo menos dois ’f’s ou ’g’s juntos com o modelo abaixo:</p>
+<p>As possibilidades inúmeras e, às vezes, complexas - por exemplo, é possível identificar os nomes que contém pelo menos dois ’f’s ou ’g’s juntos, através do código abaixo:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>string_ffgg<span class='op'>=</span><span class='fu'>str_detect</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"[fg]{2,}"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -2387,7 +2387,7 @@ Coffman Cove Seaplane Base
 </tbody>
 </table>
 </div>
-<p>Não se preocupe com todos os detalhes do ‘regex’ de texto - são complexos e impossível de lembrar, mas se precisar no futuro, pode utilizar a referência <a href="http://edrub.in/CheatSheets/cheatSheetStringr.pdf">na segunda página do cheatsheet de <code>stringr</code> aqui</a>.</p>
+<p>Não se preocupe com todos os detalhes do ‘regex’ de texto - eles são complexos e bastante difíceis de lembrar, mas se precisar no futuro, pode utilizar a referência <a href="http://edrub.in/CheatSheets/cheatSheetStringr.pdf">na segunda página do cheatsheet de <code>stringr</code> aqui</a>.</p>
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Transformando PDFs em Texto Editável</strong></p>
 <p>Um dos formatos mais comuns para a disponibilização de textos é o PDF, um formato não editável. Porém na maioria dos casos é fácil traduzir um PDF em texto simples que o R pode entender. Usamos o pacote <code>pfdtools</code> e a função <code>pdf_text()</code>.</p>
@@ -2405,29 +2405,29 @@ Coffman Cove Seaplane Base
 <p>Qual é o resultado de <code>pdf_text()</code>? É um vetor de strings - um para cada página no PDF. E para conveniência nós já inserimos o vetor como uma coluna de um tibble.</p>
 </div>
 <h1 id="transformando-strings-str_replace-str_split">Transformando Strings (<code>str_replace</code>, <code>str_split</code>)</h1>
-<p>Quando recebemos um banco de dados com strings, existe uma variação incrível no uso de palavras, refletindo o estilo e contexto do documento. Mas queremos trabalhar apenas com strings que nos interessamos. Isso exige a manipulação e substituição de strings complexos ou sujos.</p>
-<p>Por exemplo, vamos substituir as instâncias de ‘Rgnl’ com ‘Regional’ com <code>str_replace</code> para deixar os strings mais consistente. Os argumentos são a coluna do tibble que contém os strings, o modelo (um regex) de caracteres para identificar, e, em seguida, o string para substituir.</p>
+<p>Quando recebemos um banco de dados com strings, existe uma variação incrível no uso de palavras, refletindo o estilo e contexto do documento. Mas queremos trabalhar apenas com strings que nos interessam. Isso exige a manipulação e substituição de strings complexos ou “sujos”.</p>
+<p>Por exemplo, vamos substituir as instâncias de ‘Rgnl’ com ‘Regional’ com <code>str_replace</code> para deixar os strings mais consistentes. Os argumentos são (i) a coluna do tibble que contém os strings, (ii) o modelo (um regex) de caracteres para identificar, e, em seguida, (iii) o string para substituir.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>name<span class='op'>=</span><span class='fu'>str_replace</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"Rgnl"</span>, <span class='st'>"Regional"</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
-<p>Ou, por exemplo, podemos substituir os hífens com um espaço para padronizar os strings, alguns que usam hífens e outros não:</p>
+<p>Ou, por exemplo, podemos substituir os hífens com um espaço para padronizar os strings, já que alguns usam hífens e outros não:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>name<span class='op'>=</span><span class='fu'>str_replace</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>"-"</span>, <span class='st'>" "</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
-<p>Observe que os nomes dos aeroportos são geralmente compostos por várias palavras - se quisemos manter apenas a primeira palavra, temos que dividir o string único em vários partes. Nessa situação, usamos a função <code>str_split</code>, especificando um string (um regex) para o local da divisão. Por exemplo, para separar cada palavra temos que dividir por espaço:</p>
+<p>Observe que os nomes dos aeroportos são geralmente compostos por várias palavras - se quisermos manter apenas a primeira palavra, temos que dividir o string único em várias partes. Nessa situação, usamos a função <code>str_split</code>, especificando um string (um regex) para o local da divisão. Por exemplo, para separar cada palavra temos que dividir por espaço:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>nome_parcial<span class='op'>=</span><span class='fu'>str_split</span><span class='op'>(</span><span class='va'>name</span>, <span class='st'>" "</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
-<p>Como fica o resultado? Cada linha tem um <em>vetor</em> com os palavras únicas separadas. Note que o cumprimento do vetor varia para cada linha - pode ter 1, 2, 3 ou mais elementos, dependendo do número de espaços no string original. Podemos selecionar, por exemplo, a primeira palavra, aproveitando da função <code>map</code> do tutorial passado, e usando ‘1’ para pedir o primeiro elemento do vetor, ou <code>tail</code> para pedir o último elemento:</p>
+<p>Como fica o resultado? Cada linha tem um <em>vetor</em> com as palavras únicas separadas. Note que o comprimento do vetor varia para cada linha - pode ter 1, 2, 3 ou mais elementos, dependendo do número de espaços no string original. Podemos selecionar, por exemplo, a primeira palavra, aproveitando da função <code>map</code> do tutorial passado, e usando ‘1’ para pedir o primeiro elemento do vetor, ou <code>tail</code> para pedir o último elemento:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='va'>airports</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>nome_parcial_primeiro<span class='op'>=</span><span class='fu'>map_chr</span><span class='op'>(</span><span class='va'>nome_parcial</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
@@ -2440,7 +2440,7 @@ Coffman Cove Seaplane Base
 </code></pre>
 </div>
 </div>
-<p>Lembre-se da função <code>separate()</code> do Tutorial 3? É bem parecida com <code>str_split()</code>. A diferença é que o produto de <code>separate</code> não é simplesmente um vetor - é <em>distribuido</em> em colunas novas dentro do nosso tibble. Isso é muito conveniente, mas exige que determinamos o número de parcelas em que dividimos o string em avanço. Por exemplo, com <code>separate()</code> fica mais difícil encontrar o último palavra do nome do aeroporto como calculamos acima.</p>
+<p>Lembre-se da função <code>separate()</code> do Tutorial 3? É bem parecida com <code>str_split()</code>. A diferença é que o produto de <code>separate</code> não é simplesmente um vetor - mas está <em>distribuído</em> em colunas novas dentro do nosso tibble. Isso é muito conveniente, mas exige que determinemos o número de parcelas em que dividimos o string em avanço. Por exemplo, com <code>separate()</code> fica mais difícil encontrar a última palavra do nome do aeroporto como calculamos acima.</p>
 <p><code>separate()</code> é mais útil quando temos um formato fixo com um número de parcelas previsível. Por exemplo, podemos dividir a coluna <code>tzone</code> entre os partes antes e depois do ‘/’:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2452,10 +2452,10 @@ Coffman Cove Seaplane Base
 <div class="blue">
 <p><strong>Habilidade Básica de Programação: Caracteres de Escape</strong></p>
 <p>Em algumas situações, é difícil identificar ou dividir por um caractere quando esse caractere é usado no código de programação mesmo. Por exemplo, definimos o string para dividir entre aspas: <code>""</code>, mas é possível querer dividir um string <em>por aspas</em>, por exemplo para dividir uma citação do autor.</p>
-<p>Como faremos? Temos que usar um indicador específico - um Caractere de ‘Escape’ para informar R que queremos tratar o caractere como parte do string e não como parte do código de programação. O Caractere de ‘Escape’ em R é ‘\’. Então precisamos indicar “\”" para dividir por aspas. E se queremos dividir pela barra em si “\”?? Usamos quatro! “\\\\”.</p>
+<p>Como faremos? Temos que usar um indicador específico - um Caractere de ‘Escape’ para informar p R que queremos tratar o caractere como parte do string e não como parte do código de programação. O Caractere de ‘Escape’ em R é ‘\’. Então precisamos indicar “\”" para dividir por aspas. E se queremos dividir pela barra em si “\”?? Usamos quatro! “\\\\”.</p>
 </div>
 <h2 id="visualizando-strings">Visualizando Strings</h2>
-<p>Um jeito comum de apresentar a frequência de strings é um nuvem de palavras - um ‘wordcloud’ - que exige os pacotes <code>wordcloud</code> e <code>tm</code>.</p>
+<p>Um jeito comum de apresentar a frequência de strings é uma nuvem de palavras - um ‘wordcloud’ - que exige os pacotes <code>wordcloud</code> e <code>tm</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#install.packages("wordcloud")</span>
@@ -2480,7 +2480,7 @@ Coffman Cove Seaplane Base
 
 </div>
 <ol start="2" type="1">
-<li>No mesmo banco, Substitua os nomes das companhias aéreas que contém ‘Inc.’ com ‘Incorporated’, e eles que contém ‘Co.’ com ‘Company’. (Observe que ‘.’ é um caracter especial, então tem que buscar ele com ‘\\.’).</li>
+<li>No mesmo banco, substitua os nomes das companhias aéreas que contém ‘Inc.’ com ‘Incorporated’, e aquelas que contém ‘Co.’ com ‘Company’. (Observe que ‘.’ é um caracter especial, então tem que buscar ele com ‘\\.’).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2515,7 +2515,7 @@ Coffman Cove Seaplane Base
 </code></pre>
 </div>
 </div>
-<p>Temos que limpar e organizar o texto antes de usar. Por motivos chatos e técnicos, o próximo código converte o encoding para UTF-8, e depois tira manualmente as linhas do início e final que não foram parte do livro original. Aproveitamos para também adicionar uma nova coluna capturando o número da linha no livro, para facilitar restreando as linhas ao longo da análise.</p>
+<p>Temos que limpar e organizar o texto antes de usá-lo. Por motivos chatos e técnicos, o próximo código converte o encoding para UTF-8, e depois extrai manualmente as linhas do início e fim que não pertencem ao livro original. Aproveitamos para também adicionar uma nova coluna capturando o número da linha no livro, para facilitar a restreabilidade das linhas ao longo da análise.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis</span> <span class='op'>&lt;-</span> <span class='va'>Assis</span> <span class='op'>%&gt;%</span> 
@@ -2539,7 +2539,7 @@ Coffman Cove Seaplane Base
 </code></pre>
 </div>
 </div>
-<p>Desaggregar linhas em palavras exige a função <code>unnest_tokens()</code>, com dois argumentos: o nome da nova coluna que contém as palavras, ‘palavra’, e o nome da coluna que contém o texto por linha, ‘text’.</p>
+<p>Desagregar linhas em palavras exige a função <code>unnest_tokens()</code>, com dois argumentos: o nome da nova coluna que contém as palavras, ‘palavra’, e o nome da coluna que contém o texto por linha, ‘text’.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>&lt;-</span> <span class='va'>Assis</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidytext/man/unnest_tokens.html'>unnest_tokens</a></span><span class='op'>(</span><span class='va'>palavra</span>, <span class='va'>text</span><span class='op'>)</span>
@@ -2547,7 +2547,7 @@ Coffman Cove Seaplane Base
 </div>
 </div>
 <p>Agora, ‘Assis_palavras’ tem muito mais linhas, uma para cada palavra. Perfeito.</p>
-<p>A próxima tarefa é a simplificação e padronização dessas palavras, e isso involve vários passos:</p>
+<p>A próxima tarefa é a simplificação e padronização dessas palavras, e isso envolve vários passos:</p>
 <ol type="1">
 <li><strong>Tirar Pontuação:</strong> Frases contém pontuação, mas normalmente não importa se há uma vírgula ou não depois de uma palavra para identificar a presença do conceito no texto. A pontuação é tirada automaticamente por <code>unnest_tokens()</code>. Se quiser, pode desligar para manter a pontuação:</li>
 </ol>
@@ -2558,7 +2558,7 @@ Coffman Cove Seaplane Base
 </div>
 </div>
 <ol start="2" type="1">
-<li><strong>Tirar Maiúsculas:</strong> Também queremos ignorar se as palavras estejam em letras minúsculas ou maiúsculas, e padronizar, por exemplo, para minúsculas. De novo, isso é o padrão de <code>unnest_tokens()</code>, mas podemos desligar se quisemos:</li>
+<li><strong>Tirar Maiúsculas:</strong> Também queremos ignorar se as palavras estão em letras minúsculas ou maiúsculas, e padronizar, por exemplo, para minúsculas. De novo, isso é o padrão de <code>unnest_tokens()</code>, mas podemos desligar se quisemos:</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2567,7 +2567,7 @@ Coffman Cove Seaplane Base
 </div>
 </div>
 <ol start="3" type="1">
-<li><strong>Tirar Números:</strong> O nosso texto contém vários números (anos, etc.) que não são relevante para uma análise de texto. Não é a opção padrão, mas podemos tirar os números facilmente:</li>
+<li><strong>Tirar Números:</strong> O nosso texto contém vários números (anos, etc.) que não são relevantes para uma análise de texto. Não é a opção padrão, mas podemos tirar os números facilmente:</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2576,7 +2576,7 @@ Coffman Cove Seaplane Base
 </div>
 </div>
 <ol start="4" type="1">
-<li><strong>Tirar stopwords:</strong> É comum tirar palavras pequenas e genéricas como ‘o’, ‘a’, ‘e’ etc. que são universais e não diferenciam o conteúdo dos textos. Essas palavras se chamam ‘stopwords’. Tira-las exige mais um passo, aproveitando de um banco de dados de stopwords com a função <code>get_stopwords()</code> para a língua apropriada. Inspecione o conteúdo dela.</li>
+<li><strong>Tirar stopwords:</strong> É comum tirar palavras pequenas e genéricas como ‘o’, ‘a’, ‘e’ etc. que são universais e não diferenciam o conteúdo dos textos. Essas palavras se chamam ‘stopwords’. Tirá-las exige mais um passo, aproveitando de um banco de dados de stopwords com a função <code>get_stopwords()</code> para a língua apropriada. Inspecione seu conteúdo.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2692,7 +2692,7 @@ snowball
 </code></pre>
 </div>
 </div>
-<p>A lista de stopwords não é nada oficial; são apenas as palavras que não nos interessamos. Por exemplo, por algum motivo a lista de stopwords aqui falta a palavra ‘é’, que é muito comum e não acrescenta nada sobre o conteúdo do texto. Nós podemos manualmente estender a lista de stopwords, adicionando mais linhas no tibble <code>stopwords</code>.</p>
+<p>A lista de stopwords não é nada oficial; são apenas as palavras que não nos interessam. Por exemplo, por algum motivo na lista de stopwords aqui falta a palavra ‘é’, que é muito comum e não agrega nada no conteúdo do texto. Nós podemos manualmente estender a lista de stopwords, adicionando mais linhas no tibble <code>stopwords</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>stopwords</span> <span class='op'>&lt;-</span> <span class='va'>stopwords</span> <span class='op'>%&gt;%</span> <span class='fu'>add_row</span><span class='op'>(</span>palavra<span class='op'>=</span><span class='st'>"é"</span>, lexicon<span class='op'>=</span><span class='st'>"pessoal"</span><span class='op'>)</span>
@@ -2702,7 +2702,7 @@ snowball
 </div>
 </div>
 <ol start="5" type="1">
-<li><strong>‘Stem’ as palavras</strong> Mais um passo de processamento é a padronização de variedades da mesma palavra - uma técnica que se chama ‘stemming’. Por exemplo, português tem milhares de conjugações de cada verbo: ‘saber’, ‘sei’, ‘soube’ etc. que significam o mesmo conceito. O que nos interessamos é o raiz (o ‘stem’) consistente da palavra. Usamos a função <code>stem_words()</code> para adicionar mais uma coluna ao nosso tibble com a raiz das palavras, de novo especificando a língua apropriada.</li>
+<li><strong>‘Stem’ as palavras</strong> Mais um passo de processamento é a padronização de variedades da mesma palavra - uma técnica que se chama ‘stemming’. Por exemplo, português tem milhares de conjugações de cada verbo: ‘saber’, ‘sei’, ‘soube’ etc. que significam o mesmo conceito. O que nos interessa é a raiz (o ‘stem’) consistente da palavra. Usamos a função <code>stem_words()</code> para adicionar mais uma coluna ao nosso tibble com a raiz das palavras, de novo especificando a língua apropriada.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2710,7 +2710,7 @@ snowball
 </code></pre>
 </div>
 </div>
-<p>Agora veja a coluna ‘stem’ do tibble: observe o contraste entre ‘palavra’, e ‘stem’. Por exemplo, ambos ‘encontrei’ e ‘encontrou’ se tornam ‘encontr’. A padronização simplifica o base de dados bastante - de 8.728 a 4.824 palavras distintas.</p>
+<p>Agora veja a coluna ‘stem’ do tibble: observe o contraste entre ‘palavra’, e ‘stem’. Por exemplo, ambos ‘encontrei’ e ‘encontrou’ se tornam ‘encontr’. A padronização reduz bastante a base de dados - de 8.728 a 4.824 palavras distintas.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/distinct.html'>distinct</a></span><span class='op'>(</span><span class='va'>palavra</span><span class='op'>)</span>
@@ -2719,8 +2719,8 @@ snowball
 </div>
 </div>
 <h1 id="frequência-de-palavras">Frequência de Palavras</h1>
-<p>Agora que temos um banco de dados textuais padronizado, podemos começar a analisar o conteúdo das palavras de Machado de Assis. Primeiramente, vamos estimar a frequência de uso das palavras, ou mais especificamente as raizes.</p>
-<p>Podemos visualizar a frequência das raizes (stems) das palavras com um wordcloud, como mostramos acima. (Vamos pedir uma amostra das linhas para acelerar o processamento).</p>
+<p>Agora que temos um banco de dados textuais padronizado, podemos começar a analisar o conteúdo das palavras de Machado de Assis. Primeiramente, vamos estimar a frequência de uso das palavras, ou mais especificamente as raízes.</p>
+<p>Podemos visualizar a frequência das raízes (stems) das palavras com um wordcloud, como mostramos acima. (Vamos pedir uma amostra das linhas para acelerar o processamento).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/sample_n.html'>sample_n</a></span><span class='op'>(</span><span class='fl'>2000</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
@@ -2835,7 +2835,7 @@ fal
 </tbody>
 </table>
 </div>
-<p>Observe que alguns dessas palavras não são interessantes e não descreve bem o conteúdo do texto então podem ser bons candidatos para tirar na lista de stopwords, por exemplo ‘á’. E para visualizar os resultados num gráfico de barras:</p>
+<p>Observe que algumas dessas palavras não são interessantes e não descreve bem o conteúdo do texto então podem ser bons candidatos para tirar na lista de stopwords, por exemplo ‘á’. E para visualizar os resultados num gráfico de barras:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>stem</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -2849,7 +2849,7 @@ fal
 </div>
 <p><img src="Analise_Texto_files/figure-html5/unnamed-chunk-41-1.png" width="624" /></p>
 </div>
-<p>Finalmente, podemos interrogar o banco de texto para a presença de uma palavra específica, por exemplo o stem ‘govern’:</p>
+<p>Finalmente, podemos interrogar o banco de texto para verificar a presença de uma palavra específica, por exemplo o stem ‘govern’:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>stem</span><span class='op'>==</span><span class='st'>"govern"</span><span class='op'>)</span>
@@ -2921,7 +2921,7 @@ govern
 </div>
 <p>Há quatro instâncias no texto, em três formas diferentes da palavra.</p>
 <h1 id="análise-de-sentimento">Análise de Sentimento</h1>
-<p>O ‘Dom Casmurro’ é um livro otimista ou pessimista? Cada palavra tem um significando complexo, sútil e contextual. Porém, existem bancos de dados que avaliam o ‘sentimento’ de cada palavra. O pacote <code>lexiconPT</code> fornece o banco <code>oplexicon_v3.0</code>. Nós precisamos apenas juntar o banco de dados de sentimentos com o nosso banco de palavras:</p>
+<p>O ‘Dom Casmurro’ é um livro otimista ou pessimista? Cada palavra tem um significado complexo, sutil e contextual. Porém, existem bancos de dados que avaliam o ‘sentimento’ de cada palavra. O pacote <code>lexiconPT</code> fornece o banco <code>oplexicon_v3.0</code>. Nós precisamos apenas juntar o banco de dados de sentimentos com o nosso banco de palavras:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sentimento</span> <span class='op'>&lt;-</span> <span class='va'>oplexicon_v3.0</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>term</span>, <span class='va'>polarity</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -3093,7 +3093,7 @@ NA
 </tbody>
 </table>
 </div>
-<p>Observe que muitas palavras - as palavras ‘neutras’ - não existem no banco de dados de sentimentos, então a coluna ‘polarity’ tem valor <code>NA</code>. Podemos avaliar o sentimento ‘média’ do livro com <code>summarize</code>. Um valor positivo significa um texto mais otimisto na média, e um valor negativo um texto mais pessimisto na média:</p>
+<p>Observe que muitas palavras - as palavras ‘neutras’ - não existem no banco de dados de sentimentos, então a coluna ‘polarity’ tem valor <code>NA</code>. Podemos avaliar o sentimento ‘média’ do livro com <code>summarize</code>. Um valor positivo significa um texto mais otimista na média, e um valor negativo um texto mais pessimista na média:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/summarize.html'>summarize</a></span><span class='op'>(</span>sentimento<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>polarity</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span>
@@ -3118,7 +3118,7 @@ sentimento
 </tbody>
 </table>
 </div>
-<p>O resultado positivo sugere que o livro é mais otimisto do que pessimisto na média. A análise também permite identificar as linhas mais otimistas e pessimistas do livro inteiro se agrupamos por linha e calcula a soma dos sentimentos contidos na linha (palavras positivas menos palavras negativas):</p>
+<p>O resultado positivo sugere que o livro é mais otimista do que pessimista na média. A análise também permite identificar as linhas mais otimistas e pessimistas do livro inteiro se agrupamos por linha e calcularmos a soma dos sentimentos contidos na linha (palavras positivas menos palavras negativas):</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Linha<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -3174,7 +3174,7 @@ polarity
 </div>
 <pre><code>[1] &quot;pouco, um intrigante, um bajulador, um especulador, e, apezar da casca&quot;</code></pre>
 </div>
-<p>Faz sentido, sim? Os nossos dados permitem responder a mais uma pergunta interessante: Como desenvolve o sentimento ao longo do livro? Podemos usar o nosso resumo por linha, completar as linhas faltandas (que faltam palavras em nosso banco de dados de sentimentos) com <code>complete</code>, e encaminhar para <code>ggplot</code> para criar um gráfico de linhas.</p>
+<p>Faz sentido, sim? Os nossos dados permitem responder a mais uma pergunta interessante: Como se desenvolve o sentimento ao longo do livro? Podemos usar o nosso resumo por linha, completar as linhas faltantes (que faltam palavras em nosso banco de dados de sentimentos) com <code>complete</code>, e encaminhar para <code>ggplot</code> para criar um gráfico de linhas.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Linha<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>Linha</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -3189,7 +3189,7 @@ polarity
 </div>
 <p><img src="Analise_Texto_files/figure-html5/unnamed-chunk-50-1.png" width="624" /></p>
 </div>
-<p>O gráfico não é fácil interpretar porque há tantas observações e variação página por página. Uma forma de melhorar a apresentação da linha é calcular uma ‘média móvel’, que ‘suavizar’ os dados de sentimento. O pacote <code>zoo</code> fornece a função <code>rollapply</code> que podemos aplicar dentro de um <code>mutate</code> para calcular a média móvel de cada janela de 1000 linhas.</p>
+<p>O gráfico não é fácil de interpretar porque há muitas observações e variações página por página. Uma forma de melhorar a apresentação da linha é calcular uma ‘média móvel’, que ‘suaviza’ os dados de sentimento. O pacote <code>zoo</code> fornece a função <code>rollapply</code> que podemos aplicar dentro de um <code>mutate</code> para calcular a média móvel de cada janela de 1000 linhas.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://zoo.R-Forge.R-project.org/'>"zoo"</a></span><span class='op'>)</span>
@@ -3206,7 +3206,7 @@ polarity
 </div>
 <p><img src="Analise_Texto_files/figure-html5/unnamed-chunk-51-1.png" width="624" /></p>
 </div>
-<p>O fluxo do livro é mais evidente agora - periódos otimistas antes de linha 5000 e depois de linha 6500, e periódos mais pessimistas cerca de linhas 6000 e 8000. Se você conheça o livro, pode nos ajudar a verificar se seja verdade!</p>
+<p>O fluxo do livro é mais evidente agora - períodos otimistas antes de linha 5000 e depois de linha 6500, e períodos mais pessimistas cerca de linhas 6000 e 8000. Se você conhece o livro, pode nos ajudar a verificar se é verdade!</p>
 <h2 id="ngrams">Ngrams</h2>
 <p>Por que estamos trabalhando com palavras únicas? Não é obrigatório - podemos dividir o texto em várias formas. Por exemplo, podemos identificar <em>pares</em> de palavras - cada vez que um par de palavras - ‘grande gato’ - aparecem juntos. Isso se chama um ‘bigram’. A lógica de processamento é bem parecida com a rotina para palavras únicas. É só especificar <code>token=ngrams</code> e <code>n=2</code> na função de <code>unnest_tokens()</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -3216,7 +3216,7 @@ polarity
 </code></pre>
 </div>
 </div>
-<p>Tirando os stopwords exige um pouco mais trabalho com bigrams - temos que separar eles em palavras distintas, tirar cada instância de um stopword, e juntar de novo:</p>
+<p>Tirar os stopwords exige um pouco mais trabalho com bigrams - temos que separar eles em palavras distintas, tirar cada instância de um stopword, e juntar de novo:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_bigrams</span> <span class='op'>&lt;-</span> <span class='va'>Assis_bigrams</span> <span class='op'>%&gt;%</span> 
@@ -3332,8 +3332,8 @@ alguma cousa
 </tbody>
 </table>
 </div>
-<p>O bigram mais comum (exceto ‘NA NA’ que devemos tirar) é “josé dias”, presumivalvmente um personagem, e, em seguida, “prima justina”.</p>
-<p>Trabalhando com bigrams ajuda identificar ao lado de quais outras palavras uma palavra aparece. Por exemplo, quais palavras aparecem ao lada da palavra ‘familia’?</p>
+<p>O bigram mais comum (exceto ‘NA NA’ que devemos tirar) é “josé dias”, presumivelmente um personagem, e, em seguida, “prima justina”.</p>
+<p>Trabalhar com bigrams nos ajuda a identificar ao lado de quais outras palavras uma palavra aparece. Por exemplo, quais palavras aparecem ao lado da palavra ‘familia’?</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_bigrams</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>palavra1</span><span class='op'>==</span><span class='st'>"familia"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>pull</span><span class='op'>(</span><span class='va'>palavra2</span><span class='op'>)</span>
@@ -3473,13 +3473,13 @@ póde ser tambem
 <h2 id="exercício-2-analisando-um-documento">Exercício 2: Analisando um Documento</h2>
 <div class="green">
 <ol type="1">
-<li>Escolhe um livro da sua preferência <a href="https://www.gutenberg.org/browse/languages/pt">no site de Projeto Gutenberg</a>, e abre ele em R usando o código do projeto.</li>
+<li>Escolha um livro da sua preferência <a href="https://www.gutenberg.org/browse/languages/pt">no site de Projeto Gutenberg</a>, e abra ele em R usando o código do projeto.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="2" type="1">
-<li>‘Tokenizar’ o seu livro em palavras, tirando a puntuação, os números, os stopwords, virando as caracteres em minúsculo, e as palavras em seus stems (raízes).</li>
+<li>‘Tokenize’ o seu livro em palavras, tirando a pontuação, os números, os stopwords, virando as caracteres em minúsculo, e as palavras em seus stems (raízes).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -3491,7 +3491,7 @@ póde ser tambem
 
 </div>
 <ol start="4" type="1">
-<li>Aplique uma análise de sentimento ao texto para identificar as linhas mais otimistas e mais pessimistas do texto.</li>
+<li>Aplique uma análise de sentimento ao texto para identificar as linhas mais otimistas e as mais pessimistas do texto.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -3512,7 +3512,7 @@ póde ser tambem
 </code></pre>
 </div>
 </div>
-<p>E vamos processar o banco de dados para padronizar o conteúdo e gerar os stems, para que o banco de dados fica no mesmo formato que o livro de Machado de Assi:</p>
+<p>E vamos processar o banco de dados para padronizar o conteúdo e gerar os stems, para que o banco de dados fica no mesmo formato que o livro de Machado de Assis:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Verne_palavras</span> <span class='op'>&lt;-</span> <span class='va'>Verne</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidytext/man/unnest_tokens.html'>unnest_tokens</a></span><span class='op'>(</span><span class='va'>palavra</span>, <span class='va'>text</span>, strip_numeric<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -3521,7 +3521,7 @@ póde ser tambem
 </code></pre>
 </div>
 </div>
-<p>Agora precisamos juntar os dois bancos, ‘Assis_palavras’ e ‘Verne_palavras’ em um tibble único, adicionando uma coluna identificadora para preservar o livro relevante. Também precisamos contar a frequência de cada palavra, para que podemos comparar a frequência entre os dois livros. Para deixar os resultados mais fácil a interpretar, vamos trabalhar com as palavras mesmas em vez dos stems:</p>
+<p>Agora precisamos juntar os dois bancos, ‘Assis_palavras’ e ‘Verne_palavras’ em um tibble único, adicionando uma coluna identificadora para preservar o livro relevante. Também precisamos contar a frequência de cada palavra, para que possamos comparar a frequência entre os dois livros. Para deixar os resultados mais fáceis de interpretar, vamos trabalhar com as palavras mesmas em vez dos stems:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_prep</span> <span class='op'>&lt;-</span> <span class='va'>Assis_palavras</span> <span class='op'>%&gt;%</span> 
@@ -3544,9 +3544,9 @@ póde ser tambem
 </div>
 </div>
 <h2 id="frequência-relativa-de-palavras-bind_tf_idf">Frequência Relativa de Palavras (<code>bind_tf_idf</code>)</h2>
-<p>Quais palavras distinguem o melhor os dois livros? Ou seja, há palavras frequentes que existem nos dois livros (palavras comuns, tipo ‘pessoa’, ‘rua’), e há palavras que são comuns e <em>específicas</em> para cada livro, que ajudam a caracterizar o conteúdo distinto do livro.</p>
-<p>A medida que é usada na análise de texto é a frequência do termo (‘tf’) multiplicado pelo frequência inversa do termo no documento (‘idf’) - o ‘tf-idf’. Os termos com os maiores valores da medida ‘tf-idf’ são os termos que são mais presentes em um documento <em>e não no outro</em>.</p>
-<p>Calculamos a medida com a função <code>bind_tf_idf()</code>, que exige três argumentos - a coluna que contém as palavras, a coluna que indica em qual documento aparece cada palavra, e a coluna que resuma a frequência de cada palavra no documento:</p>
+<p>Quais palavras distinguem melhor os dois livros? Ou seja, há palavras frequentes que existem nos dois livros (palavras comuns, tipo ‘pessoa’, ‘rua’), e há palavras que são comuns e <em>específicas</em> para cada livro, que ajudam a caracterizar o conteúdo distinto do livro.</p>
+<p>A medida que é usada na análise de texto é a frequência do termo (‘tf’) multiplicado pela frequência inversa do termo no documento (‘idf’) - o ‘tf-idf’. Os termos com os maiores valores da medida ‘tf-idf’ são os termos que são mais presentes em um documento <em>e não no outro</em>.</p>
+<p>Calculamos a medida com a função <code>bind_tf_idf()</code>, que exige três argumentos - a coluna que contém as palavras, a coluna que indica em qual documento aparece cada palavra, e a coluna que resume a frequência de cada palavra no documento:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_Verne_idf</span> <span class='op'>&lt;-</span> <span class='va'>Assis_Verne</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidytext/man/bind_tf_idf.html'>bind_tf_idf</a></span><span class='op'>(</span><span class='va'>palavra</span>, <span class='va'>document</span>, <span class='va'>n</span><span class='op'>)</span>
@@ -3724,10 +3724,10 @@ projectil
 </tbody>
 </table>
 </div>
-<p>Os resultados indicam que no livro de Assis, as palavras mais distintas incluem ‘josé’, ‘escobar’, ‘capitú’ - os personagens centrais do livro. Na mesma forma, as palavras mais distantas do livro de Verne incluem ‘ardan’, ‘barbicane’, e ‘maston’, os personagens centrais. Isso é comum porque são essas nomes que são muito usados e distinguem os livros.</p>
+<p>Os resultados indicam que no livro de Assis, as palavras mais distintas incluem ‘josé’, ‘escobar’, ‘capitú’ - os personagens centrais do livro. Na mesma forma, as palavras mais distintas do livro de Verne incluem ‘ardan’, ‘barbicane’, e ‘maston’, os personagens centrais. Isso é comum porque são esses nomes que são muito usados e distinguem os livros.</p>
 <h2 id="modelagem-de-tópicos">Modelagem de Tópicos</h2>
-<p>Uma alternativa para compara documentos é uma técnia de clusterização que divide <em>automaticamente</em> (sem supervisão) o conjunto de documentos em temas, ou ‘tópicos’. Os tópicos são definidos pelo uso de conjuntos de palavras distintas, e cada documento é uma mistura de tópicos (ex. 90% A e 10% B). Essa técnica é útil para dizer que alguns documentos são mais parecidas que outras.</p>
-<p>Primeiramante, precisamos transformar o nosso tibble dos dois livros em um ‘matriz de documento-termo’, uma ferramenta bem usada no mundo de análise de texto, com a função <code>cast_dtm()</code>, indicando como argumentos a coluna que identifica o documento, a coluna que contém as palavras (termos), e a coluna que conta a frequência de cada palavra.</p>
+<p>Uma alternativa para comparar documentos é uma técnica de clusterização que divide <em>automaticamente</em> (sem supervisão) o conjunto de documentos em temas, ou ‘tópicos’. Os tópicos são definidos pelo uso de conjuntos de palavras distintas, e cada documento é uma mistura de tópicos (ex. 90% A e 10% B). Essa técnica é útil para dizer que alguns documentos são mais parecidos que outros.</p>
+<p>Primeiramente, precisamos transformar o nosso tibble dos dois livros em uma ‘matriz de documento-termo’, uma ferramenta bem usada no mundo de análise de texto, com a função <code>cast_dtm()</code>, indicando como argumentos a coluna que identifica o documento, a coluna que contém as palavras (termos), e a coluna que conta a frequência de cada palavra.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_Verne_dtm</span> <span class='op'>&lt;-</span> <span class='va'>Assis_Verne</span> <span class='op'>%&gt;%</span>
@@ -3735,7 +3735,7 @@ projectil
 </code></pre>
 </div>
 </div>
-<p>Com o nosso matriz de documento-termos, usamos a função <code>LDA()</code> do pacote <code>topicmodels</code> para classificar o conteúdo textual automaticamente (usando o modelo de Latent Dirichlet Allocation - LDA). Vamos especificar que queremos classificar os livros em quatro tópicos por enquanto.</p>
+<p>Com a nossa matriz de documento-termos, usamos a função <code>LDA()</code> do pacote <code>topicmodels</code> para classificar o conteúdo textual automaticamente (usando o modelo de Latent Dirichlet Allocation - LDA). Vamos especificar que queremos classificar os livros em quatro tópicos por enquanto.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'>#install.packages("topicmodels")</span>
@@ -3873,7 +3873,7 @@ Verne
 </table>
 </div>
 <p>O resultado indica quanto cada tópico aparece em cada livro. O livre de Assis é 42% tópico 1, 58% tópico 2, 0% tópicos 3 e 4, enquanto o livro de Verne é 0% tópico 1 e 2, 66% tópico 3 e 34% tópico 4. Ou seja - cada livro contém dois tópicos e os tópicos não se sobrepõem aos livros.</p>
-<p>Mas o que representam esses tópicos? Não sabemos - eles não tem uma descrição fixa; são definidas pelo algoritmo e nós temos que <em>interpretar</em> o significado de cada tópico. Para facilitar isso, podemos inspecionar as palavras mais associadas com cada tópico. Pedimos o relacionamento entre os tópicos e as palavras (em vez dos documentos) com o matriz ‘beta’ em <code>tidy()</code>. O ‘beta’ reflete a probabilidade que a palavra é associado com o tópico.</p>
+<p>Mas o que representam esses tópicos? Não sabemos - eles não tem uma descrição fixa; são definidos pelo algoritmo e nós temos que <em>interpretar</em> o significado de cada tópico. Para facilitar isso, podemos inspecionar as palavras mais associadas a cada tópico. Pedimos o relacionamento entre os tópicos e as palavras (em vez dos documentos) com a matriz ‘beta’ em <code>tidy()</code>. O ‘beta’ reflete a probabilidade que a palavra é associada com o tópico.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Assis_Verne_LDA_palavras</span> <span class='op'>&lt;-</span> <span class='va'>Assis_Verne_LDA</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span>matrix<span class='op'>=</span><span class='st'>'beta'</span><span class='op'>)</span>
@@ -4128,24 +4128,24 @@ ardan
 </tbody>
 </table>
 </div>
-<p>A nossa tarefa agora é resumir qual tópico é representada, por exemplo, pelo conjunto de palavras ‘capitú’, ‘elle’, ‘dias’, ‘mãe’, e ‘ser’ - pode ser que eles aparecem frequentemente em diálogo que envolvem o personagem ‘capitú’ e a sua mãe, por exemplo. Cada tópico não é óbvio, mas para o computador parece que eles formam tópicos coerentes presentes nos dois livros.</p>
-<p>Em outras aplicações o modelagem de tópicos é uma forma poderosa de identificar temas pareceidas em conjuntos grandes de documentos sem ter que ler todos os documentos.</p>
+<p>A nossa tarefa agora é resumir qual tópico é representado, por exemplo, pelo conjunto de palavras ‘capitú’, ‘elle’, ‘dias’, ‘mãe’, e ‘ser’ - pode ser que eles aparecem frequentemente em um diálogo que envolve o personagem ‘capitú’ e a sua mãe, por exemplo. Cada tópico não é óbvio, mas para o computador parece que eles formam tópicos coerentes presentes nos dois livros.</p>
+<p>Em outras aplicações a modelagem de tópicos é uma forma poderosa de identificar temas pareceidos em conjuntos grandes de documentos sem precisar ler todos os documentos.</p>
 <h2 id="exercício-3-comparando-documentos">Exercício 3: Comparando Documentos</h2>
 <div class="green">
 <ol type="1">
-<li>Copiar-colar um texto que você mesmo escreveu de pelo menos um parágrafo e salve ele dentro de um tibble em R.</li>
+<li>Copie e cole um texto que você mesmo escreveu de pelo menos um parágrafo e salve ele dentro de um tibble em R.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="2" type="1">
-<li>‘Tokenizar’ o seu texto em palavras, tirando a puntuação, os números, os stopwords, virando as caracteres em minúsculo, e as palavras em seus raízes (stems).</li>
+<li>‘Tokenize’ o seu texto em palavras, tirando a pontuação, os números, os stopwords, transformando os caracteres em minúsculo, e as palavras em suas raízes (stems).</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <ol start="3" type="1">
-<li>Junte dois textos tokenizados em um tibble com uma coluna que diferencia o documento e uma coluna que conta a frequência de cada palavra: (i) o texto seu que você identificou acima em questão 1, e (ii) o livro que você usou em exercício 2.</li>
+<li>Junte dois textos tokenizados em um tibble com uma coluna que diferencia o documento e uma coluna que conta a frequência de cada palavra: (i) o seu texto da questão 1, e (ii) o livro que você usou no exercício 2.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -4160,8 +4160,8 @@ ardan
 <p><br></p>
 <h1 id="desafio-5">Desafio 5</h1>
 <div class="purple">
-<p>O <a href="Desafios/Desafio_5_v1.html">Desafio 5</a> teste a sua capacidade de juntar bancos de dados e e gerar gráficos apropriados e claros.</p>
-<p>O prazo para entregar Desafio 5 por email com título “[FLS6397] - D5” à minha conta é <strong>02/07/2021</strong>, antes da aula. Por favor entregue (i) o arquivo .Rmd (ou .Rnw se preferir), e (ii) o arquivo .html ou .PDF.</p>
+<p>O <a href="Desafios/Desafio_5_v1.html">Desafio 5</a> irá testar a sua capacidade de juntar bancos de dados e gerar gráficos apropriados e claros.</p>
+<p>O prazo para entregar o Desafio 5 por email com título “[FLS6397] - D5” à minha conta é <strong>02/07/2021</strong>, antes da aula. Por favor entregue (i) o arquivo .Rmd (ou .Rnw se preferir), e (ii) o arquivo .html ou .PDF.</p>
 </div>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
