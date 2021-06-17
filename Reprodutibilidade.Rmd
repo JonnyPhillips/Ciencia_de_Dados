@@ -287,8 +287,8 @@ Em **Knitr (com o Latex)** o uso de bibliografias é um pouco mais complexo infe
 * Salve o arquivo ".bib" na pasta do seu projeto. 
 * Antes de '\begin{document}' coloque o seguinte código:
 
-\usepackage[backend=bibtex, style=authoryear]{biblatex} 
-\addbibresource{Nome_do_Arquivo.bib}
+`\usepackage[backend=bibtex, style=authoryear]{biblatex} `
+`\addbibresource{Nome_do_Arquivo.bib}`
 
 * No lugar desejado do seu texto simples, quando quiser fazer referência à citação, insira `\cite{Arrow1961}`,  ou `\parencite{Arrow1961}` se quiser a citação em parênteses, com o atalho apropriado para a citação desejada.
 * No final do seu documento (imediatamente antes de '\end{document}'), coloque `\printbibliography`.
