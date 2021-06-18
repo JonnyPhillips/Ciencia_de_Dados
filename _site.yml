@@ -33,6 +33,8 @@ navbar:
             href: Reprodutibilidade.html
           - text: "11. Funcoes e Repeticao"
             href: Repeticao.html
+          - text: "12. Analise de Texto"
+            href: Analise_Texto.html            
     - text: "Desafios"
       menu:
           - text: "Desafio 1"
@@ -43,6 +45,8 @@ navbar:
             href: Desafios/Desafio_3_v6.html     
           - text: "Desafio 4"
             href: Desafios/Desafio_4_v1.html     
+          - text: "Desafio 5"
+            href: Desafios/Desafio_5_v3.html     
     - text: "Recursos"
       href: recursos.html
     - text: "Projeto Final"

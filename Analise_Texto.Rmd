@@ -336,8 +336,6 @@ stopwords <- get_stopwords(language="pt") %>%
   rename(palavra=word)
 
 stopwords
-
-Assis_palavras <- Assis_palavras %>% anti_join(stopwords, by="palavra")
 ```
 
 ```{r, echo=F}
