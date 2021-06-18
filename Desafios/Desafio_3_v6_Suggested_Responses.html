@@ -91,8 +91,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2021-05-30" />
-  <meta property="article:created" itemprop="dateCreated" content="2021-05-30" />
+  <meta property="article:published" itemprop="datePublished" content="2021-06-18" />
+  <meta property="article:created" itemprop="dateCreated" content="2021-06-18" />
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Desafio 3: Combinação e Visualização de Dados" />
@@ -107,7 +107,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output","date"]}},"value":[{"type":"character","attributes":{},"value":["Desafio 3: Combinação e Visualização de Dados"]},{"type":"character","attributes":{},"value":["distill::distill_article"]},{"type":"character","attributes":{},"value":["05-30-2021"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output","date"]}},"value":[{"type":"character","attributes":{},"value":["Desafio 3: Combinação e Visualização de Dados"]},{"type":"character","attributes":{},"value":["distill::distill_article"]},{"type":"character","attributes":{},"value":["06-18-2021"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1453,7 +1453,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Desafio 3: Combinação e Visualização de Dados","authors":[],"publishedDate":"2021-05-30T00:00:00.000+05:30"}
+{"title":"Desafio 3: Combinação e Visualização de Dados","authors":[],"publishedDate":"2021-06-18T00:00:00.000+05:30"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1481,31 +1481,9 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <p>O prazo para entregar Desafio 3 por email com título “[FLS6397] - D3” à minha conta é <strong>14h, 28/05/2021</strong>, antes da próxima aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.</p>
 </div>
 <p><br></p>
-<!-- [Respostas Sugeridas para Desafio 3 aqui](Desafio_3_Suggested_Responses.html) -->
+<p><a href="Desafio_3_Suggested_Responses.html">Respostas Sugeridas para Desafio 3 aqui</a></p>
 <h2 id="instruções">Instruções</h2>
 <p>Siga as instruções abaixo. Documente <em>todos</em> os seus passos em um script. Comente no seu script <em>todos</em> os seus passos e explique a si mesma(o) suas escolhas e estratégias. Se você se beneficiou da assistência de outra pessoa, sempre reconheça isso em comentários no código.</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class="va">resultados</span> <span class="op">&lt;-</span> <span class="fu">read_delim</span><span class="op">(</span><span class="st">&quot;votacao_candidato_munzona_2016_RR.csv&quot;</span>,
-                   delim<span class="op">=</span><span class="st">&quot;;&quot;</span>,
-                   locale<span class="op">=</span><span class="fu">locale</span><span class="op">(</span>encoding<span class="op">=</span><span class="st">&quot;latin1&quot;</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">CD_CARGO</span><span class="op">==</span><span class="fl">13</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">select</span><span class="op">(</span><span class="va">SQ_CANDIDATO</span>, <span class="va">NM_MUNICIPIO</span>, <span class="va">CD_MUNICIPIO</span>, <span class="va">NR_ZONA</span>, <span class="va">DS_SIT_TOT_TURNO</span>, 
-           <span class="va">NM_CANDIDATO</span>, <span class="va">SG_PARTIDO</span>, <span class="va">QT_VOTOS_NOMINAIS</span><span class="op">)</span> 
-
-<span class="va">resultados</span> <span class="op">%&gt;%</span> <span class="fu">write_delim</span><span class="op">(</span><span class="st">&quot;resultados_2016_RR.csv&quot;</span>,
-                           delim<span class="op">=</span><span class="st">&quot;;&quot;</span><span class="op">)</span>
-
-<span class="va">candidatos</span> <span class="op">&lt;-</span> <span class="fu">read_delim</span><span class="op">(</span><span class="st">&quot;consulta_cand_2016_RR.csv&quot;</span>,
-                   delim<span class="op">=</span><span class="st">&quot;;&quot;</span>,
-                   locale<span class="op">=</span><span class="fu">locale</span><span class="op">(</span>encoding<span class="op">=</span><span class="st">&quot;latin1&quot;</span><span class="op">)</span><span class="op">)</span>  <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">CD_CARGO</span><span class="op">==</span><span class="fl">13</span><span class="op">)</span>
-
-<span class="va">candidatos</span> <span class="op">%&gt;%</span> <span class="fu">write_delim</span><span class="op">(</span><span class="st">&quot;candidatos_2016_RR.csv&quot;</span>,
-                           delim<span class="op">=</span><span class="st">&quot;;&quot;</span><span class="op">)</span>
-</code></pre>
-</div>
-</div>
 <h2 id="roteiro">Roteiro</h2>
 <ol type="1">
 <li><p>Vamos trabalhar de novo com os dados eleitorais do Tribunal Superior Eleitoral, o qual disponibiliza dados sobre os resultados eleitorais separadamente dos dados sobre os candidatos. Baixe os dados de <a href="https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Desafios/resultados_2016_RR.csv">Resultados</a> e <a href="https://raw.githubusercontent.com/JonnyPhillips/Ciencia_de_Dados/master/Desafios/candidatos_2016_RR.csv">Candidatos</a> de Roraima. Observe que os dados são processados (não sendo os originais) e contém apenas a informação de vereadores.</p></li>
