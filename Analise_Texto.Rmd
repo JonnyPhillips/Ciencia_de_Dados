@@ -836,7 +836,7 @@ dois_textos %>% bind_tf_idf(palavra, document, n) %>%
 
 <div class = "purple">
 
-O [Desafio 5](Desafios/Desafio_5_v1.html) irá testar a sua capacidade de juntar bancos de dados e gerar gráficos apropriados e claros.
+O [Desafio 5](Desafios/Desafio_5_v3.html) irá testar a sua capacidade de juntar bancos de dados e gerar gráficos apropriados e claros.
 
-O prazo para entregar o Desafio 5 por email com título “[FLS6397] - D5” à minha conta é **02/07/2021**, antes da aula. Por favor entregue (i) o arquivo .Rmd (ou .Rnw se preferir), e (ii) o arquivo .html ou .PDF.
+O prazo para entregar o Desafio 5 por email com título “[FLS6397] - D5” à minha conta é **09/07/2021**, antes da aula. Por favor entregue (i) o arquivo .Rmd (ou .Rnw se preferir), e (ii) o arquivo .html ou .PDF.
 </div>
