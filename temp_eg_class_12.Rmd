@@ -1,0 +1,80 @@
+---
+title: "Untitled"
+author: "Jonathan"
+date: "6/18/2021"
+output: html_document
+---
+
+```{r}
+library("tidyverse")
+library("tidylog")
+library("nycflights13")
+```
+
+```{r}
+str_length
+
+airlines %>% mutate(name_tamanho=str_length(name))
+
+airlines %>% mutate(name_H=str_detect(name, "Airlines"))
+
+airlines %>% mutate(name_H=str_count(name, "Airlines|Airways")) %>%
+  summarize(name_H=sum(name_H, na.rm=T))
+  
+str_
+
+airlines %>% mutate(name_H=str_count(name, "l"))
+
+airlines %>% group_by(name) %>% tally()
+```
+
+```{r}
+str_replace()
+
+airlines %>% mutate(name2=str_replace(name, "Inc.", 
+                                      ""))
+
+airlines %>% mutate(name_split=str_split(name, " "),
+                    name_split=map_chr(name_split, 1))
+```
+
+```{r}
+library("tidytext")
+
+airlines_palavras <- airlines %>% unnest_tokens(text, name)
+
+library("lexicon")
+library("lexiconPT")
+library("textstem")
+
+stopwords <- get_stopwords(language="en") %>%
+  rename("text"="word") %>%
+  add_row(text="inc", lexicon="snowball")
+
+airlines_palavras <- airlines_palavras %>% anti_join(stopwords, by="text")
+
+airlines_palavras %>% mutate(text_stem=stem_words(text, 
+                                                  language="en"))
+```
+
+```{r}
+library("wordcloud")
+
+airlines_palavras %>% pull(text) %>%
+  wordcloud()
+
+airlines_palavras %>% group_by(text) %>%
+  tally() %>%
+  arrange(-n)
+```
+
+```{r}
+dados %>% write_csv("output.csv")
+library("sf")
+shapefile %>% st_write("shapefile.shp")
+
+listas %>% saveRDS("lista.rds")
+
+listas <- readRDS("lista.rds")
+```
+

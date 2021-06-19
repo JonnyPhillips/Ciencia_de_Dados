@@ -34,7 +34,7 @@ library("kableExtra")
 filter <- dplyr::filter
 ```
 
-[Clique aqui](https://drive.google.com/file/d/1iw9eBq5jqBvrAQtFnL6spLAVEr3OarNc/view?usp=sharing) para assistir o vídeo da aula online do dia 7 de maio de 2021. E o [chat](https://drive.google.com/file/d/1JAzC3IQV5ev8gx8vCkD8IdYCQOvxtZQK/view?usp=sharing).
+[Clique aqui](https://drive.google.com/file/d/1iw9eBq5jqBvrAQtFnL6spLAVEr3OarNc/view?usp=sharing) para assistir o vídeo da aula online do dia 21 de maio de 2021. E o [chat](https://drive.google.com/file/d/1JAzC3IQV5ev8gx8vCkD8IdYCQOvxtZQK/view?usp=sharing).
 
 # Dados Espaciais
 

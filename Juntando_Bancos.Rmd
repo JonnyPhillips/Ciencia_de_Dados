@@ -36,7 +36,7 @@ library("knitr")
 library("kableExtra")
 ```
 
-[Clique aqui](https://drive.google.com/file/d/1OlERbZF3ylM4-3wlMwPSBmQ4QjGbVJCO/view?usp=sharing) para assistir o vídeo da aula online do dia 7 de maio de 2021. E o [chat](https://drive.google.com/file/d/1FnCpfZA9-xtElOKnASpTyjs2J0DA3d1_/view?usp=sharing).
+[Clique aqui](https://drive.google.com/file/d/1OlERbZF3ylM4-3wlMwPSBmQ4QjGbVJCO/view?usp=sharing) para assistir o vídeo da aula online do dia 14 de maio de 2021. E o [chat](https://drive.google.com/file/d/1FnCpfZA9-xtElOKnASpTyjs2J0DA3d1_/view?usp=sharing).
 
 # Unidades de Análise
 

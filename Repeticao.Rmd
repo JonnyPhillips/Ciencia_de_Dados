@@ -23,7 +23,7 @@ div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </style>
 
-[Clique aqui](https://drive.google.com/file/d/1JnY9BEDBMOfGGFaeHAUfVudkSRTo5PbL/view?usp=sharing) para assistir o vídeo da aula online do dia 7 de maio de 2021. E o [chat](https://drive.google.com/file/d/1RxH0KT7HAGnYBNH_8C3_YhzPaeEERENJ/view?usp=sharing).
+[Clique aqui](https://drive.google.com/file/d/1JnY9BEDBMOfGGFaeHAUfVudkSRTo5PbL/view?usp=sharing) para assistir o vídeo da aula online do dia 11 de junho de 2021. E o [chat](https://drive.google.com/file/d/1RxH0KT7HAGnYBNH_8C3_YhzPaeEERENJ/view?usp=sharing).
 
 
 
