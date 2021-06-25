@@ -591,7 +591,7 @@ Mais detalhes no cheatsheet de forcats [aqui](https://github.com/rstudio/cheatsh
 
 <div class = "green">
 
-* **Exercício 3: Factors**
+**Exercício 3: Factors**
 
 Usando os dados de `flights` de novo:
 

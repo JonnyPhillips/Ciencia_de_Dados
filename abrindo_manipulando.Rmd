@@ -786,7 +786,7 @@ data <- read_delim("arquivo.txt",
 
 <div class = "orange">
 
-**Leitura para Tutorial 3*8
+**Leitura para Tutorial 3**
 
 Antes da próxima aula, por favor leia [R 4 Data Science, Capítulos 12, 15, 27](https://r4ds.had.co.nz/)
 
