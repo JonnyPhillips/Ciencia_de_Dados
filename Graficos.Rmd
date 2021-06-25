@@ -388,7 +388,8 @@ flights %>%
 ```
 
 <div class = "green">
-# Exercício 1: Gráficos de uma Variável
+
+**Exercício 1: Gráficos de uma Variável**
 
 1. Prepare um gráfico de barras mostrando o número de voos por mês.
 
@@ -577,7 +578,8 @@ flights %>% sample_n(1000) %>% ggplot() +
 ```
 
 <div class = "green">
-# Exercício 2: Gráficos de duas Variáveis
+
+**Exercício 2: Gráficos de duas Variáveis**
 
 1. Prepare um gráfico de densidade mostrando a distribuição da hora de partida de voos entre EWR e BOS (Boston) por companhia aérea (`carrier`).
 
@@ -1016,7 +1018,8 @@ Em caso de dúvida, pode consultar o cheatsheet [aqui](https://github.com/rstudi
 <br>
 
 <div class = "green">
-# Exercício 3: Gráficos Avançados
+
+**Exercício 3: Gráficos Avançados**
 
 1. Começando com o mesmo gráfico de Exercício 2.3, prepare o gráfico de pontos mostrando a relação entre o atraso na partida (`dep_delay`) e o atraso na chegada (`arr_delay`) para os voos de JFK a MIA (Miama). Colora os pontos de acordo com a companhia aérea, e adicione títulos bem formatados nos eixos e para o gráfico inteiro.
 
@@ -1062,7 +1065,8 @@ flights %>% group_by(hour, origin, carrier) %>%
 <br>
 
 <div class = "orange">
-# Leitura para Tutorial 7
+
+**Leitura para Tutorial 7**
 
 Antes da próxima aula, por favor leia [R 4 Data Science, Capítulo 13](https://r4ds.had.co.nz/relational-data.html)
 

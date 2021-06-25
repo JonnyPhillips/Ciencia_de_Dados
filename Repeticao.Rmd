@@ -314,10 +314,9 @@ while (condição) {
 
 <br>
 
-## Exercício 1: Repetição
-
 <div class = "green">
 
+**Exercício 1: Repetição**
 
 1. Gere três tibbles separados derivados do banco de dados `flights`, um para cada aeroporto de origem (`origin`). Em seguida, coloque os três tibbles em uma lista única (`list()`), com o nome de cada elemento da lista a sigla do aeroporto. 
 
@@ -499,9 +498,9 @@ Agora, os dois resultados refletem ambos uma amostra (banco de dados) e uma fór
 
 Com as funções de tidyverse básico e a família de `map`, agora você consegue executar quase qualquer tarefa de análise de dados - são um conjunto de ferramentas muito poderoso. As possibilidades são infinitas- para mais informação e operações mais complexas, veja [o cheatsheet aqui](https://github.com/rstudio/cheatsheets/blob/master/purrr.pdf).
 
-## Exercício 2: Programação Funcional
-
 <div class = "green">
+
+**Exercício 2: Programação Funcional**
 
 1. Gere um tibble 'nested' com uma linha para cada mês usando o banco de dados `weather`.
 
@@ -538,9 +537,9 @@ weather_month <- weather_month %>%
 
 <br>
 
-# Leitura para Tutorial 12
-
 <div class = "orange">
+
+**Leitura para Tutorial 12**
 
 Antes da próxima aula, por favor leia [R 4 Data Science, Capítulo 14 sobre Strings](https://r4ds.had.co.nz/vectors.html) e [Tidy Text Mining Capítulo 1](https://www.tidytextmining.com/tidytext.html)
 

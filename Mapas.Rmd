@@ -207,7 +207,8 @@ airports %>% st_transform(3751) %>%
 ```
 
 <div class = "green">
-## Exercício 1: Mapas de Pontos
+
+**Exercício 1: Mapas de Pontos**
 
 1. Crie um objeto de `simple features` com os seguintes dados. Os valores de longitude e latitude são brutos em CRS 4326.
 
@@ -373,7 +374,8 @@ Lugares %>% mapview()
 ```
 
 <div class = "green">
-## Exercício 2: Mapas mais Completos
+
+**Exercício 2: Mapas mais Completos**
 
 ```{r, echo=F, eval=F}
 Europe <- st_read("C:/Users/Jonny/Downloads/ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp") %>% filter((CONTINENT=="Europe" & NAME!="Russia") | NAME=="Turkey")
@@ -549,7 +551,8 @@ states_centroid %>% ggplot() +
 Observe na coluna 'geometry' que o nosso objeto sf de polígonos agora se transformou em pontos, com um ponto central para cada país. 
 
 <div class = "green">
-## Exercício 3: Joins para Mapas
+
+**Exercício 3: Joins para Mapas**
 
 1. Junte os dois bancos de Cidades e Países Europeus usando **o nome do país**. O resultado deve ser os **pontos** das cidades. (Uma das nossas tabelas tem que ser um tibble simples (não `sf`), então use a função `st_drop_geometry()` para voltar a uma tabela simples). Mostre num mapa a população dos países de cada cidade.
 

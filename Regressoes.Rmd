@@ -326,10 +326,9 @@ flights %>% select(origin, carrier) %>%
 
 O valor 'p' de zero indica que realmente existe uma diferença nas companhias que voam de cada aeroport. 
 
-## Exercício 1: Testes Estatísticos
-
 <div class = "green">
 
+**Exercício 1: Testes Estatísticos**
 
 1. Use a função `rnorm(1000, 0, 1)` para gerar um vetor de 1000 observações aleatoriamente da distribuição normal. Avalie se os valores gerados sejam realmente distribuido de forma normal com um teste Shapiro-Wilk.
 
@@ -686,9 +685,10 @@ diff_simulacoes %>% as_tibble() %>%
   theme_minimal()
 ```
 
-## Exercício 2: Regressões
-
 <div class = "green">
+
+**Exercício 2: Regressões**
+
 
 1. Usando uma regressão linear, qual é a associação entre precipitação (`precip`, variável dependente) e as três variáveis pressão (`pressure `), temperatura (`temp`) e humidade (`humid`) no banco de dados `weather`? Qual dessas três variáveis tem relação positiva com a variável dependente, e qual uma relação negativa? 
 
@@ -748,9 +748,9 @@ modelo_tres_horas %>%
 
 <br>
 
-# Preparação para Tutorial 10
-
 <div class = "orange">
+
+**Preparação para Tutorial 10**
 
 Antes da próxima aula sobre relatórios reproduzíveis com Git e Latex, por favor tente preparar o seu computador:
 

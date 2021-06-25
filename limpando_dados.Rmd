@@ -193,7 +193,8 @@ Tome cuidado na construção das condições: Idealmente elas devem ser **comple
 <br>
 
 <div class = "green">
-# Exercício 1: Limpando Dados
+
+**Exercício 1: Limpando Dados**
 
 Usando o banco de dados de `flights` no pacote `nycflights13`, responda as seguintes perguntas:
 
@@ -356,7 +357,8 @@ ex_arrange %>% arrange(Ano) %>%
 <br>
 
 <div class = "green">
-# Exercício 2: Ordenação
+
+**Exercício 2: Ordenação**
 
 Use de novo o banco de dados `flights`:
 
@@ -588,7 +590,8 @@ Mais detalhes no cheatsheet de forcats [aqui](https://github.com/rstudio/cheatsh
 <br>
 
 <div class = "green">
-# Exercício 3: Factors
+
+* **Exercício 3: Factors**
 
 Usando os dados de `flights` de novo:
 
@@ -666,7 +669,8 @@ flights %>% distinct(year, month, day, dep_time, tailnum)
 Repare, o número de linhas aqui é 334.067, menos do 336.776 no banco de dados inteiro. Isso significa que temos mais que um `tailnum` decolando no mesmo horário...Estranho. É crucial saber isso para informar as nossas análises. Com mais investigação, entenderemos que a diferença é produzida pela presença de observações de `dep_time` e `tailnum` que são `NA`, desconhecidos, e portanto aparecem como duplicados.
 
 <div class = "orange">
-# Leitura para Tutorial 4
+
+**Leitura para Tutorial 4**
 
 Antes da próxima aula, por favor leia [R 4 Data Science, Capítulos 17, 18 e 19-19.3 ](https://r4ds.had.co.nz/)
 
@@ -674,7 +678,8 @@ Antes da próxima aula, por favor leia [R 4 Data Science, Capítulos 17, 18 e 19
 <br>
 
 <div class = "purple">
-# Desafio 1
+
+**Desafio 1**
 
 É mais ou menos fácil seguir um tutorial passo a passo. O teste real do nosso entendimento é quando temos que trabalhar com um novo banco de dados sem instrução. O [Desafio 1](Desafios/Desafio_1.html) teste a sua capacidade de abrir, manipular e limpar um banco de dados para produzir um relatório bonito e claro em HTML.
 

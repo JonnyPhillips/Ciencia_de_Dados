@@ -183,7 +183,8 @@ flights %>%
 ```
 
 <div class = "green">
-# Exercício 1: Tabelas Bonitas
+
+**Exercício 1: Tabelas Bonitas**
 
 1. Gere uma tabela estática de duração (`air_time`) média dos voos de cada aeoporto de origem, ordenado de menor a maior duração. Inclua um título e a formatação apropriada na sua tabela.
 
@@ -328,7 +329,8 @@ flights_longo %>% pivot_wider(names_from=Direção, values_from=Aeroporto)
 Essas duas funções de pivot são mais avançadas, mas as vezes são essenciais para gerar a estrutura e formato da tabela desejada. É comum que o resultado da nossa análise em R é em formato 'larga', mas seria mais bonito imprimir no relatório final no formato 'longo'. Podemos usar `pivot_longer` para rapidamente produzir a tabela desejada. Similarmente, na semana que vem, aprendemos que os gráficos exigem um formato específico - frequentemente o formato 'longo' - e estas novas habilidades ajudam bastante.
 
 <div class = "green">
-# Exercício 2: Virando Tabelas
+
+**Exercício 2: Virando Tabelas**
 
 1. Use `pivot_longer` para virar a tabela `flights` mais longa, para que cada voo tem duas observações - uma para a hora de partida (`dep_time`) e uma outra para a hora de chegada (`arr_time`). 
 
@@ -445,7 +447,8 @@ flights %>% group_by(origin) %>%
 <br>
 
 <div class = "orange">
-# Leitura para Tutorial 6
+
+**Leitura para Tutorial 6**
 
 Antes da próxima aula, por favor leia [R 4 Data Science, Capítulo 3](https://r4ds.had.co.nz/data-visualisation.html) e [ggplot2: Elegant Graphics for Data Analysis, Capítulos 1-5](https://ggplot2-book.org/)
 
@@ -454,7 +457,8 @@ Antes da próxima aula, por favor leia [R 4 Data Science, Capítulo 3](https://r
 <br>
 
 <div class = "purple">
-# Desafio 2
+
+**Desafio 2**
 
 O [Desafio 2](Desafios/Desafio_2.html) teste a sua capacidade de organizar, resumir, agrupar, e apresentar um banco de dados para produzir um relatório bonito e claro em HTML.
 

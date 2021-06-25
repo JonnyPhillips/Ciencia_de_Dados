@@ -294,9 +294,9 @@ Em **Knitr (com o Latex)** o uso de bibliografias é um pouco mais complexo infe
 * No final do seu documento (imediatamente antes de '\end{document}'), coloque `\printbibliography`.
 * Compile o seu script para PDF *duas vezes*, para que o R consiga incorporar as citações.
 
-## Exercício 1: Praticando o Latex
-
 <div class = "green">
+
+**Exercício 1: Praticando o Latex**
 
 1. Usando o formato ".Rnw", crie um PDF com texto simples usando pelo menos cinco das formatações acima (bold, itálico, etc.).
 
@@ -409,9 +409,9 @@ Se você tiver uma conta paga, ou uma [conta estudantil](https://education.githu
 
 <br>
 
-## Exercício 2: Usando Git
-
 <div class = "green">
+
+**Exercício 2: Usando Git**
 
 1. Crie um novo repositório na sua conta de Github e conecte ('clonar') com um novo projeto no seu RStudio.
 
@@ -455,9 +455,9 @@ Se você mander o seu script para uma outra pessoa, ou outra máquina, para recu
 
 Muita coisa, não é mesmo? Mas, quando combinados, o R, o Latex, o Git e o Renv permitem relatórios reproduzíveis que garantem o histórico e a integridade do seu relatório ou artigo profissional. 
 
-# Leitura para Tutorial 11
-
 <div class = "orange">
+
+**Leitura para Tutorial 11**
 
 Antes da próxima aula, por favor leia [R 4 Data Science, Capítulos 20 e 21 sobre Vetores e Iteração](https://r4ds.had.co.nz/vectors.html)
 

@@ -2126,26 +2126,19 @@ Desafios
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#manipulando-dados">Manipulando Dados</a>
-<ul>
 <li><a href="#renomear-variáveis-rename">1. Renomear Variáveis (<code>Rename</code>)</a></li>
 <li><a href="#selecionar-variáveis-select">2. Selecionar Variáveis (<code>Select</code>)</a></li>
 <li><a href="#transformar-variáveis-mutate">3. Transformar Variáveis (<code>Mutate</code>)</a></li>
 <li><a href="#cortarselecionar-observações-slice">4. Cortar/selecionar Observações (<code>Slice</code>)</a></li>
 <li><a href="#filtrar-observações-filter">5. Filtrar Observações (<code>Filter</code>)</a></li>
 <li><a href="#combinando-manipulações">Combinando Manipulações</a></li>
-</ul></li>
-<li><a href="#exercício-1-manipulando-dados">Exercício 1: Manipulando dados</a></li>
 <li><a href="#controlando-o-que-aparece-no-relatório-final">Controlando o que Aparece no Relatório Final</a></li>
-<li><a href="#exercício-2-relatórios-limpos">Exercício 2: Relatórios Limpos</a></li>
 <li><a href="#abrindo-dados">Abrindo Dados</a>
 <ul>
 <li><a href="#dados-em-arquivos-textuais-.csv-.tsv-.txt">Dados em arquivos textuais (.csv, .tsv, .txt)</a></li>
 <li><a href="#dados-em-arquivos-de-excel">Dados em arquivos de Excel</a></li>
 <li><a href="#dados-de-spss-stata-e-sas">Dados de SPSS, Stata e SAS</a></li>
 </ul></li>
-<li><a href="#exercício-3-abrindo-dados-eleitorais">Exercício 3: Abrindo Dados Eleitorais</a></li>
-<li><a href="#leitura-para-tutorial-3">Leitura para Tutorial 3</a></li>
 </ul>
 </nav>
 </div>
@@ -2158,8 +2151,7 @@ div.orange { background-color:#fee6ce; border-radius: 5px; padding: 20px;}
 <style>
 div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 </style>
-<p><a href="https://drive.google.com/open?id=1HxeqxZolQH8ZnAZUCv5KmfS_u0KBDmMO">Clique aqui</a> para assistir o vídeo da aula online do dia 9 de abril de 2021. E o <a href="https://drive.google.com/open?id=1AkihoCsdmfzbwRI5iIxTw4wdAzi93ieK">chat</a>.</p>
-<h1 id="manipulando-dados">Manipulando Dados</h1>
+<p><a href="https://drive.google.com/file/d/16aIP05wzuoxGyroF14e85xbbZLvHlu_3/view?usp=sharing">Clique aqui</a> para assistir o vídeo da aula online do dia 18 de junho de 2021. E o <a href="https://drive.google.com/file/d/1VzdPJM4Gi22p33LT9UFmW2yqiNxO7LA5/view?usp=sharing">chat</a>. # Manipulando Dados</p>
 <p>Estamos trabalhando com um banco de dados, mas ele não está pronto para a análise que desejamos fazer. Por exemplo, as variáveis não contêm os indicadores relevantes, os nomes das variáveis não fazem sentido, a unidade de análise precisa ser mais agregada, queremos retirar alguns outliers etc. Como podemos ‘manipular’ um banco de dados para o tamanho, a estrutura e o conteúdo apropriado para a análise desejada?</p>
 <p>Fazemos a manipulação da mesma forma que trabalhamos com os ingredientes de uma receita: executando <strong>ações</strong> para cortar, selecionar e combinar os ingredientes. Sempre começando com o nosso tibble (data.frame) e aplicamos ações (‘verbos’) que transformam o nosso banco de dados.</p>
 <p>Na verdade, esta lógica de manipulação de dados baseada em ‘verbos’ é apenas uma abordagem no mundo flexível de R, e no futuro vamos ver alternativas. Por enquanto, vamos trabalhar com a abordagem de verbos do pacote <code>tidyverse</code> porque (i) é mais fácil para aprender, (ii) é mais sistemático, e (iii) é mais transparente para ler e entender do que outras abordagens.</p>
@@ -2754,8 +2746,8 @@ library(&quot;tidylog&quot;)
 <p>É importante entender que depois de cada ação, o banco de dados encaminhado à próxima ação é o resultado da ação anterior. Então na linha final, <code>select(year, month, day, arr_time, dep_delay)</code> não funcionará, pois <code>arr_time</code> já foi renomeado para <code>arrival_time</code> e temos que fazer referência ao novo nome. Quando você enfrenta um erro num conjunto de código complexo, uma dica é rodar o seu código ação por ação em sequência, ex. selecionando <code>flights %&gt;% rename(arrival_time=arr_time)</code> primeiro para saber se este componente dá um erro.</p>
 <p>Voltando à analogia de preparar uma refeição, o código acima é uma <strong>receita</strong>: Pegue o banco de dados de <code>flights</code>, depois renomeie a variável <code>arr_time</code>, depois multiplique a variável <code>dep_delay</code> por 60, depois filtre as observações para aquelas do dia 5 de junho, depois selecione as cinco variáveis (year, month, day, arrival_time, dep_delay), e devolva o banco de dados final.</p>
 <p>Note também que no código acima inserimos uma nova linha depois de cada pipe; isso não é necessário mas ajuda a organizar o código e deixá-lo mais fácil para ler e entender no futuro.</p>
-<section id="exercício-1-manipulando-dados" class="green">
-<h1>Exercício 1: Manipulando dados</h1>
+<div class="green">
+<p><strong>Exercício 1: Manipulando dados</strong></p>
 <p>Com essas novas habilidades, vamos preparar uma análise rápida do banco de dados <code>flights</code> com o objetivo de produzir um relatório em html no final. Gere uma tabela apropriada para cada critério:</p>
 <ol type="1">
 <li>Os voos de United (<code>carrier</code> UA) que decolaram no dia 25 de janeiro.</li>
@@ -2839,7 +2831,7 @@ Mostrar Código
 <ol start="6" type="1">
 <li>Prepare os resultados de todas as análises acima em tabelas usando a opção de R Markdown de <code>df_print: paged</code> (veja o Tutorial 1), e faça o <code>knit</code> do seu script de R markdown para produzir o relatório final.</li>
 </ol>
-</section>
+</div>
 <h1 id="controlando-o-que-aparece-no-relatório-final">Controlando o que Aparece no Relatório Final</h1>
 <p>Os nossos relatórios finais são profissionais e claros, mas ficam ‘técnicos’ quando mantemos as várias linhas de código e informações do R. Isso é importante se quiser documentar e comunicar exatamente como você analisou os dados, mas provavalmente o seu orientandor não tem interesse em saber como foi feito em detalhes. Como geramos um relatório ‘limpo’ para o público geral?</p>
 <p>O R Markdown nos permite controlar os produtos de cada chunk individualmente. Existem pelo menos cinco tipos de produtos possíveis para cada chunk, e decidimos quais deles devem aparecer no relatório final com um argumento na linha inicial de cada chunk:</p>
@@ -2889,10 +2881,10 @@ Mostrar Código
 knitr::opts_chunk$set(echo=FALSE, error=FALSE, warning=FALSE, message=FALSE)
 ```</code></pre>
 <p>Isso indica para o R não imprimir o código original de nenhum chunk. Note que temos que usar <code>echo=F</code> na linha inicial deste chunk também para esconder esta linha de código porque o novo padrão só é aplicado depois da conclusão deste chunk.</p>
-<section id="exercício-2-relatórios-limpos" class="green">
-<h1>Exercício 2: Relatórios Limpos</h1>
+<div class="green">
+<p><strong>Exercício 2: Relatórios Limpos</strong></p>
 <p>Experimente adicionar um chunk com essa linha acima (<code>knitr::opts_chunk$set(echo=FALSE, error=FALSE, warning=FALSE, message=FALSE)</code>) acima como o primeiro no seu relatório do Exercício 1, e ‘Knit’ de novo. Veja quão mais simples e bonito fica o seu relatório!</p>
-</section>
+</div>
 <h1 id="abrindo-dados">Abrindo Dados</h1>
 <h2 id="dados-em-arquivos-textuais-.csv-.tsv-.txt">Dados em arquivos textuais (.csv, .tsv, .txt)</h2>
 <p>Agora que estamos especialistas na manipulação de dados já disponíveis em R, queremos analisar dados mais interessantes e relevantes para a nossa própria pesquisa. Isso exige a abertura de arquivos externos; bancos de dados que criamos ou recebemos de outros estudos. Lembrando que o nosso script vai processar os comandos cada vez que é executado pelo botão ‘Knit’, então temos que incorporar a abertura de dados em código também, dentro do script.</p>
@@ -3032,8 +3024,8 @@ knitr::opts_chunk$set(echo=FALSE, error=FALSE, warning=FALSE, message=FALSE)
 </div>
 <p>Simples assim.</p>
 <p>Há critérios de conversão de variáveis categóricas, rótulos e etc, adotados pelo R ao importar arquivos de outras linguagens, mas você pode descobri-los testando sozinho/a.</p>
-<section id="exercício-3-abrindo-dados-eleitorais" class="green">
-<h1>Exercício 3: Abrindo Dados Eleitorais</h1>
+<div class="green">
+<p><strong>Exercício 3: Abrindo Dados Eleitorais</strong></p>
 <ol type="1">
 <li><p>Escolha um banco de dados (qualquer arquivo único) da aba ‘Resultados’ do site do <a href="http://www.tse.jus.br/eleicoes/estatisticas/repositorio-de-dados-eleitorais-1/repositorio-de-dados-eleitorais">Tribunal Superior Eleitoral aqui</a>, baixá-lo e dê unzip nele.</p></li>
 <li><p>Use uma função apropriada para abrir o arquivo em R.</p></li>
@@ -3068,12 +3060,12 @@ Mostrar Código
 <li><p>Crie uma tabela bonita em R Markdown dos dados do TSE, e verifique que o número de colunas e observações fazem sentido.</p></li>
 <li><p>Tente manipular a base utilizando as funções que aprendemos no tutorial de hoje para selecionar colunas e observações específicas.</p></li>
 </ol>
-</section>
+</div>
 <p><br></p>
-<section id="leitura-para-tutorial-3" class="orange">
-<h1>Leitura para Tutorial 3</h1>
+<div class="orange">
+<p>**Leitura para Tutorial 3*8</p>
 <p>Antes da próxima aula, por favor leia <a href="https://r4ds.had.co.nz/">R 4 Data Science, Capítulos 12, 15, 27</a></p>
-</section>
+</div>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

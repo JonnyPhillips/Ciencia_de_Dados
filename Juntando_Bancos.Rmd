@@ -219,7 +219,8 @@ planes %>% anti_join(flights, by="tailnum")  %>%
 Boa notícia: todas as aviões de `planes` são presentes em `flights`. 
 
 <div class = "green">
-# Exercício 1: Juntando dois bancos
+
+**Exercício 1: Juntando dois bancos**
 
 1. Crie dois tibbles pequenos (com a função `tibble()`) como eles abaixo e juntar eles pela coluna `ID`. 
 
@@ -456,7 +457,8 @@ tibble(Tipo=c("left_join","right_join","inner_join","full_join","anti_join"),
 ```
 
 <div class = "green">
-# Exercício 2: Joins com Dados Faltantes
+
+**Exercício 2: Joins com Dados Faltantes**
 
 1. Crie dois tibbles pequenos (com a função `tibble()`) como eles abaixo e juntar eles pelos identificadores comuns usando `left_join()`. 
 
@@ -628,7 +630,8 @@ flights %>% group_by(tailnum) %>%
 <br>
 
 <div class = "green">
-# Exercício 3: Dados Nested
+
+**Exercício 3: Dados Nested**
 
 1. Crie um tibble nested em que a unidade de análise é cada combinação de origem e destino, e numa outra coluna em mini-tibbles ficam todos os detalhes dos voos entre aquele origem e destino.
 
@@ -649,7 +652,8 @@ flights %>% group_by(origin, month, day, hour) %>%
 <br>
 
 <div class = "orange">
-# Leitura para Tutorial 8
+
+**Leitura para Tutorial 8**
 
 Antes da próxima aula, por favor leia [Exemplo de Análise Espacial no Site R-Spatial ](https://www.r-spatial.org/r/2018/10/25/ggplot2-sf.html)
 
@@ -658,7 +662,8 @@ Antes da próxima aula, por favor leia [Exemplo de Análise Espacial no Site R-S
 <br>
 
 <div class = "purple">
-# Desafio 3
+
+**Desafio 3**
 
 O [Desafio 3](Desafios/Desafio_3_v4.html) teste a sua capacidade de juntar bancos de dados e gerar gráficos apropriados e claros.
 

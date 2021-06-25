@@ -518,7 +518,8 @@ Note também que no código acima inserimos uma nova linha depois de cada pipe; 
 
 
 <div class = "green">
-# Exercício 1: Manipulando dados
+
+**Exercício 1: Manipulando dados**
 
 Com essas novas habilidades, vamos preparar uma análise rápida do banco de dados `flights` com o objetivo de produzir um relatório em html no final. Gere uma tabela apropriada para cada critério:
 
@@ -595,7 +596,7 @@ Isso indica para o R não imprimir o código original de nenhum chunk. Note que 
 
 <div class = "green">
 
-# Exercício 2: Relatórios Limpos
+**Exercício 2: Relatórios Limpos**
 
 Experimente adicionar um chunk com essa linha acima (`knitr::opts_chunk$set(echo=FALSE, error=FALSE, warning=FALSE, message=FALSE)`) acima como o primeiro no seu relatório do Exercício 1, e 'Knit' de novo. Veja quão mais simples e bonito fica o seu relatório!
 </div>
@@ -754,7 +755,7 @@ Há critérios de conversão de variáveis categóricas, rótulos e etc, adotado
 
 <div class = "green">
 
-# Exercício 3: Abrindo Dados Eleitorais
+**Exercício 3: Abrindo Dados Eleitorais**
 
 
 1. Escolha um banco de dados (qualquer arquivo único) da aba 'Resultados' do site do [Tribunal Superior Eleitoral aqui](http://www.tse.jus.br/eleicoes/estatisticas/repositorio-de-dados-eleitorais-1/repositorio-de-dados-eleitorais), baixá-lo e dê unzip nele.
@@ -784,7 +785,8 @@ data <- read_delim("arquivo.txt",
 <br>
 
 <div class = "orange">
-# Leitura para Tutorial 3
+
+**Leitura para Tutorial 3*8
 
 Antes da próxima aula, por favor leia [R 4 Data Science, Capítulos 12, 15, 27](https://r4ds.had.co.nz/)
 

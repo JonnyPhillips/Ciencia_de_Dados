@@ -2408,8 +2408,8 @@ Geodetic CRS:  WGS 84
  [9,] 1812885       0 3925697
 [10,] 2929667 3925697       0</code></pre>
 </div>
-<section id="exercício-1-mapas-de-pontos" class="green">
-<h2>Exercício 1: Mapas de Pontos</h2>
+<div class="green">
+<p><strong>Exercício 1: Mapas de Pontos</strong></p>
 <ol type="1">
 <li>Crie um objeto de <code>simple features</code> com os seguintes dados. Os valores de longitude e latitude são brutos em CRS 4326.</li>
 </ol>
@@ -2593,7 +2593,7 @@ Mostrar Código
 </div>
 </details>
 </div>
-</section>
+</div>
 <h1 id="trabalhando-com-polígonos">Trabalhando com Polígonos</h1>
 <p>Áreas administrativas são geralmente representadas como polígonos em mapas. Em geral, obtemos esses polígonos como ‘shapefiles’ produzidos por uma agência oficial. Podemos abrir qualquer tipo de shapefile (pontos, linhas ou polígonos) com a função <code>st_read</code>. Vamos abrir um shapefile (simplificado) dos estados dos Estados Unidos, do link <a href="https://www.arcgis.com/home/item.html?id=f7f805eb65eb4ab787a0a3e1116ca7e5">aqui</a>. Baixe o arquivo e abre com <code>st_read</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2730,8 +2730,8 @@ First 10 features:
 <div id="htmlwidget-b6a72f678724c19c6bec" style="width:624px;height:384px;" class="leaflet html-widget"></div>
 <script type="application/json" data-for="htmlwidget-b6a72f678724c19c6bec">{"x":{"options":{"minZoom":1,"maxZoom":52,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron","CartoDB.Positron","CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter","CartoDB.DarkMatter","CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenStreetMap","OpenStreetMap","OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldImagery","Esri.WorldImagery","Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenTopoMap","OpenTopoMap","OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"createMapPane","args":["point",440]},{"method":"addFlatGeoBuf","args":["_",".",null,true,"mvFeatureId",{"radius":6,"stroke":true,"color":"#333333","weight":1,"opacity":0.9,"fill":true,"fillColor":"#6666FF","fillOpacity":0.6},{"className":"","pane":"point"},"mapview-popup",{"radius":{"to":[3,15],"from":[3,15]},"weight":{"to":[1,10],"from":[1,10]},"opacity":{"to":[0,1],"from":[0,1]},"fillOpacity":{"to":[0,1],"from":[0,1]}}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addHomeButton","args":[-46.7230794,-23.5677299,-46.6487786,-23.5623888,".","Zoom to .","<strong> . <\/strong>","bottomright"]},{"method":"addLayersControl","args":[["CartoDB.Positron","CartoDB.DarkMatter","OpenStreetMap","Esri.WorldImagery","OpenTopoMap"],".",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addLegend","args":[{"colors":["#6666FF"],"labels":["."],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"factor","title":"","extra":null,"layerId":null,"className":"info legend","group":"."}]}],"fitBounds":[-23.5677299,-46.7230794,-23.5623888,-46.6487786,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      if( strip !==null) strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null},{"code":"function(el, x, data) {\n  return (function(el,x,data){\n           var map = this;\n\n           map.on('keypress', function(e) {\n               console.log(e.originalEvent.code);\n               var key = e.originalEvent.code;\n               if (key === 'KeyE') {\n                   var bb = this.getBounds();\n                   var txt = JSON.stringify(bb);\n                   console.log(txt);\n\n                   setClipboardText('\\'' + txt + '\\'');\n               }\n           })\n        }).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
 </div>
-<section id="exercício-2-mapas-mais-completos" class="green">
-<h2>Exercício 2: Mapas mais Completos</h2>
+<div class="green">
+<p><strong>Exercício 2: Mapas mais Completos</strong></p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
@@ -2812,7 +2812,7 @@ Mostrar Código
 </div>
 </details>
 </div>
-</section>
+</div>
 <h1 id="joins-não-espaciais">Joins Não-Espaciais</h1>
 <p>Observe que os nossos dados espaciais vêm com uma tabela, e normalmente com um identificador único para cada observação (unidade espacial). Isto abre uma oportunidade - se temos dados não-espaciais que queremos mapear, é fácil torná-los espacial - é só juntar o banco não-espacial com o banco espacial usando o identificador comum, exatamente como discutimos no tutorial anterior. Na prática é muito mais comum pegar um shapefile genêrico de polígonos/pontos, e cruzar com um banco de dados não-espacial.</p>
 <p>Por exemplo, queremos mapear o número de voos de Nova Iorque que chegam em cada aeroporto de destino em 2013. Com apenas o banco de dados <code>flights</code> isso seria impossível. Mas em combinação com o nosso banco de <code>airports</code> espacial, é rápido. Primeiro, qual é a unidade espacial de análise que desejamos? É cada aeroporto de destino, então temos que agregar/resumir o banco de dados de <code>flights</code> para cada destino. Por enquanto, pode ser apenas o número de voos:</p>
@@ -2912,8 +2912,8 @@ Mostrar Código
 <p><img src="Mapas_files/figure-html5/unnamed-chunk-46-1.png" width="624" /></p>
 </div>
 <p>Observe na coluna ‘geometry’ que o nosso objeto sf de polígonos agora se transformou em pontos, com um ponto central para cada país.</p>
-<section id="exercício-3-joins-para-mapas" class="green">
-<h2>Exercício 3: Joins para Mapas</h2>
+<div class="green">
+<p><strong>Exercício 3: Joins para Mapas</strong></p>
 <ol type="1">
 <li>Junte os dois bancos de Cidades e Países Europeus usando <strong>o nome do país</strong>. O resultado deve ser os <strong>pontos</strong> das cidades. (Uma das nossas tabelas tem que ser um tibble simples (não <code>sf</code>), então use a função <code>st_drop_geometry()</code> para voltar a uma tabela simples). Mostre num mapa a população dos países de cada cidade.</li>
 </ol>
@@ -2983,7 +2983,7 @@ Mostrar Código
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> População)) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code></pre></div>
 </details>
 </div>
-</section>
+</div>
 <h1 id="rasters">Rasters</h1>
 <p>Existe um outro formato para dados espaciais que não é baseado em formas geométricas (polígonos, pontos e linhas), mas em uma grade regular com valores específicos em cada célula x, y - isto é um ‘raster’ e para trabalhar com ele usamos o pacote ‘raster’. Vamos usar o código abaixo para abrir um arquivo raster de densidade populacional no Camboja do <a href="https://github.com/JonnyPhillips/Curso_R/raw/master/khm_popdenr_landscan_2011.zip">link aqui</a>, que é simplesmente uma imagem com extensão <em>.tif</em>.</p>
 <div class="layout-chunk" data-layout="l-body">

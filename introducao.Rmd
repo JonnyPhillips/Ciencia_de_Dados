@@ -561,7 +561,8 @@ Clique na seta ao lado do 'Knit' em RStudio e depois 'Knit to Word'. Deve aparec
 É isso, já aprendemos como criar relatórios e análises reproduzíveis! Agora faça os exercícios abaixo com calma e pratique o que você tem aprendido.
 
 <div class = "green">
-# Exercício 1
+
+**Exercício 1**
 
 1. Comece um novo script de Rmarkdown e acesse o banco de dados `gapminder` no pacote `dslabs`. Estes dados descrevem estatísticas resumidas para países do mundo desde 1960. 
 
@@ -605,7 +606,7 @@ gapminder
 
 <div class = "green">
 
-# Exercício 2: Aprender juntos
+**Exercício 2: Aprender juntos**
 
 Se você conhece uma outra pessoa da turma, compare o seu script de Exercício 1 com o script deles. Quais são as diferenças? Quais delas importam? Como você pode melhorar o seu scipt? Ajuste o seu script para deixa-lo mais limpo e organizado.
 </div>    
@@ -613,7 +614,8 @@ Se você conhece uma outra pessoa da turma, compare o seu script de Exercício 1
 <br>
 
 <div class = "green">
-# Exercício 3: Encontre o erro em todos os códigos abaixo
+
+**Exercício 3: Encontre o erro em todos os códigos abaixo**
 
 </div>
 <div class = "green">
@@ -752,7 +754,8 @@ myData <- tibble(animal = v1, idade = v4)
 <br>
 
 <div class = "orange">
-# Leitura para Tutorial 2
+
+**Leitura para Tutorial 2**
 
 Antes da próxima aula, por favor leia [R 4 Data Science, Capítulos 2, 4, 5, 6, 8, 9, 10 e 11](https://r4ds.had.co.nz/)
 

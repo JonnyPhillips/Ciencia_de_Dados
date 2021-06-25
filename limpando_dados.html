@@ -2128,14 +2128,9 @@ Desafios
 <ul>
 <li><a href="#dividindo-e-unificando-variáveis">Dividindo e Unificando Variáveis</a></li>
 <li><a href="#recodificação-de-variáveis">Recodificação de Variáveis</a></li>
-<li><a href="#exercício-1-limpando-dados">Exercício 1: Limpando Dados</a></li>
 <li><a href="#ordenando-os-nossos-dados">Ordenando os nossos dados</a></li>
-<li><a href="#exercício-2-ordenação">Exercício 2: Ordenação</a></li>
 <li><a href="#factors">Factors</a></li>
-<li><a href="#exercício-3-factors">Exercício 3: Factors</a></li>
 <li><a href="#identificando-casosvalores-únicos-distinct">Identificando Casos/Valores Únicos (<code>distinct</code>)</a></li>
-<li><a href="#leitura-para-tutorial-4">Leitura para Tutorial 4</a></li>
-<li><a href="#desafio-1">Desafio 1</a></li>
 </ul>
 </nav>
 </div>
@@ -2251,7 +2246,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <p><code>case_when()</code> funciona com um sintáxe específica: Estabelecemos várias condições (do mesmo tipo que usamos no <code>filter()</code>), e depois de cada uma usamos ‘~’ e em seguida o novo valor para substituir quando esta condição se aplica. Por exemplo, em nosso caso queremos a condição <code>Mes=="february"</code> e o novo valor <code>"fevereiro"</code>. Então precisamos de <code>Mes=="february"~"fevereiro"</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_recodificar</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Mes<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>Mes</span><span class='op'>==</span><span class='st'>"february"</span><span class='op'>~</span><span class='st'>"fevereiro"</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_recodificar</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>Mes<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>Mes</span><span class='op'>==</span><span class='st'>"february"</span><span class='op'>~</span><span class='st'>"fevereiro"</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2265,7 +2260,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <p>Qual o resultado? Mudamos o valor para “fevereiro”, está correto, mas apagamos os valores dos outros dois meses. O <code>mutate()</code> realmente muda a coluna inteira, então as condições no <code>case_when()</code> precisam ser <strong>completas</strong> para todos os valores na nova coluna. Felizmente, existe um atalho para preservar os valores originais caso a condição anterior não seja satisfeita: Usamos uma condição que é sempre satisfeita: a condição literalmente <code>TRUE</code>, e um novo valor que não muda nada; o nome da variável original. Então:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_recodificar</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Mes<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>Mes</span><span class='op'>==</span><span class='st'>"february"</span><span class='op'>~</span><span class='st'>"fevereiro"</span>,
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_recodificar</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>Mes<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>Mes</span><span class='op'>==</span><span class='st'>"february"</span><span class='op'>~</span><span class='st'>"fevereiro"</span>,
                                         <span class='cn'>TRUE</span><span class='op'>~</span><span class='va'>Mes</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
@@ -2281,7 +2276,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <p>Vamos recodificar a variável ‘Ano’ usando a mesma lógica, mas agora queremos gerar uma variável binária que identifica todas as observações depois de 2010. Também não queremos sobreescrever a variável original, queremos uma nova variável:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_recodificar</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Depois_2010<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>Ano</span><span class='op'>&gt;</span><span class='fl'>2010</span><span class='op'>~</span><span class='fl'>1</span>,
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_recodificar</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>Depois_2010<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>Ano</span><span class='op'>&gt;</span><span class='fl'>2010</span><span class='op'>~</span><span class='fl'>1</span>,
                                                 <span class='va'>Ano</span><span class='op'>&lt;=</span><span class='fl'>2010</span><span class='op'>~</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
@@ -2297,7 +2292,7 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 <p>Note que o <code>case_when()</code> é flexível demais: Podemos usar muitas condições, fazer referência a todas as variáveis na condição, e pegar os dados de todas as variáveis para definir o novo valor. Para ilustrar, veja o exemplo bobagem abaixo:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_recodificar</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Nova_Variavel<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>Ano</span><span class='op'>&gt;=</span><span class='fl'>2014</span><span class='op'>~</span><span class='st'>"Sim"</span>,
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_recodificar</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>Nova_Variavel<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>Ano</span><span class='op'>&gt;=</span><span class='fl'>2014</span><span class='op'>~</span><span class='st'>"Sim"</span>,
                                                   <span class='va'>Ano</span><span class='op'>&lt;</span><span class='fl'>2014</span> <span class='op'>&amp;</span> <span class='va'>Mes</span><span class='op'>==</span><span class='st'>"janeiro"</span><span class='op'>~</span><span class='va'>Mes</span>,
                                                   <span class='va'>Ano</span><span class='op'>&lt;</span><span class='fl'>2014</span> <span class='op'>&amp;</span> <span class='va'>Mes</span><span class='op'>==</span><span class='st'>"february"</span><span class='op'>~</span><span class='st'>"Não"</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
@@ -2312,8 +2307,8 @@ div.purple { background-color:#9e9ac8; border-radius: 5px; padding: 20px;}
 </div>
 <p>Tome cuidado na construção das condições: Idealmente elas devem ser <strong>completas</strong> e também <strong>mutualmente excludentes</strong>. Se não, a ordem das condições importa e pode gerar resultados inesperados.</p>
 <p><br></p>
-<section id="exercício-1-limpando-dados" class="green">
-<h1>Exercício 1: Limpando Dados</h1>
+<div class="green">
+<p><strong>Exercício 1: Limpando Dados</strong></p>
 <p>Usando o banco de dados de <code>flights</code> no pacote <code>nycflights13</code>, responda as seguintes perguntas:</p>
 <ol type="1">
 <li>Crie uma data completa numa variável única, com o formato “day-month-year”.</li>
@@ -2355,7 +2350,7 @@ Mostrar Código
 </summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>dep_delay <span class='op'>=</span> <span class='fu'>case_when</span><span class='op'>(</span><span class='va'>dep_delay</span> <span class='op'>&gt;</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='fl'>1</span>, <span class='va'>dep_delay</span> <span class='op'>&lt;=</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='fu'>mutate</span><span class='op'>(</span>dep_delay <span class='op'>=</span> <span class='fu'>case_when</span><span class='op'>(</span><span class='va'>dep_delay</span> <span class='op'>&gt;</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='fl'>1</span>, <span class='va'>dep_delay</span> <span class='op'>&lt;=</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </details>
@@ -2370,12 +2365,12 @@ Mostrar Código
 </summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>carrier <span class='op'>=</span> <span class='fu'>case_when</span><span class='op'>(</span><span class='va'>carrier</span> <span class='op'>==</span> <span class='st'>"US"</span> <span class='op'>~</span> <span class='st'>"AA"</span>, <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='va'>carrier</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='fu'>mutate</span><span class='op'>(</span>carrier <span class='op'>=</span> <span class='fu'>case_when</span><span class='op'>(</span><span class='va'>carrier</span> <span class='op'>==</span> <span class='st'>"US"</span> <span class='op'>~</span> <span class='st'>"AA"</span>, <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='va'>carrier</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </details>
 </div>
-</section>
+</div>
 <p><br></p>
 <h1 id="ordenando-os-nossos-dados">Ordenando os nossos dados</h1>
 <p>Até agora, ignoramos a ordem das observações em nosso banco de dados. A ordem importa por dois motivos. Primeiro, para apresentação de tabelas mais organizadas no documento final. Segundo, para facilitar funções específicas quando as nossas observações têm uma ordem natural.</p>
@@ -2401,7 +2396,7 @@ Mostrar Código
 <p>Se quisermos as observações em ordem de ano e valor (ignorando mês por enquanto porque vamos explorar isso em mais detalhe abaixo):</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>Ano</span>, <span class='va'>Valor</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'>arrange</span><span class='op'>(</span><span class='va'>Ano</span>, <span class='va'>Valor</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2416,7 +2411,7 @@ Mostrar Código
 <p>Se quisermos as observações em ordem <em>decrescente</em>, usamos um menos (‘-’) para inverter a ordem, por exemplo, em ordem decrescente de valor:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>Valor</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'>arrange</span><span class='op'>(</span><span class='op'>-</span><span class='va'>Valor</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2431,7 +2426,7 @@ Mostrar Código
 <p>Um tipo de <code>filter()</code> específico é quando queremos as maiores/menores observações de acordo com uma variável. Se não for um limite absoluto (ex. acima de 140), mas acima de um limite <em>relativo</em> (ex. os cinco maiores), precisamos fazer um ranquemanto e depois filtrar baseado nesse ranqueamento. É possível calcular isso manualmente, mas a maneira mais fácil é usar a função <code>top_n()</code>. Ela exige dois argumentos: o número de observações desejadas, e a variável na qual queremos aplicar o filtro.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/top_n.html'>top_n</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='va'>Valor</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'>top_n</span><span class='op'>(</span><span class='fl'>5</span>, <span class='va'>Valor</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2445,7 +2440,7 @@ Mostrar Código
 <p>Para os menores valores, usamos um menos (‘-’) na frente do número de observações.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/top_n.html'>top_n</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>5</span>, <span class='va'>Valor</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'>top_n</span><span class='op'>(</span><span class='op'>-</span><span class='fl'>5</span>, <span class='va'>Valor</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2459,7 +2454,7 @@ Mostrar Código
 <p>Existe uma função bem parecida que devolve a <em>proporção</em> de observações desejada: <code>top_frac()</code>. Para os maiores 30% de observações, usamos o argumento de 0.3.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/top_frac.html'>top_frac</a></span><span class='op'>(</span><span class='fl'>0.3</span>, <span class='va'>Valor</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'>top_frac</span><span class='op'>(</span><span class='fl'>0.3</span>, <span class='va'>Valor</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2474,8 +2469,8 @@ Mostrar Código
 <p>Com os nossos dados ordenados, podemos implementar várias técnicas de análise de Time Series (séries temporais). Por exemplo, podemos calcular, para cada observação, o valor de uma variável no período anterior usando <code>lag()</code>. Note que é <em>essencial</em> que os nossos dados já estão ordenados cronologicamente com <code>arrange()</code> antes de executar o <code>lag</code>. Dado que estamos construindo uma nova variável, também é necessário usar <code>lag</code> dentro de <code>mutate</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>Ano</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Valor_anterior<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>Valor</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'>arrange</span><span class='op'>(</span><span class='va'>Ano</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>Valor_anterior<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>Valor</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2491,8 +2486,8 @@ Mostrar Código
 <p>Com <code>lag</code>, é fácil calcular a diferença entre ‘Valor’ e ‘Valor_anterior’ para focar em mudanças ao longo do tempo na variável:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>Ano</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Valor_anterior<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>Valor</span><span class='op'>)</span>,
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'>arrange</span><span class='op'>(</span><span class='va'>Ano</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>Valor_anterior<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>Valor</span><span class='op'>)</span>,
          Valor_diferenca<span class='op'>=</span><span class='va'>Valor</span><span class='op'>-</span><span class='va'>Valor_anterior</span><span class='op'>)</span>
 </code></pre>
 </div>
@@ -2507,8 +2502,8 @@ Mostrar Código
 <p>A operação de <code>lead()</code> é equivalente, mas traz o valor subsequente.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>Ano</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Valor_posterior<span class='op'>=</span><span class='fu'>lead</span><span class='op'>(</span><span class='va'>Valor</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'>arrange</span><span class='op'>(</span><span class='va'>Ano</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>Valor_posterior<span class='op'>=</span><span class='fu'>lead</span><span class='op'>(</span><span class='va'>Valor</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2520,8 +2515,8 @@ Mostrar Código
 </div>
 </div>
 <p><br></p>
-<section id="exercício-2-ordenação" class="green">
-<h1>Exercício 2: Ordenação</h1>
+<div class="green">
+<p><strong>Exercício 2: Ordenação</strong></p>
 <p>Use de novo o banco de dados <code>flights</code>:</p>
 <ol type="1">
 <li>Ordene o banco de dados da menor à maior duração (<code>air_time</code>), incluindo apenas os voos com destino de Anchorage (<code>ANC</code>).</li>
@@ -2533,8 +2528,8 @@ Mostrar Código
 </summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>dest</span> <span class='op'>==</span> <span class='st'>"ANC"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>air_time</span><span class='op'>)</span>
+    <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>dest</span> <span class='op'>==</span> <span class='st'>"ANC"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>arrange</span><span class='op'>(</span><span class='va'>air_time</span><span class='op'>)</span>
 </code></pre>
 </div>
 </details>
@@ -2549,8 +2544,8 @@ Mostrar Código
 </summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span> <span class='op'>==</span> <span class='st'>"LGA"</span> <span class='op'>&amp;</span> <span class='va'>dest</span> <span class='op'>==</span> <span class='st'>"ATL"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/top_n.html'>top_n</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>dep_delay</span><span class='op'>)</span>
+    <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>origin</span> <span class='op'>==</span> <span class='st'>"LGA"</span> <span class='op'>&amp;</span> <span class='va'>dest</span> <span class='op'>==</span> <span class='st'>"ATL"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>top_n</span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>dep_delay</span><span class='op'>)</span>
 </code></pre>
 </div>
 </details>
@@ -2565,9 +2560,9 @@ Mostrar Código
 </summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>velocidade <span class='op'>=</span> <span class='va'>distance</span><span class='op'>/</span><span class='va'>air_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/top_n.html'>top_n</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='va'>velocidade</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/select.html'>select</a></span><span class='op'>(</span><span class='va'>velocidade</span>, <span class='va'>origin</span>, <span class='va'>dest</span><span class='op'>)</span>
+    <span class='fu'>mutate</span><span class='op'>(</span>velocidade <span class='op'>=</span> <span class='va'>distance</span><span class='op'>/</span><span class='va'>air_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>top_n</span><span class='op'>(</span><span class='fl'>3</span>, <span class='va'>velocidade</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>select</span><span class='op'>(</span><span class='va'>velocidade</span>, <span class='va'>origin</span>, <span class='va'>dest</span><span class='op'>)</span>
 </code></pre>
 </div>
 </details>
@@ -2582,15 +2577,15 @@ Mostrar Código
 </summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>dest</span> <span class='op'>==</span> <span class='st'>"ANC"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>year</span>, <span class='va'>month</span>, <span class='va'>day</span>, <span class='va'>dep_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>air_time_anterior <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>air_time</span><span class='op'>)</span>, air_time_anterior_dif <span class='op'>=</span> <span class='va'>air_time</span> <span class='op'>-</span> 
+    <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>dest</span> <span class='op'>==</span> <span class='st'>"ANC"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>arrange</span><span class='op'>(</span><span class='va'>year</span>, <span class='va'>month</span>, <span class='va'>day</span>, <span class='va'>dep_time</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>mutate</span><span class='op'>(</span>air_time_anterior <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>air_time</span><span class='op'>)</span>, air_time_anterior_dif <span class='op'>=</span> <span class='va'>air_time</span> <span class='op'>-</span> 
         <span class='va'>air_time_anterior</span><span class='op'>)</span>
 </code></pre>
 </div>
 </details>
 </div>
-</section>
+</div>
 <p><br></p>
 <h1 id="factors">Factors</h1>
 <p>Além de números, caracteres e lógicos (TRUE/FALSE), o tipo de dado mais útil para análise de dados é um ‘factor’. Factors são variáveis que podem assumir um número de valores <em>limitados e pré-definidos</em> (normalmente strings de texto). Pense em variáveis categóricas, nominais, ordinais etc. Factors nos ajudam a evitar erros e refletir a estrutura correta das nossas variáveis, mas elas exigem uma disciplina e um cuidado por nosso lado.</p>
@@ -2626,7 +2621,7 @@ Mostrar Código
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>&lt;-</span> <span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Mes<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>Mes</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>&lt;-</span> <span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>Mes<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>Mes</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2640,7 +2635,7 @@ Mostrar Código
     Valor <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>750</span>, <span class='fl'>800</span>, <span class='fl'>300</span>, <span class='fl'>500</span>, <span class='fl'>850</span>, <span class='fl'>450</span>, <span class='fl'>600</span>, <span class='fl'>450</span>, <span class='fl'>700</span>, <span class='fl'>350</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='va'>ex_arrange</span> <span class='op'>&lt;-</span> <span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Mes <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>Mes</span>, levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Janeiro"</span>, <span class='st'>"Fevereiro"</span>, <span class='st'>"Março"</span>, 
+    <span class='fu'>mutate</span><span class='op'>(</span>Mes <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>Mes</span>, levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Janeiro"</span>, <span class='st'>"Fevereiro"</span>, <span class='st'>"Março"</span>, 
         <span class='st'>"Abril"</span>, <span class='st'>"Maio"</span>, <span class='st'>"Junho"</span>, <span class='st'>"Julho"</span>, <span class='st'>"Agosto"</span>, <span class='st'>"Setembro"</span>, <span class='st'>"Outubro"</span>, 
         <span class='st'>"Novembro"</span>, <span class='st'>"Dezembro"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
@@ -2663,7 +2658,7 @@ Mostrar Código
 <p>Agora, podemos ordenar os dados por Ano e Mês:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>Ano</span>, <span class='va'>Mes</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'>arrange</span><span class='op'>(</span><span class='va'>Ano</span>, <span class='va'>Mes</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2715,11 +2710,11 @@ Mostrar Código
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'>complete</span><span class='op'>(</span><span class='va'>Ano</span>, <span class='va'>Mes</span>, fill<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>Valor<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>ID_NA<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>ID</span><span class='op'>)</span><span class='op'>~</span><span class='fl'>1</span>,
+  <span class='fu'>mutate</span><span class='op'>(</span>ID_NA<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>ID</span><span class='op'>)</span><span class='op'>~</span><span class='fl'>1</span>,
                          <span class='cn'>TRUE</span><span class='op'>~</span><span class='fl'>0</span><span class='op'>)</span>,
          Valor<span class='op'>=</span><span class='fu'>case_when</span><span class='op'>(</span><span class='va'>Valor</span><span class='op'>==</span><span class='fl'>0</span><span class='op'>~</span><span class='cn'>NA_real_</span>,
                           <span class='cn'>TRUE</span><span class='op'>~</span><span class='va'>Valor</span><span class='op'>)</span>,
-         ID<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/replace_na.html'>replace_na</a></span><span class='op'>(</span><span class='va'>ID</span>, <span class='st'>"Desonhecido"</span><span class='op'>)</span><span class='op'>)</span>
+         ID<span class='op'>=</span><span class='fu'>replace_na</span><span class='op'>(</span><span class='va'>ID</span>, <span class='st'>"Desonhecido"</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2730,7 +2725,7 @@ Mostrar Código
 <p>Primeiro, quando queremos renomear os <em>levels</em> de um factor, usamos <code>fct_recode</code>. Por exemplo:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Mes<span class='op'>=</span><span class='fu'>fct_recode</span><span class='op'>(</span><span class='va'>Mes</span>,
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>Mes<span class='op'>=</span><span class='fu'>fct_recode</span><span class='op'>(</span><span class='va'>Mes</span>,
                                      <span class='st'>"abril"</span><span class='op'>=</span><span class='st'>"Abril"</span>,
                                      <span class='st'>"junho"</span><span class='op'>=</span><span class='st'>"Junho"</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
@@ -2747,10 +2742,10 @@ Mostrar Código
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Mes <span class='op'>=</span> <span class='fu'>fct_relevel</span><span class='op'>(</span><span class='va'>Mes</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Dezembro"</span>, <span class='st'>"Novembro"</span>, <span class='st'>"Outubro"</span>, 
+    <span class='fu'>mutate</span><span class='op'>(</span>Mes <span class='op'>=</span> <span class='fu'>fct_relevel</span><span class='op'>(</span><span class='va'>Mes</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Dezembro"</span>, <span class='st'>"Novembro"</span>, <span class='st'>"Outubro"</span>, 
         <span class='st'>"Setembro"</span>, <span class='st'>"Agosto"</span>, <span class='st'>"Julho"</span>, <span class='st'>"Junho"</span>, <span class='st'>"Maio"</span>, <span class='st'>"Abril"</span>, <span class='st'>"Março"</span>, 
         <span class='st'>"Fevereiro"</span>, <span class='st'>"Janeiro"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>Ano</span>, <span class='va'>Mes</span><span class='op'>)</span>
+    <span class='fu'>arrange</span><span class='op'>(</span><span class='va'>Ano</span>, <span class='va'>Mes</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2764,7 +2759,7 @@ Mostrar Código
 <p>Terceiro, quando queremos <em>reestruturar/simplificar</em> o factor para menos níveis, usamos <code>fct_collapse</code>. Por exemplo, podemos juntar os primeiros três meses e descrever como o primeiro quarto do ano, ‘Q1’:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>Mes<span class='op'>=</span><span class='fu'>fct_collapse</span><span class='op'>(</span><span class='va'>Mes</span>,<span class='st'>"Q1"</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Janeiro"</span>,<span class='st'>"Fevereiro"</span>,<span class='st'>"Março"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex_arrange</span> <span class='op'>%&gt;%</span> <span class='fu'>mutate</span><span class='op'>(</span>Mes<span class='op'>=</span><span class='fu'>fct_collapse</span><span class='op'>(</span><span class='va'>Mes</span>,<span class='st'>"Q1"</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Janeiro"</span>,<span class='st'>"Fevereiro"</span>,<span class='st'>"Março"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2777,8 +2772,10 @@ Mostrar Código
 </div>
 <p>Mais detalhes no cheatsheet de forcats <a href="https://github.com/rstudio/cheatsheets/raw/master/factors.pdf">aqui</a>.</p>
 <p><br></p>
-<section id="exercício-3-factors" class="green">
-<h1>Exercício 3: Factors</h1>
+<div class="green">
+<ul>
+<li><strong>Exercício 3: Factors</strong></li>
+</ul>
 <p>Usando os dados de <code>flights</code> de novo:</p>
 <ol type="1">
 <li>Transforme a variável <code>origin</code> para um factor (não-ordenado).</li>
@@ -2790,7 +2787,7 @@ Mostrar Código
 </summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>&lt;-</span> <span class='va'>flights</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>origin <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='fu'>mutate</span><span class='op'>(</span>origin <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </details>
@@ -2805,7 +2802,7 @@ Mostrar Código
 </summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>origin <span class='op'>=</span> <span class='fu'>case_when</span><span class='op'>(</span><span class='va'>origin</span> <span class='op'>==</span> <span class='st'>"EWR"</span> <span class='op'>~</span> <span class='st'>"Newark"</span>, <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='va'>origin</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='fu'>mutate</span><span class='op'>(</span>origin <span class='op'>=</span> <span class='fu'>case_when</span><span class='op'>(</span><span class='va'>origin</span> <span class='op'>==</span> <span class='st'>"EWR"</span> <span class='op'>~</span> <span class='st'>"Newark"</span>, <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='va'>origin</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </details>
@@ -2820,7 +2817,7 @@ Mostrar Código
 </summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>origin <span class='op'>=</span> <span class='fu'>fct_recode</span><span class='op'>(</span><span class='va'>origin</span>, Newark <span class='op'>=</span> <span class='st'>"EWR"</span>, `John F Kennedy` <span class='op'>=</span> <span class='st'>"JFK"</span>, 
+    <span class='fu'>mutate</span><span class='op'>(</span>origin <span class='op'>=</span> <span class='fu'>fct_recode</span><span class='op'>(</span><span class='va'>origin</span>, Newark <span class='op'>=</span> <span class='st'>"EWR"</span>, `John F Kennedy` <span class='op'>=</span> <span class='st'>"JFK"</span>, 
         LaGuardia <span class='op'>=</span> <span class='st'>"LGA"</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
@@ -2836,19 +2833,19 @@ Mostrar Código
 </summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/mutate.html'>mutate</a></span><span class='op'>(</span>month <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>month</span>, levels <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>12</span>, ordered <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='fu'>mutate</span><span class='op'>(</span>month <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>month</span>, levels <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>12</span>, ordered <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </details>
 </div>
-</section>
+</div>
 <p><br></p>
 <h1 id="identificando-casosvalores-únicos-distinct">Identificando Casos/Valores Únicos (<code>distinct</code>)</h1>
 <p>Quais valores existem em nosso banco de dados? Em uma variável de 1.000 linhas, quais valores <em>únicos</em> existem? As nossas observações são duplicadas?</p>
 <p>Começando com um tibble, podemos pedir os valores/casos únicos que existem no banco de dados usando o verbo <code>distinct()</code>. Nos parênteses, especificamos quais variáveis queremos avaliar. Se especificarmos uma variável, recebemos todos os valores que existem no banco de dados para esta variável:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/distinct.html'>distinct</a></span><span class='op'>(</span><span class='va'>origin</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>origin</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2862,8 +2859,8 @@ Mostrar Código
 <p>Com mais de uma variável, identificamos os conjuntos que existem no banco de dados. Por exemplo, imaginar que queremos saber quais companhias aéreas voam de quais aeroportos (com a ajuda de <code>arrange</code> para organizar o resultado):</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/distinct.html'>distinct</a></span><span class='op'>(</span><span class='va'>origin</span>, <span class='va'>carrier</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='va'>origin</span>, <span class='va'>carrier</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>origin</span>, <span class='va'>carrier</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>arrange</span><span class='op'>(</span><span class='va'>origin</span>, <span class='va'>carrier</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2877,28 +2874,28 @@ Mostrar Código
 <p>Finalmente, <code>distinct</code> nos ajuda a entender melhor a unidade de análise no banco de dados, e a presença de observações/informações duplicadas que podem indicar erros ou contaminar análises subsequentes. Por exemplo, em teoria deve ser impossível ter mais de um voo no mesmo horário, com o mesmo número da mesma companhia, da mesma origem ao mesmo destino. Podemos confirmar isso observando que o número de linhas na seguinte operação é igual ao número de linhas no banco de dados inteiro:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/distinct.html'>distinct</a></span><span class='op'>(</span><span class='va'>year</span>, <span class='va'>month</span>, <span class='va'>day</span>, <span class='va'>dep_time</span>, <span class='va'>carrier</span>, <span class='va'>flight</span>, <span class='va'>origin</span>, <span class='va'>dest</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>year</span>, <span class='va'>month</span>, <span class='va'>day</span>, <span class='va'>dep_time</span>, <span class='va'>carrier</span>, <span class='va'>flight</span>, <span class='va'>origin</span>, <span class='va'>dest</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <p>Os aviões são também identificados por um número de cauda (<code>tailnum</code>), e imaginando que o <code>tailnum</code> seja único para cada avião, parece razoável assumir que o mesmo avião não está voando no mesmo horário mais que uma vez:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/tidylog/man/distinct.html'>distinct</a></span><span class='op'>(</span><span class='va'>year</span>, <span class='va'>month</span>, <span class='va'>day</span>, <span class='va'>dep_time</span>, <span class='va'>tailnum</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>flights</span> <span class='op'>%&gt;%</span> <span class='fu'>distinct</span><span class='op'>(</span><span class='va'>year</span>, <span class='va'>month</span>, <span class='va'>day</span>, <span class='va'>dep_time</span>, <span class='va'>tailnum</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <p>Repare, o número de linhas aqui é 334.067, menos do 336.776 no banco de dados inteiro. Isso significa que temos mais que um <code>tailnum</code> decolando no mesmo horário…Estranho. É crucial saber isso para informar as nossas análises. Com mais investigação, entenderemos que a diferença é produzida pela presença de observações de <code>dep_time</code> e <code>tailnum</code> que são <code>NA</code>, desconhecidos, e portanto aparecem como duplicados.</p>
-<section id="leitura-para-tutorial-4" class="orange">
-<h1>Leitura para Tutorial 4</h1>
+<div class="orange">
+<p><strong>Leitura para Tutorial 4</strong></p>
 <p>Antes da próxima aula, por favor leia <a href="https://r4ds.had.co.nz/">R 4 Data Science, Capítulos 17, 18 e 19-19.3</a></p>
-</section>
+</div>
 <p><br></p>
-<section id="desafio-1" class="purple">
-<h1>Desafio 1</h1>
+<div class="purple">
+<p><strong>Desafio 1</strong></p>
 <p>É mais ou menos fácil seguir um tutorial passo a passo. O teste real do nosso entendimento é quando temos que trabalhar com um novo banco de dados sem instrução. O <a href="Desafios/Desafio_1.html">Desafio 1</a> teste a sua capacidade de abrir, manipular e limpar um banco de dados para produzir um relatório bonito e claro em HTML.</p>
 <p>O prazo para entregar Desafio 1 por email à minha conta é <strong>14h, 30/04/2021</strong>, antes da aula. Por favor entregue (i) o arquivo .Rmd, e (ii) o arquivo .html.</p>
-</section>
+</div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

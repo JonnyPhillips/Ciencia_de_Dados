@@ -246,7 +246,8 @@ flights %>% group_by(origin) %>%
 Recebemos três voos, o mais atrasado em EWR, o mais atrasado em JFK, e o mais atrasado em LGA.
 
 <div class = "green">
-# Exercício 1: Análises por Grupo
+
+**Exercício 1: Análises por Grupo**
 
 Usando o banco de dados de `flights` no pacote `nycflights13`, responda às seguintes perguntas:
 
@@ -325,7 +326,8 @@ flights %>% group_by(origin, dest) %>%
 ```
 
 <div class = "green">
-# Exercício 2: Observações por Grupo
+
+**Exercício 2: Observações por Grupo**
 
 1. Quantos voos decolaram de Nova Iorque em cada mês de 2013?
 
@@ -676,7 +678,8 @@ flights %>% mutate(across(where(is.numeric),
 Veja a beleza de programação mais eficiente - o mesmo resultado com menos digitação! Como interpretamos o código? "Pegue o banco de dados de `flights`, depois aplica uma transformação às variáveis *onde* a variável `is.numeric` (é númerica), e a transformação desejada é `scale`."
 
 <div class = "green">
-# Exercício 3: Resumos Avançados
+
+**Exercício 3: Resumos Avançados**
 
 1. Calcule o total de distância dos voos que decolaram de cada aeroporto e inserir os cálculos na tabela original de `flights` como uma coluna nova.
 
