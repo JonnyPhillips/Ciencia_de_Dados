@@ -2126,12 +2126,15 @@ Desafios
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
+<li><a href="#manipulando-dados">Manipulando Dados</a>
+<ul>
 <li><a href="#renomear-variáveis-rename">1. Renomear Variáveis (<code>Rename</code>)</a></li>
 <li><a href="#selecionar-variáveis-select">2. Selecionar Variáveis (<code>Select</code>)</a></li>
 <li><a href="#transformar-variáveis-mutate">3. Transformar Variáveis (<code>Mutate</code>)</a></li>
 <li><a href="#cortarselecionar-observações-slice">4. Cortar/selecionar Observações (<code>Slice</code>)</a></li>
 <li><a href="#filtrar-observações-filter">5. Filtrar Observações (<code>Filter</code>)</a></li>
 <li><a href="#combinando-manipulações">Combinando Manipulações</a></li>
+</ul></li>
 <li><a href="#controlando-o-que-aparece-no-relatório-final">Controlando o que Aparece no Relatório Final</a></li>
 <li><a href="#abrindo-dados">Abrindo Dados</a>
 <ul>
@@ -2151,7 +2154,8 @@ div.orange { background-color:#fee6ce; border-radius: 5px; padding: 20px;}
 <style>
 div.blue { background-color:#deebf7; border-radius: 5px; padding: 20px;}
 </style>
-<p><a href="https://drive.google.com/file/d/16aIP05wzuoxGyroF14e85xbbZLvHlu_3/view?usp=sharing">Clique aqui</a> para assistir o vídeo da aula online do dia 18 de junho de 2021. E o <a href="https://drive.google.com/file/d/1VzdPJM4Gi22p33LT9UFmW2yqiNxO7LA5/view?usp=sharing">chat</a>. # Manipulando Dados</p>
+<p><a href="https://drive.google.com/file/d/1HxeqxZolQH8ZnAZUCv5KmfS_u0KBDmMO/view?usp=sharing">Clique aqui</a> para assistir o vídeo da aula online do dia 9 de abril de 2021. E o <a href="https://drive.google.com/file/d/1AkihoCsdmfzbwRI5iIxTw4wdAzi93ieK/view?usp=sharing">chat</a>.</p>
+<h1 id="manipulando-dados">Manipulando Dados</h1>
 <p>Estamos trabalhando com um banco de dados, mas ele não está pronto para a análise que desejamos fazer. Por exemplo, as variáveis não contêm os indicadores relevantes, os nomes das variáveis não fazem sentido, a unidade de análise precisa ser mais agregada, queremos retirar alguns outliers etc. Como podemos ‘manipular’ um banco de dados para o tamanho, a estrutura e o conteúdo apropriado para a análise desejada?</p>
 <p>Fazemos a manipulação da mesma forma que trabalhamos com os ingredientes de uma receita: executando <strong>ações</strong> para cortar, selecionar e combinar os ingredientes. Sempre começando com o nosso tibble (data.frame) e aplicamos ações (‘verbos’) que transformam o nosso banco de dados.</p>
 <p>Na verdade, esta lógica de manipulação de dados baseada em ‘verbos’ é apenas uma abordagem no mundo flexível de R, e no futuro vamos ver alternativas. Por enquanto, vamos trabalhar com a abordagem de verbos do pacote <code>tidyverse</code> porque (i) é mais fácil para aprender, (ii) é mais sistemático, e (iii) é mais transparente para ler e entender do que outras abordagens.</p>
